@@ -1,5 +1,14 @@
 package ssmc.handlers;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.text.Document;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -9,6 +18,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -17,12 +27,29 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.LineComment;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.VariableDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
+
+import ssmc.Attribute;
+import ssmc.AttributeVisitor;
+import ssmc.CommentVisitor;
 /**
  * 
  * @author Andrew
@@ -30,6 +57,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  */
 public class SampleHandler extends AbstractHandler {
 
+	private List<Attribute> attributes;
 	/**
 	 * Upon button press, execute this code
 	 */
@@ -44,8 +72,15 @@ public class SampleHandler extends AbstractHandler {
 		MessageDialog.openInformation(window.getShell(),"Path", getProjectName().toOSString());
 		
 		try {
+			MessageDialog.openInformation(window.getShell(), "Methods", getMethods());
+		} catch (CoreException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+
+		try {
 			for(int i =  0; i < getPackages().length; i++) {
-				
 				if(getPackages()[i].getKind() == IPackageFragmentRoot.K_SOURCE){
 					MessageDialog.openInformation(window.getShell(),"Package: " + i, getPackages()[i].getElementName());
 				}
@@ -53,6 +88,15 @@ public class SampleHandler extends AbstractHandler {
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+
+		//AST 
+		try {
+			generateCommentAST(getClasses()[0]);
+			generateAttributeAST(getClasses()[0]);
+		} catch (CoreException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		return null;
@@ -128,10 +172,13 @@ public class SampleHandler extends AbstractHandler {
 	private ICompilationUnit[] getClasses() throws CoreException {
 		for(IPackageFragment aPackage : getPackages()) {
 			if(aPackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
+				
+				return aPackage.getCompilationUnits();
+				/*
 				for(ICompilationUnit aClass : aPackage.getCompilationUnits()) {
 					aClass.getElementName();
 					// Add to tree
-				}
+				}*/
 			}
 		}	
 		
@@ -144,32 +191,50 @@ public class SampleHandler extends AbstractHandler {
 	 * @return The methods in the project
 	 * @throws CoreException
 	 */
-	private IMethod[] getMethods() throws CoreException {
-		IMethod[] methods = null;
+	private String getMethods() throws CoreException {
+		String s = new String();
+		IMethod[] methodArray = new IMethod[1];
 		for(IPackageFragment aPackage : getPackages()) {
 			if(aPackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
 				for(ICompilationUnit aClass : aPackage.getCompilationUnits()) {
 					IType[] allTypes = aClass.getAllTypes();
 					
 					for(IType Type : allTypes) {
-						methods = Type.getMethods();
+						IMethod[] methods = Type.getMethods();
 						for(IMethod method : methods) {
 							// Add to tree
-							
+							s += method.getElementName() + "\t";
+							//methodArray[methodArray.length] = method;
 						}
 					}
 				}
 			}
 		}	
-		return methods;
-	}
+		return s;
+	}	
+	
 	
 	/**
-	 * TO DO 
-	 * 
-	 * Implement the methods for specific values, use the parameters IProject, IPackageFrament, ICompilationUnit, or IMethod as an input for each
+	 * Statement to call AttributeVisitor
 	 */
+	private void generateAttributeAST(ICompilationUnit unit) {
+		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		AttributeVisitor av = new AttributeVisitor(cu);
+		cu.accept(av);
+	}
 	
-	//oop
+	private void generateCommentAST(ICompilationUnit unit) {
+		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		CommentVisitor cv = new CommentVisitor(cu);
+		cu.accept(cv);
+		System.out.println("The total number of commented lines is: " + cv.getLineCount());
+	}
 	
+	protected CompilationUnit parse(ICompilationUnit unit) {
+		ASTParser parser = ASTParser.newParser(AST.JLS13);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setSource(unit);
+		parser.setResolveBindings(true);
+		return (CompilationUnit) parser.createAST(null); //parse		
+	}
 }
