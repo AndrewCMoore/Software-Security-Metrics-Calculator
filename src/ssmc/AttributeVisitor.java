@@ -52,6 +52,14 @@ public class AttributeVisitor extends ASTVisitor{
 		return true;
 	}
 	
+	public String toString() {
+		String s = "";
+		for(int i = 0; i < this.attributes.size(); i++) {
+			s += this.attributes.get(i).toString() + "\n\n";
+		}
+		return s;
+	}
+	
 	
 	
 }
