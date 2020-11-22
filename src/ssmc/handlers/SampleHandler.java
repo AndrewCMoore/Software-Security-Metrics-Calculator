@@ -59,7 +59,6 @@ import ssmc.MethodVisitor;
  */
 public class SampleHandler extends AbstractHandler {
 
-	private List<Attribute> attributes;
 	/**
 	 * Upon button press, execute this code
 	 */

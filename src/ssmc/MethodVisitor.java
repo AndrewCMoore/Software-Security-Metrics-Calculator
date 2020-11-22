@@ -17,7 +17,6 @@ public class MethodVisitor extends ASTVisitor{
         System.out.println("We are inside a method declaration node");
         System.out.println(node.getName());
 
-        node.getName().ge
         return true;
     }
 }
