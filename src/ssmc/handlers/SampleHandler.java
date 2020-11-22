@@ -50,6 +50,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import ssmc.Attribute;
 import ssmc.AttributeVisitor;
 import ssmc.CommentVisitor;
+import ssmc.MethodVisitor;
+
 /**
  * 
  * @author Andrew
@@ -92,8 +94,9 @@ public class SampleHandler extends AbstractHandler {
 
 		//AST 
 		try {
-			generateCommentAST(getClasses()[0]);
-			generateAttributeAST(getClasses()[0]);
+			//generateCommentAST(getClasses()[0]);
+			generateMethodAST(getClasses()[0]);
+			//generateAttributeAST(getClasses()[0]);
 		} catch (CoreException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -221,6 +224,12 @@ public class SampleHandler extends AbstractHandler {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		AttributeVisitor av = new AttributeVisitor(cu);
 		cu.accept(av);
+	}
+
+	private void generateMethodAST(ICompilationUnit unit){
+		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		MethodVisitor mv = new MethodVisitor(cu);
+		cu.accept(mv);
 	}
 	
 	private void generateCommentAST(ICompilationUnit unit) {

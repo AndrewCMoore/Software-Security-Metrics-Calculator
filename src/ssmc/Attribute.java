@@ -7,11 +7,11 @@ public class Attribute {
 	private String modifier;
 	private int usage;
 	private boolean finalized;
-	private CompilationUnit orginFile;
+	private CompilationUnit originFile;
 	private int links;
 	
 	public Attribute(String identifier, CompilationUnit orginFile) {
-		this.orginFile = orginFile;
+		this.originFile = orginFile;
 		this.Identifier = identifier;
 		this.modifier = "";
 		this.usage = 0;
