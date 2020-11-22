@@ -53,7 +53,7 @@ public class Attribute {
 	 */
 	public void setModifier(int modifier) {
 		int value = modifier;
-		// Case Statement for setting Attribute a's Modifier and Finalized varaibles 
+		// Case Statement for setting Attribute a's Modifier and Finalized variables 
 		while(value > 0) {
 			// Finds the highest base 2 value, that is the modifier
 			int result = (int)(Math.log(value)/ Math.log(2));

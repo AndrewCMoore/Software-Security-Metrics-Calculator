@@ -15,6 +15,7 @@ public class MethodVisitor extends ASTVisitor{
 
     public boolean visit(MethodDeclaration node){
         System.out.println("We are inside a method declaration node");
+<<<<<<< HEAD
         System.out.println("method " + node.getName() + " is " + node.modifiers());
         System.out.println();
         //System.out.println("getBody: " + node.getBody());
@@ -26,3 +27,10 @@ public class MethodVisitor extends ASTVisitor{
     
 }
 
+=======
+        System.out.println(node.getName());
+
+        return true;
+    }
+}
+>>>>>>> cd86c06e13702ba62928b2fff754e041723d0148
