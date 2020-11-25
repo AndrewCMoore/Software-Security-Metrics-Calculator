@@ -93,15 +93,9 @@ public class SampleHandler extends AbstractHandler {
 
 		//AST 
 		try {
-<<<<<<< HEAD
 			//generateCommentAST(getClasses()[0]);
 			generateMethodAST(getClasses()[0]);
 			//generateAttributeAST(getClasses()[0]);
-=======
-			generateCommentAST(getClasses()[0]);
-			generateMethodAST(getClasses()[0]);
-			generateAttributeAST(getClasses()[0]);
->>>>>>> cd86c06e13702ba62928b2fff754e041723d0148
 		} catch (CoreException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
