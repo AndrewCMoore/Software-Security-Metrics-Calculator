@@ -51,6 +51,7 @@ import ssmc.Attribute;
 import ssmc.AttributeVisitor;
 import ssmc.CommentVisitor;
 import ssmc.MethodVisitor;
+import ssmc.StatementVisitor;
 
 /**
  * 
@@ -93,9 +94,16 @@ public class SampleHandler extends AbstractHandler {
 
 		//AST 
 		try {
+			
+			for(int i = 0; i < getClasses().length; i++) {
+				generateMethodAST(getClasses()[i]);
+			}
+			/*
+			
 			generateCommentAST(getClasses()[0]);
 			generateMethodAST(getClasses()[0]);
-			generateAttributeAST(getClasses()[0]);
+			generateAttributeAST(getClasses()[0]);*/
+			generateStatementAST(getClasses()[0]);
 		} catch (CoreException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -236,6 +244,12 @@ public class SampleHandler extends AbstractHandler {
 		CommentVisitor cv = new CommentVisitor(cu);
 		cu.accept(cv);
 		System.out.println("The total number of commented lines is: " + cv.getLineCount());
+	}
+	
+	private void generateStatementAST(ICompilationUnit unit) {
+		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		StatementVisitor sv = new StatementVisitor(cu);
+		cu.accept(sv);
 	}
 	
 	protected CompilationUnit parse(ICompilationUnit unit) {
