@@ -10,4 +10,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: SSMC
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.resources,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.core.dom
