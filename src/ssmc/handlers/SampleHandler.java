@@ -65,26 +65,16 @@ public class SampleHandler extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		MessageDialog.openInformation(
-				window.getShell(),
-				"SSMC",
-				"Hello, Eclipse world");
+		//MessageDialog.openInformation(window.getShell(),	"SSMC",	"Hello, Eclipse world");
 		
-		MessageDialog.openInformation(window.getShell(),"Root", getRoot().getLocation().toString());
-		MessageDialog.openInformation(window.getShell(),"Path", getProjectName().toOSString());
-		
-		try {
-			MessageDialog.openInformation(window.getShell(), "Methods", getMethods());
-		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
+		//MessageDialog.openInformation(window.getShell(),"Root", getRoot().getLocation().toString());
+		//MessageDialog.openInformation(window.getShell(),"Path", getProjectName().toOSString());
+		//MessageDialog.openInformation(window.getShell(), "Methods", getMethods());
 
 		try {
 			for(int i =  0; i < getPackages().length; i++) {
 				if(getPackages()[i].getKind() == IPackageFragmentRoot.K_SOURCE){
-					MessageDialog.openInformation(window.getShell(),"Package: " + i, getPackages()[i].getElementName());
+					//MessageDialog.openInformation(window.getShell(),"Package: " + i, getPackages()[i].getElementName());
 				}
 			}
 		} catch (CoreException e) {

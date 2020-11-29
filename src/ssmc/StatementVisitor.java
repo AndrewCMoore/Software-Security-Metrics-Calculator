@@ -20,41 +20,70 @@ public class StatementVisitor extends ASTVisitor {
 	private CompilationUnit compilationUnit;
 	private double complexity;
 	private ChildListPropertyDescriptor childList;
+	private int doCount;
+	private int forCount;
+	private int ifCount;
+	private int switchCount;
+	private int whileCount;
 	
 	
 	public StatementVisitor(CompilationUnit compilationUnit) {
 		super();
 		this.compilationUnit = compilationUnit;
 		this.complexity = 0.0;
+		this.doCount = 0;
+		this.forCount = 0;
+		this.ifCount = 0;
+		this.switchCount = 0;
+		this.whileCount = 0;
 	}
 	
 	public boolean visit(DoStatement node) {
+		this.doCount += 1;
 		getChildren1(node);	
 		System.out.println("We are in the DoStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
+		System.out.println("The count is: " + this.doCount);
 		return false;
 	}
 	public boolean visit(ForStatement node) {
+		this.forCount += 1;
 		getChildren1(node);
 		System.out.println("We are in the ForStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
 	}
 	public boolean visit(IfStatement node) {
+		this.ifCount += 1;
+		//System.out.println("This is the else statements" + node.getElseStatement());
+		if(node.getElseStatement() != null) {
+			
+			for(int i = 0; i < node.getElseStatement().getLength(); i++) {
+				if(node.getElseStatement() instanceof IfStatement) {
+					this.ifCount += 1;
+				}
+			}
+			
+		}
 		getChildren1(node);
 		System.out.println("We are in the IfStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
-		return false;
-	}
-	public boolean visit(SwitchCase node) {
-		
-		System.out.println("We are in the SwitchCase node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
-		getChildren1(node);
+		System.out.println("The ifCount is: " + this.ifCount);
 		return false;
 	}
 	public boolean visit(SwitchStatement node) {
+		// Node.getStatements give us the list of cases, logic, and breaks.
+		for(int i = 0; i < node.statements().size(); i++) {
+			// For each switch case, null or full:
+			if(node.statements().get(i) instanceof SwitchCase) {
+				this.switchCount += 1;
+			}
+		}
+
+		System.out.println("The number of cases are " + switchCount);
 		getChildren1(node);
 		System.out.println("We are in the SwitchStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
-		return false;
+		return true;
 	}
 	public boolean visit(WhileStatement node) {
+		this.whileCount += 1;
 		getChildren1(node);
 		System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
