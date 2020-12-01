@@ -7,6 +7,12 @@ public class pointlessLoops {
 	private static final int ONE = 1;
 	
 	
+	public pointlessLoops() {
+		
+		
+		
+	}
+	
 	public void ifStatement () {
 		pc.pointlessMethod();
 		if (pointlessCounter == ZERO) {
@@ -71,5 +77,6 @@ public class pointlessLoops {
 			}		
 		}
 	
+		
 
 }
