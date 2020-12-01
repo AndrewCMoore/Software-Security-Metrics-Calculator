@@ -6,6 +6,7 @@ import java.util.Random;
 
 import pointless.pointlessClass;
 import pointless.pointlessInterface;
+import pointless.pointlessLoops;
 import sfm.SimulateFactoryModel;
 
 public class AgentThread extends Thread implements pointlessInterface {
@@ -36,6 +37,8 @@ public class AgentThread extends Thread implements pointlessInterface {
 		SimulateFactoryModel sfm = new SimulateFactoryModel(); 
 		pointlessClass pc = new pointlessClass();
 		pc.pointlessMethod();
+		pointlessLoops pl = new pointlessLoops();
+		pl.doWhileStatment();
 	}
 	
 	//Generates random ingredients for the ChefThreads
