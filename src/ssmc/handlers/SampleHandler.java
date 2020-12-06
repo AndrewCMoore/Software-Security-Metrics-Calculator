@@ -86,13 +86,14 @@ public class SampleHandler extends AbstractHandler {
 		try {
 			
 			for(int i = 0; i < getClasses().length; i++) {
-				generateMethodAST(getClasses()[i]);
+				//generateMethodAST(getClasses()[i]);
+				generateStatementAST(getClasses()[i]);
 			}
 		
-			generateCommentAST(getClasses()[0]);
-			generateMethodAST(getClasses()[0]);
-			generateAttributeAST(getClasses()[0]);
-			generateStatementAST(getClasses()[0]);
+			//generateCommentAST(getClasses()[0]);
+			//generateMethodAST(getClasses()[0]);
+			//generateAttributeAST(getClasses()[0]);
+			
 		} catch (CoreException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -239,6 +240,8 @@ public class SampleHandler extends AbstractHandler {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
+		System.out.println("In the Compilation Unit: " + unit.getElementName()
+						  +" the values returned are: \n"  + sv.toString());
 	}
 	
 	protected CompilationUnit parse(ICompilationUnit unit) {

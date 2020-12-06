@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
@@ -41,31 +42,29 @@ public class StatementVisitor extends ASTVisitor {
 	public boolean visit(DoStatement node) {
 		this.doCount += 1;
 		getChildren1(node);	
-		System.out.println("We are in the DoStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
-		System.out.println("The count is: " + this.doCount);
+		//System.out.println("We are in the DoStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
+		//System.out.println("The count is: " + this.doCount);
 		return false;
 	}
 	public boolean visit(ForStatement node) {
 		this.forCount += 1;
 		getChildren1(node);
-		System.out.println("We are in the ForStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
+		//System.out.println("We are in the ForStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
 	}
 	public boolean visit(IfStatement node) {
 		this.ifCount += 1;
-		//System.out.println("This is the else statements" + node.getElseStatement());
+		//System.out.println("The ifCount is: " + this.ifCount);
 		if(node.getElseStatement() != null) {
-			
-			for(int i = 0; i < node.getElseStatement().getLength(); i++) {
-				if(node.getElseStatement() instanceof IfStatement) {
-					this.ifCount += 1;
-				}
-			}
-			
+			if(node.getElseStatement() instanceof Block) {}
+			else {
+				//System.out.println(node.getElseStatement());
+				visit((IfStatement) node.getElseStatement());
+			}			
 		}
 		getChildren1(node);
-		System.out.println("We are in the IfStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
-		System.out.println("The ifCount is: " + this.ifCount);
+		//System.out.println("We are in the IfStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
+		
 		return false;
 	}
 	public boolean visit(SwitchStatement node) {
@@ -77,22 +76,31 @@ public class StatementVisitor extends ASTVisitor {
 			}
 		}
 
-		System.out.println("The number of cases are " + switchCount);
+		//System.out.println("The number of cases are " + switchCount);
 		getChildren1(node);
-		System.out.println("We are in the SwitchStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
+		//System.out.println("We are in the SwitchStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return true;
 	}
 	public boolean visit(WhileStatement node) {
 		this.whileCount += 1;
 		getChildren1(node);
-		System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
+		//System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
 	}
 	public String toString() {
-		return "";
+		String s = "";
+		//s += "In the compilation unit: " + this.compilationUnit. + "\n";
+		s += "The complexity is: " + this.complexity + "\n";
+		s += "The doCount is: " + this.doCount + "\n";
+		s += "The forCount is: " + this.forCount + "\n";
+		s += "The ifCount is: " + this.ifCount + "\n";
+		s += "The switchCount is: " + this.switchCount + "\n";
+		s += "The whileCount is: " + this.whileCount + "\n";
+				
+		return s;
+		
 	}
-	
-	//public subNodes()
+
 	
 	public Object[] getChildren(ASTNode node) {
 	    List list= node.structuralPropertiesForType();
@@ -155,11 +163,13 @@ public class StatementVisitor extends ASTVisitor {
 	            	itterateNode(node1);
 	            	
 	                String c = children.toString();
-	                System.out.println(("Children Node: " + c + "\n"));
+	                //System.out.println(("Children Node: " + c + "\n"));
 	                getChildren1(node1);
 	            } 
-	        }
+	            
+	         }
 	    }else {
+	    	
 	        return; 
 	    }       
 	}
