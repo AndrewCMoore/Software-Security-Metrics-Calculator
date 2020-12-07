@@ -52,6 +52,7 @@ import ssmc.AttributeVisitor;
 import ssmc.CommentVisitor;
 import ssmc.MethodVisitor;
 import ssmc.StatementVisitor;
+import ssmc.Class;
 
 /**
  * 
@@ -59,6 +60,7 @@ import ssmc.StatementVisitor;
  *
  */
 public class SampleHandler extends AbstractHandler {
+
 
 	/**
 	 * Upon button press, execute this code
@@ -127,6 +129,11 @@ public class SampleHandler extends AbstractHandler {
 	 * to correctly identify which project the JDT will be grabbing from. 
 	 * @return The IPath representation of the currently active project.
 	 */
+	
+
+	
+	
+	
 	private IPath getProjectName() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IProject project = null;
@@ -179,6 +186,11 @@ public class SampleHandler extends AbstractHandler {
 	 * @return ICompilationUnit representation of the classes in the project
 	 * @throws CoreException
 	 */
+	
+	public static Class[] getClass(ICompilationUnit u) {
+		return null;
+	}
+	
 	private ICompilationUnit[] getClasses() throws CoreException {
 		for(IPackageFragment aPackage : getPackages()) {
 			if(aPackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
