@@ -17,6 +17,17 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
+<<<<<<< HEAD:src/ssmc/handlers/ButtonHandler.java
+=======
+
+import ssmc.Attribute;
+import ssmc.AttributeVisitor;
+import ssmc.Class;
+import ssmc.CommentVisitor;
+import ssmc.MethodVisitor;
+import ssmc.StatementVisitor;
+
+>>>>>>> master:src/ssmc/handlers/SampleHandler.java
 /**
  * 
  * @author Andrew
@@ -93,5 +104,10 @@ public class ButtonHandler extends AbstractHandler {
 	    }
 	    */
 	    
+	}
+
+	public static Class[] getClasses(ICompilationUnit comp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

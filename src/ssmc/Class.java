@@ -1,3 +1,4 @@
+
 package ssmc;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -24,3 +25,4 @@ public class Class {
   // Line of A/M/S is within Class then put into array (compare)
 	
 }
+
