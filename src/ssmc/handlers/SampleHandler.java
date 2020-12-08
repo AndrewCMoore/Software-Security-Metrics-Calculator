@@ -49,6 +49,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import ssmc.Attribute;
 import ssmc.AttributeVisitor;
+import ssmc.Class;
 import ssmc.CommentVisitor;
 import ssmc.MethodVisitor;
 import ssmc.StatementVisitor;
@@ -150,5 +151,10 @@ public class SampleHandler extends AbstractHandler {
 		parser.setSource(unit);
 		parser.setResolveBindings(true);
 		return (CompilationUnit) parser.createAST(null); //parse		
+	}
+
+	public static Class[] getClasses(ICompilationUnit comp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
