@@ -18,5 +18,9 @@ public class Class {
 		this.critical = false;
 	}
 	
+	 // Method that finds the starting line and ending line of the class
+	// Use AttributeVisitor, MethodVisitor, and StatemenetVisitor to find all values within those lines
+   // Return the Methods, Attributes, complexity
+  // Line of A/M/S is within Class then put into array (compare)
 	
 }
