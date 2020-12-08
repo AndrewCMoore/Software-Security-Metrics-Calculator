@@ -9,6 +9,7 @@ public class Attribute {
 	private boolean finalized;
 	private CompilationUnit originFile;
 	private int links;
+	private int lineNum;
 	
 	public Attribute(String identifier, CompilationUnit orginFile) {
 		this.originFile = orginFile;
@@ -17,6 +18,7 @@ public class Attribute {
 		this.usage = 0;
 		this.finalized = false;
 		this.links = 0;
+		this.lineNum = 0;
 	}
 	
 	public void addUsage() {
@@ -35,6 +37,9 @@ public class Attribute {
 		this.finalized = b;
 	}
 	
+	public void setLineNum(int line) {
+		this.lineNum = line;
+	}
 	/**
 	 * The modifiers set values important to this project are:
 	 * Public: 1
@@ -90,6 +95,7 @@ public class Attribute {
 		String s = new String();
 		s += "Identifier: " + this.Identifier + "\n";
 		s += "Modifiers: " + this.modifier + "\n";
+		s += "Line num: "  + this.lineNum + "\n";
 		/*
 		for(int i = 0; i < this.modifier.length; i++) {
 			s += "" + this.modifier[i] + "\n";

@@ -17,7 +17,7 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="ssmc.handlers.SampleHandler"
+            class="ssmc.handlers.ButtonHandler"
             commandId="SSMC.commands.sampleCommand">
       </handler>
    </extension>
