@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
@@ -17,17 +18,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-<<<<<<< HEAD:src/ssmc/handlers/ButtonHandler.java
-=======
-
-import ssmc.Attribute;
-import ssmc.AttributeVisitor;
-import ssmc.Class;
-import ssmc.CommentVisitor;
-import ssmc.MethodVisitor;
-import ssmc.StatementVisitor;
-
->>>>>>> master:src/ssmc/handlers/SampleHandler.java
 /**
  * 
  * @author Andrew
@@ -104,10 +94,5 @@ public class ButtonHandler extends AbstractHandler {
 	    }
 	    */
 	    
-	}
-
-	public static Class[] getClasses(ICompilationUnit comp) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

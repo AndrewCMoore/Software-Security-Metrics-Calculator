@@ -43,4 +43,7 @@ public class CAMValues {
 		parser.setResolveBindings(true);
 		return (CompilationUnit) parser.createAST(null); //parse		
 	}
+	public static Class[] getClasses(ICompilationUnit unit) {
+		return null;
+	}
 }
