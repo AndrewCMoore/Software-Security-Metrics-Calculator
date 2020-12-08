@@ -10,7 +10,7 @@
 
 
 
-Current tasks   Implement getClasses in CAMValues
-                Call the JDTree in ButtonHandler
-                Implement the Metrics Calculation
+Current tasks   Implement getClasses in CAMValues\
+                Call the JDTree in ButtonHandler\
+                Implement the Metrics Calculation\
         
