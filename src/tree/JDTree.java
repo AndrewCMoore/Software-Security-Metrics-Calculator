@@ -10,7 +10,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import ssmc.*;
 import ssmc.Class;
-import ssmc.handlers.SampleHandler;
 
 public class JDTree {
 
@@ -44,7 +43,7 @@ public class JDTree {
 		}if (kind.equals("ICompilationUnit")) {
 			type = NodeType.COMPILATIONUNIT;
 			ICompilationUnit comp = (ICompilationUnit) node;
-			Class[] classes = SampleHandler.getClasses(comp);
+			Class[] classes = CAMValues.getClasses(comp);
 			children = new JDTree[classes.length];
 			for(int i = 0; i<classes.length;i++) {
 				children[i] = new JDTree(classes[i],this);
