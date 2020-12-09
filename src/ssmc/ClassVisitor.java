@@ -25,34 +25,9 @@ public class ClassVisitor extends ASTVisitor {
 	
 	public boolean visit(CompilationUnit node) {
 		//System.out.println(node.types());
-		getChildren1(node);
+		
 		return false;
 	}
 	
-	public void getChildren1(ASTNode node) {
-	    if (node != null) {
-	        List<ASTNode> children = new ArrayList<ASTNode>();
-	        List list = node.structuralPropertiesForType();
-	        for (int i = 0; i < list.size(); i++) {
-	            Object child = node.getStructuralProperty((StructuralPropertyDescriptor) list.get(i));
-	            if (child instanceof ASTNode) {
-	                children.add((ASTNode) child);
-	            }               
-	        }
-	        
-	        for(ASTNode node1 : children){
-	            if (node1 != null) {
-	            	//itterateNode(node1);
-	            	
-	                String c = children.toString();
-	                System.out.println(("Children Node: " + c + "\n"));
-	                //getChildren1(node1);
-	            } 
-	            
-	         }
-	    }else {
-	    	
-	        return; 
-	    }       
-	}
+	
 }

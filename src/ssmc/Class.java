@@ -6,6 +6,8 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 public class Class {
 	private String Identifier;
 	private String modifier;
+	private int startLine;
+	private int endLine;
 	private boolean serialized;
 	private boolean critical;
 	private CompilationUnit originFile;
@@ -17,6 +19,8 @@ public class Class {
 		this.originFile = originFile;
 		this.serialized = false;
 		this.critical = false;
+		this.methods = new Method[0];
+		this.attributes = new Attribute[0];
 		
 	}
 	
@@ -51,6 +55,12 @@ public class Class {
 	
 	// Setters
 	
+	private void setStartLine(int start) {
+		this.startLine = start;
+	}
+	private void setEndLine(int end) {
+		this.endLine = end;
+	}
 	private void setModifier(String modifier) {
 		this.modifier = modifier;
 	}
