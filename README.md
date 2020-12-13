@@ -16,5 +16,5 @@ Current tasks:
 <li>Implement getClasses in CAMValues</li>
 <li>Call the JDTree in ButtonHandler</li>
 <li>Implement the Metrics Calculation</li>
-<li>Delete this later, i'm testing the GitHub Discord Bot - Anthony</li>
+<li>Delete this later, i am testing the GitHub Discord Bot - Anthony</li>
         
