@@ -16,7 +16,7 @@ public class CAMValues {
 	 * ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	public void generateAttributeAST(ICompilationUnit unit) {
+	public static void generateAttributeAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		AttributeVisitor av = new AttributeVisitor(cu);
 		cu.accept(av);
@@ -28,10 +28,16 @@ public class CAMValues {
 	 * ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	public void generateMethodAST(ICompilationUnit unit){
+	public static void generateMethodAST(ICompilationUnit unit){
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		MethodVisitor mv = new MethodVisitor(cu);
 		cu.accept(mv);
+	}
+	
+	public static void generateBodyDeclarationAst(ICompilationUnit unit) {
+		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		DeclarationVisitor dv= new DeclarationVisitor(cu);
+		cu.accept(dv);
 	}
 	
 	/**
@@ -40,7 +46,7 @@ public class CAMValues {
 	 * ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	public void generateCommentAST(ICompilationUnit unit) {
+	public static void generateCommentAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		CommentVisitor cv = new CommentVisitor(cu);
 		cu.accept(cv);
@@ -53,7 +59,7 @@ public class CAMValues {
 	 * to complexity for the ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	public void generateStatementAST(ICompilationUnit unit) {
+	public static void generateStatementAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
@@ -76,6 +82,9 @@ public class CAMValues {
 	}
 	
 	public static Class[] getClasses(ICompilationUnit unit) {
+		generateBodyDeclarationAst(unit);
+		
+		
 		return null;
 	}
 }
