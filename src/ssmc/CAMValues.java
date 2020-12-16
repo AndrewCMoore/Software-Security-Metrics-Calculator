@@ -1,5 +1,7 @@
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
@@ -16,6 +18,7 @@ public class CAMValues {
 	 * ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
+	private static ArrayList<Class> classes;
 	public static void generateAttributeAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		AttributeVisitor av = new AttributeVisitor(cu);
@@ -35,9 +38,15 @@ public class CAMValues {
 	}
 	
 	public static void generateBodyDeclarationAst(ICompilationUnit unit) {
+		classes = new ArrayList<Class>();
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		DeclarationVisitor dv= new DeclarationVisitor(cu);
 		cu.accept(dv);
+		
+		
+	}
+	public static void addToClassList(Class c) {
+		classes.add(c);
 	}
 	
 	/**
@@ -83,8 +92,12 @@ public class CAMValues {
 	
 	public static Class[] getClasses(ICompilationUnit unit) {
 		generateBodyDeclarationAst(unit);
+		System.out.println("The Classes in the list right now are...");
+		Class[] classList = new Class[classes.size()];
+		for(int i =0;i<classes.size();i++) {
+			classList[i]=classes.get(i);
+		}
 		
-		
-		return null;
+		return classList;
 	}
 }

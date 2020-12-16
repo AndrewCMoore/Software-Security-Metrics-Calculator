@@ -55,10 +55,10 @@ public class Class {
 	
 	// Setters
 	
-	private void setStartLine(int start) {
+	void setStartLine(int start) {
 		this.startLine = start;
 	}
-	private void setEndLine(int end) {
+    void setEndLine(int end) {
 		this.endLine = end;
 	}
 	private void setModifier(String modifier) {
