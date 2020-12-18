@@ -82,6 +82,23 @@ public class CAMValues {
 	 * @param unit ICompilationUnit input
 	 * @return CompilationUnit
 	 */
+	
+	
+	// none is 0
+	// public is 1
+	// private is 2
+	// protected is 4
+	// static is 8
+	// final is 16
+	// synchronized 32
+	
+	//Volatile 64
+	//Transient 128
+	// native 256
+	
+	// abstract 1024
+	// strictfp 2048
+	
 	protected static CompilationUnit parse(ICompilationUnit unit) {
 		ASTParser parser = ASTParser.newParser(AST.JLS13);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
@@ -92,7 +109,7 @@ public class CAMValues {
 	
 	public static Class[] getClasses(ICompilationUnit unit) {
 		generateBodyDeclarationAst(unit);
-		System.out.println("The Classes in the list right now are...");
+		generateAttributeAST(unit);
 		Class[] classList = new Class[classes.size()];
 		for(int i =0;i<classes.size();i++) {
 			classList[i]=classes.get(i);

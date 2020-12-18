@@ -23,10 +23,11 @@ public class DeclarationVisitor extends ASTVisitor {
 	
 	
 	 public boolean visit(TypeDeclaration node){
-		 	System.out.println("got here?");
 		 	int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
 		 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength());
 	        SimpleName name = node.getName();
+	        int modifiers = node.getModifiers();
+	        
 	        String id = name.toString();
 	        Class c = new Class(id,cu);
 	        c.setStartLine(startLineNum);

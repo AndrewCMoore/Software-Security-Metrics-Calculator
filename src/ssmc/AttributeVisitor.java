@@ -15,7 +15,7 @@ public class AttributeVisitor extends ASTVisitor{
 
 	private CompilationUnit compliationUnit;
 	private Set<String> names;
-	private List<Attribute> attributes;
+	private ArrayList<Attribute> attributes;
 	
 	public AttributeVisitor(CompilationUnit compilationUnit) {
 		super();
@@ -58,6 +58,10 @@ public class AttributeVisitor extends ASTVisitor{
 			s += this.attributes.get(i).toString() + "\n\n";
 		}
 		return s;
+	}
+	
+	public ArrayList<Attribute> getAttributes(){
+		return attributes;
 	}
 	
 	

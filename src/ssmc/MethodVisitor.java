@@ -15,12 +15,13 @@ public class MethodVisitor extends ASTVisitor{
     }
 
     public boolean visit(MethodDeclaration node){
-        System.out.println("method " + node.getName() + " is " + node.modifiers() + " and length: " + node.getLength());
-        System.out.println("from parent: " + node.getParent());
-        System.out.println("has " + node.parameters().size()  + " parameters: " + node.parameters());
-        System.out.println("returns: " + node.getReturnType2());
-        System.out.println("isClassified? " + isClassified(node));
-        System.out.println("////////////////////////////");
+       // System.out.println("method " + node.getName() + " is " + node.modifiers() + " and length: " + node.getLength());
+      //  System.out.println("from parent: " + node.getParent());
+      //  System.out.println("has " + node.parameters().size()  + " parameters: " + node.parameters());
+      //  System.out.println("returns: " + node.getReturnType2());
+      //  System.out.println("isClassified? " + isClassified(node));
+      //  System.out.println("////////////////////////////");
+    		System.out.println("The modifier for"+node.getName()+" is "+node.getModifiers());
         return true;
     }
     
