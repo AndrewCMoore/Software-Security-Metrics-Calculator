@@ -53,7 +53,7 @@
                   id="SSMC.toolbars.sampleCommand"
                   commandId="SSMC.commands.sampleCommand"
                   icon="icons/sample.png"
-                  tooltip="Say hello world">
+                  tooltip="Software Security Metric Calculator">
             </command>
          </toolbar>
       </menuContribution>
