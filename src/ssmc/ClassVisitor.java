@@ -16,6 +16,8 @@ public class ClassVisitor extends ASTVisitor {
 	private Set<String> names;
 	private List<Attribute> attributes;
 	
+	
+	
 	public ClassVisitor(CompilationUnit compilationUnit) {
 		super();
 		this.compliationUnit = compilationUnit;
@@ -28,6 +30,8 @@ public class ClassVisitor extends ASTVisitor {
 		
 		return false;
 	}
+	
+	
 	
 	
 }
