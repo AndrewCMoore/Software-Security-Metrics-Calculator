@@ -17,6 +17,7 @@ public class MethodVisitor extends ASTVisitor{
     public MethodVisitor(CompilationUnit cu){
         super();
         this.cu = cu;
+        methods = new ArrayList<Method>();
     }
 
     public boolean visit(MethodDeclaration node){  	
@@ -33,7 +34,9 @@ public class MethodVisitor extends ASTVisitor{
         methods.add(m);
         m.setMethodLength(node.getLength());
     	
+        m.setStartLine(startLineNum);
         
+        m.setStartLine(endLineNum);
         
     	
         return true;
