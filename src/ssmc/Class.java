@@ -11,15 +11,12 @@ public class Class {
 	private boolean serialized;
 	private boolean critical;
 	private CompilationUnit originFile;
- 
-	
+
 	public Class(String identifier, CompilationUnit originFile) {
 		this.Identifier = identifier;
 		this.originFile = originFile;
 		this.serialized = false;
 		this.critical = false;
-		this.methods = new Method[0];
-		this.attributes = new Attribute[0];
 		
 	}
 	
@@ -45,12 +42,14 @@ public class Class {
 	public CompilationUnit getCompilationUnit() {
 		return this.originFile;
 	}
+	/**
 	public Method[] getMethods() {
 		return this.methods;
 	}
 	public Attribute[] getAttributes() {
 		return this.attributes;
 	}
+	**/
 	
 	// Setters
 	
