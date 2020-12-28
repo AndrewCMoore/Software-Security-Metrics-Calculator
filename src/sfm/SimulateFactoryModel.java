@@ -2,12 +2,13 @@ package sfm;
 import java.io.BufferedReader;      //to parse input data
 import java.io.FileReader;			//to read files.
 import java.io.IOException;			//requirerd.
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import factoryClasses.*;
 import pointless.pointlessClass;
 
-public class SimulateFactoryModel {
+public class SimulateFactoryModel{
 	//###########################################################################################################################################################
 																	//Current Variables 
 	//###########################################################################################################################################################
