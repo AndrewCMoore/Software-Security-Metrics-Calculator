@@ -173,5 +173,11 @@ public class StatementVisitor extends ASTVisitor {
 	        return; 
 	    }       
 	}
+	
+	public void addToMethod(ASTNode node) {
+		int startPosition = this.compilationUnit.getLineNumber(node.getStartPosition());
+		int finalPosition = this.compilationUnit.getLineNumber(node.getStartPosition() + node.getLength());
+		
+	}
 }
 

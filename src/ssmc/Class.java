@@ -11,8 +11,7 @@ public class Class {
 	private boolean serialized;
 	private boolean critical;
 	private CompilationUnit originFile;
-	private Method[] methods;
-	private Attribute[] attributes;
+ 
 	
 	public Class(String identifier, CompilationUnit originFile) {
 		this.Identifier = identifier;
@@ -55,13 +54,13 @@ public class Class {
 	
 	// Setters
 	
-	private void setStartLine(int start) {
+	public void setStartLine(int start) {
 		this.startLine = start;
 	}
-	private void setEndLine(int end) {
+	public void setEndLine(int end) {
 		this.endLine = end;
 	}
-	private void setModifier(String modifier) {
+	public void setModifier(String modifier) {
 		this.modifier = modifier;
 	}
 	public void setSerialized(boolean b) {
