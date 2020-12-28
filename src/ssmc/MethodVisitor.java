@@ -1,26 +1,41 @@
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.ReturnStatement;
+import org.eclipse.jdt.core.dom.SimpleName;
 
 public class MethodVisitor extends ASTVisitor{
-
+	
 	private CompilationUnit cu;
+	private static ArrayList<Method> methods;
+	
 	
     public MethodVisitor(CompilationUnit cu){
         super();
         this.cu = cu;
     }
 
-    public boolean visit(MethodDeclaration node){
-        System.out.println("method " + node.getName() + " is " + node.modifiers() + " and length: " + node.getLength());
-        System.out.println("from parent: " + node.getParent());
-        System.out.println("has " + node.parameters().size()  + " parameters: " + node.parameters());
-        System.out.println("returns: " + node.getReturnType2());
-        System.out.println("isClassified? " + isClassified(node));
-        System.out.println("////////////////////////////");
+    public boolean visit(MethodDeclaration node){  	
+    	int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
+	 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength());
+	 	
+        SimpleName name = node.getName();
+        String id = name.toString();
+        
+        int modifiers = node.getModifiers();
+        String modify = CAMValues.getModifier(modifiers);
+    	
+        Method m = new Method(id,cu);
+        methods.add(m);
+        m.setMethodLength(node.getLength());
+    	
+        
+        
+    	
         return true;
     }
     
@@ -43,6 +58,10 @@ public class MethodVisitor extends ASTVisitor{
     	}*/
     	return false;
     }
+    
+    public ArrayList<Method> getMethods(){
+		return methods;
+	}
     
 }
     

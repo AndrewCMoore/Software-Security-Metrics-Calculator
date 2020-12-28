@@ -12,10 +12,14 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+
+import tree.JDTree;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
@@ -36,24 +40,21 @@ public class ButtonHandler extends AbstractHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
-
-	
 	public void addToTree() throws JavaModelException, CoreException {
 		IProject project = null;
 		IPath path = null;
-		
 		IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		if(window != null) { 
-	    	IStructuredSelection selection = (IStructuredSelection) window.getSelectionService().getSelection();
-	    	if(selection instanceof IStructuredSelection) {
+		if (window != null) {
+			IStructuredSelection selection = (IStructuredSelection) window.getSelectionService().getSelection();
+			if (selection instanceof IStructuredSelection) {
 				Object element = ((IStructuredSelection) selection).getFirstElement();
-				
-				if(element instanceof IResource) {
+
+				if (element instanceof IResource) {
 					project = ((IResource) element).getProject();
 				} else if (element instanceof IJavaElement) {
 					IJavaProject jProject = ((IJavaElement) element).getJavaProject();
@@ -61,38 +62,31 @@ public class ButtonHandler extends AbstractHandler {
 				}
 			}
 		}
-		
-	    path = project.getFullPath();
-	    project = fileRoot.getProject(path.toOSString());
-	    
-	    
-	    // The JDTree class takes over from here
-	    
-	    /*
-	     * Depreciated
-	     * Leave for potential further use
-	     
-	    if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+
+		path = project.getFullPath();
+		project = fileRoot.getProject(path.toOSString());
+		if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 			IJavaProject javaProject = JavaCore.create(project);
-			IPackageFragment[] packages = javaProject.getPackageFragments();
-			for(IPackageFragment aPackage : packages) {
-				if(aPackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
-					for(ICompilationUnit aClass : aPackage.getCompilationUnits()) {
-						
-						// aClass iterates through all of the ICompilation Units
-						//generateAttributeAST(aClass);
-						//generateStatementAST(aClass);
-						/*
-						generateMethodAST(aClass);
-						generateAttributeAST(aClass);
-						generateCommentAST(aClass);	
-						generateStatementAST(aClass);
-						//getClasses(aClass);
-					}
-				}
-			}
-	    }
-	    */
-	    
+			String kind = project.getClass().getName();
+			JDTree myTree = new JDTree(javaProject, null);
+		}
+		// The JDTree class takes over from here
+
+		/*
+		 * Depreciated Leave for potential further use
+		 * 
+		 * if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) { IJavaProject
+		 * javaProject = JavaCore.create(project); IPackageFragment[] packages =
+		 * javaProject.getPackageFragments(); for(IPackageFragment aPackage : packages)
+		 * { if(aPackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
+		 * for(ICompilationUnit aClass : aPackage.getCompilationUnits()) {
+		 * 
+		 * // aClass iterates through all of the ICompilation Units
+		 * //generateAttributeAST(aClass); //generateStatementAST(aClass); /*
+		 * generateMethodAST(aClass); generateAttributeAST(aClass);
+		 * generateCommentAST(aClass); generateStatementAST(aClass);
+		 * //getClasses(aClass); } } } }
+		 */
+
 	}
 }

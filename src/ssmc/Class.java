@@ -1,6 +1,8 @@
 
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Class {
@@ -11,12 +13,17 @@ public class Class {
 	private boolean serialized;
 	private boolean critical;
 	private CompilationUnit originFile;
+	private ArrayList<Method> methods;
+	private Attribute[] attributes;
+	
 
 	public Class(String identifier, CompilationUnit originFile) {
 		this.Identifier = identifier;
 		this.originFile = originFile;
 		this.serialized = false;
 		this.critical = false;
+		this.methods = new ArrayList<Method>();
+		this.attributes = new Attribute[0];
 		
 	}
 	
@@ -26,7 +33,12 @@ public class Class {
     // Line of A/M/S is within Class then put into array (compare)
 	
 	// Getters
-	
+	public int getStartLine() {
+		return startLine;
+	}
+	public int getEndLine() {
+		return endLine;
+	}
 	public String getIdentifier() {
 		return this.Identifier;
 	}
@@ -56,7 +68,7 @@ public class Class {
 	public void setStartLine(int start) {
 		this.startLine = start;
 	}
-	public void setEndLine(int end) {
+    public void setEndLine(int end) {
 		this.endLine = end;
 	}
 	public void setModifier(String modifier) {
@@ -69,7 +81,7 @@ public class Class {
 		this.critical = b;
 	}
 	public void addMethod(Method method) {
-		methods[methods.length] = method;
+		methods.add(method);
 	}
 	public void addAttribute(Attribute attribute) {
 		attributes[attributes.length] = attribute;
