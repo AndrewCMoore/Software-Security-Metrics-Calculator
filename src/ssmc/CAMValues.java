@@ -19,10 +19,12 @@ public class CAMValues {
 	 * @param unit ICompilationUnit input
 	 */
 	
-	public static void generateAttributeAST(ICompilationUnit unit) {
+	public static ArrayList<Attribute> generateAttributeAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		AttributeVisitor av = new AttributeVisitor(cu);
 		cu.accept(av);
+		
+		return av.getArrayList();
 	}
 
 	/**

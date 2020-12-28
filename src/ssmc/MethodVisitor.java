@@ -17,6 +17,7 @@ public class MethodVisitor extends ASTVisitor{
     public MethodVisitor(CompilationUnit cu){
         super();
         this.cu = cu;
+        methods = new ArrayList<Method>();
     }
 
     public boolean visit(MethodDeclaration node){  	
