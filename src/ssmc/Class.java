@@ -79,6 +79,16 @@ public class Class {
 	public void addAttribute(Attribute attribute) {
 		attributes.add(attribute);
 	}
+
+	public int getStartLine() {
+		// TODO Auto-generated method stub
+		return startLine;
+	}
+
+	public int getEndLine() {
+		// TODO Auto-generated method stub
+		return endLine;
+	}
 	
 	
 }
