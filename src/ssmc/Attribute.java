@@ -64,22 +64,22 @@ public class Attribute {
 			int result = (int)(Math.log(value)/ Math.log(2));
 			switch(result) {
 				case(0):
-					this.modifier = "Public";
+					this.modifier += "Public ";
 					break;
 				case(1):
-					this.modifier = "Private";
+					this.modifier += "Private ";
 					break;
 				case(2):
-					this.modifier = "Protected";
+					this.modifier += "Protected ";
 					break;
 				case(3):
-					this.modifier = "Static";
+					this.modifier += "Static ";
 					break;
 				case(4):
 					this.setFinalized(true);
 					break;
 				case(5):
-					this.modifier = "Synchronized";
+					this.modifier += "Synchronized ";
 					break;
 				default:
 					break;

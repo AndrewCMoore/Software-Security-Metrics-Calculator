@@ -16,6 +16,7 @@ public class Class {
 	private ArrayList<Method> methods;
 	private Attribute[] attributes;
 	
+
 	public Class(String identifier, CompilationUnit originFile) {
 		this.Identifier = identifier;
 		this.originFile = originFile;
@@ -53,12 +54,14 @@ public class Class {
 	public CompilationUnit getCompilationUnit() {
 		return this.originFile;
 	}
-	public ArrayList<Method> getMethods() {
+	/**
+	public Method[] getMethods() {
 		return this.methods;
 	}
 	public Attribute[] getAttributes() {
 		return this.attributes;
 	}
+	**/
 	
 	// Setters
 	
