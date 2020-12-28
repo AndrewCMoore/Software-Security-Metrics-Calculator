@@ -1,7 +1,7 @@
 package pointless;
 
 public class pointlessLoops {
-	pointlessClass pc = new pointlessClass();
+	private pointlessClass pc = new pointlessClass();
 	public int pointlessCounter = 0;
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
