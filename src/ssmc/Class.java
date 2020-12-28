@@ -23,6 +23,9 @@ public class Class {
 		this.serialized = false;
 		this.critical = false;
 		
+		 methods = new ArrayList<Method>();
+		 attributes = new ArrayList<Attribute>();
+		
 	}
 	
 	// Method that finds the starting line and ending line of the class

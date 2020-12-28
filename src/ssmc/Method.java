@@ -36,6 +36,9 @@ public class Method {
 		this.originFile = originFile;
 		this.links = 0;
 		
+		this.startLine = 0;
+		this.endLine = 0;
+		
 	}
 	
 	public int getMethodLength() {
