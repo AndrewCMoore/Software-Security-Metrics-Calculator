@@ -1,6 +1,8 @@
 
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Class {
@@ -11,6 +13,8 @@ public class Class {
 	private boolean serialized;
 	private boolean critical;
 	private CompilationUnit originFile;
+	private ArrayList<Method> methods;
+	private ArrayList<Attribute> attributes;
 
 	public Class(String identifier, CompilationUnit originFile) {
 		this.Identifier = identifier;
@@ -69,10 +73,10 @@ public class Class {
 		this.critical = b;
 	}
 	public void addMethod(Method method) {
-		methods[methods.length] = method;
+		methods.add(method);
 	}
 	public void addAttribute(Attribute attribute) {
-		attributes[attributes.length] = attribute;
+		attributes.add(attribute);
 	}
 	
 	
