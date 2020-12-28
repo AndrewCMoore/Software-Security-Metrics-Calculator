@@ -19,42 +19,32 @@ import org.eclipse.jdt.core.dom.SwitchCase;
 public class StatementVisitor extends ASTVisitor {
 
 	private CompilationUnit compilationUnit;
-	private double complexity;
-	private ChildListPropertyDescriptor childList;
-	private int doCount;
-	private int forCount;
-	private int ifCount;
-	private int switchCount;
-	private int whileCount;
-	
+	private ArrayList<Statement> statementList;
 	
 	public StatementVisitor(CompilationUnit compilationUnit) {
 		super();
+		this.statementList = new ArrayList<Statement>();
 		this.compilationUnit = compilationUnit;
-		this.complexity = 0.0;
-		this.doCount = 0;
-		this.forCount = 0;
-		this.ifCount = 0;
-		this.switchCount = 0;
-		this.whileCount = 0;
 	}
 	
 	public boolean visit(DoStatement node) {
-		this.doCount += 1;
-		getChildren1(node);	
-		//System.out.println("We are in the DoStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
-		//System.out.println("The count is: " + this.doCount);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
 		return false;
 	}
 	public boolean visit(ForStatement node) {
-		this.forCount += 1;
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
 		getChildren1(node);
-		//System.out.println("We are in the ForStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
 	}
 	public boolean visit(IfStatement node) {
-		this.ifCount += 1;
-		//System.out.println("The ifCount is: " + this.ifCount);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
 		if(node.getElseStatement() != null) {
 			if(node.getElseStatement() instanceof Block) {}
 			else {
@@ -68,13 +58,17 @@ public class StatementVisitor extends ASTVisitor {
 		return false;
 	}
 	public boolean visit(SwitchStatement node) {
+		Statement statement = new Statement(node, this.compilationUnit);
+		
 		// Node.getStatements give us the list of cases, logic, and breaks.
 		for(int i = 0; i < node.statements().size(); i++) {
 			// For each switch case, null or full:
 			if(node.statements().get(i) instanceof SwitchCase) {
-				this.switchCount += 1;
+				statement.addComplexity(1);
 			}
 		}
+		
+		statementList.add(statement);
 
 		//System.out.println("The number of cases are " + switchCount);
 		getChildren1(node);
@@ -82,26 +76,14 @@ public class StatementVisitor extends ASTVisitor {
 		return true;
 	}
 	public boolean visit(WhileStatement node) {
-		this.whileCount += 1;
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
 		getChildren1(node);
 		//System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
 	}
-	public String toString() {
-		String s = "";
-		//s += "In the compilation unit: " + this.compilationUnit. + "\n";
-		s += "The complexity is: " + this.complexity + "\n";
-		s += "The doCount is: " + this.doCount + "\n";
-		s += "The forCount is: " + this.forCount + "\n";
-		s += "The ifCount is: " + this.ifCount + "\n";
-		s += "The switchCount is: " + this.switchCount + "\n";
-		s += "The whileCount is: " + this.whileCount + "\n";
-				
-		return s;
 		
-	}
-
-	
 	public Object[] getChildren(ASTNode node) {
 	    List list= node.structuralPropertiesForType();
 	    for (int i= 0; i < list.size(); i++) {
@@ -174,10 +156,8 @@ public class StatementVisitor extends ASTVisitor {
 	    }       
 	}
 	
-	public void addToMethod(ASTNode node) {
-		int startPosition = this.compilationUnit.getLineNumber(node.getStartPosition());
-		int finalPosition = this.compilationUnit.getLineNumber(node.getStartPosition() + node.getLength());
-		
+	public ArrayList<Statement> getArrayList() {
+		return this.statementList;
 	}
 }
 

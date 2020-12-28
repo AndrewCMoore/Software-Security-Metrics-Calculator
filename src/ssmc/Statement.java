@@ -18,6 +18,9 @@ public class Statement {
 		this.endLine = this.compilationUnit.getColumnNumber(node.getStartPosition() + node.getLength());
 	}
 	
+	public void addComplexity(int value) {
+		this.complexityValue = this.complexityValue + value;
+	}
 	public ASTNode getNode() {
 		return this.nodeType;
 	}
