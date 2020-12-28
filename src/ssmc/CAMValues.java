@@ -18,7 +18,7 @@ public class CAMValues {
 	 * ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	private static ArrayList<Class> classes;
+	
 	public static void generateAttributeAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		AttributeVisitor av = new AttributeVisitor(cu);
@@ -31,22 +31,19 @@ public class CAMValues {
 	 * ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	public static void generateMethodAST(ICompilationUnit unit){
+	public static ArrayList<Method> generateMethodAST(ICompilationUnit unit){
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		MethodVisitor mv = new MethodVisitor(cu);
 		cu.accept(mv);
+		return mv.getMethods();
 	}
 	
-	public static void generateBodyDeclarationAst(ICompilationUnit unit) {
-		classes = new ArrayList<Class>();
+	public static ArrayList<Class> generateBodyDeclarationAst(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
-		DeclarationVisitor dv= new DeclarationVisitor(cu);
+		DeclarationVisitor dv = new DeclarationVisitor(cu);
 		cu.accept(dv);
 		
-		
-	}
-	public static void addToClassList(Class c) {
-		classes.add(c);
+		return dv.getClasses();
 	}
 	
 	/**
@@ -84,20 +81,7 @@ public class CAMValues {
 	 */
 	
 	
-	// none is 0
-	// public is 1
-	// private is 2
-	// protected is 4
-	// static is 8
-	// final is 16
-	// synchronized 32
 	
-	//Volatile 64
-	//Transient 128
-	// native 256
-	
-	// abstract 1024
-	// strictfp 2048
 	
 	protected static CompilationUnit parse(ICompilationUnit unit) {
 		ASTParser parser = ASTParser.newParser(AST.JLS13);
@@ -108,8 +92,16 @@ public class CAMValues {
 	}
 	
 	public static Class[] getClasses(ICompilationUnit unit) {
-		generateBodyDeclarationAst(unit);
-		generateAttributeAST(unit);
+		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
+		ArrayList<Method> methods = generateMethodAST(unit);
+		
+		for(Method m :methods) {
+			Class c = getBelonging(m,classes);
+			c.addMethod(m);
+		}
+		
+		
+		
 		Class[] classList = new Class[classes.size()];
 		for(int i =0;i<classes.size();i++) {
 			classList[i]=classes.get(i);
@@ -117,4 +109,77 @@ public class CAMValues {
 		
 		return classList;
 	}
+	
+	
+	private static Class getBelonging(Method m,ArrayList<Class> classes) {
+		Class cl = null;
+		int min=Integer.MAX_VALUE;
+		for(Class c:classes) {
+			if(c.getStartLine()<m.getStartLine()&&c.getEndLine()>m.getEndLine()) {
+				int size = c.getEndLine()-c.getStartLine();
+				if(size<min) {
+					c = cl;
+				}
+			}
+		}
+		return cl;
+	}
+	
+		// none is 0
+		// public is 1
+		// private is 2
+		// protected is 4
+		// static is 8
+		// final is 16
+		// synchronized 32
+		
+		//Volatile 64
+		//Transient 128
+		// native 256
+		
+		// abstract 1024
+		// strictfp 2048
+	
+	//This method simply runs through the flags and ads the string if the flag is on it
+	public static String getModifier(int modifiers) {
+		String modify = "";
+		if( (modifiers & 1)!=0) {
+			modify+=" public";
+		}
+		if( (modifiers & 2)!=0) {
+			modify+=" private";
+		}
+		if( (modifiers & 4)!=0) {
+			modify+=" protected";
+		}
+		if( (modifiers & 8)!=0) {
+			modify+=" static";
+		}
+		if( (modifiers & 16)!=0) {
+			modify+=" final";
+		}
+		if( (modifiers & 32)!=0) {
+			modify+=" synchronized";
+		}
+		if( (modifiers & 64)!=0) {
+			modify+=" volatile";
+		}
+		if( (modifiers & 128)!=0) {
+			modify+=" transient";
+		}
+		if( (modifiers & 256)!=0) {
+			modify+=" native";
+		}
+		if( (modifiers & 512)!=0) {
+			modify+=" ";
+		}
+		if( (modifiers & 1024)!=0) {
+			modify+=" abstract";
+		}
+		if( (modifiers & 2048)!=0) {
+			modify+=" strictfp";
+		}
+		return modify;
+	}
+	
 }

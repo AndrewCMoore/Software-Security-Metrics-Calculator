@@ -51,6 +51,7 @@ public class JDTree {
 				children = new JDTree[classes.length];
 				for (int i = 0; i < classes.length; i++) {
 					children[i] = new JDTree(classes[i], this);
+					System.out.println("the Class is "+classes[i].getIdentifier());
 				}
 			}
 		}

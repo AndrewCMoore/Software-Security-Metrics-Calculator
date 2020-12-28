@@ -17,6 +17,8 @@ public class Method {
 	private boolean isFinalized;
 	private CompilationUnit originFile;
 	private int links;
+	private int startLine;
+	private int endLine;
 	
 	public Method(String identifier, CompilationUnit originFile) {
 		this.length = 0;
@@ -134,7 +136,19 @@ public class Method {
 	public void setModifier(String m){
 		this.modified = m;
 	}
-
+	
+	public void setStartLine(int start) {
+		this.startLine = start;
+	}
+	public int getStartLine() {
+		return startLine;
+	}
+	public void setEndLine(int end) {
+		this.endLine = end;
+	}
+	public int getEndLine() {
+		return endLine;
+	}
 	
 /**	
 	public String toString() {

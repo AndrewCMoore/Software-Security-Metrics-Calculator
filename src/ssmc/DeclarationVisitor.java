@@ -1,5 +1,7 @@
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
@@ -14,11 +16,12 @@ import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 public class DeclarationVisitor extends ASTVisitor {
 	
 	private CompilationUnit cu;
-	
+	private static ArrayList<Class> classes;
 	
 	public DeclarationVisitor(CompilationUnit cu) {
 		 super();
 		 this.cu = cu;
+		 classes = new ArrayList<Class>();
 	}
 	
 	
@@ -27,14 +30,22 @@ public class DeclarationVisitor extends ASTVisitor {
 		 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength());
 	        SimpleName name = node.getName();
 	        int modifiers = node.getModifiers();
-	        
+	        String modify = CAMValues.getModifier(modifiers);
+	        System.out.println("The Modifier for "+name+" is "+modify);
 	        String id = name.toString();
 	        Class c = new Class(id,cu);
 	        c.setStartLine(startLineNum);
 	        c.setEndLine(endLineNum);
-	        CAMValues.addToClassList(c);
+	        c.setModifier(modify);
+	        
+	        classes.add(c);
 	        return true;
 	    }
+	 
+	 
+	 public ArrayList<Class> getClasses(){
+			return classes;
+		}
 	
 
 }

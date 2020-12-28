@@ -1,6 +1,8 @@
 
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Class {
@@ -11,7 +13,7 @@ public class Class {
 	private boolean serialized;
 	private boolean critical;
 	private CompilationUnit originFile;
-	private Method[] methods;
+	private ArrayList<Method> methods;
 	private Attribute[] attributes;
 	
 	public Class(String identifier, CompilationUnit originFile) {
@@ -19,7 +21,7 @@ public class Class {
 		this.originFile = originFile;
 		this.serialized = false;
 		this.critical = false;
-		this.methods = new Method[0];
+		this.methods = new ArrayList<Method>();
 		this.attributes = new Attribute[0];
 		
 	}
@@ -30,7 +32,12 @@ public class Class {
     // Line of A/M/S is within Class then put into array (compare)
 	
 	// Getters
-	
+	public int getStartLine() {
+		return startLine;
+	}
+	public int getEndLine() {
+		return endLine;
+	}
 	public String getIdentifier() {
 		return this.Identifier;
 	}
@@ -46,7 +53,7 @@ public class Class {
 	public CompilationUnit getCompilationUnit() {
 		return this.originFile;
 	}
-	public Method[] getMethods() {
+	public ArrayList<Method> getMethods() {
 		return this.methods;
 	}
 	public Attribute[] getAttributes() {
@@ -55,13 +62,13 @@ public class Class {
 	
 	// Setters
 	
-	void setStartLine(int start) {
+	public void setStartLine(int start) {
 		this.startLine = start;
 	}
-    void setEndLine(int end) {
+    public void setEndLine(int end) {
 		this.endLine = end;
 	}
-	private void setModifier(String modifier) {
+	public void setModifier(String modifier) {
 		this.modifier = modifier;
 	}
 	public void setSerialized(boolean b) {
@@ -71,7 +78,7 @@ public class Class {
 		this.critical = b;
 	}
 	public void addMethod(Method method) {
-		methods[methods.length] = method;
+		methods.add(method);
 	}
 	public void addAttribute(Attribute attribute) {
 		attributes[attributes.length] = attribute;
