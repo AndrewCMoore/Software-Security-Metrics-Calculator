@@ -35,7 +35,6 @@ public class MethodVisitor extends ASTVisitor{
         m.setMethodLength(node.getLength());
     	
         m.setStartLine(startLineNum);
-        
         m.setEndLine(endLineNum);
         
     	
