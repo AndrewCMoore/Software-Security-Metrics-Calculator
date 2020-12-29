@@ -106,6 +106,7 @@ public class CAMValues {
 		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
 		ArrayList<Method> methods = generateMethodAST(unit);
 		ArrayList<Statement> statements = generateStatementAST(unit);
+		ArrayList<Attribute> attributes = generateAttributeAST(unit);
 		
 		for(Method m :methods) {
 			Class c = getBelonging(m,classes);
@@ -121,6 +122,13 @@ public class CAMValues {
 			}
 		}
 		
+		for(Attribute a: attributes) {
+			Class c = getBelonging(a, classes);
+			if(c != null) {
+				c.addAttribute(a);
+				System.out.println("The usage of attribute " + a.getIdentifier() + "defined on line " + a.getLineNum() + "is: " + a.getUsage());
+			}
+		}
 		
 		
 		
@@ -152,6 +160,25 @@ public class CAMValues {
 		return cl;
 	}
 	
+	private static Class getBelonging(Attribute a, ArrayList<Class> classes) {
+		Class cl = null;
+		int min=Integer.MAX_VALUE;
+		for(Class c:classes) {
+			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
+			if(c.getStartLine() < a.getLineNum() && c.getEndLine() > a.getLineNum()) {
+				int size = c.getEndLine()-c.getStartLine();				
+				if(size<min) {
+					
+					cl =c;
+					min = size;
+					
+				}
+			}
+		}
+		System.out.println("The method is "+a.getIdentifier()+" and it belongs to "+cl.getIdentifier());
+		return cl;
+	}
+	
 	private static Method getBelonging(Statement s, ArrayList<Method> methods) {
 		Method m1 = null;
 		int min=Integer.MAX_VALUE;
@@ -170,6 +197,7 @@ public class CAMValues {
 		System.out.println("The statement is " + getStatementNodeSimpleName(s) + " and it belongs to "+ m1.getIdentifier());
 		return m1;
 	}
+	
 	
 		// none is 0
 		// public is 1

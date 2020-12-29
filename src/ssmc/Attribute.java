@@ -33,6 +33,9 @@ public class Attribute {
 	public int getUsage() {
 		return this.usage;
 	}
+	public int getLineNum() {
+		return this.lineNum;
+	}
 	public void setFinalized(boolean b) {
 		this.finalized = b;
 	}

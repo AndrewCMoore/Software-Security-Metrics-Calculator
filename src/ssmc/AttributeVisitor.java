@@ -42,7 +42,7 @@ public class AttributeVisitor extends ASTVisitor{
 			for(int i = 0; i < this.attributes.size(); i++) {
 				Attribute attribute = this.attributes.get(i);
 				if(attribute.getIdentifier().equals(node.getIdentifier().toString())) {
-					System.out.println("Node: " + node.getIdentifier() + " is used at line " + this.compliationUnit.getLineNumber(node.getStartPosition()));
+					//System.out.println("Node: " + node.getIdentifier() + " is used at line " + this.compliationUnit.getLineNumber(node.getStartPosition()));
 					attribute.addUsage();
 					//System.out.println("The variable " + attribute.getIdentifier() + " has a usage of: " + attribute.getUsage());
 				}
