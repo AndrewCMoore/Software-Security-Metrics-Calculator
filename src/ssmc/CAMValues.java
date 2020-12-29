@@ -4,8 +4,15 @@ import java.util.ArrayList;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.DoStatement;
+import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.SwitchCase;
+import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.WhileStatement;
 
 /**
  * This class generates values for the Class, Attribute, and Method objects
@@ -67,12 +74,14 @@ public class CAMValues {
 	 * to complexity for the ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	public static void generateStatementAST(ICompilationUnit unit) {
+	public static ArrayList<Statement> generateStatementAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
 		System.out.println("In the Compilation Unit: " + unit.getElementName()
 						  +" the values returned are: \n"  + sv.toString());
+		
+		return sv.getArrayList();
 	}
 	
 	/**
@@ -96,6 +105,7 @@ public class CAMValues {
 	public static Class[] getClasses(ICompilationUnit unit) {
 		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
 		ArrayList<Method> methods = generateMethodAST(unit);
+		ArrayList<Statement> statements = generateStatementAST(unit);
 		
 		for(Method m :methods) {
 			Class c = getBelonging(m,classes);
@@ -103,6 +113,14 @@ public class CAMValues {
 				c.addMethod(m);
 			}
 		}
+		
+		for(Statement s: statements) {
+			Method m = getBelonging(s, methods);
+			if(m != null) {
+				m.addStatement(s);
+			}
+		}
+		
 		
 		
 		
@@ -119,8 +137,7 @@ public class CAMValues {
 		Class cl = null;
 		int min=Integer.MAX_VALUE;
 		for(Class c:classes) {
-			System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() +
-			"M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
+			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
 			if(c.getStartLine()<m.getStartLine()&&c.getEndLine()>m.getEndLine()) {
 				int size = c.getEndLine()-c.getStartLine();				
 				if(size<min) {
@@ -133,6 +150,25 @@ public class CAMValues {
 		}
 		System.out.println("The method is "+m.getIdentifier()+" and it belongs to "+cl.getIdentifier());
 		return cl;
+	}
+	
+	private static Method getBelonging(Statement s, ArrayList<Method> methods) {
+		Method m1 = null;
+		int min=Integer.MAX_VALUE;
+		for(Method m:methods) {
+			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
+			if(m.getStartLine()<s.getStartLine()&&m.getEndLine()>s.getEndLine()) {
+				int size = m.getEndLine()-m.getStartLine();				
+				if(size<min) {
+					
+					m1 =m;
+					min = size;
+					
+				}
+			}
+		}
+		System.out.println("The statement is " + getStatementNodeSimpleName(s) + " and it belongs to "+ m1.getIdentifier());
+		return m1;
 	}
 	
 		// none is 0
@@ -192,4 +228,23 @@ public class CAMValues {
 		return modify;
 	}
 	
+	public static String getStatementNodeSimpleName(Statement s) {
+		switch(s.getNode().getNodeType()) {
+		case 19: 
+			return "DoStatement";
+		case 24:
+			return "ForStatement";
+		case 25:
+			return "IfStatement";
+		case 49:
+			return "SwitchCase";
+		case 50:
+			return "SwitchStatement";
+		case 61: 
+			return "WhileStatement";
+		default:
+			break;		
+		}
+		return "";
+	}
 }

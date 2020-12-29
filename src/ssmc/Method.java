@@ -1,5 +1,7 @@
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Method {
@@ -19,6 +21,7 @@ public class Method {
 	private int links;
 	private int startLine;
 	private int endLine;
+	private ArrayList<Statement> statements;
 	
 	public Method(String identifier, CompilationUnit originFile) {
 		this.length = 0;
@@ -38,6 +41,8 @@ public class Method {
 		
 		this.startLine = 0;
 		this.endLine = 0;
+		
+		this.statements = new ArrayList<Statement>();
 		
 	}
 	
@@ -152,7 +157,9 @@ public class Method {
 	public int getEndLine() {
 		return endLine;
 	}
-	
+	public void addStatement(Statement statement) {
+		this.statements.add(statement);
+	}
 /**	
 	public String toString() {
 		String s = new String();

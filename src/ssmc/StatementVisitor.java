@@ -145,7 +145,7 @@ public class StatementVisitor extends ASTVisitor {
 	            	itterateNode(node1);
 	            	
 	                String c = children.toString();
-	                System.out.println(("Children Node: " + c + "\n"));
+	                //System.out.println(("Children Node: " + c + "\n"));
 	                //getChildren1(node1);
 	            } 
 	            
