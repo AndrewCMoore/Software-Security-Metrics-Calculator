@@ -86,7 +86,7 @@ public class CAMValues {
 	
 	
 	protected static CompilationUnit parse(ICompilationUnit unit) {
-		ASTParser parser = ASTParser.newParser(AST.JLS10);
+		ASTParser parser = ASTParser.newParser(AST.JLS15);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(unit);
 		parser.setResolveBindings(true);
@@ -119,6 +119,8 @@ public class CAMValues {
 		Class cl = null;
 		int min=Integer.MAX_VALUE;
 		for(Class c:classes) {
+			System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() +
+			"M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
 			if(c.getStartLine()<m.getStartLine()&&c.getEndLine()>m.getEndLine()) {
 				int size = c.getEndLine()-c.getStartLine();				
 				if(size<min) {

@@ -15,7 +15,7 @@ public class Statement {
 		this.compilationUnit = compilationUnit; 
 		this.complexityValue = 0;
 		this.startLine = this.compilationUnit.getLineNumber(node.getStartPosition());
-		this.endLine = this.compilationUnit.getColumnNumber(node.getStartPosition() + node.getLength());
+		this.endLine = this.compilationUnit.getColumnNumber(node.getStartPosition() + node.getLength() - 1);
 	}
 	
 	public void addComplexity(int value) {

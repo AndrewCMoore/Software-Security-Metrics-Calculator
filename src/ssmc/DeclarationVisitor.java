@@ -27,7 +27,7 @@ public class DeclarationVisitor extends ASTVisitor {
 	
 	 public boolean visit(TypeDeclaration node){
 		 	int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
-		 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength());
+		 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
 	        SimpleName name = node.getName();
 	        int modifiers = node.getModifiers();
 	        String modify = CAMValues.getModifier(modifiers);

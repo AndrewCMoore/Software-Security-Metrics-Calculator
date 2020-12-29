@@ -22,7 +22,7 @@ public class MethodVisitor extends ASTVisitor{
 
     public boolean visit(MethodDeclaration node){  	
     	int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
-	 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength());
+	 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
 	 	
         SimpleName name = node.getName();
         String id = name.toString();
