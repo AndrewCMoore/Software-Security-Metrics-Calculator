@@ -31,7 +31,6 @@ public class DeclarationVisitor extends ASTVisitor {
 	        SimpleName name = node.getName();
 	        int modifiers = node.getModifiers();
 	        String modify = CAMValues.getModifier(modifiers);
-	        System.out.println("The Modifier for "+name+" is "+modify);
 	        String id = name.toString();
 	        Class c = new Class(id,cu);
 	        c.setStartLine(startLineNum);

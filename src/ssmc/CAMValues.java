@@ -119,11 +119,8 @@ public class CAMValues {
 		Class cl = null;
 		int min=Integer.MAX_VALUE;
 		for(Class c:classes) {
-			System.out.println("Class start line "+c.getStartLine()+" Method Start line "+m.getStartLine());
-			System.out.println("Class end line "+c.getEndLine()+" Method Stendart line "+m.getEndLine());
 			if(c.getStartLine()<m.getStartLine()&&c.getEndLine()>m.getEndLine()) {
-				int size = c.getEndLine()-c.getStartLine();
-				System.out.println("Size is "+size);
+				int size = c.getEndLine()-c.getStartLine();				
 				if(size<min) {
 					
 					cl =c;
@@ -132,6 +129,7 @@ public class CAMValues {
 				}
 			}
 		}
+		System.out.println("The method is "+m.getIdentifier()+" and it belongs to "+cl.getIdentifier());
 		return cl;
 	}
 	
