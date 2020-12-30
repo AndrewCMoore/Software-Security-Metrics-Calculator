@@ -15,7 +15,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 public class MainTest {
-	
+
 	public IPackageFragment AccessTestClass() throws CoreException {
 		IProject project = null;
 		IPath path = null;
