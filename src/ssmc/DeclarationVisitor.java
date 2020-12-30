@@ -41,8 +41,10 @@ public class DeclarationVisitor extends ASTVisitor {
 	        return true;
 	    }
 	 
-	 
-	 public ArrayList<Class> getClasses(){
+	
+
+
+	public ArrayList<Class> getClasses(){
 			return classes;
 		}
 	

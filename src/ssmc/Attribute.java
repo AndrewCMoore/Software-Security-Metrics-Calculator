@@ -7,12 +7,12 @@ public class Attribute {
 	private String modifier;
 	private int usage;
 	private boolean finalized;
-	private CompilationUnit originFile;
+	private CompilationUnit compilationUnit;
 	private int links;
 	private int lineNum;
 	
-	public Attribute(String identifier, CompilationUnit orginFile) {
-		this.originFile = orginFile;
+	public Attribute(String identifier, CompilationUnit compilationUnit) {
+		this.compilationUnit = compilationUnit;
 		this.Identifier = identifier;
 		this.modifier = "";
 		this.usage = 0;
@@ -22,27 +22,65 @@ public class Attribute {
 	}
 	
 	public void addUsage() {
-		this.usage = this.usage + 1;
+		this.usage += 1;
 	}
-	
-	
+		
 	public String getIdentifier() {
-		return this.Identifier;
+		return Identifier;
 	}
-	
+
+	public void setIdentifier(String identifier) {
+		Identifier = identifier;
+	}
+
+	public String getModifier() {
+		return modifier;
+	}
+
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
+
 	public int getUsage() {
-		return this.usage;
+		return usage;
 	}
+
+	public void setUsage(int usage) {
+		this.usage = usage;
+	}
+
+	public boolean isFinalized() {
+		return finalized;
+	}
+
+	public void setFinalized(boolean finalized) {
+		this.finalized = finalized;
+	}
+
+	public CompilationUnit getCompilationUnit() {
+		return compilationUnit;
+	}
+
+	public void setCompilationUnit(CompilationUnit compilationUnit) {
+		this.compilationUnit = compilationUnit;
+	}
+
+	public int getLinks() {
+		return links;
+	}
+
+	public void setLinks(int links) {
+		this.links = links;
+	}
+
 	public int getLineNum() {
-		return this.lineNum;
+		return lineNum;
 	}
-	public void setFinalized(boolean b) {
-		this.finalized = b;
+
+	public void setLineNum(int lineNum) {
+		this.lineNum = lineNum;
 	}
-	
-	public void setLineNum(int line) {
-		this.lineNum = line;
-	}
+
 	/**
 	 * The modifiers set values important to this project are:
 	 * Public: 1
@@ -91,28 +129,13 @@ public class Attribute {
 			value = (int) (value - Math.pow(2d, result));
 		}
 	}
-	
-	
-	
+
+	@Override
 	public String toString() {
-		String s = new String();
-		s += "Identifier: " + this.Identifier + "\n";
-		s += "Modifiers: " + this.modifier + "\n";
-		s += "Line num: "  + this.lineNum + "\n";
-		/*
-		for(int i = 0; i < this.modifier.length; i++) {
-			s += "" + this.modifier[i] + "\n";
-		}*/
-		
-		s += "Usage: " + usage + "\n";
-		s += "Finalized: ";
-		
-		if(this.finalized) {
-			s += " Final\n";
-		} else {
-			s += " N/A\n";
-		}
-					
-		return s;
+		return "Attribute [Identifier=" + Identifier + ", modifier=" + modifier + ", usage=" + usage + ", finalized="
+				+ finalized + ", compilationUnit=" + compilationUnit + ", links=" + links + ", lineNum=" + lineNum
+				+ "]";
 	}
+
+	
 }

@@ -5,7 +5,9 @@ Bundle-SymbolicName: SSMC;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ssmc.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.junit,
+ org.junit.jupiter.api
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: SSMC
 Bundle-ActivationPolicy: lazy
