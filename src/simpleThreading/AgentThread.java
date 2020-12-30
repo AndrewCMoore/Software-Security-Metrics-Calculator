@@ -1,5 +1,7 @@
 package simpleThreading;
 
+import java.io.Serializable;
+
 //Anthony Maevski-Popov
 
 import java.util.Random;
@@ -9,7 +11,7 @@ import pointless.pointlessInterface;
 import pointless.pointlessLoops;
 import sfm.SimulateFactoryModel;
 
-public class AgentThread extends Thread implements pointlessInterface {
+public class AgentThread extends Thread implements Serializable, pointlessInterface {
 	private Ingredients[] ingredientsOnTable = new Ingredients[2]; //get the 3 ingredients
 	private int totalSandwichesMade = 0; //sandwitch counter
 	private static final int maxSandwiches = 20; //Set to 20
