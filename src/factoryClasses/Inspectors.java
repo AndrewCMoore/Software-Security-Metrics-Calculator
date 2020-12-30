@@ -3,7 +3,7 @@ package factoryClasses;
 
 import java.util.*;
 
-public class Inspectors extends FactoryObject_InheritanceLevel2{
+public class Inspectors extends FactoryObject_InheritanceLevel2 {
 	
 	//###########################################################################################################################################################	
 																			//Current Variables 	

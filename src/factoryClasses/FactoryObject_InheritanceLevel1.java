@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import pointless.pointlessClass;
 
-public class FactoryObject_InheritanceLevel1  extends FactoryObject {
+public class FactoryObject_InheritanceLevel1  extends FactoryObject  {
 	
 	pointlessClass pc = new pointlessClass();
 

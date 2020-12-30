@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.LinkedList;
 
 
-public class WorkStations extends FactoryObject {
+public class WorkStations extends FactoryObject  {
 
 	//###########################################################################################################################################################	
 																		//Current Variables 	
