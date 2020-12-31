@@ -2,22 +2,23 @@ package ssmc;
 
 import java.util.ArrayList;
 
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SimpleName;
 
 public class MethodVisitor extends ASTVisitor{
 	
 	private CompilationUnit cu;
 	private static ArrayList<Method> methods;
-	
+	private ArrayList<ASTNode> nodes;
 	
     public MethodVisitor(CompilationUnit cu){
         super();
         this.cu = cu;
         methods = new ArrayList<Method>();
+        nodes = new ArrayList<ASTNode>();
     }
 
     public boolean visit(MethodDeclaration node){  	
@@ -61,9 +62,13 @@ public class MethodVisitor extends ASTVisitor{
     	return false;
     }
     
-    public ArrayList<Method> getMethods(){
+    public ArrayList<Method> getMethods() {
 		return methods;
 	}
+    
+    public ArrayList<ASTNode> getNodes() {
+    	return nodes;
+    }
     
 }
     
