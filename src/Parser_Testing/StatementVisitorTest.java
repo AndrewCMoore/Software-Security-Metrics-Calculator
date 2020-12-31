@@ -198,9 +198,7 @@ class StatementVisitorTest {
 	}
 
 	@Test
-	void testGetChildren1() {
-		
-		
+	void testGetChildren1() {		
 	}
 
 	@Test 
