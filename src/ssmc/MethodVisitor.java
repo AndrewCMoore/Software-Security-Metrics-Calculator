@@ -50,7 +50,7 @@ public class MethodVisitor extends ASTVisitor{
     	return true;
     }*/
     
-    private boolean isClassified(MethodDeclaration node) {
+    protected boolean isClassified(MethodDeclaration node) {
     	for(Object modifier : node.modifiers()) {
     		if(modifier.toString().contains("private")) {
     			return true;
