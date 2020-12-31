@@ -24,7 +24,6 @@ public class DeclarationVisitor extends ASTVisitor {
 	
 	
 	public boolean visit(TypeDeclaration node){
-		
 		nodes.add(node);
 		int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
 		int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);

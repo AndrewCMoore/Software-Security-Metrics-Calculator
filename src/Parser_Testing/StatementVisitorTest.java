@@ -21,10 +21,10 @@ import ssmc.StatementVisitor;
 class StatementVisitorTest {
 
 	private CompilationUnit cu;
+	private StatementVisitor sv;
 	private ArrayList<DoStatement> doStatements;  
 	private ArrayList<ForStatement> forStatements;
 	private ArrayList<IfStatement> ifStatements;
-	private StatementVisitor sv;
 	private ArrayList<SwitchStatement> switchStatements;
 	private ArrayList<WhileStatement> whileStatements;
 	
