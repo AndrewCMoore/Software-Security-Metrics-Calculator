@@ -66,7 +66,8 @@ class StatementVisitorTest {
 	}
 	@Test
 	void testGetArrayList() {
-		assertEquals("[Statement [nodeType=if (x == 0) {\n"
+		assertEquals(
+				"[Statement [nodeType=if (x == 0) {\n"
 				+ "  do {\n"
 				+ "  }\n"
 				+ " while (x == 1);\n"
@@ -173,15 +174,39 @@ class StatementVisitorTest {
 
 	@Test
 	void testGetChildren() {
+		// Create a new StatementVisitor
+		StatementVisitor testSV = new StatementVisitor(cu);
+		// Get the parent node of the ifStatement in StatementVisitor
+		ASTNode node = ifStatements.get(0).getParent();
+		// Assert the two children
+		assertEquals("int x=0;\n" , testSV.getChildren(node)[0].toString());
+		assertEquals(
+				"if (x == 0) {\n"
+				+ "  do {\n"
+				+ "  }\n"
+				+ " while (x == 1);\n"
+				+ "  for (int i=0; i < 1; i++) {\n"
+				+ "  }\n"
+				+ "switch (x) {\n"
+				+ "  }\n"
+				+ "  while (x == 1) {\n"
+				+ "  }\n"
+				+ "}\n"
+				+ ""
+				, testSV.getChildren(node)[1].toString());
+		
 	}
 
 	@Test
 	void testGetChildren1() {
+		
+		
 	}
 
 	@Test 
 	void testGetNode(){
-		assertEquals("[if (x == 0) {\n"
+		assertEquals(
+				"[if (x == 0) {\n"
 				+ "  do {\n"
 				+ "  }\n"
 				+ " while (x == 1);\n"
@@ -207,6 +232,7 @@ class StatementVisitorTest {
 	
 	@Test
 	void testItterateNode() {
+		
 	}
 
 	@Test
