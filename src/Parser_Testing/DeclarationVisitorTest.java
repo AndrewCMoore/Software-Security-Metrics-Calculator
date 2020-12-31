@@ -25,7 +25,7 @@ class DeclarationVisitorTest {
 		
 		types = new ArrayList<TypeDeclaration>();
 		
-		ICompilationUnit iCompilationUnit = mt.AccessTestClass().getCompilationUnit("Statement_Test.java");
+		ICompilationUnit iCompilationUnit = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 		this.cu = CAMValues.parse(iCompilationUnit);
 		this.dv = new DeclarationVisitor(cu);
 		cu.accept(dv);
@@ -47,22 +47,42 @@ class DeclarationVisitorTest {
 		testDV.visit(types.get(0));
 		// Ensure there is only one node in DeclarationVisitor
 		assertEquals(1, testDV.getNodes().size());
-		// Ensure that the node is TypeDeclaration
+		// Ensure that the node is TypeDeclaration Test_Class
 		assertEquals(dv.getNodes().get(0), testDV.getNodes().get(0));
-		
-		fail("Not yet implemented");
 	}
 
 	@Test
 	void testGetClasses() {
-		assertEquals("", dv.getClasses().toString());
-		fail("Not yet implemented");
+		// The classes won't return normally.
+		assertEquals("", dv.getClasses());
+		fail("Test doesn't work as intended");	
 	}
 
 	@Test
 	void testGetNodes() {
-		assertEquals("", dv.getNodes().toString());
-		fail("Not yet implemented");
+		assertEquals("[public class Test_Class {\n"
+				+ "  static String attributeA;\n"
+				+ "  public Test_Class(){\n"
+				+ "    attributeA=\"00\";\n"
+				+ "  }\n"
+				+ "  public void methodA(){\n"
+				+ "    attributeA=\"02\";\n"
+				+ "    InnerLevel il=new InnerLevel();\n"
+				+ "  }\n"
+				+ "private final static class InnerLevel {\n"
+				+ "    String attributeB;\n"
+				+ "    public InnerLevel(){\n"
+				+ "      attributeB=\"01\";\n"
+				+ "    }\n"
+				+ "  }\n"
+				+ "}\n"
+				+ ", private final static class InnerLevel {\n"
+				+ "  String attributeB;\n"
+				+ "  public InnerLevel(){\n"
+				+ "    attributeB=\"01\";\n"
+				+ "  }\n"
+				+ "}\n"
+				+ "]"
+				, dv.getNodes().toString());
 	}
-
 }

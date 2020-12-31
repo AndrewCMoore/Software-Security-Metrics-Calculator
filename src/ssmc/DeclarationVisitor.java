@@ -12,7 +12,7 @@ public class DeclarationVisitor extends ASTVisitor {
 	
 	
 	private CompilationUnit cu;
-	private static ArrayList<Class> classes;
+	private ArrayList<Class> classes;
 	private ArrayList<ASTNode> nodes;
 	
 	public DeclarationVisitor(CompilationUnit cu) {
@@ -31,12 +31,14 @@ public class DeclarationVisitor extends ASTVisitor {
 		int modifiers = node.getModifiers();
 		String modify = CAMValues.getModifier(modifiers);
 		String id = name.toString();
+		System.out.println(id);
 		Class c = new Class(id,cu);
 		c.setStartLine(startLineNum);
 		c.setEndLine(endLineNum);
 		c.setModifier(modify);
 		
 		classes.add(c);
+		System.out.print(classes.toString());
 		return true;
     }
 
