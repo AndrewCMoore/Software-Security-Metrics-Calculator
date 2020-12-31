@@ -3,13 +3,13 @@ package ssmc;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Attribute {
+	private CompilationUnit compilationUnit;
+	private boolean finalized;
 	private String Identifier;
+	private int lineNum;
+	private int links;
 	private String modifier;
 	private int usage;
-	private boolean finalized;
-	private CompilationUnit compilationUnit;
-	private int links;
-	private int lineNum;
 
 	public Attribute(String identifier, CompilationUnit compilationUnit) {
 		this.compilationUnit = compilationUnit;
@@ -25,20 +25,24 @@ public class Attribute {
 		this.usage += 1;
 	}
 
+	public CompilationUnit getCompilationUnit() {
+		return compilationUnit;
+	}
+
 	public String getIdentifier() {
 		return Identifier;
 	}
 
-	public void setIdentifier(String identifier) {
-		Identifier = identifier;
+	public int getLineNum() {
+		return lineNum;
+	}
+
+	public int getLinks() {
+		return links;
 	}
 
 	public String getModifier() {
 		return modifier;
-	}
-
-	public void setModifier(String modifier) {
-		this.modifier = modifier;
 	}
 
 	public int getUsage() {
@@ -53,28 +57,16 @@ public class Attribute {
 		this.finalized = finalized;
 	}
 
-	public CompilationUnit getCompilationUnit() {
-		return compilationUnit;
-	}
-
-	public void setCompilationUnit(CompilationUnit compilationUnit) {
-		this.compilationUnit = compilationUnit;
-	}
-
-	public int getLinks() {
-		return links;
-	}
-
-	public void setLinks(int links) {
-		this.links = links;
-	}
-
-	public int getLineNum() {
-		return lineNum;
+	public void setIdentifier(String identifier) {
+		Identifier = identifier;
 	}
 
 	public void setLineNum(int lineNum) {
 		this.lineNum = lineNum;
+	}
+
+	public void setLinks(int links) {
+		this.links = links;
 	}
 
 	/**
@@ -124,6 +116,10 @@ public class Attribute {
 			// Subtract the value from the value and repeat:
 			value = (int) (value - Math.pow(2d, result));
 		}
+	}
+
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
 	}
 
 	@Override

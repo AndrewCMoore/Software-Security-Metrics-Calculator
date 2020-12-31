@@ -12,9 +12,9 @@ import ssmc.CAMValues;
 import ssmc.Attribute;
 
 class AttributeTest {
-	private ICompilationUnit iCompilationUnit;
-	private ArrayList<Attribute> attributes;
 	private Attribute attributeA, attributeB, attributeC;
+	private ArrayList<Attribute> attributes;
+	private ICompilationUnit iCompilationUnit;
 	public AttributeTest() throws CoreException{
 		MainTest mt = new MainTest();
 		iCompilationUnit = mt.AccessTestClass().getCompilationUnit("Attribute_Test.java");
@@ -27,24 +27,20 @@ class AttributeTest {
 	
 	
 	@Test
-	void testName() {
-		assertEquals("AttributeA", attributeA.getIdentifier());
-	}
-	
-	@Test
-	void testModifier() {
-		assertEquals("Public ", attributeA.getModifier());
-	}
-	
-	@Test 
-	void testGetUsage() {
-		assertEquals(1, attributeA.getUsage());
-	}
-	
-	@Test
 	void testAddUsage() {
+		assertEquals(1, attributeA.getUsage());
 		attributeA.addUsage();
 		assertEquals(2, attributeA.getUsage());
+	}
+	
+	@Test
+	void testGetCompilationUnit() {
+		CompilationUnit cu = CAMValues.parse(this.iCompilationUnit);
+		System.out.println(cu.getFlags() +  " \n" + cu.getCommentList() + " \n" + cu.getLength() +  " \n"  + cu.getParent());
+		assertEquals(cu.getFlags(), attributeA.getCompilationUnit().getFlags());
+		assertEquals(cu.getCommentList(), attributeA.getCompilationUnit().getCommentList());
+		assertEquals(cu.getLength(), attributeA.getCompilationUnit().getLength());
+		assertEquals(cu.getParent(), attributeA.getCompilationUnit().getParent());
 	}
 	
 	@Test 
@@ -53,10 +49,13 @@ class AttributeTest {
 	}
 	
 	@Test
-	void testSetIdentifier() {
-		attributeA.setIdentifier("Changed Name");
-		assertEquals("Changed Name", attributeA.getIdentifier());
-		attributeA.setIdentifier("AttributeA");
+	void testGetLineNum() {
+		assertEquals(3, attributeA.getLineNum());
+	}
+	
+	@Test
+	void testGetLinks() {
+		assertEquals(0, attributeA.getLinks());
 	}
 	
 	@Test
@@ -64,6 +63,45 @@ class AttributeTest {
 		assertEquals("Public ", attributeA.getModifier());
 		assertEquals("Static Private ", attributeB.getModifier());
 		assertEquals("Transient Volatile Protected ", attributeC.getModifier());
+	}
+	
+	@Test 
+	void testGetUsage() {
+		assertEquals(1, attributeA.getUsage());
+	}
+	
+	@Test
+	void testIsFinalized() {
+		assertEquals(false, attributeA.isFinalized());
+		assertEquals(true, attributeB.isFinalized());
+	}
+	
+	@Test
+	void testSetFinalized() {
+		attributeA.setFinalized(true);
+		assertEquals(true, attributeA.isFinalized());
+		attributeA.setFinalized(false);
+	}
+
+	@Test
+	void testSetIdentifier() {
+		attributeA.setIdentifier("AttributeZ");
+		assertEquals("AttributeZ", attributeA.getIdentifier());
+		attributeA.setIdentifier("AttributeA");
+	}
+	
+	@Test
+	void testSetLineNum() {
+		attributeA.setLineNum(-1);
+		assertEquals(-1, attributeA.getLineNum());
+		attributeA.setLineNum(3);
+	}
+	
+	@Test
+	void testSetLinks() {
+		attributeA.setLinks(1);
+		assertEquals(1, attributeA.getLinks());
+		attributeA.setLinks(0);
 	}
 	
 	@Test
@@ -78,51 +116,6 @@ class AttributeTest {
 		attributeA.setModifier("Private ");
 		assertEquals("Private ", attributeA.getModifier());
 		attributeA.setModifier("Public ");
-	}
-	
-	@Test
-	void testIsFinalized() {
-		assertEquals(false, attributeA.isFinalized());
-	}
-	
-	@Test
-	void testSetFinalized() {
-		attributeA.setFinalized(true);
-		assertEquals(true, attributeA.isFinalized());
-		attributeA.setFinalized(false);
-	}
-
-	@Test
-	void testCompilationUnit() {
-		CompilationUnit cu = attributeA.getCompilationUnit();
-		CompilationUnit cuNew = CAMValues.parse(iCompilationUnit);
-		attributeA.setCompilationUnit(cuNew);
-		assertEquals(cuNew, attributeA.getCompilationUnit());
-		attributeA.setCompilationUnit(cu);
-	}
-	
-	@Test
-	void testGetLinks() {
-		assertEquals(0, attributeA.getLinks());
-	}
-	
-	@Test
-	void testSetLinks() {
-		attributeA.setLinks(1);
-		assertEquals(1, attributeA.getLinks());
-		attributeA.setLinks(0);
-	}
-	
-	@Test
-	void testGetLineNum() {
-		assertEquals(3, attributeA.getLineNum());
-	}
-	
-	@Test
-	void testSetLineNum() {
-		attributeA.setLineNum(-1);
-		assertEquals(-1, attributeA.getLineNum());
-		attributeA.setLineNum(3);
 	}
 	
 	@Test

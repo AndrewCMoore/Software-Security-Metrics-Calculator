@@ -17,8 +17,8 @@ import ssmc.Statement;
 
 class StatementTest {
 	private ICompilationUnit iCompilationUnit;
-	private ArrayList<Statement> statements;
 	private Statement ifStatement;
+	private ArrayList<Statement> statements;
 	public StatementTest() throws CoreException {
 		MainTest mt = new MainTest();
 		this.iCompilationUnit = mt.AccessTestClass().getCompilationUnit("Statement_Test.java");
@@ -30,26 +30,11 @@ class StatementTest {
 	}
 	
 	@Test
-	void testGetEndLine() {
-		assertEquals(7, this.ifStatement.getEndLine());
-	}
-	
-	@Test
-	void testGetStartLine() {
-		assertEquals(5, this.ifStatement.getStartLine());
-	}
-	
-	@Test
-	void testGetComplexity() {
-		assertEquals(1, this.ifStatement.getComplexity());
-	}
-	
-	@Test
 	void testAddComplexity() {
 		this.ifStatement.addComplexity(2);
 		assertEquals(3, this.ifStatement.getComplexity());
 	}
-
+	
 	@Test
 	void testGetCompilationUnit() {
 		CompilationUnit cu = CAMValues.parse(this.iCompilationUnit);
@@ -60,9 +45,24 @@ class StatementTest {
 	}
 	
 	@Test
+	void testGetComplexity() {
+		assertEquals(1, this.ifStatement.getComplexity());
+	}
+	
+	@Test
+	void testGetEndLine() {
+		assertEquals(7, this.ifStatement.getEndLine());
+	}
+
+	@Test
 	void testGetNode() {
 		ArrayList<Statement> statement = CAMValues.generateStatementAST(this.iCompilationUnit);
 		assertEquals(statement.get(0).getNode().properties() ,ifStatement.getNode().properties());
+	}
+	
+	@Test
+	void testGetStartLine() {
+		assertEquals(5, this.ifStatement.getStartLine());
 	}
 	
 	@Test 
