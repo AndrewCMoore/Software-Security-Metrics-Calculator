@@ -25,13 +25,15 @@ class MethodVisitorTest {
 		
 		this.methods = new ArrayList<MethodDeclaration>();
 		
-		ICompilationUnit iCompilationUnit = mt.AccessTestClass().getCompilationUnit("");
+		ICompilationUnit iCompilationUnit = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 		this.cu = CAMValues.parse(iCompilationUnit);
 		mv = new MethodVisitor(cu);
 		
 		cu.accept(mv);
 		
 		ArrayList<ASTNode> nodes = mv.getNodes();
+		
+		System.out.println(nodes.size());
 		
 		for(Object o: nodes) {
 			if(o instanceof MethodDeclaration) {
@@ -45,37 +47,33 @@ class MethodVisitorTest {
 		// Create a new MethodVisitor
 		MethodVisitor testMV = new MethodVisitor(cu);
 		// Visit a MethodDeclaration node in MethodVisitor
-		testMV.visit(methods.get(0));
+		testMV.visit(methods.get(1));
 		// Ensure there is only one node in the MethodVisitor
 		assertEquals(1, testMV.getNodes().size());
-		// Ensure that the node is AttributeA
-		assertEquals(mv.getNodes().get(2), testMV.getNodes().get(0));	
-		
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testIsClassified() {
-		// Create a new MethodVisitor
-		MethodVisitor testMV = new MethodVisitor(cu);
-		// Assert a public method is false
-		assertEquals(false, "False Method");
-		// Assert a private method is true
-		assertEquals(true, "True Method");
-		
-		fail("Not yet implemented");
+		// Ensure that the node is MethodA()
+		assertEquals(mv.getNodes().get(1), testMV.getNodes().get(0));	
 	}
 
 	@Test
 	void testGetMethods() {
 		assertEquals("", mv.getMethods().toString());
-		fail("Not yet implemented");
+		fail("Test doesn't work as intended");
 	}
 
 	@Test
 	void testGetNodes() {
-		assertEquals("", mv.getNodes().toString());
-		fail("Not yet implemented");
+		assertEquals("[public Test_Class(){\n"
+				+ "  attributeA=\"00\";\n"
+				+ "}\n"
+				+ ", public void methodA(){\n"
+				+ "  attributeA=\"02\";\n"
+				+ "  InnerLevel il=new InnerLevel();\n"
+				+ "}\n"
+				+ ", public InnerLevel(){\n"
+				+ "  attributeB=\"01\";\n"
+				+ "}\n"
+				+ "]"
+				, mv.getNodes().toString());
 	}
 
 }

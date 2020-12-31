@@ -22,6 +22,7 @@ public class MethodVisitor extends ASTVisitor{
     }
 
     public boolean visit(MethodDeclaration node){  	
+    	nodes.add(node);
     	int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
 	 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
 	 	
@@ -50,7 +51,7 @@ public class MethodVisitor extends ASTVisitor{
     	return true;
     }*/
     
-    protected boolean isClassified(MethodDeclaration node) {
+    private boolean isClassified(MethodDeclaration node) {
     	for(Object modifier : node.modifiers()) {
     		if(modifier.toString().contains("private")) {
     			return true;
