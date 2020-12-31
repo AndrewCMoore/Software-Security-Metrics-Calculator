@@ -121,6 +121,10 @@ public class Attribute {
 	public void setModifier(String modifier) {
 		this.modifier = modifier;
 	}
+	
+	public void setUsage(int usage) {
+		this.usage = usage;
+	}
 
 	@Override
 	public String toString() {

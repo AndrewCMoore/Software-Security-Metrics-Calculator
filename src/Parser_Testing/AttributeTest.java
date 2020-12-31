@@ -36,7 +36,6 @@ class AttributeTest {
 	@Test
 	void testGetCompilationUnit() {
 		CompilationUnit cu = CAMValues.parse(this.iCompilationUnit);
-		System.out.println(cu.getFlags() +  " \n" + cu.getCommentList() + " \n" + cu.getLength() +  " \n"  + cu.getParent());
 		assertEquals(cu.getFlags(), attributeA.getCompilationUnit().getFlags());
 		assertEquals(cu.getCommentList(), attributeA.getCompilationUnit().getCommentList());
 		assertEquals(cu.getLength(), attributeA.getCompilationUnit().getLength());
@@ -116,6 +115,13 @@ class AttributeTest {
 		attributeA.setModifier("Private ");
 		assertEquals("Private ", attributeA.getModifier());
 		attributeA.setModifier("Public ");
+	}
+	
+	@Test
+	void testSetUsage() {
+		attributeA.setUsage(-1);
+		assertEquals(-1, attributeA.getUsage());
+		attributeA.setUsage(1);
 	}
 	
 	@Test

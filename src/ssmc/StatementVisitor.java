@@ -19,11 +19,13 @@ public class StatementVisitor extends ASTVisitor {
 
 	private CompilationUnit compilationUnit;
 	private ArrayList<Statement> statementList;
+	private ArrayList<ASTNode> nodes;
 	
 	public StatementVisitor(CompilationUnit compilationUnit) {
 		super();
 		this.statementList = new ArrayList<Statement>();
 		this.compilationUnit = compilationUnit;
+		this.nodes = new ArrayList<ASTNode>();
 	}
 	
 	public boolean visit(DoStatement node) {
@@ -144,7 +146,7 @@ public class StatementVisitor extends ASTVisitor {
 	            	itterateNode(node1);
 	            	
 	                String c = children.toString();
-	                //System.out.println(("Children Node: " + c + "\n"));
+	                System.out.println(("Children Node: " + c + "\n"));
 	                //getChildren1(node1);
 	            } 
 	            
@@ -157,6 +159,10 @@ public class StatementVisitor extends ASTVisitor {
 	
 	public ArrayList<Statement> getArrayList() {
 		return this.statementList;
+	}
+	
+	public ArrayList<ASTNode> getNodes(){
+		return this.nodes;
 	}
 }
 
