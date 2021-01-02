@@ -94,7 +94,7 @@ public class CAMValues {
 	
 	
 	
-	protected static CompilationUnit parse(ICompilationUnit unit) {
+	public static CompilationUnit parse(ICompilationUnit unit) {
 		ASTParser parser = ASTParser.newParser(AST.JLS14);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(unit);
@@ -141,7 +141,7 @@ public class CAMValues {
 	}
 	
 	
-	private static Class getBelonging(Method m,ArrayList<Class> classes) {
+	public static Class getBelonging(Method m,ArrayList<Class> classes) {
 		Class cl = null;
 		int min=Integer.MAX_VALUE;
 		for(Class c:classes) {

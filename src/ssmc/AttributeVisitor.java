@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IVariableBinding;
@@ -16,15 +17,18 @@ public class AttributeVisitor extends ASTVisitor{
 	private CompilationUnit compliationUnit;
 	private Set<String> names;
 	private ArrayList<Attribute> attributes;
+	private ArrayList<ASTNode> nodes;
 	
 	public AttributeVisitor(CompilationUnit compilationUnit) {
 		super();
 		this.compliationUnit = compilationUnit;
 		names = new HashSet<String>();
 		attributes = new ArrayList<Attribute>();
+		nodes = new ArrayList<ASTNode>();
 	}
 	
 	public boolean visit(VariableDeclarationFragment node) {
+		nodes.add(node);
 		SimpleName name = node.getName();											// Get the String ID of the node (variable)
 		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
 		IVariableBinding type = node.resolveBinding(); 								// Get the variable type
@@ -38,6 +42,7 @@ public class AttributeVisitor extends ASTVisitor{
 	}
 	
 	public boolean visit(SimpleName node) {
+		this.nodes.add(node);
 		if (this.names.contains(node.getIdentifier())) {
 			for(int i = 0; i < this.attributes.size(); i++) {
 				Attribute attribute = this.attributes.get(i);
@@ -56,18 +61,8 @@ public class AttributeVisitor extends ASTVisitor{
 		return this.attributes;
 	}
 	
-	public String toString() {
-		String s = "";
-		for(int i = 0; i < this.attributes.size(); i++) {
-			s += this.attributes.get(i).toString() + "\n\n";
-		}
-		return s;
+	public ArrayList<ASTNode> getNodes(){
+		return this.nodes;
 	}
-	
-	public ArrayList<Attribute> getAttributes(){
-		return attributes;
-	}
-	
-	
 	
 }

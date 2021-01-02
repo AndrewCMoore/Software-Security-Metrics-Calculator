@@ -15,7 +15,7 @@ public class Statement {
 		this.compilationUnit = compilationUnit; 
 		this.complexityValue = 0;
 		this.startLine = this.compilationUnit.getLineNumber(node.getStartPosition());
-		this.endLine = this.compilationUnit.getColumnNumber(node.getStartPosition() + node.getLength() - 1);
+		this.endLine = this.compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
 	}
 	
 	public void addComplexity(int value) {
@@ -36,4 +36,11 @@ public class Statement {
 	public int getEndLine() {
 		return this.endLine;
 	}
+
+	@Override
+	public String toString() {
+		return "Statement [nodeType=" + nodeType + ", compilationUnit=" + compilationUnit + ", complexityValue="
+				+ complexityValue + ", startLine=" + startLine + ", endLine=" + endLine + "]";
+	}
+	
 }

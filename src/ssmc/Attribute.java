@@ -3,16 +3,16 @@ package ssmc;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Attribute {
+	private CompilationUnit compilationUnit;
+	private boolean finalized;
 	private String Identifier;
+	private int lineNum;
+	private int links;
 	private String modifier;
 	private int usage;
-	private boolean finalized;
-	private CompilationUnit originFile;
-	private int links;
-	private int lineNum;
-	
-	public Attribute(String identifier, CompilationUnit orginFile) {
-		this.originFile = orginFile;
+
+	public Attribute(String identifier, CompilationUnit compilationUnit) {
+		this.compilationUnit = compilationUnit;
 		this.Identifier = identifier;
 		this.modifier = "";
 		this.usage = 0;
@@ -20,99 +20,117 @@ public class Attribute {
 		this.links = 0;
 		this.lineNum = 0;
 	}
-	
+
 	public void addUsage() {
-		this.usage = this.usage + 1;
+		this.usage += 1;
 	}
-	
-	
+
+	public CompilationUnit getCompilationUnit() {
+		return compilationUnit;
+	}
+
 	public String getIdentifier() {
-		return this.Identifier;
+		return Identifier;
 	}
-	
-	public int getUsage() {
-		return this.usage;
-	}
+
 	public int getLineNum() {
-		return this.lineNum;
+		return lineNum;
 	}
-	public void setFinalized(boolean b) {
-		this.finalized = b;
+
+	public int getLinks() {
+		return links;
 	}
-	
-	public void setLineNum(int line) {
-		this.lineNum = line;
+
+	public String getModifier() {
+		return modifier;
 	}
+
+	public int getUsage() {
+		return usage;
+	}
+
+	public boolean isFinalized() {
+		return finalized;
+	}
+
+	public void setFinalized(boolean finalized) {
+		this.finalized = finalized;
+	}
+
+	public void setIdentifier(String identifier) {
+		Identifier = identifier;
+	}
+
+	public void setLineNum(int lineNum) {
+		this.lineNum = lineNum;
+	}
+
+	public void setLinks(int links) {
+		this.links = links;
+	}
+
 	/**
-	 * The modifiers set values important to this project are:
-	 * Public: 1
-	 * Private: 2
-	 * Protected: 4
-	 * Static: 8
-	 * Final: 16
-	 * Synchronized: 32
+	 * The modifiers set values important to this project are: Public: 1 Private: 2
+	 * Protected: 4 Static: 8 Final: 16 Synchronized: 32
 	 * 
-	 * This method will calculate the log_2() of the input function
-	 * this will then be subtracted from the value until all 
-	 * parameters are set
-	 * @param the attribute value to be set
+	 * This method will calculate the log_2() of the input function this will then
+	 * be subtracted from the value until all parameters are set
+	 * 
+	 * @param the      attribute value to be set
 	 * @param modifier input value from the getModifiers() method
-	 * @return 
+	 * @return
 	 */
 	public void setModifier(int modifier) {
 		int value = modifier;
-		// Case Statement for setting Attribute a's Modifier and Finalized variables 
-		while(value > 0) {
+
+		this.modifier = "";
+		// Case Statement for setting Attribute a's Modifier and Finalized variables
+		while (value > 0) {
 			// Finds the highest base 2 value, that is the modifier
-			int result = (int)(Math.log(value)/ Math.log(2));
-			switch(result) {
-				case(0):
-					this.modifier += "Public ";
-					break;
-				case(1):
-					this.modifier += "Private ";
-					break;
-				case(2):
-					this.modifier += "Protected ";
-					break;
-				case(3):
-					this.modifier += "Static ";
-					break;
-				case(4):
-					this.setFinalized(true);
-					break;
-				case(5):
-					this.modifier += "Synchronized ";
-					break;
-				default:
-					break;
+			int result = (int) (Math.log(value) / Math.log(2));
+			switch (result) {
+			case (0):
+				this.modifier += "Public ";
+				break;
+			case (1):
+				this.modifier += "Private ";
+				break;
+			case (2):
+				this.modifier += "Protected ";
+				break;
+			case (3):
+				this.modifier += "Static ";
+				break;
+			case (4):
+				this.setFinalized(true);
+				break;
+			case (6):
+				this.modifier += "Volatile ";
+				break;
+			case (7):
+				this.modifier += "Transient ";
+				break;
+			default:
+				break;
 			}
 			// Subtract the value from the value and repeat:
 			value = (int) (value - Math.pow(2d, result));
 		}
 	}
-	
-	
-	
-	public String toString() {
-		String s = new String();
-		s += "Identifier: " + this.Identifier + "\n";
-		s += "Modifiers: " + this.modifier + "\n";
-		s += "Line num: "  + this.lineNum + "\n";
-		/*
-		for(int i = 0; i < this.modifier.length; i++) {
-			s += "" + this.modifier[i] + "\n";
-		}*/
-		
-		s += "Usage: " + usage + "\n";
-		s += "Finalized: ";
-		
-		if(this.finalized) {
-			s += " Final\n";
-		} else {
-			s += " N/A\n";
-		}
-					
-		return s;
+
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
 	}
+	
+	public void setUsage(int usage) {
+		this.usage = usage;
+	}
+
+	@Override
+	public String toString() {
+		return "Attribute [Identifier=" + Identifier + ", modifier=" + modifier + ", usage=" + usage + ", finalized="
+				+ finalized + ", compilationUnit=" + compilationUnit + ", links=" + links + ", lineNum=" + lineNum
+				+ "]";
+	}
+
 }
