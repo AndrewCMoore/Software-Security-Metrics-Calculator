@@ -11,6 +11,7 @@ import ssmc.Class;
 import ssmc.Method;
 import ssmc.Attribute;
 import ssmc.CAMValues;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClassTest {
 
@@ -22,7 +23,7 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
-			assert (classes.size() == 2);
+			assertEquals(classes.size() , 2);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +40,7 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Method> methods = CAMValues.generateMethodAST(cu);
-			assert (methods.size() == 2);
+			assertEquals (methods.size() , 2);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,10 +56,10 @@ public class ClassTest {
 		try {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
-			ArrayList<Method> classes = CAMValues.generateMethodAST(cu);
-			assert (classes.size() == 2);
-			assert (classes.get(0).getIdentifier().equals("Test_Class"));
-			assert (classes.get(0).getIdentifier().equals("InnerLevel"));
+			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
+			assertEquals (classes.size() , 2);
+			assertEquals (classes.get(0).getIdentifier(),"Test_Class");
+			assertEquals (classes.get(1).getIdentifier(),"InnerLevel");
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,8 +76,8 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Singleton.java");
 			ArrayList<Method> classes = CAMValues.generateMethodAST(cu);
-			assert (classes.size() == 1);
-			assert (classes.get(0).getIdentifier().equals("Singleton"));
+			assertEquals (classes.size() , 1);
+			assertEquals (classes.get(0).getIdentifier(),"Singleton");
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,11 +94,11 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Many_Classes.java");
 			ArrayList<Method> classes = CAMValues.generateMethodAST(cu);
-			assert (classes.size() == 4);
-			assert (classes.get(0).getIdentifier().equals("Mainy_Classes"));
-			assert (classes.get(1).getIdentifier().equals("Inside"));
-			assert (classes.get(2).getIdentifier().equals("twoClasses"));
-			assert (classes.get(3).getIdentifier().equals("threeClasses"));
+			assertEquals (classes.size() , 4);
+			assertEquals (classes.get(0).getIdentifier(),"Mainy_Classes");
+			assertEquals (classes.get(1).getIdentifier(),"Inside");
+			assertEquals (classes.get(2).getIdentifier(),"twoClasses");
+			assertEquals (classes.get(3).getIdentifier(),"threeClasses");
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,7 +117,7 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Singleton.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			ArrayList<Method> methods = CAMValues.generateMethodAST(cu);
-			assert (CAMValues.getBelonging(methods.get(0), classes) == classes.get(0));
+			assertEquals (CAMValues.getBelonging(methods.get(0), classes),classes.get(0));
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,7 +136,7 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			ArrayList<Method> methods = CAMValues.generateMethodAST(cu);
-			assert (CAMValues.getBelonging(methods.get(1), classes) == classes.get(1));
+			assertEquals (CAMValues.getBelonging(methods.get(1), classes), classes.get(1));
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,9 +154,9 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Many_Classes.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			ArrayList<Method> methods = CAMValues.generateMethodAST(cu);
-			assert(classes.size()==4);
-			assert(methods.size()==1);
-			assert (CAMValues.getBelonging(methods.get(0), classes) == classes.get(3));
+			assertEquals(classes.size(),4);
+			assertEquals(methods.size(),1);
+			assertEquals (CAMValues.getBelonging(methods.get(0), classes) , classes.get(3));
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,7 +173,7 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
-			assert (classes.get(0).getModifier().equals("public"));
+			assertEquals (classes.get(0).getModifier(),"public");
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -190,7 +191,9 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			String modifiers =classes.get(1).getModifier();
-			assert (modifiers.contains("private")&&modifiers.contains("final")&&modifiers.contains("static"));
+			assertEquals (modifiers.contains("private"),true );
+			assertEquals(modifiers.contains("final"),true);
+			assertEquals(modifiers.contains("static"),true);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -206,7 +209,7 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			String modifiers =classes.get(1).getModifier();
-			assert (modifiers.split(" ").length==3);
+			assertEquals (modifiers.split(" ").length,3);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -223,7 +226,7 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			
-			assert(classes.get(0).getStartLine()==2);
+			assertEquals(classes.get(0).getStartLine(),2);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -240,7 +243,7 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			
-			assert(classes.get(0).getEndLine()==22);
+			assertEquals(classes.get(0).getEndLine(),22);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -253,7 +256,7 @@ public class ClassTest {
 		Class c = new Class(null,null);
 		Method m = new Method(null,null);
 		c.addMethod(m);
-		assert(c.getMethods().get(0)==m);
+		assertEquals(c.getMethods().get(0),m);
 	}
 	@Test
 	public void tesAddMethod2() {
@@ -263,9 +266,9 @@ public class ClassTest {
 		Method m2 = new Method("Method 2",null);
 		c.addMethod(m);
 		c.addMethod(m2);
-		assert(c.getMethods().size()==2);
-		assert(c.getMethods().get(0)==m);
-		assert(c.getMethods().get(1)==m2);
+		assertEquals(c.getMethods().size(),2);
+		assertEquals(c.getMethods().get(0),m);
+		assertEquals(c.getMethods().get(1),m2);
 	}
 	@Test
 	public void tesAddMethod3() {
@@ -276,9 +279,9 @@ public class ClassTest {
 			methods.add(m);
 			c.addMethod(m);
 		}
-		assert(c.getMethods().size()==15);
+		assertEquals(c.getMethods().size(),15);
 		for(int i=0;i<15;i++) {
-			assert(c.getMethods().get(i)==methods.get(i));
+			assertEquals(c.getMethods().get(i),methods.get(i));
 		}
 	}
 	@Test
@@ -287,7 +290,7 @@ public class ClassTest {
 		Class c = new Class(null,null);
 		Attribute a = new Attribute(null,null);
 		c.addAttribute(a);
-		assert(c.getAttributes().get(0)==a);
+		assertEquals(c.getAttributes().get(0),a);
 	}
 	@Test
 	public void tesAddAttribute2() {
@@ -297,9 +300,9 @@ public class ClassTest {
 		Attribute a2 = new Attribute("Attribute 2",null);
 		c.addAttribute(a);
 		c.addAttribute(a2);
-		assert(c.getAttributes().size()==2);
-		assert(c.getAttributes().get(0)==a);
-		assert(c.getAttributes().get(1)==a2);
+		assertEquals(c.getAttributes().size(),2);
+		assertEquals(c.getAttributes().get(0),a);
+		assertEquals(c.getAttributes().get(1),a2);
 	}
 	@Test
 	public void tesAddAttribute3() {
@@ -310,9 +313,9 @@ public class ClassTest {
 			Attributes.add(a);
 			c.addAttribute(a);
 		}
-		assert(c.getMethods().size()==15);
+		assertEquals(c.getMethods().size(),15);
 		for(int i=0;i<15;i++) {
-			assert(c.getAttributes().get(i)==Attributes.get(i));
+			assertEquals(c.getAttributes().get(i),Attributes.get(i));
 		}
 	}
 
