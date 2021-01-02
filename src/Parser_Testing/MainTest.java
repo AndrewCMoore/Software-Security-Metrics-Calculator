@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -39,4 +40,16 @@ public class MainTest {
 		}
 		return null;
 	}
+	public ICompilationUnit getUnitByName(IPackageFragment f,String s) throws JavaModelException {
+		ICompilationUnit[] units = f.getCompilationUnits();
+		for(ICompilationUnit unit:units) {
+			System.out.println(unit.getElementName());
+			if(unit.getElementName().equals(s)) {
+				return unit;
+			}
+		}
+		return null;
+		
+	}
+	
 }

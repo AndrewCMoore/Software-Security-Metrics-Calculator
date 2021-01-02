@@ -14,21 +14,27 @@ class Attribute_TestsTest {
 	private ArrayList<Attribute> attributes;
 	public Attribute_TestsTest() throws CoreException{
 		MainTest mt = new MainTest();
-		ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Attribute_Test.java");
+		ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
+		//ICompilationUnit cu = mt.getUnitByName(mt.AccessTestClass(),"Test_Class");
 		// Now we can run CAM values
+		System.out.println(cu);
 		attributes = CAMValues.generateAttributeAST(cu);
-		
+		System.out.println();
 	}
 	
 	
 	@Test
 	void testName() {
-		assertEquals("AttributeA", attributes.get(0).getIdentifier());
+		if(attributes.size()>0) {
+			assertEquals("attributeA", attributes.get(0).getIdentifier());
+		}else {
+			fail();
+		}
 	}
 	
 	@Test
 	void testModifier() {
-		assertEquals("Public ", attributes.get(0).getModifier());
+		assertEquals("Static ", attributes.get(0).getModifier());
 	}
 
 	

@@ -82,7 +82,12 @@ public class Class {
 	public void addAttribute(Attribute attribute) {
 		attributes.add(attribute);
 	}
-
+	public ArrayList<Method> getMethods(){
+		return methods;
+	}
+	public ArrayList<Attribute> getAttributes(){
+		return attributes;
+	}
 	public int getStartLine() {
 		// TODO Auto-generated method stub
 		return startLine;
