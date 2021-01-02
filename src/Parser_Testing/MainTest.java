@@ -49,4 +49,16 @@ public class MainTest {
 		}
 		return IPF;
 	}
+	public ICompilationUnit getUnitByName(IPackageFragment f,String s) throws JavaModelException {
+		ICompilationUnit[] units = f.getCompilationUnits();
+		for(ICompilationUnit unit:units) {
+			System.out.println(unit.getElementName());
+			if(unit.getElementName().equals(s)) {
+				return unit;
+			}
+		}
+		return null;
+		
+	}
+	
 }

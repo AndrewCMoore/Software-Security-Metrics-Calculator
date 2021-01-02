@@ -141,7 +141,7 @@ public class CAMValues {
 	}
 	
 	
-	private static Class getBelonging(Method m,ArrayList<Class> classes) {
+	public static Class getBelonging(Method m,ArrayList<Class> classes) {
 		Class cl = null;
 		int min=Integer.MAX_VALUE;
 		for(Class c:classes) {
