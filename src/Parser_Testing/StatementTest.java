@@ -51,7 +51,7 @@ class StatementTest {
 	
 	@Test
 	void testGetEndLine() {
-		assertEquals(7, this.ifStatement.getEndLine());
+		assertEquals(10, this.ifStatement.getEndLine());
 	}
 
 	@Test
