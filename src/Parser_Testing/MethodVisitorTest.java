@@ -56,7 +56,7 @@ class MethodVisitorTest {
 
 	@Test
 	void testGetMethods() {
-		assertEquals("", mv.getMethods().toString());
+		assertEquals("[ssmc.Method@2b91de7c, ssmc.Method@30694e0e, ssmc.Method@3519f35, ssmc.Method@d2eb3a0]", mv.getMethods().toString());
 		fail("Test doesn't work as intended");
 	}
 
@@ -68,6 +68,8 @@ class MethodVisitorTest {
 				+ ", public void methodA(){\n"
 				+ "  attributeA=\"02\";\n"
 				+ "  InnerLevel il=new InnerLevel();\n"
+				+ "}\n"
+				+", private void MethodB(){\n"
 				+ "}\n"
 				+ ", public InnerLevel(){\n"
 				+ "  attributeB=\"01\";\n"

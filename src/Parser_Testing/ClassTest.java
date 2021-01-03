@@ -40,7 +40,7 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Method> methods = CAMValues.generateMethodAST(cu);
-			assertEquals (methods.size() , 2);
+			assertEquals (methods.size() , 4);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,8 +75,8 @@ public class ClassTest {
 		try {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Singleton.java");
-			ArrayList<Method> classes = CAMValues.generateMethodAST(cu);
-			assertEquals (classes.size() , 1);
+			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
+			assertEquals ( 1,classes.size() );
 			assertEquals (classes.get(0).getIdentifier(),"Singleton");
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
@@ -93,9 +93,9 @@ public class ClassTest {
 		try {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Many_Classes.java");
-			ArrayList<Method> classes = CAMValues.generateMethodAST(cu);
+			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			assertEquals (classes.size() , 4);
-			assertEquals (classes.get(0).getIdentifier(),"Mainy_Classes");
+			assertEquals (classes.get(0).getIdentifier(),"Many_Classes");
 			assertEquals (classes.get(1).getIdentifier(),"Inside");
 			assertEquals (classes.get(2).getIdentifier(),"twoClasses");
 			assertEquals (classes.get(3).getIdentifier(),"threeClasses");
@@ -136,7 +136,7 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			ArrayList<Method> methods = CAMValues.generateMethodAST(cu);
-			assertEquals (CAMValues.getBelonging(methods.get(1), classes), classes.get(1));
+			assertEquals (CAMValues.getBelonging(methods.get(1), classes), classes.get(0));
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -154,9 +154,9 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Many_Classes.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			ArrayList<Method> methods = CAMValues.generateMethodAST(cu);
-			assertEquals(classes.size(),4);
-			assertEquals(methods.size(),1);
-			assertEquals (CAMValues.getBelonging(methods.get(0), classes) , classes.get(3));
+			assertEquals(4,classes.size());
+			assertEquals(5,methods.size());
+			assertEquals (CAMValues.getBelonging(methods.get(4), classes) , classes.get(3));
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -173,7 +173,7 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
-			assertEquals (classes.get(0).getModifier(),"public");
+			assertEquals ("public",classes.get(0).getModifier().split(" ")[0]);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -208,8 +208,8 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
-			String modifiers =classes.get(1).getModifier();
-			assertEquals (modifiers.split(" ").length,3);
+			String modifiers = classes.get(1).getModifier();
+			assertEquals (3,modifiers.split(" ").length);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -243,7 +243,7 @@ public class ClassTest {
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
 			
-			assertEquals(classes.get(0).getEndLine(),22);
+			assertEquals(24,classes.get(0).getEndLine());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -313,7 +313,7 @@ public class ClassTest {
 			Attributes.add(a);
 			c.addAttribute(a);
 		}
-		assertEquals(c.getMethods().size(),15);
+		assertEquals(c.getAttributes().size(),15);
 		for(int i=0;i<15;i++) {
 			assertEquals(c.getAttributes().get(i),Attributes.get(i));
 		}

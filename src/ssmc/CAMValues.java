@@ -44,6 +44,11 @@ public class CAMValues {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		MethodVisitor mv = new MethodVisitor(cu);
 		cu.accept(mv);
+		System.out.println("\n======================================");
+		for(Method m :mv.getMethods()) {
+			System.out.println(m.getIdentifier());
+		}
+		System.out.println("======================================\n");
 		return mv.getMethods();
 	}
 	
@@ -218,40 +223,40 @@ public class CAMValues {
 	public static String getModifier(int modifiers) {
 		String modify = "";
 		if( (modifiers & 1)!=0) {
-			modify+=" public";
+			modify+="public ";
 		}
 		if( (modifiers & 2)!=0) {
-			modify+=" private";
+			modify+="private ";
 		}
 		if( (modifiers & 4)!=0) {
-			modify+=" protected";
+			modify+="protected ";
 		}
 		if( (modifiers & 8)!=0) {
-			modify+=" static";
+			modify+="static ";
 		}
 		if( (modifiers & 16)!=0) {
-			modify+=" final";
+			modify+="final ";
 		}
 		if( (modifiers & 32)!=0) {
-			modify+=" synchronized";
+			modify+="synchronized ";
 		}
 		if( (modifiers & 64)!=0) {
-			modify+=" volatile";
+			modify+="volatile ";
 		}
 		if( (modifiers & 128)!=0) {
-			modify+=" transient";
+			modify+="transient ";
 		}
 		if( (modifiers & 256)!=0) {
-			modify+=" native";
+			modify+="native ";
 		}
 		if( (modifiers & 512)!=0) {
-			modify+=" ";
+			modify+="";
 		}
 		if( (modifiers & 1024)!=0) {
-			modify+=" abstract";
+			modify+="abstract ";
 		}
 		if( (modifiers & 2048)!=0) {
-			modify+=" strictfp";
+			modify+="strictfp ";
 		}
 		return modify;
 	}

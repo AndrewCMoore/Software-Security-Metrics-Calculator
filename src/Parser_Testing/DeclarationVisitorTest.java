@@ -69,6 +69,8 @@ class DeclarationVisitorTest {
 				+ "    attributeA=\"02\";\n"
 				+ "    InnerLevel il=new InnerLevel();\n"
 				+ "  }\n"
+				+ "  private void MethodB(){\n"
+				+ "  }\n"
 				+ "private final static class InnerLevel {\n"
 				+ "    String attributeB;\n"
 				+ "    public InnerLevel(){\n"
