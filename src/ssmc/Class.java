@@ -50,6 +50,7 @@ public class Class {
 	public CompilationUnit getCompilationUnit() {
 		return this.originFile;
 	}
+	
 	/**
 	public Method[] getMethods() {
 		return this.methods;

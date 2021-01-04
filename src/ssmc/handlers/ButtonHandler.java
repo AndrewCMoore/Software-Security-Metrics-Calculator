@@ -1,6 +1,10 @@
 package ssmc.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
+import Calculator.AttributeMetrics;
+import Calculator.Calculator;
+import ssmc.Attribute;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
@@ -69,7 +73,10 @@ public class ButtonHandler extends AbstractHandler {
 			IJavaProject javaProject = JavaCore.create(project);
 			String kind = project.getClass().getName();
 			JDTree myTree = new JDTree(javaProject, null);
+			Calculator calc = new Calculator(myTree);
+			calc.calculate();;
 		}
+		
 		// The JDTree class takes over from here
 
 		/*
