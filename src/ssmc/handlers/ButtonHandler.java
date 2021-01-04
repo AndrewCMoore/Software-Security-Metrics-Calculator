@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import Calculator.Attributes;
 import tree.JDTree;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
