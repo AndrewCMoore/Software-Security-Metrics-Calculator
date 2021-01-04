@@ -129,7 +129,7 @@ public class Attribute {
 	@Override
 	public String toString() {
 		return "Attribute [Identifier=" + Identifier + ", modifier=" + modifier + ", usage=" + usage + ", finalized="
-				+ finalized + ", compilationUnit=" + compilationUnit + ", links=" + links + ", lineNum=" + lineNum
+				+ finalized + ", compilationUnit=" + ", links=" + links + ", lineNum=" + lineNum
 				+ "]";
 	}
 
