@@ -18,6 +18,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import Calculator.Attributes;
 import tree.JDTree;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -69,6 +70,8 @@ public class ButtonHandler extends AbstractHandler {
 			IJavaProject javaProject = JavaCore.create(project);
 			String kind = project.getClass().getName();
 			JDTree myTree = new JDTree(javaProject, null);
+			Attributes a = new Attributes();
+			a.numPublicInstanceAttributes(myTree);
 		}
 		// The JDTree class takes over from here
 

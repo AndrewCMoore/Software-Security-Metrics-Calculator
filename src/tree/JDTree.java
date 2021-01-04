@@ -26,11 +26,19 @@ public class JDTree {
 		String kind = node.getClass().getName();
 		if (kind.equals("org.eclipse.jdt.internal.core.JavaProject")) {
 			IJavaProject project = (IJavaProject) node;
-			type = NodeType.PACKAGE;
+			type = NodeType.PROJECT;
 			IPackageFragment[] packages = project.getPackageFragments();
-			children = new JDTree[packages.length];
+			
+			ArrayList<JDTree> aChildren = new ArrayList<JDTree>();
 			for (int i = 0; i < packages.length; i++) {
-				children[i] = new JDTree(packages[i], this);
+				String childKind = packages[i].getClass().getName();
+				if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+					 aChildren.add(new JDTree(packages[i], this));
+				}
+			}
+			children = new JDTree[aChildren.size()];
+			for(int j=0; j<aChildren.size(); j++) {
+				children[j] = aChildren.get(j);
 			}
 		}
 		if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
@@ -52,18 +60,19 @@ public class JDTree {
 				for (int i = 0; i < classes.length; i++) {
 					children[i] = new JDTree(classes[i], this);
 					System.out.println("the Class is "+classes[i].getIdentifier());
+					
 				}
 			}
 		}
-		if (kind.equals("Class")) {
+		if (kind.equals("ssmc.Class")) {
 			type = NodeType.CLASS;
-
+			
 		}
 
 	}
 
 	public JDTree[] getLeefs() {
-		if (type == NodeType.CLASS) {
+		if (type == NodeType.COMPILATIONUNIT) {
 			return children;
 		} else {
 			ArrayList<JDTree> leefs = new ArrayList<JDTree>();
