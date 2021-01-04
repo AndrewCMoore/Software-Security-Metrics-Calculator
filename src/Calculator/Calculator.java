@@ -6,8 +6,8 @@ public class Calculator {
 	
 	private JDTree tree;
 	
-	public Calculator(JDTree myTree) {
-		// TODO Auto-generated constructor stub
+	public Calculator(JDTree tree) {
+		this.tree = tree;
 	}
 
 	public void calculate() {
