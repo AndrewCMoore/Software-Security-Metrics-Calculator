@@ -11,22 +11,25 @@ public class AttributeMetrics {
 	
 	
 	
-	public int numPublicInstanceAttributes(JDTree myTree) {
-		JDTree[] classes = myTree.getLeefs(); //returns JDTree array containing all classes
-		Object o = classes[0].getNode();
+	protected int numPublicInstanceAttributes(JDTree tree) {
+		JDTree[] classes = tree.getLeefs(); //returns JDTree array containing all classes
 		int count = 0;
-		if(o instanceof Class) {
-			Class c = (Class) o;
-			ArrayList<Attribute> a = c.getAttributes();
-			for(Attribute attribute : a) {
-				if(attribute.getModifier() == "Public ") {
-					count++;
+		
+		//iterate over each class node
+		for(int i = 0; i < classes.length; i++) {
+			Object o = classes[i].getNode(); 									//get the node as an object
+			if(o instanceof Class) { 											//make sure that the node is actually a class
+				Class classNode = (Class) o; 									//cast object to type class
+				ArrayList<Attribute> attributeList = classNode.getAttributes(); //get arraylist of attributes for current class
+				for(Attribute attribute : attributeList) { 						//iterate over attributes
+					if(attribute.getModifier() == "Public ") { 					//check if public
+						count++; 												//update count
+					}
 				}
 			}
-			System.out.println(count);
 		}
+		System.out.println(count);
 		return count;
 	}
-	
 	
 }
