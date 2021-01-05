@@ -28,6 +28,18 @@ public class Class {
 		
 	}
 	
+	// I kind of need a way to differentiate between attributes declared at the class level and 
+	// attributes declared within a method and im not sure if that is possible
+	public boolean isAttributeInMethod(Attribute a) {
+		int attributeLineNum = a.getLineNum();
+		for(Method m : methods) {
+			if(a.getLineNum() > m.getEndLine() && a.getLineNum() < m.getStartLine()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	// Method that finds the starting line and ending line of the class
 	// Use AttributeVisitor, MethodVisitor, and StatemenetVisitor to find all values within those lines
     // Return the Methods, Attributes, complexity
