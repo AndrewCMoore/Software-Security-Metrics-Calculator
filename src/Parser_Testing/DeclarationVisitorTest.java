@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.jupiter.api.Test;
 
 import ssmc.CAMValues;
+import ssmc.Class;
 import ssmc.DeclarationVisitor;
 
 class DeclarationVisitorTest {
@@ -53,9 +55,7 @@ class DeclarationVisitorTest {
 
 	@Test
 	void testGetClasses() {
-		// The classes won't return normally.
-		assertEquals("", dv.getClasses());
-		fail("Test doesn't work as intended");	
+		assertEquals("[Test_Class, InnerLevel]", dv.getClasses().toString());
 	}
 
 	@Test

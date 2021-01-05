@@ -160,27 +160,8 @@ public class Method {
 	public void addStatement(Statement statement) {
 		this.statements.add(statement);
 	}
-/**	
 	public String toString() {
-		String s = new String();
-		s += "Identifier: " + this.Identifier + "\n";
-		s += "Modifiers: " + this.modifier + "\n";
-		/*
-		for(int i = 0; i < this.modifier.length; i++) {
-			s += "" + this.modifier[i] + "\n";
-		}*/
-/**		
-		s += "Usage: " + usage + "\n";
-		s += "Finalized: ";
-		
-		if(this.finalized) {
-			s += " Final\n";
-		} else {
-			s += " N/A\n";
-		}
-					
-		return s;
-		}
-		**/
+		return this.identifier;
+	}
 	
 }

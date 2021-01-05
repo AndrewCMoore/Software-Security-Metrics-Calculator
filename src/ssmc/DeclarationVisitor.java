@@ -39,7 +39,7 @@ public class DeclarationVisitor extends ASTVisitor {
 		c.setModifier(modify);
 		
 		classes.add(c);
-		System.out.print(classes.toString());
+		System.out.print(c.toString());
 		return true;
     }
 
@@ -52,6 +52,9 @@ public class DeclarationVisitor extends ASTVisitor {
 		c.setEndLine(endLineNum);
 		c.setModifier(CAMValues.getModifier(node.getModifiers()));
 		c.setEnum(true);
+		
+		classes.add(c);
+		
 		return true;
 	}
 	public ArrayList<Class> getClasses(){

@@ -130,6 +130,9 @@ public class Class {
 		return endLine;
 	}
 	
+	public String toString() {
+		return this.Identifier;
+	}
 	
 }
 
