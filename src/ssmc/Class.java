@@ -13,6 +13,7 @@ public class Class {
 	private int endLine;
 	private boolean serialized;
 	private boolean critical;
+	private boolean Enum;
 	private CompilationUnit originFile;
 	private ArrayList<Method> methods;
 	private ArrayList<Attribute> attributes;
@@ -22,7 +23,7 @@ public class Class {
 		this.originFile = originFile;
 		this.serialized = false;
 		this.critical = false;
-		
+		this.Enum = false;
 		 methods = new ArrayList<Method>();
 		 attributes = new ArrayList<Attribute>();
 		
@@ -52,6 +53,18 @@ public class Class {
 	}
 	public String getModifier() {
 		return this.modifier;
+	}
+	public void isEnum() {
+		if(this.Enum) {
+			for(Attribute a : attributes) {
+				if(a.getLineNum() < this.getEndLine() && a.getLineNum() > this.getStartLine()) {
+					a.setModifier("Public Static Final ");
+				}
+			}
+		}
+	}
+	public void setEnum(boolean b) {
+		this.Enum = b;
 	}
 	public boolean isSerialized() {
 		return this.serialized;
