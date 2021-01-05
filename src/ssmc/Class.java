@@ -34,7 +34,7 @@ public class Class {
 	public boolean isAttributeInMethod(Attribute a) {
 		int attributeLineNum = a.getLineNum();
 		for(Method m : methods) {
-			if(a.getLineNum() > m.getEndLine() && a.getLineNum() < m.getStartLine()) {
+			if(a.getLineNum() < m.getEndLine() && a.getLineNum() > m.getStartLine()) {
 				return true;
 			}
 		}
@@ -55,9 +55,15 @@ public class Class {
 		return this.modifier;
 	}
 	public void isEnum() {
+		System.out.println("We in this method1");
 		if(this.Enum) {
+			System.out.println("We in this method2");
 			for(Attribute a : attributes) {
+				System.out.println("We in this method3");
 				if(a.getLineNum() < this.getEndLine() && a.getLineNum() > this.getStartLine()) {
+					System.out.println("===========================================================");
+					System.out.println("We in this method");
+					System.out.println("===========================================================");
 					a.setModifier("Public Static Final ");
 				}
 			}

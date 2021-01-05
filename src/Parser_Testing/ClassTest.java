@@ -318,5 +318,46 @@ public class ClassTest {
 			assertEquals(c.getAttributes().get(i),Attributes.get(i));
 		}
 	}
+	
+	@Test 
+	public void testIsAttributeInMethod() {
+		Class c = new Class(null, null);
+		Method m = new Method(null, null);
+		Attribute a = new Attribute("Attribute 1", null);
+		Attribute a1 = new Attribute("Attribute 2", null);
+		m.setStartLine(0);
+		m.setEndLine(2);
+		a.setLineNum(1);
+		a1.setLineNum(3);
+		
+		c.addMethod(m);
+		c.addAttribute(a);
+		c.addAttribute(a1);
+		
+		assertEquals(c.isAttributeInMethod(a), true);
+		assertEquals(c.isAttributeInMethod(a1), false);
+	}
+	
+	@Test 
+	public void testIsEnum() {
+		Class c = new Class(null, null);
+		Attribute a = new Attribute("Attribute 1", null);
+		Attribute a1 = new Attribute("Attribute 2", null);
+		
+		c.setEnum(true);
+		
+		c.setStartLine(0);
+		c.setEndLine(2);
+		a.setLineNum(1);
+		a1.setLineNum(4);
+		
+		c.addAttribute(a);
+		c.addAttribute(a1);
+		c.isEnum();
+		
+		assertEquals(a.getModifier(), "Public Static Final ");
+		assertEquals(a1.getModifier(), "");
+		
+	}
 
 }

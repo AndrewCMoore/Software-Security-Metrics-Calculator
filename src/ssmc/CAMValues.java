@@ -131,17 +131,17 @@ public class CAMValues {
 			Class c = getBelonging(a, classes);
 			if(c != null) {
 				c.addAttribute(a);
-				System.out.println("The usage of attribute " + a.getIdentifier() + "defined on line " + a.getLineNum() + "is: " + a.getUsage());
+				//System.out.println("The usage of attribute " + a.getIdentifier() + "defined on line " + a.getLineNum() + "is: " + a.getUsage());
 			}
 		}
-		
 		
 		
 		Class[] classList = new Class[classes.size()];
 		for(int i =0;i<classes.size();i++) {
 			classList[i]=classes.get(i);
+			classList[i].isEnum();
 		}
-		
+			
 		return classList;
 	}
 	
