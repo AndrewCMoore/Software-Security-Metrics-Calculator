@@ -33,13 +33,14 @@ public class MethodVisitor extends ASTVisitor{
         ArrayList<String> modify = CAMValues.getModifier(modifiers);
     	
         Method m = new Method(id,cu);
-        methods.add(m);
+        m.setModifiers(modify);
         m.setMethodLength(node.getLength());
     	
         m.setStartLine(startLineNum);
         m.setEndLine(endLineNum);
         
-    	
+        methods.add(m);
+        
         return true;
     }
     
