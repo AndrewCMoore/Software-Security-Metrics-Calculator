@@ -20,7 +20,7 @@ public class Calculator {
 		attributes.numPrivateProtectedInstanceAttributes(classes);
 		attributes.numPublicClassAttributes(classes);
 		//attributes.numPrivateProtectedClassAttributes(classes);
-		methods.numNonFinalPrivateProtectedMethods(classes);
+		//methods.numNonFinalPrivateProtectedMethods(classes);
 	}
 
 }

@@ -18,7 +18,7 @@ public class MethodMetrics {
 				Class classNode = (Class) o;
 				ArrayList<Method> methodList = classNode.getMethods();
 				for(Method method : methodList) {
-					//System.out.println(method.toString() + ": modifiers: " + method.getModifiers().toString() + ", finalized: " + method.getFinalized());
+					System.out.println(method.toString() + ": modifiers: " + method.getModifiers().toString() + ", finalized: " + method.getFinalized());
 					if((method.getModifiers().contains("private") || method.getModifiers().contains("protected")) && !method.getFinalized()) {
 						count++;
 					}
