@@ -65,7 +65,11 @@ public class AttributeVisitor extends ASTVisitor{
 		SimpleName name = node.getName();											// Get the String ID of the node (variable)
 		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
 		int modifiers = node.getModifiers();
-		ArrayList<String> modifier = CAMValues.getModifier(modifiers);
+		ArrayList<String> modifier = new ArrayList<String>();
+		
+		modifier.add("public");
+		modifier.add("static");
+		modifier.add("final");
 		
 		a.setModifier(modifier); 										// Set the Attribute's variables
 		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
