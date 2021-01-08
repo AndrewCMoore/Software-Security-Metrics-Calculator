@@ -69,6 +69,11 @@ public class Class {
 			}
 		}
 	}
+	
+	public boolean getEnum() {
+		return this.Enum;
+	}
+	
 	public void setEnum(boolean b) {
 		this.Enum = b;
 	}
