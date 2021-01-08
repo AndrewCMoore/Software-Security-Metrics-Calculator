@@ -8,6 +8,7 @@ import java.util.Set;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -57,6 +58,17 @@ public class AttributeVisitor extends ASTVisitor{
 		return true;
 	}
 	
+	public boolean visit(EnumConstantDeclaration node) {
+		this.nodes.add(node);
+		SimpleName name = node.getName();											// Get the String ID of the node (variable)
+		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
+		a.setModifier("Public Static Final "); 										// Set the Attribute's variables
+		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
+		//System.out.println(a.toString());											// Print out the Attribute's Structure
+		this.names.add(name.getIdentifier());										// Add the node name to the set of names
+		this.attributes.add(a);														// Add the Attribute to the ArrayList of Attributes
+		return true;
+	}
 	public ArrayList<Attribute> getArrayList(){
 		return this.attributes;
 	}

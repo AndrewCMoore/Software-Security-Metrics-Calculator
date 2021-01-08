@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
@@ -43,7 +44,7 @@ public class DeclarationVisitor extends ASTVisitor {
 		return true;
     }
 
-	public boolean visit(EnumConstantDeclaration node) {
+	public boolean visit(EnumDeclaration node) {
 		String id = node.getName().toString();
 		Class c = new Class(id, cu);
 		int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
