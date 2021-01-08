@@ -123,7 +123,7 @@ public class AttributeMetrics {
 				Class classNode = (Class) o;
 				ArrayList<Method> methodList = classNode.getMethods();
 				for(Method method : methodList) {
-					System.out.println(method.toString() + ": classified: " + method.getClassified() + ", finalized: " + method.getFinalized());
+					//System.out.println(method.toString() + ": classified: " + method.getClassified() + ", finalized: " + method.getFinalized());
 					if(method.getClassified() && !method.getFinalized()) {
 						count++;
 					}
