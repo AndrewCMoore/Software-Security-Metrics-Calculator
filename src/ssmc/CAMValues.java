@@ -214,45 +214,46 @@ public class CAMValues {
 		// strictfp 2048
 	
 	//This method simply runs through the flags and ads the string if the flag is on it
-	public static String getModifier(int modifiers) {
-		String modify = "";
+	public static ArrayList<String> getModifier(int modifiers) {
+		ArrayList<String> arrayList = new ArrayList<String>();
+		
 		if( (modifiers & 1)!=0) {
-			modify+="public ";
+			arrayList.add("public");
 		}
 		if( (modifiers & 2)!=0) {
-			modify+="private ";
+			arrayList.add("private");
 		}
 		if( (modifiers & 4)!=0) {
-			modify+="protected ";
+			arrayList.add("protected");
 		}
 		if( (modifiers & 8)!=0) {
-			modify+="static ";
+			arrayList.add("static");
 		}
 		if( (modifiers & 16)!=0) {
-			modify+="final ";
+			arrayList.add("final");
 		}
 		if( (modifiers & 32)!=0) {
-			modify+="synchronized ";
+			arrayList.add("synchronized");
 		}
 		if( (modifiers & 64)!=0) {
-			modify+="volatile ";
+			arrayList.add("volatile");
 		}
 		if( (modifiers & 128)!=0) {
-			modify+="transient ";
+			arrayList.add("transient");
 		}
 		if( (modifiers & 256)!=0) {
-			modify+="native ";
+			arrayList.add("native");
 		}
 		if( (modifiers & 512)!=0) {
-			modify+="";
+			arrayList.add("");
 		}
 		if( (modifiers & 1024)!=0) {
-			modify+="abstract ";
+			arrayList.add("abstract");
 		}
 		if( (modifiers & 2048)!=0) {
-			modify+="strictfp ";
+			arrayList.add("strictfp");
 		}
-		return modify;
+		return arrayList;
 	}
 	
 	public static String getStatementNodeSimpleName(Statement s) {

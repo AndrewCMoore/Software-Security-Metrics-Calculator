@@ -1,5 +1,7 @@
 package ssmc;
 
+import java.util.ArrayList;
+
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Attribute {
@@ -8,13 +10,13 @@ public class Attribute {
 	private String Identifier;
 	private int lineNum;
 	private int links;
-	private String modifier;
+	private ArrayList<String> modifier;
 	private int usage;
 
 	public Attribute(String identifier, CompilationUnit compilationUnit) {
 		this.compilationUnit = compilationUnit;
 		this.Identifier = identifier;
-		this.modifier = "";
+		this.modifier = new ArrayList<String>();
 		this.usage = 0;
 		this.finalized = false;
 		this.links = 0;
@@ -41,7 +43,7 @@ public class Attribute {
 		return links;
 	}
 
-	public String getModifier() {
+	public ArrayList<String> getModifier() {
 		return modifier;
 	}
 
@@ -80,6 +82,12 @@ public class Attribute {
 	 * @param modifier input value from the getModifiers() method
 	 * @return
 	 */
+	
+	/**
+	 * DEPRECIATED
+	 * @param modifier
+	 */
+	/*
 	public void setModifier(int modifier) {
 		int value = modifier;
 
@@ -117,8 +125,9 @@ public class Attribute {
 			value = (int) (value - Math.pow(2d, result));
 		}
 	}
+	*/
 
-	public void setModifier(String modifier) {
+	public void setModifier(ArrayList<String> modifier) {
 		this.modifier = modifier;
 	}
 	
