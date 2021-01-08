@@ -30,7 +30,7 @@ public class MethodVisitor extends ASTVisitor{
         String id = name.toString();
         
         int modifiers = node.getModifiers();
-        String modify = CAMValues.getModifier(modifiers);
+        ArrayList<String> modify = CAMValues.getModifier(modifiers);
     	
         Method m = new Method(id,cu);
         methods.add(m);

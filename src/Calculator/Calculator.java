@@ -15,11 +15,12 @@ public class Calculator {
 
 	public void calculate() {
 		AttributeMetrics attributes = new AttributeMetrics();
-		attributes.numPublicInstanceAttributes(classes);
+		MethodMetrics methods = new MethodMetrics();
+		//attributes.numPublicInstanceAttributes(classes);
 		attributes.numPrivateProtectedInstanceAttributes(classes);
 		attributes.numPublicClassAttributes(classes);
-		attributes.numPrivateProtectedClassAttributes(classes);
-		attributes.numNonFinalPrivateProtectedMethods(classes);
+		//attributes.numPrivateProtectedClassAttributes(classes);
+		methods.numNonFinalPrivateProtectedMethods(classes);
 	}
 
 }

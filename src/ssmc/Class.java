@@ -8,7 +8,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Class {
 	private String Identifier;
-	private String modifier;
+	private ArrayList<String> modifier;
 	private int startLine;
 	private int endLine;
 	private boolean serialized;
@@ -26,6 +26,8 @@ public class Class {
 		this.Enum = false;
 		 methods = new ArrayList<Method>();
 		 attributes = new ArrayList<Attribute>();
+		 
+		this.modifier = new ArrayList<String>();
 		
 	}
 	
@@ -51,7 +53,7 @@ public class Class {
 	public String getIdentifier() {
 		return this.Identifier;
 	}
-	public String getModifier() {
+	public ArrayList<String> getModifier() {
 		return this.modifier;
 	}
 	public void isEnum() {
@@ -64,7 +66,7 @@ public class Class {
 					System.out.println("===========================================================");
 					System.out.println("We in this method");
 					System.out.println("===========================================================");
-					a.setModifier("Public Static Final ");
+					//a.setModifier("Public Static Final ");
 				}
 			}
 		}
@@ -104,7 +106,7 @@ public class Class {
 	public void setEndLine(int end) {
 		this.endLine = end;
 	}
-	public void setModifier(String modifier) {
+	public void setModifier(ArrayList<String> modifier) {
 		this.modifier = modifier;
 	}
 	public void setSerialized(boolean b) {

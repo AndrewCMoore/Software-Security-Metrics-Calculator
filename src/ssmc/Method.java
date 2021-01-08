@@ -14,7 +14,7 @@ public class Method {
 	private boolean isInherited;
 	private boolean isAccessible;
 	private String identifier;
-	private String modified;
+	private ArrayList<String> modifiers;
 	private int usage;
 	private boolean isFinalized;
 	private CompilationUnit originFile;
@@ -33,7 +33,6 @@ public class Method {
 		this.isInherited = false;
 		this.isAccessible = false;
 		this.identifier = identifier;
-		this.modified = null;
 		this.usage = 0;
 		this.isFinalized = false;
 		this.originFile = originFile;
@@ -43,6 +42,7 @@ public class Method {
 		this.endLine = 0;
 		
 		this.statements = new ArrayList<Statement>();
+		this.modifiers = new ArrayList<String>();
 		
 	}
 	
@@ -84,6 +84,15 @@ public class Method {
 		this.methodComplexity = newMethodComplexity;		
 	}
 	
+	public void setModifiers(ArrayList<String> modifiers) {
+		for(String s : modifiers) {
+			this.modifiers.add(s);
+		}
+	}
+	public ArrayList<String> getModifiers(){
+		return this.modifiers;
+		
+	}
 	public boolean getClassified() {
 		return isClassified;		
 	}
@@ -139,10 +148,6 @@ public class Method {
 
 	public boolean getFinalized(){
 		return isFinalized;
-	}
-
-	public void setModifier(String m){
-		this.modified = m;
 	}
 	
 	public void setStartLine(int start) {

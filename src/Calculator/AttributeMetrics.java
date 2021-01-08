@@ -20,7 +20,7 @@ public class AttributeMetrics {
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
 				for(Attribute attribute : attributeList) { 						
 					//System.out.println(attribute.toString());
-					if(attribute.getModifier().equals("Public ")) { 					
+					if(attribute.getModifier().contains("public") && !attribute.getModifier().contains("static")) { 					
 						count++; 												
 					}
 				}
@@ -45,8 +45,8 @@ public class AttributeMetrics {
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
 				for(Attribute attribute : attributeList) { 						
 					//System.out.println(attribute.toString());
-					if(attribute.getModifier().equals("Private ") || attribute.getModifier().equals("Protected ") || attribute.getModifier().equals("")) {
-						if(!classNode.isAttributeInMethod(attribute)) {
+					if(attribute.getModifier().contains("private") || attribute.getModifier().contains("protected")) {
+						if(!classNode.isAttributeInMethod(attribute) && !attribute.getModifier().contains("static")) {
 							count++;
 						} 												
 					}
@@ -72,8 +72,8 @@ public class AttributeMetrics {
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
 				//System.out.println(attributeList);
 				for(Attribute attribute : attributeList) {
-					//System.out.println("       " + attribute.toString());
-					if(attribute.getModifier().equals("Static Public ") || classNode.getEnum()) {
+					System.out.println(attribute.toString());
+					if(attribute.getModifier().contains("static") && attribute.getModifier().contains("public")) {
 						count++;											
 					}
 				}
@@ -97,8 +97,8 @@ public class AttributeMetrics {
 				Class classNode = (Class) o; 									
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
 				for(Attribute attribute : attributeList) { 						
-					System.out.println(attribute.toString());
-					if(attribute.getModifier().equals("Static Private ") || attribute.getModifier().equals("Static Protected ") || attribute.getModifier().equals("Static ")) {
+					//System.out.println(attribute.toString());
+					if(attribute.getModifier().contains("static") && (attribute.getModifier().contains("protected ") || attribute.getModifier().contains("private"))) {
 						count++;											
 					}
 				}
@@ -107,32 +107,6 @@ public class AttributeMetrics {
 				total += count;
 				count = 0;
 			}
-		}
-		System.out.println("program total: " + total);
-		return total;
-	}
-	
-	
-	protected int numNonFinalPrivateProtectedMethods(JDTree[] classes) {
-		int total = 0;
-		int count = 0;
-
-		for(int i = 0; i < classes.length; i++) {
-			Object o = classes[i].getNode();
-			if(o instanceof Class) {
-				Class classNode = (Class) o;
-				ArrayList<Method> methodList = classNode.getMethods();
-				for(Method method : methodList) {
-					//System.out.println(method.toString() + ": classified: " + method.getClassified() + ", finalized: " + method.getFinalized());
-					if(method.getClassified() && !method.getFinalized()) {
-						count++;
-					}
-				}
-				System.out.println("Non-Final Private Protected Methods in " + classNode.getIdentifier() + " : " + count);
-				total += count;
-				count = 0;
-			}
-			//ArrayList<Method> methods = (Method) classes[i]
 		}
 		System.out.println("program total: " + total);
 		return total;
