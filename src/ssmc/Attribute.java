@@ -52,6 +52,10 @@ public class Attribute {
 	}
 
 	public boolean isFinalized() {
+		if(this.modifier.contains("final")) {
+			setFinalized(true);
+		}
+		
 		return finalized;
 	}
 
@@ -71,6 +75,10 @@ public class Attribute {
 		this.links = links;
 	}
 
+	public void setModifier(int i) {
+		this.modifier = CAMValues.getModifier(i);
+	}
+	
 	public void setModifier(ArrayList<String> modifier) {
 		this.modifier = modifier;
 	}

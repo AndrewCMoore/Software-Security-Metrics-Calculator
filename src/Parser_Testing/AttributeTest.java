@@ -59,9 +59,9 @@ class AttributeTest {
 	
 	@Test
 	void testGetModifier() {
-		assertEquals("Public ", attributeA.getModifier());
-		assertEquals("Static Private ", attributeB.getModifier());
-		assertEquals("Transient Volatile Protected ", attributeC.getModifier());
+		assertEquals("[public]", attributeA.getModifier().toString());
+		assertEquals("[private, static, final]", attributeB.getModifier().toString());
+		assertEquals("[protected, volatile, transient]", attributeC.getModifier().toString());
 	}
 	
 	@Test 
@@ -106,15 +106,21 @@ class AttributeTest {
 	@Test
 	void testSetModifierInt() {
 		attributeA.setModifier(2);
-		assertEquals("Private ", attributeA.getModifier());
+		assertEquals("[private]", attributeA.getModifier().toString());
 		attributeA.setModifier(1);
 	}
-	
 	@Test
-	void testSetModifierString() {
-		attributeA.setModifier("Private ");
-		assertEquals("Private ", attributeA.getModifier());
-		attributeA.setModifier("Public ");
+	void testSetModifierArrayList() {
+		ArrayList<String> arrayList = new ArrayList<String>();
+		
+		arrayList.add("private");
+		
+		attributeA.setModifier(arrayList);
+		assertEquals("[private]", attributeA.getModifier().toString());
+		
+		arrayList.remove(0);
+		arrayList.add("public");
+		attributeA.setModifier(arrayList);
 	}
 	
 	@Test

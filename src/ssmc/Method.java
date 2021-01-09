@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Method {
+	
 	private CompilationUnit compilationUnit;
 	private int endLine;
 	private String identifier;
