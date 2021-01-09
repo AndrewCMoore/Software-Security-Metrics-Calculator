@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Class {
-	private String Identifier;
-	private ArrayList<String> modifier;
-	private int startLine;
-	private int endLine;
-	private boolean serialized;
-	private boolean critical;
-	private boolean Enum;
-	private CompilationUnit originFile;
-	private ArrayList<Method> methods;
 	private ArrayList<Attribute> attributes;
+	private boolean critical;
+	private int endLine;
+	private boolean Enum;
+	private String Identifier;
+	private ArrayList<Method> methods;
+	private ArrayList<String> modifier;
+	private CompilationUnit originFile;
+	private boolean serialized;
+	private int startLine;
 
 	public Class(String identifier, CompilationUnit originFile) {
 		this.Identifier = identifier;
@@ -31,16 +31,8 @@ public class Class {
 		
 	}
 	
-	// I kind of need a way to differentiate between attributes declared at the class level and 
-	// attributes declared within a method and im not sure if that is possible
-	public boolean isAttributeInMethod(Attribute a) {
-		int attributeLineNum = a.getLineNum();
-		for(Method m : methods) {
-			if(a.getLineNum() < m.getEndLine() && a.getLineNum() > m.getStartLine()) {
-				return true;
-			}
-		}
-		return false;
+	public void addAttribute(Attribute attribute) {
+		attributes.add(attribute);
 	}
 	
 	// Method that finds the starting line and ending line of the class
@@ -50,18 +42,54 @@ public class Class {
 	
 	// Getters
 	
+	public void addMethod(Method method) {
+		methods.add(method);
+	}
+	public ArrayList<Attribute> getAttributes(){
+		return attributes;
+	}
+	public CompilationUnit getCompilationUnit() {
+		return this.originFile;
+	}
+	public int getEndLine() {
+		return endLine;
+	}
 	public String getIdentifier() {
 		return this.Identifier;
+	}
+	public ArrayList<Method> getMethods(){
+		return methods;
 	}
 	public ArrayList<String> getModifier() {
 		return this.modifier;
 	}
+	
+	
+	// Setters
+	
+	public int getStartLine() {
+		return startLine;
+	}
+	// I kind of need a way to differentiate between attributes declared at the class level and 
+	// attributes declared within a method and im not sure if that is possible
+	public boolean isAttributeInMethod(Attribute a) {
+		
+		for(Method m : methods) {
+			if(a.getLineNum() < m.getEndLine() && a.getLineNum() > m.getStartLine()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean isCritical() {
+		return this.critical;
+	}
 	public void isEnum() {
-		System.out.println("We in this method1");
+		
 		if(this.Enum) {
-			System.out.println("We in this method2");
+			
 			for(Attribute a : attributes) {
-				System.out.println("We in this method3");
+				
 				if(a.getLineNum() < this.getEndLine() && a.getLineNum() > this.getStartLine()) {
 					System.out.println("===========================================================");
 					System.out.println("We in this method");
@@ -71,35 +99,17 @@ public class Class {
 			}
 		}
 	}
-	public void setEnum(boolean b) {
-		this.Enum = b;
-	}
 	public boolean isSerialized() {
 		return this.serialized;
 	}
-	public boolean isCritical() {
-		return this.critical;
-	}
-	public CompilationUnit getCompilationUnit() {
-		return this.originFile;
-	}
-	
-	/**
-	public Method[] getMethods() {
-		return this.methods;
-	}
-	public Attribute[] getAttributes() {
-		return this.attributes;
-	}
-	**/
-	
-	// Setters
-	
-	public void setStartLine(int start) {
-		this.startLine = start;
+	public void setCritical(boolean b) {
+		this.critical = b;
 	}
 	public void setEndLine(int end) {
 		this.endLine = end;
+	}
+	public void setEnum(boolean b) {
+		this.Enum = b;
 	}
 	public void setModifier(ArrayList<String> modifier) {
 		this.modifier = modifier;
@@ -107,29 +117,9 @@ public class Class {
 	public void setSerialized(boolean b) {
 		this.serialized = b;
 	}
-	public void setCritical(boolean b) {
-		this.critical = b;
-	}
-	public void addMethod(Method method) {
-		methods.add(method);
-	}
-	public void addAttribute(Attribute attribute) {
-		attributes.add(attribute);
-	}
-	public ArrayList<Method> getMethods(){
-		return methods;
-	}
-	public ArrayList<Attribute> getAttributes(){
-		return attributes;
-	}
-	public int getStartLine() {
-		// TODO Auto-generated method stub
-		return startLine;
-	}
 
-	public int getEndLine() {
-		// TODO Auto-generated method stub
-		return endLine;
+	public void setStartLine(int start) {
+		this.startLine = start;
 	}
 	
 	public String toString() {
