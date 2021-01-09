@@ -4,11 +4,11 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Statement {
-	private ASTNode nodeType;
 	private CompilationUnit compilationUnit;
-	private int complexityValue; 
+	private int complexityValue;
+	private int endLine; 
+	private ASTNode nodeType;
 	private int startLine;
-	private int endLine;
 	
 	public Statement(ASTNode node, CompilationUnit compilationUnit) {
 		this.nodeType = node;
@@ -21,20 +21,20 @@ public class Statement {
 	public void addComplexity(int value) {
 		this.complexityValue = this.complexityValue + value;
 	}
-	public ASTNode getNode() {
-		return this.nodeType;
-	}
 	public CompilationUnit getCompilationUnit() {
 		return this.compilationUnit;
 	}
 	public int getComplexity() {
 		return this.complexityValue;
 	}
-	public int getStartLine() {
-		return this.startLine;
-	}
 	public int getEndLine() {
 		return this.endLine;
+	}
+	public ASTNode getNode() {
+		return this.nodeType;
+	}
+	public int getStartLine() {
+		return this.startLine;
 	}
 
 	@Override
