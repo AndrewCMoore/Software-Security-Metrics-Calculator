@@ -7,23 +7,27 @@ import java.util.ArrayList;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Class {
+	
 	private ArrayList<Attribute> attributes;
-	private boolean critical;
-	private int endLine;
-	private boolean Enum;
-	private String Identifier;
 	private ArrayList<Method> methods;
 	private ArrayList<String> modifier;
-	private CompilationUnit originFile;
+	
+	private CompilationUnit compilationUnit;
+	
+	private boolean critical;
 	private boolean serialized;
+	
+	private int endLine;
 	private int startLine;
-
-	public Class(String identifier, CompilationUnit originFile) {
+	
+	private String Identifier;
+	
+	
+	public Class(String identifier, CompilationUnit compilationUnit) {
 		this.Identifier = identifier;
-		this.originFile = originFile;
+		this.compilationUnit = compilationUnit;
 		this.serialized = false;
 		this.critical = false;
-		this.Enum = false;
 		 methods = new ArrayList<Method>();
 		 attributes = new ArrayList<Attribute>();
 		 
@@ -49,7 +53,7 @@ public class Class {
 		return attributes;
 	}
 	public CompilationUnit getCompilationUnit() {
-		return this.originFile;
+		return this.compilationUnit;
 	}
 	public int getEndLine() {
 		return endLine;
@@ -84,21 +88,7 @@ public class Class {
 	public boolean isCritical() {
 		return this.critical;
 	}
-	public void isEnum() {
-		
-		if(this.Enum) {
-			
-			for(Attribute a : attributes) {
-				
-				if(a.getLineNum() < this.getEndLine() && a.getLineNum() > this.getStartLine()) {
-					System.out.println("===========================================================");
-					System.out.println("We in this method");
-					System.out.println("===========================================================");
-					//a.setModifier("Public Static Final ");
-				}
-			}
-		}
-	}
+	
 	public boolean isSerialized() {
 		return this.serialized;
 	}
@@ -108,9 +98,7 @@ public class Class {
 	public void setEndLine(int end) {
 		this.endLine = end;
 	}
-	public void setEnum(boolean b) {
-		this.Enum = b;
-	}
+	
 	public void setModifier(ArrayList<String> modifier) {
 		this.modifier = modifier;
 	}

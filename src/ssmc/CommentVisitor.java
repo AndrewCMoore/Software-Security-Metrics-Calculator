@@ -16,14 +16,8 @@ public class CommentVisitor extends ASTVisitor {
 		this.lineCount = 0;
 	}
 	
-	/**
-	 * For a single line comment (//)
-	 */
-	public boolean visit(LineComment node) {
-		System.out.println("We are in the single line comment node");
-		// Add 1
-		this.lineCount += 1;
-		return true;
+	public int getLineCount() {
+		return this.lineCount;
 	}
 	
 	/**
@@ -37,7 +31,13 @@ public class CommentVisitor extends ASTVisitor {
 		return true;
 	}
 	
-	public int getLineCount() {
-		return this.lineCount;
+	/**
+	 * For a single line comment (//)
+	 */
+	public boolean visit(LineComment node) {
+		System.out.println("We are in the single line comment node");
+		// Add 1
+		this.lineCount += 1;
+		return true;
 	}
 }
