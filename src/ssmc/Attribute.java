@@ -52,6 +52,10 @@ public class Attribute {
 	}
 
 	public boolean isFinalized() {
+		if(this.modifier.contains("final")) {
+			setFinalized(true);
+		}
+		
 		return finalized;
 	}
 
@@ -71,62 +75,10 @@ public class Attribute {
 		this.links = links;
 	}
 
-	/**
-	 * The modifiers set values important to this project are: Public: 1 Private: 2
-	 * Protected: 4 Static: 8 Final: 16 Synchronized: 32
-	 * 
-	 * This method will calculate the log_2() of the input function this will then
-	 * be subtracted from the value until all parameters are set
-	 * 
-	 * @param the      attribute value to be set
-	 * @param modifier input value from the getModifiers() method
-	 * @return
-	 */
-	
-	/**
-	 * DEPRECIATED
-	 * @param modifier
-	 */
-	/*
-	public void setModifier(int modifier) {
-		int value = modifier;
-
-		this.modifier = "";
-		// Case Statement for setting Attribute a's Modifier and Finalized variables
-		while (value > 0) {
-			// Finds the highest base 2 value, that is the modifier
-			int result = (int) (Math.log(value) / Math.log(2));
-			switch (result) {
-			case (0):
-				this.modifier += "Public ";
-				break;
-			case (1):
-				this.modifier += "Private ";
-				break;
-			case (2):
-				this.modifier += "Protected ";
-				break;
-			case (3):
-				this.modifier += "Static ";
-				break;
-			case (4):
-				this.setFinalized(true);
-				break;
-			case (6):
-				this.modifier += "Volatile ";
-				break;
-			case (7):
-				this.modifier += "Transient ";
-				break;
-			default:
-				break;
-			}
-			// Subtract the value from the value and repeat:
-			value = (int) (value - Math.pow(2d, result));
-		}
+	public void setModifier(int i) {
+		this.modifier = CAMValues.getModifier(i);
 	}
-	*/
-
+	
 	public void setModifier(ArrayList<String> modifier) {
 		this.modifier = modifier;
 	}

@@ -34,7 +34,7 @@ class Attribute_TestsTest {
 	
 	@Test
 	void testModifier() {
-		assertEquals("Static ", attributes.get(0).getModifier());
+		assertEquals("[static]", attributes.get(0).getModifier().toString());
 	}
 
 	

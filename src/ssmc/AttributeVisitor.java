@@ -15,9 +15,9 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 public class AttributeVisitor extends ASTVisitor{
 
+	private ArrayList<Attribute> attributes;
 	private CompilationUnit compliationUnit;
 	private Set<String> names;
-	private ArrayList<Attribute> attributes;
 	private ArrayList<ASTNode> nodes;
 	
 	public AttributeVisitor(CompilationUnit compilationUnit) {
@@ -28,43 +28,18 @@ public class AttributeVisitor extends ASTVisitor{
 		nodes = new ArrayList<ASTNode>();
 	}
 	
-	public boolean visit(VariableDeclarationFragment node) {
-		nodes.add(node);
-		SimpleName name = node.getName();											// Get the String ID of the node (variable)
-		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
-		IVariableBinding type = node.resolveBinding(); 								// Get the variable type
-		int modifiers = type.getModifiers(); 										// Get the modifier value 
-		ArrayList<String> modifier = CAMValues.getModifier(modifiers);
-		
-		a.setModifier(modifier); 	 													// Set the Attribute's variables
-		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
-		//System.out.println(a.toString());											// Print out the Attribute's Structure
-		this.names.add(name.getIdentifier());										// Add the node name to the set of names
-		this.attributes.add(a);														// Add the Attribute to the ArrayList of Attributes
-		return true;
+	public ArrayList<Attribute> getArrayList(){
+		return this.attributes;
 	}
 	
-	public boolean visit(SimpleName node) {
-		this.nodes.add(node);
-		if (this.names.contains(node.getIdentifier())) {
-			for(int i = 0; i < this.attributes.size(); i++) {
-				Attribute attribute = this.attributes.get(i);
-				if(attribute.getIdentifier().equals(node.getIdentifier().toString())) {
-					//System.out.println("Node: " + node.getIdentifier() + " is used at line " + this.compliationUnit.getLineNumber(node.getStartPosition()));
-					attribute.addUsage();
-					//System.out.println("The variable " + attribute.getIdentifier() + " has a usage of: " + attribute.getUsage());
-				}
-			}
-		}
-		
-		return true;
+	public ArrayList<ASTNode> getNodes(){
+		return this.nodes;
 	}
 	
 	public boolean visit(EnumConstantDeclaration node) {
-		this.nodes.add(node);
+		
 		SimpleName name = node.getName();											// Get the String ID of the node (variable)
 		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
-		int modifiers = node.getModifiers();
 		ArrayList<String> modifier = new ArrayList<String>();
 		
 		modifier.add("public");
@@ -73,17 +48,47 @@ public class AttributeVisitor extends ASTVisitor{
 		
 		a.setModifier(modifier); 										// Set the Attribute's variables
 		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
-		//System.out.println(a.toString());											// Print out the Attribute's Structure
+		
+		this.nodes.add(node);
 		this.names.add(name.getIdentifier());										// Add the node name to the set of names
 		this.attributes.add(a);														// Add the Attribute to the ArrayList of Attributes
 		return true;
 	}
-	public ArrayList<Attribute> getArrayList(){
-		return this.attributes;
+	
+	public boolean visit(SimpleName node) {
+		
+		if (this.names.contains(node.getIdentifier())) {
+			for(int i = 0; i < this.attributes.size(); i++) {
+				Attribute attribute = this.attributes.get(i);
+				if(attribute.getIdentifier().equals(node.getIdentifier().toString())) {
+					attribute.addUsage();
+				}
+			}
+		}
+		
+		this.nodes.add(node);
+		
+		return true;
 	}
 	
-	public ArrayList<ASTNode> getNodes(){
-		return this.nodes;
+	public boolean visit(VariableDeclarationFragment node) {
+		
+		SimpleName name = node.getName();											// Get the String ID of the node (variable)
+		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
+		
+		IVariableBinding type = node.resolveBinding(); 								// Get the variable type
+		
+		int modifiers = type.getModifiers(); 										// Get the modifier value 
+		ArrayList<String> modifier = CAMValues.getModifier(modifiers);
+		
+		a.setModifier(modifier); 	 												// Set the Attribute's variables
+		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
+		
+		this.names.add(name.getIdentifier());										// Add the node name to the set of names
+		this.attributes.add(a);	
+		nodes.add(node);
+		
+		return true;
 	}
 	
 }

@@ -28,24 +28,6 @@ public class CAMValues {
 		return av.getArrayList();
 	}
 
-	/**
-	 * Uses unit to create a CompilationUnit to use in MethodVisitor. 
-	 * Runs the visitor class to get all Method values for the 
-	 * ICompilationUnit
-	 * @param unit ICompilationUnit input
-	 */
-	public static ArrayList<Method> generateMethodAST(ICompilationUnit unit){
-		final CompilationUnit cu = (CompilationUnit) parse(unit);
-		MethodVisitor mv = new MethodVisitor(cu);
-		cu.accept(mv);
-		System.out.println("\n======================================");
-		for(Method m :mv.getMethods()) {
-			System.out.println(m.getIdentifier());
-		}
-		System.out.println("======================================\n");
-		return mv.getMethods();
-	}
-	
 	public static ArrayList<Class> generateBodyDeclarationAst(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		DeclarationVisitor dv = new DeclarationVisitor(cu);
@@ -69,6 +51,24 @@ public class CAMValues {
 	
 	/**
 	 * Uses unit to create a CompilationUnit to use in MethodVisitor. 
+	 * Runs the visitor class to get all Method values for the 
+	 * ICompilationUnit
+	 * @param unit ICompilationUnit input
+	 */
+	public static ArrayList<Method> generateMethodAST(ICompilationUnit unit){
+		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		MethodVisitor mv = new MethodVisitor(cu);
+		cu.accept(mv);
+		System.out.println("\n======================================");
+		for(Method m :mv.getMethods()) {
+			System.out.println(m.getIdentifier());
+		}
+		System.out.println("======================================\n");
+		return mv.getMethods();
+	}
+	
+	/**
+	 * Uses unit to create a CompilationUnit to use in MethodVisitor. 
 	 * Runs the visitor class to get all statement values related
 	 * to complexity for the ICompilationUnit
 	 * @param unit ICompilationUnit input
@@ -83,22 +83,62 @@ public class CAMValues {
 		return sv.getArrayList();
 	}
 	
-	/**
-	 * Method to parse the ICompilationUnit to a CompilationUnit
-	 * Sets the type, source and resolve bindings
-	 * @param unit ICompilationUnit input
-	 * @return CompilationUnit
-	 */
+	private static Class getBelonging(Attribute a, ArrayList<Class> classes) {
+		Class cl = null;
+		int min=Integer.MAX_VALUE;
+		for(Class c:classes) {
+			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
+			if(c.getStartLine() < a.getLineNum() && c.getEndLine() > a.getLineNum()) {
+				int size = c.getEndLine()-c.getStartLine();				
+				if(size<min) {
+					
+					cl =c;
+					min = size;
+					
+				}
+			}
+		}
+		System.out.println("The method is "+a.getIdentifier()+" and it belongs to "+cl.getIdentifier());
+		return cl;
+	}
+	
+	public static Class getBelonging(Method m,ArrayList<Class> classes) {
+		Class cl = null;
+		int min=Integer.MAX_VALUE;
+		for(Class c:classes) {
+			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
+			if(c.getStartLine()<m.getStartLine()&&c.getEndLine()>m.getEndLine()) {
+				int size = c.getEndLine()-c.getStartLine();				
+				if(size<min) {
+					
+					cl =c;
+					min = size;
+					
+				}
+			}
+		}
+		System.out.println("The method is "+m.getIdentifier()+" and it belongs to "+cl.getIdentifier());
+		return cl;
+	}
 	
 	
-	
-	
-	public static CompilationUnit parse(ICompilationUnit unit) {
-		ASTParser parser = ASTParser.newParser(AST.JLS14);
-		parser.setKind(ASTParser.K_COMPILATION_UNIT);
-		parser.setSource(unit);
-		parser.setResolveBindings(true);
-		return (CompilationUnit) parser.createAST(null); //parse		
+	private static Method getBelonging(Statement s, ArrayList<Method> methods) {
+		Method m1 = null;
+		int min=Integer.MAX_VALUE;
+		for(Method m:methods) {
+			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
+			if(m.getStartLine()<s.getStartLine()&&m.getEndLine()>s.getEndLine()) {
+				int size = m.getEndLine()-m.getStartLine();				
+				if(size<min) {
+					
+					m1 =m;
+					min = size;
+					
+				}
+			}
+		}
+		System.out.println("The statement is " + getStatementNodeSimpleName(s) + " and it belongs to "+ m1.getIdentifier());
+		return m1;
 	}
 	
 	public static Class[] getClasses(ICompilationUnit unit) {
@@ -133,85 +173,10 @@ public class CAMValues {
 		Class[] classList = new Class[classes.size()];
 		for(int i =0;i<classes.size();i++) {
 			classList[i]=classes.get(i);
-			classList[i].isEnum();
 		}
 			
 		return classList;
 	}
-	
-	
-	public static Class getBelonging(Method m,ArrayList<Class> classes) {
-		Class cl = null;
-		int min=Integer.MAX_VALUE;
-		for(Class c:classes) {
-			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
-			if(c.getStartLine()<m.getStartLine()&&c.getEndLine()>m.getEndLine()) {
-				int size = c.getEndLine()-c.getStartLine();				
-				if(size<min) {
-					
-					cl =c;
-					min = size;
-					
-				}
-			}
-		}
-		System.out.println("The method is "+m.getIdentifier()+" and it belongs to "+cl.getIdentifier());
-		return cl;
-	}
-	
-	private static Class getBelonging(Attribute a, ArrayList<Class> classes) {
-		Class cl = null;
-		int min=Integer.MAX_VALUE;
-		for(Class c:classes) {
-			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
-			if(c.getStartLine() < a.getLineNum() && c.getEndLine() > a.getLineNum()) {
-				int size = c.getEndLine()-c.getStartLine();				
-				if(size<min) {
-					
-					cl =c;
-					min = size;
-					
-				}
-			}
-		}
-		System.out.println("The method is "+a.getIdentifier()+" and it belongs to "+cl.getIdentifier());
-		return cl;
-	}
-	
-	private static Method getBelonging(Statement s, ArrayList<Method> methods) {
-		Method m1 = null;
-		int min=Integer.MAX_VALUE;
-		for(Method m:methods) {
-			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
-			if(m.getStartLine()<s.getStartLine()&&m.getEndLine()>s.getEndLine()) {
-				int size = m.getEndLine()-m.getStartLine();				
-				if(size<min) {
-					
-					m1 =m;
-					min = size;
-					
-				}
-			}
-		}
-		System.out.println("The statement is " + getStatementNodeSimpleName(s) + " and it belongs to "+ m1.getIdentifier());
-		return m1;
-	}
-	
-	
-		// none is 0
-		// public is 1
-		// private is 2
-		// protected is 4
-		// static is 8
-		// final is 16
-		// synchronized 32
-		
-		//Volatile 64
-		//Transient 128
-		// native 256
-		
-		// abstract 1024
-		// strictfp 2048
 	
 	//This method simply runs through the flags and ads the string if the flag is on it
 	public static ArrayList<String> getModifier(int modifiers) {
@@ -256,6 +221,22 @@ public class CAMValues {
 		return arrayList;
 	}
 	
+	
+		// none is 0
+		// public is 1
+		// private is 2
+		// protected is 4
+		// static is 8
+		// final is 16
+		// synchronized 32
+		
+		//Volatile 64
+		//Transient 128
+		// native 256
+		
+		// abstract 1024
+		// strictfp 2048
+	
 	public static String getStatementNodeSimpleName(Statement s) {
 		switch(s.getNode().getNodeType()) {
 		case 19: 
@@ -274,5 +255,19 @@ public class CAMValues {
 			break;		
 		}
 		return "";
+	}
+	
+	/**
+	 * Method to parse the ICompilationUnit to a CompilationUnit
+	 * Sets the type, source and resolve bindings
+	 * @param unit ICompilationUnit input
+	 * @return CompilationUnit
+	 */
+	public static CompilationUnit parse(ICompilationUnit unit) {
+		ASTParser parser = ASTParser.newParser(AST.JLS14);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setSource(unit);
+		parser.setResolveBindings(true);
+		return (CompilationUnit) parser.createAST(null); //parse		
 	}
 }

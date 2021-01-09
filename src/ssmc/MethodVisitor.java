@@ -10,8 +10,8 @@ import org.eclipse.jdt.core.dom.SimpleName;
 
 public class MethodVisitor extends ASTVisitor{
 	
-	private CompilationUnit cu;
 	private static ArrayList<Method> methods;
+	private CompilationUnit cu;
 	private ArrayList<ASTNode> nodes;
 	
     public MethodVisitor(CompilationUnit cu){
@@ -21,6 +21,14 @@ public class MethodVisitor extends ASTVisitor{
         nodes = new ArrayList<ASTNode>();
     }
 
+    public ArrayList<Method> getMethods() {
+		return methods;
+	}
+        
+    public ArrayList<ASTNode> getNodes() {
+    	return nodes;
+    }
+    
     public boolean visit(MethodDeclaration node){  	
     	nodes.add(node);
     	int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
@@ -42,34 +50,6 @@ public class MethodVisitor extends ASTVisitor{
         methods.add(m);
         
         return true;
-    }
-    
-    /*public boolean visit(ReturnStatement node) {
-    	System.out.println("this is a return statement");
-    	System.out.println(node);
-    	System.out.println(node.getExpression());
-    	System.out.println("?????????????????????");
-    	return true;
-    }*/
-    
-    private boolean isClassified(MethodDeclaration node) {
-    	for(Object modifier : node.modifiers()) {
-    		if(modifier.toString().contains("private")) {
-    			return true;
-    		}
-    	}
-    	/*if(node.modifiers().get(0).toString().contains("private")) {
-    		return true;
-    	}*/
-    	return false;
-    }
-    
-    public ArrayList<Method> getMethods() {
-		return methods;
-	}
-    
-    public ArrayList<ASTNode> getNodes() {
-    	return nodes;
     }
     
 }

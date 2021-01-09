@@ -5,25 +5,26 @@ import java.util.ArrayList;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class Method {
-	private int length;
-	private int numberOfOutputs;
-	private int numberOfInputs;
-	private double methodComplexity;
-	private boolean isClassified;
-	private boolean isWriteClassified;
-	private boolean isInherited;
-	private boolean isAccessible;
-	private String identifier;
-	private ArrayList<String> modifiers;
-	private int usage;
-	private boolean isFinalized;
-	private CompilationUnit originFile;
-	private int links;
-	private int startLine;
-	private int endLine;
-	private ArrayList<Statement> statements;
 	
-	public Method(String identifier, CompilationUnit originFile) {
+	private CompilationUnit compilationUnit;
+	private int endLine;
+	private String identifier;
+	private boolean isAccessible;
+	private boolean isClassified;
+	private boolean isFinalized;
+	private boolean isInherited;
+	private boolean isWriteClassified;
+	private int length;
+	private int links;
+	private double methodComplexity;
+	private ArrayList<String> modifiers;
+	private int numberOfInputs;
+	private int numberOfOutputs;
+	private int startLine;
+	private ArrayList<Statement> statements;
+	private int usage;
+	
+	public Method(String identifier, CompilationUnit compilationUnit) {
 		this.length = 0;
 		this.numberOfOutputs = 0;
 		this.numberOfInputs	 = 0;
@@ -35,8 +36,8 @@ public class Method {
 		this.identifier = identifier;
 		this.usage = 0;
 		this.isFinalized = false;
-		this.originFile = originFile;
-		this.links = 0;
+		this.compilationUnit = compilationUnit;
+		this.setLinks(0);
 		
 		this.startLine = 0;
 		this.endLine = 0;
@@ -46,125 +47,137 @@ public class Method {
 		
 	}
 	
+	public void addStatement(Statement statement) {
+		this.statements.add(statement);
+	}
+
+	public void addUsage() {
+		this.usage = this.usage + 1;
+	}
+
+	public boolean getAccessible(){
+		return isAccessible;
+	}
+	
+	public boolean getClassified() {
+		return isClassified;		
+	}
+	
+	public CompilationUnit getCompilationUnit() {
+		return compilationUnit;
+	}
+	
+	public int getEndLine() {
+		return endLine;
+	}
+	
+	public boolean getFinalized(){
+		return isFinalized;
+	}
+	
+	public String getIdentifier() {
+		return this.identifier;
+	}
+	
+	public boolean getInherated(){
+		return this.isInherited;
+	}
+	public int getLinks() {
+		return links;
+	}
+	public double getMethodComplexity() {
+		return methodComplexity;
+		
+	}
+
 	public int getMethodLength() {
 		return length;
 			
 	}
+	
+	
 
-	public void setMethodLength(int newLength) {
-		this.length = newLength;
+	public ArrayList<String> getModifiers(){
+		return this.modifiers;
 		
 	}
-
+	
 	public int getNumbeOfInputs() {
 		return numberOfInputs;
 		
 		
 	}
 	
-	public void setNumbeOfInputs(int newNumberOfInputs) {
-		this.numberOfInputs =newNumberOfInputs;
-		
-	}
-	
 	public int getNumberOfOutputs() {
-		return numberOfInputs;
-	}
-	
-	public void setNumberOfOutputs(int newNumberOfOutputs) {
-		this.numberOfOutputs = newNumberOfOutputs;
-	}
-	
-	public double getMethodComplexity() {
-		return methodComplexity;
-		
-	}
-	
-	public void setMethodComplexity(double newMethodComplexity) {
-		this.methodComplexity = newMethodComplexity;		
-	}
-	
-	public void setModifiers(ArrayList<String> modifiers) {
-		for(String s : modifiers) {
-			this.modifiers.add(s);
-		}
-	}
-	public ArrayList<String> getModifiers(){
-		return this.modifiers;
-		
-	}
-	public boolean getClassified() {
-		return isClassified;		
+		return numberOfOutputs;
 	}
 
-	public void setClassified(boolean newisClassified) {
-		this.isClassified = newisClassified;
+	public int getStartLine() {
+		return startLine;
+	}
+	
+	public int getUsage() {
+		return this.usage;
 	}
 	
 	
-
 	public boolean getWriteClassified() {
 		return isWriteClassified;
-	}
-	
-	public void setWriteClassified(boolean b){
-		this.isWriteClassified = b;
-	}
-	
-	public boolean getAccessible(){
-		return isAccessible;
 	}
 
 	public void setAccessible(boolean b){
 		this.isAccessible = b;
 	}
 	
-	public boolean getInherated(){
-		return this.isInherited;
-	}
 	
-	
-	public void setInherated(boolean b){
-		this.isInherited = b;
-	}
-
-	public void addUsage() {
-		this.usage = this.usage + 1;
-	}
-	
-	
-	public String getIdentifier() {
-		return this.identifier;
+	public void setClassified(boolean newisClassified) {
+		this.isClassified = newisClassified;
 	}
 	
 
-	public int getUsage() {
-		return this.usage;
+	public void setEndLine(int end) {
+		this.endLine = end;
 	}
 
 	public void setFinalized(boolean b) {
 		this.isFinalized = b;
 	}
 
-	public boolean getFinalized(){
-		return isFinalized;
+	public void setInherated(boolean b){
+		this.isInherited = b;
 	}
 	
+	public void setLinks(int links) {
+		this.links = links;
+	}
+	public void setMethodComplexity(double newMethodComplexity) {
+		this.methodComplexity = newMethodComplexity;		
+	}
+	public void setMethodLength(int newLength) {
+		this.length = newLength;
+		
+	}
+	public void setModifiers(ArrayList<String> modifiers) {
+		for(String s : modifiers) {
+			this.modifiers.add(s);
+		}
+	}
+	public void setNumbeOfInputs(int newNumberOfInputs) {
+		this.numberOfInputs =newNumberOfInputs;
+		
+	}
+	public void setNumberOfOutputs(int newNumberOfOutputs) {
+		this.numberOfOutputs = newNumberOfOutputs;
+	}
+
 	public void setStartLine(int start) {
 		this.startLine = start;
 	}
-	public int getStartLine() {
-		return startLine;
+
+	public void setWriteClassified(boolean b){
+		this.isWriteClassified = b;
 	}
-	public void setEndLine(int end) {
-		this.endLine = end;
-	}
-	public int getEndLine() {
-		return endLine;
-	}
-	public void addStatement(Statement statement) {
-		this.statements.add(statement);
-	}
+
 	public String toString() {
 		return this.identifier;
 	}

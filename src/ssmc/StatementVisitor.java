@@ -31,13 +31,14 @@ public class StatementVisitor extends ASTVisitor {
 	public ArrayList<Statement> getArrayList() {
 		return this.statementList;
 	}
+	@SuppressWarnings("unchecked")
 	public Object[] getChildren(ASTNode node) {
-	    List list= node.structuralPropertiesForType();
-	    for (int i= 0; i < list.size(); i++) {
-	        StructuralPropertyDescriptor curr= (StructuralPropertyDescriptor) list.get(i);
+	    List<ASTNode> list= node.structuralPropertiesForType();
+	    for (Object element : list) {
+	        StructuralPropertyDescriptor curr= (StructuralPropertyDescriptor) element;
 	            Object child= node.getStructuralProperty(curr);
 	        if (child instanceof List) {
-	                return ((List) child).toArray();
+	                return ((List<ASTNode>) child).toArray();
 	        } else if (child instanceof ASTNode) {
 	            return new Object[] { child };
 	            }
@@ -48,7 +49,7 @@ public class StatementVisitor extends ASTVisitor {
 	public void getChildren1(ASTNode node) {
 	    if (node != null) {
 	        List<ASTNode> children = new ArrayList<ASTNode>();
-	        List list = node.structuralPropertiesForType();
+	        List<?> list = node.structuralPropertiesForType();
 	        for (int i = 0; i < list.size(); i++) {
 	            Object child = node.getStructuralProperty((StructuralPropertyDescriptor) list.get(i));
 	            if (child instanceof ASTNode) {
@@ -59,9 +60,6 @@ public class StatementVisitor extends ASTVisitor {
 	        for(ASTNode node1 : children){
 	            if (node1 != null) {
 	            	itterateNode(node1);
-	            	
-	                String c = children.toString();
-	                //System.out.println(("Children Node: " + c + "\n"));
 	                //getChildren1(node1);
 	            } 
 	            

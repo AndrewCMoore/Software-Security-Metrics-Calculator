@@ -48,7 +48,14 @@ class AttributeVisitorTest {
 	@Test
 	void testGetArrayList() {
 		//System.out.println(av.getArrayList());
-		assertEquals("[Attribute [Identifier=AttributeA, modifier=Public , usage=1, finalized=false, compilationUnit=, links=0, lineNum=3], Attribute [Identifier=AttributeB, modifier=Static Private , usage=2, finalized=true, compilationUnit=, links=0, lineNum=4], Attribute [Identifier=AttributeC, modifier=Transient Volatile Protected , usage=1, finalized=false, compilationUnit=, links=0, lineNum=5], Attribute [Identifier=x, modifier=, usage=1, finalized=false, compilationUnit=, links=0, lineNum=8]]"
+		assertEquals("[Attribute [Identifier=AttributeA, modifier=[public],"
+				+ " usage=1, finalized=false, compilationUnit=, links=0, lineNum=3],"
+				+ " Attribute [Identifier=AttributeB, modifier=[private, static, final],"
+				+ " usage=2, finalized=false, compilationUnit=, links=0, lineNum=4], "
+				+ "Attribute [Identifier=AttributeC, modifier=[protected, volatile, transient],"
+				+ " usage=1, finalized=false, compilationUnit=, links=0, lineNum=5], "
+				+ "Attribute [Identifier=x, modifier=[], usage=1, finalized=false, "
+				+ "compilationUnit=, links=0, lineNum=8]]"
 				, av.getArrayList().toString());
 	}
 

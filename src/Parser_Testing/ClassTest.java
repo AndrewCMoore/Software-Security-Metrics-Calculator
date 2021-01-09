@@ -173,7 +173,8 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
-			assertEquals ("public",classes.get(0).getModifier().split(" ")[0]);
+			assertEquals("public", classes.get(0).getModifier().get(0));
+			//assertEquals ("public",classes.get(0).getModifier().split(" ")[0]);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -190,7 +191,7 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
-			String modifiers =classes.get(1).getModifier();
+			ArrayList<String> modifiers =classes.get(1).getModifier();
 			assertEquals (modifiers.contains("private"),true );
 			assertEquals(modifiers.contains("final"),true);
 			assertEquals(modifiers.contains("static"),true);
@@ -208,8 +209,8 @@ public class ClassTest {
 			mt.AccessTestClass();
 			ICompilationUnit cu = mt.AccessTestClass().getCompilationUnit("Test_Class.java");
 			ArrayList<Class> classes = CAMValues.generateBodyDeclarationAst(cu);
-			String modifiers = classes.get(1).getModifier();
-			assertEquals (3,modifiers.split(" ").length);
+			ArrayList<String> modifiers = classes.get(1).getModifier();
+			assertEquals (3, modifiers.size());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -342,21 +343,17 @@ public class ClassTest {
 	public void testIsEnum() {
 		Class c = new Class(null, null);
 		Attribute a = new Attribute("Attribute 1", null);
-		Attribute a1 = new Attribute("Attribute 2", null);
 		
 		c.setEnum(true);
 		
 		c.setStartLine(0);
 		c.setEndLine(2);
 		a.setLineNum(1);
-		a1.setLineNum(4);
 		
 		c.addAttribute(a);
-		c.addAttribute(a1);
 		c.isEnum();
 		
-		assertEquals(a.getModifier(), "Public Static Final ");
-		assertEquals(a1.getModifier(), "");
+		assertEquals(a.getModifier().toString(), "[public, static, final]");
 		
 	}
 
