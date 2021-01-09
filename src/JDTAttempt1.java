@@ -1,5 +1,3 @@
-
-
 public class JDTAttempt1 {
 	private String s;
 	
