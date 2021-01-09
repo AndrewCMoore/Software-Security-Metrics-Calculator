@@ -60,9 +60,6 @@ public class StatementVisitor extends ASTVisitor {
 	        for(ASTNode node1 : children){
 	            if (node1 != null) {
 	            	itterateNode(node1);
-	            	
-	                String c = children.toString();
-	                //System.out.println(("Children Node: " + c + "\n"));
 	                //getChildren1(node1);
 	            } 
 	            
