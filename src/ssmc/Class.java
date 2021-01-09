@@ -88,6 +88,16 @@ public class Class {
 	}
 	
 	public boolean isEnum() {
+		ArrayList<String> enumConstant = new ArrayList<String>();
+		enumConstant.add("public");
+		enumConstant.add("static");
+		enumConstant.add("final");
+		
+		if(Enum) {
+			for(Attribute a : attributes) {
+				a.setModifier(enumConstant);
+			}
+		}
 		return Enum;
 	}
 	public boolean isSerialized() {
