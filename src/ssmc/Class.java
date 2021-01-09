@@ -9,18 +9,15 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 public class Class {
 	
 	private ArrayList<Attribute> attributes;
+	private CompilationUnit compilationUnit;
+	private boolean critical;
+	private int endLine;
+	private boolean Enum;
+	private String Identifier;
 	private ArrayList<Method> methods;
 	private ArrayList<String> modifier;
-	
-	private CompilationUnit compilationUnit;
-	
-	private boolean critical;
 	private boolean serialized;
-	
-	private int endLine;
 	private int startLine;
-	
-	private String Identifier;
 	
 	
 	public Class(String identifier, CompilationUnit compilationUnit) {
@@ -28,6 +25,7 @@ public class Class {
 		this.compilationUnit = compilationUnit;
 		this.serialized = false;
 		this.critical = false;
+		this.setEnum(false);
 		 methods = new ArrayList<Method>();
 		 attributes = new ArrayList<Attribute>();
 		 
@@ -89,19 +87,27 @@ public class Class {
 		return this.critical;
 	}
 	
+	public boolean isEnum() {
+		return Enum;
+	}
 	public boolean isSerialized() {
 		return this.serialized;
 	}
 	public void setCritical(boolean b) {
 		this.critical = b;
 	}
+	
 	public void setEndLine(int end) {
 		this.endLine = end;
 	}
-	
+	public void setEnum(boolean b) {
+		Enum = b;
+	}
+
 	public void setModifier(ArrayList<String> modifier) {
 		this.modifier = modifier;
 	}
+	
 	public void setSerialized(boolean b) {
 		this.serialized = b;
 	}
@@ -109,7 +115,7 @@ public class Class {
 	public void setStartLine(int start) {
 		this.startLine = start;
 	}
-	
+
 	public String toString() {
 		return this.Identifier;
 	}
