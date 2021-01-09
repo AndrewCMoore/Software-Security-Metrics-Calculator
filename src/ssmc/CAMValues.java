@@ -173,7 +173,6 @@ public class CAMValues {
 		Class[] classList = new Class[classes.size()];
 		for(int i =0;i<classes.size();i++) {
 			classList[i]=classes.get(i);
-			classList[i].isEnum();
 		}
 			
 		return classList;

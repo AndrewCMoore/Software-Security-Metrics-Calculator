@@ -52,7 +52,6 @@ public class DeclarationVisitor extends ASTVisitor {
 		c.setStartLine(startLineNum);
 		c.setEndLine(endLineNum);
 		c.setModifier(CAMValues.getModifier(node.getModifiers()));
-		c.setEnum(true);
 		
 		classes.add(c);
 		
