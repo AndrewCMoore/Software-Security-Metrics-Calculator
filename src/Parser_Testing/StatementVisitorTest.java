@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
@@ -27,6 +28,7 @@ class StatementVisitorTest {
 	private ArrayList<IfStatement> ifStatements;
 	private ArrayList<SwitchStatement> switchStatements;
 	private ArrayList<WhileStatement> whileStatements;
+	private ArrayList<ConditionalExpression> conditionals;
 	
 	public StatementVisitorTest() throws CoreException {
 		MainTest mt = new MainTest();
@@ -36,6 +38,7 @@ class StatementVisitorTest {
 		this.ifStatements = new ArrayList<IfStatement>();
 		this.switchStatements = new ArrayList<SwitchStatement>();
 		this.whileStatements = new ArrayList<WhileStatement>();
+		this.conditionals = new ArrayList<ConditionalExpression>();
 		
 		ICompilationUnit iCompilationUnit = mt.AccessTestClass().getCompilationUnit("Statement_Test.java");
 		this.cu = CAMValues.parse(iCompilationUnit);
@@ -59,6 +62,9 @@ class StatementVisitorTest {
 			}
 			if(o instanceof WhileStatement) {
 				whileStatements.add((WhileStatement) o);
+			}
+			if(o instanceof ConditionalExpression) {
+				conditionals.add((ConditionalExpression) o);
 			}
 		}
 		
@@ -92,6 +98,15 @@ class StatementVisitorTest {
 				+ "      while (x == 1) {\n"
 				+ "      }\n"
 				+ "    }\n"
+				+ "    int[] numbers={1,2,3,4,5};\n"
+				+ "    int maxValue=Integer.MIN_VALUE;\n"
+				+ "    for (    int i : numbers) {\n"
+				+ "      if (i > maxValue) {\n"
+				+ "        maxValue=i;\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    boolean isTrue=false;\n"
+				+ "    int number=isTrue ? 5 : 4;\n"
 				+ "  }\n"
 				+ "}\n"
 				+ ", complexityValue=1, startLine=5, endLine=10], Statement [nodeType=do {\n"
@@ -111,6 +126,15 @@ class StatementVisitorTest {
 				+ "      while (x == 1) {\n"
 				+ "      }\n"
 				+ "    }\n"
+				+ "    int[] numbers={1,2,3,4,5};\n"
+				+ "    int maxValue=Integer.MIN_VALUE;\n"
+				+ "    for (    int i : numbers) {\n"
+				+ "      if (i > maxValue) {\n"
+				+ "        maxValue=i;\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    boolean isTrue=false;\n"
+				+ "    int number=isTrue ? 5 : 4;\n"
 				+ "  }\n"
 				+ "}\n"
 				+ ", complexityValue=1, startLine=6, endLine=6], Statement [nodeType=for (int i=0; i < 1; i++) {\n"
@@ -129,6 +153,15 @@ class StatementVisitorTest {
 				+ "      while (x == 1) {\n"
 				+ "      }\n"
 				+ "    }\n"
+				+ "    int[] numbers={1,2,3,4,5};\n"
+				+ "    int maxValue=Integer.MIN_VALUE;\n"
+				+ "    for (    int i : numbers) {\n"
+				+ "      if (i > maxValue) {\n"
+				+ "        maxValue=i;\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    boolean isTrue=false;\n"
+				+ "    int number=isTrue ? 5 : 4;\n"
 				+ "  }\n"
 				+ "}\n"
 				+ ", complexityValue=1, startLine=7, endLine=7], Statement [nodeType=switch (x) {\n"
@@ -147,6 +180,15 @@ class StatementVisitorTest {
 				+ "      while (x == 1) {\n"
 				+ "      }\n"
 				+ "    }\n"
+				+ "    int[] numbers={1,2,3,4,5};\n"
+				+ "    int maxValue=Integer.MIN_VALUE;\n"
+				+ "    for (    int i : numbers) {\n"
+				+ "      if (i > maxValue) {\n"
+				+ "        maxValue=i;\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    boolean isTrue=false;\n"
+				+ "    int number=isTrue ? 5 : 4;\n"
 				+ "  }\n"
 				+ "}\n"
 				+ ", complexityValue=0, startLine=8, endLine=8], Statement [nodeType=while (x == 1) {\n"
@@ -165,9 +207,71 @@ class StatementVisitorTest {
 				+ "      while (x == 1) {\n"
 				+ "      }\n"
 				+ "    }\n"
+				+ "    int[] numbers={1,2,3,4,5};\n"
+				+ "    int maxValue=Integer.MIN_VALUE;\n"
+				+ "    for (    int i : numbers) {\n"
+				+ "      if (i > maxValue) {\n"
+				+ "        maxValue=i;\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    boolean isTrue=false;\n"
+				+ "    int number=isTrue ? 5 : 4;\n"
 				+ "  }\n"
 				+ "}\n"
-				+ ", complexityValue=1, startLine=9, endLine=9]]"
+				+ ", complexityValue=1, startLine=9, endLine=9], Statement [nodeType=if (i > maxValue) {\n"
+				+ "  maxValue=i;\n"
+				+ "}\n"
+				+ ", compilationUnit=public class Statement_Test {\n"
+				+ "  Statement_Test(){\n"
+				+ "    int x=0;\n"
+				+ "    if (x == 0) {\n"
+				+ "      do {\n"
+				+ "      }\n"
+				+ " while (x == 1);\n"
+				+ "      for (int i=0; i < 1; i++) {\n"
+				+ "      }\n"
+				+ "switch (x) {\n"
+				+ "      }\n"
+				+ "      while (x == 1) {\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    int[] numbers={1,2,3,4,5};\n"
+				+ "    int maxValue=Integer.MIN_VALUE;\n"
+				+ "    for (    int i : numbers) {\n"
+				+ "      if (i > maxValue) {\n"
+				+ "        maxValue=i;\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    boolean isTrue=false;\n"
+				+ "    int number=isTrue ? 5 : 4;\n"
+				+ "  }\n"
+				+ "}\n"
+				+ ", complexityValue=1, startLine=15, endLine=17], Statement [nodeType=isTrue ? 5 : 4, compilationUnit=public class Statement_Test {\n"
+				+ "  Statement_Test(){\n"
+				+ "    int x=0;\n"
+				+ "    if (x == 0) {\n"
+				+ "      do {\n"
+				+ "      }\n"
+				+ " while (x == 1);\n"
+				+ "      for (int i=0; i < 1; i++) {\n"
+				+ "      }\n"
+				+ "switch (x) {\n"
+				+ "      }\n"
+				+ "      while (x == 1) {\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    int[] numbers={1,2,3,4,5};\n"
+				+ "    int maxValue=Integer.MIN_VALUE;\n"
+				+ "    for (    int i : numbers) {\n"
+				+ "      if (i > maxValue) {\n"
+				+ "        maxValue=i;\n"
+				+ "      }\n"
+				+ "    }\n"
+				+ "    boolean isTrue=false;\n"
+				+ "    int number=isTrue ? 5 : 4;\n"
+				+ "  }\n"
+				+ "}\n"
+				+ ", complexityValue=1, startLine=21, endLine=21]]"
 				, sv.getArrayList().toString());
 		
 	}
@@ -224,7 +328,10 @@ class StatementVisitorTest {
 				+ "}\n"
 				+ ", while (x == 1) {\n"
 				+ "}\n"
-				+ "]"
+				+ ", if (i > maxValue) {\n"
+				+ "  maxValue=i;\n"
+				+ "}\n"
+				+ ", isTrue ? 5 : 4]"
 				, sv.getNodes().toString());
 	}
 	
@@ -278,6 +385,7 @@ class StatementVisitorTest {
 		// Ensure there is only one node in StatementVisitor
 		assertEquals(1, testSV.getNodes().size());
 		// Ensure that the node is doStatement
+		System.out.println(sv.getNodes().size());
 		assertEquals(sv.getNodes().get(3), testSV.getNodes().get(0));
 	}
 
@@ -291,6 +399,18 @@ class StatementVisitorTest {
 		assertEquals(1, testSV.getNodes().size());
 		// Ensure that the node is doStatement
 		assertEquals(sv.getNodes().get(4), testSV.getNodes().get(0));
+	}
+	
+	@Test
+	void testConditionalExpression() {
+		// Create a new StatementVisitor
+		StatementVisitor testSV = new StatementVisitor(cu);
+		// Visit a DoStatment ASTNode in StatementVisitor
+		testSV.visit(conditionals.get(0));
+		// Ensure there is only one node in StatementVisitor
+		assertEquals(1, testSV.getNodes().size());
+		// Ensure that the node is doStatement
+		assertEquals(sv.getNodes().get(6), testSV.getNodes().get(0));
 	}
 
 }

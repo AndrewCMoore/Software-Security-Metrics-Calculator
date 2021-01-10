@@ -7,6 +7,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
@@ -166,6 +167,15 @@ public class StatementVisitor extends ASTVisitor {
 		getChildren1(node);
 		//System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
+	}
+	
+	public boolean visit(ConditionalExpression node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
+		return true;
 	}
 }
 
