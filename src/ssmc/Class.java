@@ -3,6 +3,7 @@
 package ssmc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
@@ -26,9 +27,8 @@ public class Class {
 		this.serialized = false;
 		this.critical = false;
 		this.setEnum(false);
-		 methods = new ArrayList<Method>();
-		 attributes = new ArrayList<Attribute>();
-		 
+		methods = new ArrayList<Method>();
+		attributes = new ArrayList<Attribute>();
 		this.modifier = new ArrayList<String>();
 		
 	}
@@ -47,6 +47,34 @@ public class Class {
 	public void addMethod(Method method) {
 		methods.add(method);
 	}
+	
+	public HashMap<String, Integer> getNumOfStatements() {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int numIf = 0; 
+		int numFor = 0;
+		int numDo = 0;
+		int numSwitch = 0;
+		int numWhile = 0;
+		
+		for(Method m : methods) {
+			HashMap<String, Integer> tempMap = m.getNumOfStatements();
+			numIf += tempMap.get("If");
+			numFor += tempMap.get("For");
+			numDo += tempMap.get("Do");
+			numSwitch += tempMap.get("Switch");
+			numWhile += tempMap.get("While");	
+		}
+		
+		map.put("If", numIf);
+		map.put("For", numFor);
+		map.put("Do", numDo);
+		map.put("Switch", numSwitch);
+		map.put("While", numWhile);
+		
+		return map;
+		
+	}
+	
 	public ArrayList<Attribute> getAttributes(){
 		return attributes;
 	}
@@ -72,6 +100,8 @@ public class Class {
 	public int getStartLine() {
 		return startLine;
 	}
+	
+	
 	// I kind of need a way to differentiate between attributes declared at the class level and 
 	// attributes declared within a method and im not sure if that is possible
 	public boolean isAttributeInMethod(Attribute a) {

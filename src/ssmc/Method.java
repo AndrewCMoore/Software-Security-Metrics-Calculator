@@ -1,8 +1,14 @@
 package ssmc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.DoStatement;
+import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.WhileStatement;
 
 public class Method {
 	
@@ -116,6 +122,10 @@ public class Method {
 		return startLine;
 	}
 	
+	public ArrayList<Statement> getStatements(){
+		return statements;
+	}
+	
 	public int getUsage() {
 		return this.usage;
 	}
@@ -181,5 +191,72 @@ public class Method {
 	public String toString() {
 		return this.identifier;
 	}
+	
+	
+	// Return the number of types of statement within each Method 
+	
+	public HashMap<String, Integer> getNumOfStatements() {
+		
+		int numIf = 0; 
+		int numFor = 0;
+		int numDo = 0;
+		int numSwitch = 0;
+		int numWhile = 0;
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		
+		for(Statement s : statements) {
+			if(s.getNode() instanceof IfStatement) {
+				numIf += 1;
+			}
+			if(s.getNode() instanceof ForStatement) {
+				numFor += 1;
+			}
+			if(s.getNode() instanceof DoStatement) {
+				numDo += 1;
+			}
+			if(s.getNode() instanceof SwitchStatement) {
+				numSwitch += 1;
+			}
+			if(s.getNode() instanceof WhileStatement) {
+				numWhile += 1;
+			}
+		}
+		
+		map.put("If", numIf);
+		map.put("For", numFor);
+		map.put("Do", numDo);
+		map.put("Switch", numSwitch);
+		map.put("While", numWhile);
+	
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
