@@ -457,5 +457,13 @@ class StatementVisitorTest {
 		// Ensure that the node is doStatement
 		assertEquals(sv.getNodes().get(7), testSV.getNodes().get(0));
 	}
+	
+	@Test
+	void testTryStatement() {
+		StatementVisitor testSV = new StatementVisitor(cu);
+		testSV.visit(trys.get(0));
+		assertEquals(1, testSV.getNodes().size());
+		assertEquals(sv.getNodes().get(11), testSV.getNodes().get(0));
+	}
 
 }
