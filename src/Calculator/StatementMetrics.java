@@ -25,10 +25,10 @@ public class StatementMetrics {
 				Class classNode = (Class) o;
 				ArrayList<Method> methodList = classNode.getMethods();
 				for(Method method : methodList) {
-					//HashMap<String, Integer> statements = method.getNumOfStatements();
+					HashMap<String, Integer> statements = method.getNumOfStatements();
 					System.out.println(classNode.getIdentifier());
 					System.out.println(method.getIdentifier() + ": " + method.getMethodComplexity());
-					//printMap(statements);
+					printMap(statements);
 					
 				}
 			}
