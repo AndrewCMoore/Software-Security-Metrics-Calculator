@@ -83,6 +83,9 @@ public class StatementVisitor extends ASTVisitor {
 			for(int i = 0; i < this.getChildren(node).length; i++) {
 				ASTNode node1 = (ASTNode) this.getChildren(node)[i];
 				switch(node1.getNodeType()) {
+				case 12: 
+					visit((CatchClause) node1);
+					break;
 				case 16:
 					visit((ConditionalExpression) node1);
 					break;
@@ -95,11 +98,20 @@ public class StatementVisitor extends ASTVisitor {
 				case 25:
 					visit((IfStatement) node1);
 					break;
+				case 41: 
+					visit((ReturnStatement) node1);
+					break;
 				case 49:
 					visit((SwitchCase) node1);
 					break;
 				case 50:
 					visit((SwitchStatement) node1);
+					break;
+				case 53: 
+					visit((ThrowStatement) node1);
+					break;
+				case 54: 
+					visit((TryStatement) node1);
 					break;
 				case 61: 
 					visit((WhileStatement) node1);
@@ -226,7 +238,11 @@ public class StatementVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(ReturnStatement node) {
-		
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
 		return true;
 	}
 	
