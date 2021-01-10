@@ -39,7 +39,7 @@ class StatementTest {
 	void testGetCompilationUnit() {
 		CompilationUnit cu = CAMValues.parse(this.iCompilationUnit);
 		assertEquals(cu.getFlags(), this.ifStatement.getCompilationUnit().getFlags());
-		assertEquals(cu.getCommentList(), this.ifStatement.getCompilationUnit().getCommentList());
+		assertEquals(cu.getCommentList().toString(), this.ifStatement.getCompilationUnit().getCommentList().toString());
 		assertEquals(cu.getLength(), this.ifStatement.getCompilationUnit().getLength());
 		assertEquals(cu.getParent(), this.ifStatement.getCompilationUnit().getParent());
 	}
