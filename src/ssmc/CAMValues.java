@@ -127,7 +127,7 @@ public class CAMValues {
 		int min=Integer.MAX_VALUE;
 		for(Method m:methods) {
 			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
-			if(m.getStartLine()<s.getStartLine()&&m.getEndLine()>s.getEndLine()) {
+			if(m.getStartLine()<=s.getStartLine()&&m.getEndLine()>=s.getEndLine()) {
 				int size = m.getEndLine()-m.getStartLine();				
 				if(size<min) {
 					
