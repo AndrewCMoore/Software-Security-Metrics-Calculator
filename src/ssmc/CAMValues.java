@@ -142,6 +142,7 @@ public class CAMValues {
 	}
 	
 	public static Class[] getClasses(ICompilationUnit unit) {
+		
 		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
 		ArrayList<Method> methods = generateMethodAST(unit);
 		ArrayList<Statement> statements = generateStatementAST(unit);

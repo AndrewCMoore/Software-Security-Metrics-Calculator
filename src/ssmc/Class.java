@@ -1,5 +1,3 @@
-
-
 package ssmc;
 
 import java.util.ArrayList;

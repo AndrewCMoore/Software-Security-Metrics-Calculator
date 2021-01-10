@@ -230,9 +230,13 @@ public class Method {
 		return map;
 	}
 	
-	
-	
-	
+	public int getMethodComplexity1() {
+		int complexity = 0;;
+		for(Statement s : statements) {
+			complexity += s.getComplexity();
+		}
+		return complexity;
+	}
 	
 	
 	
