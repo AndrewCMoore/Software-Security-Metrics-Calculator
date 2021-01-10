@@ -10,8 +10,10 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.DoStatement;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,7 @@ class StatementVisitorTest {
 	private CompilationUnit cu;
 	private StatementVisitor sv;
 	private ArrayList<DoStatement> doStatements;  
-	private ArrayList<ForStatement> forStatements;
+	private ArrayList<Statement> forStatements;
 	private ArrayList<IfStatement> ifStatements;
 	private ArrayList<SwitchStatement> switchStatements;
 	private ArrayList<WhileStatement> whileStatements;
@@ -34,7 +36,7 @@ class StatementVisitorTest {
 		MainTest mt = new MainTest();
 		
 		this.doStatements = new ArrayList<DoStatement>();
-		this.forStatements = new ArrayList<ForStatement>();
+		this.forStatements = new ArrayList<Statement>();
 		this.ifStatements = new ArrayList<IfStatement>();
 		this.switchStatements = new ArrayList<SwitchStatement>();
 		this.whileStatements = new ArrayList<WhileStatement>();
@@ -53,6 +55,9 @@ class StatementVisitorTest {
 			} 
 			if(o instanceof ForStatement) {
 				forStatements.add((ForStatement) o);
+			}
+			if(o instanceof EnhancedForStatement) {
+				forStatements.add((EnhancedForStatement) o);
 			}
 			if(o instanceof IfStatement) {
 				ifStatements.add((IfStatement) o);
@@ -357,13 +362,24 @@ class StatementVisitorTest {
 		// Create a new StatementVisitor
 		StatementVisitor testSV = new StatementVisitor(cu);
 		// Visit a DoStatment ASTNode in StatementVisitor
-		testSV.visit(forStatements.get(0));
+		testSV.visit((ForStatement) forStatements.get(0));
 		// Ensure there is only one node in StatementVisitor
 		assertEquals(1, testSV.getNodes().size());
 		// Ensure that the node is doStatement
 		assertEquals(sv.getNodes().get(2), testSV.getNodes().get(0));
 	}
 
+	@Test
+	void testForEachStatement() {
+		// Create a new StatementVisitor
+		StatementVisitor testSV = new StatementVisitor(cu);
+		// Visit a DoStatment ASTNode in StatementVisitor
+		testSV.visit((EnhancedForStatement) forStatements.get(1));
+		// Ensure there is only one node in StatementVisitor
+		assertEquals(2, testSV.getNodes().size());
+		// Ensure that the node is doStatement
+		assertEquals(sv.getNodes().get(5), testSV.getNodes().get(0));
+	}
 	@Test
 	void testVisitIfStatement() {
 		// Create a new StatementVisitor
@@ -410,7 +426,7 @@ class StatementVisitorTest {
 		// Ensure there is only one node in StatementVisitor
 		assertEquals(1, testSV.getNodes().size());
 		// Ensure that the node is doStatement
-		assertEquals(sv.getNodes().get(6), testSV.getNodes().get(0));
+		assertEquals(sv.getNodes().get(7), testSV.getNodes().get(0));
 	}
 
 }
