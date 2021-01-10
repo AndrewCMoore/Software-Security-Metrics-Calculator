@@ -11,10 +11,10 @@ import tree.JDTree;
 public class StatementMetrics {
 	
 	public StatementMetrics(JDTree[] classes) {
-		this.numIfThenElseLoopsSwitch(classes);
+		this.methodComplexity(classes);
 	}
 	
-	private HashMap<String, Integer> numIfThenElseLoopsSwitch(JDTree[] classes) {
+	private HashMap<String, Integer> methodComplexity(JDTree[] classes) {
 		HashMap<String, Integer> calcMap = new HashMap<String, Integer>();
 		int count = 0;
 		int total = 0;
@@ -25,10 +25,10 @@ public class StatementMetrics {
 				Class classNode = (Class) o;
 				ArrayList<Method> methodList = classNode.getMethods();
 				for(Method method : methodList) {
-					HashMap<String, Integer> statements = method.getNumOfStatements();
-					System.out.println(method.getIdentifier());
-					System.out.println(classNode.getIdentifier() + ": " + method.getMethodComplexity1());
-					printMap(statements);
+					//HashMap<String, Integer> statements = method.getNumOfStatements();
+					System.out.println(classNode.getIdentifier());
+					System.out.println(method.getIdentifier() + ": " + method.getMethodComplexity());
+					//printMap(statements);
 					
 				}
 			}

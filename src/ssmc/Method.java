@@ -228,7 +228,9 @@ public class Method {
 	
 	public int getMethodComplexity() {
 		int complexity = 1;
+		System.out.println(statements.size());
 		for(Statement s : statements) {
+			System.out.println(s.getNode());
 			complexity += s.getComplexity();
 		}
 		return complexity;
