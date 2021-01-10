@@ -229,7 +229,7 @@ public class Method {
 	}
 	
 	public int getMethodComplexity() {
-		int complexity = 0;;
+		int complexity = 1;
 		for(Statement s : statements) {
 			complexity += s.getComplexity();
 		}
