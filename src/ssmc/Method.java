@@ -3,7 +3,6 @@ package ssmc;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
@@ -195,7 +194,6 @@ public class Method {
 		int numDo = 0;
 		int numSwitch = 0;
 		int numWhile = 0;
-		int numCatch = 0;
 		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		
@@ -218,9 +216,6 @@ public class Method {
 			if(s.getNode() instanceof WhileStatement) {
 				numWhile += 1;
 			}
-			if(s.getNode() instanceof CatchClause) {
-				numCatch += 1;
-			}
 		}
 		
 		map.put("If", numIf);
@@ -228,8 +223,7 @@ public class Method {
 		map.put("Do", numDo);
 		map.put("Switch", numSwitch);
 		map.put("While", numWhile);
-		map.put("Catch", numCatch);
-		
+	
 		return map;
 	}
 	
