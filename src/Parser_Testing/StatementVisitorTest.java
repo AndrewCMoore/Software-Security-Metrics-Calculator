@@ -463,7 +463,7 @@ class StatementVisitorTest {
 		StatementVisitor testSV = new StatementVisitor(cu);
 		testSV.visit(trys.get(0));
 		assertEquals(1, testSV.getNodes().size());
-		assertEquals(sv.getNodes().get(11), testSV.getNodes().get(0));
+		assertEquals(sv.getNodes().get(12), testSV.getNodes().get(0));
 	}
 	
 	@Test
@@ -471,7 +471,22 @@ class StatementVisitorTest {
 		StatementVisitor testSV = new StatementVisitor(cu);
 		testSV.visit(catches.get(0));
 		assertEquals(1, testSV.getNodes().size());
-		assertEquals(sv.getNodes().get(12), testSV.getNodes().get(0));
+		assertEquals(sv.getNodes().get(13), testSV.getNodes().get(0));
+	}
+	
+	// Need to fix this implementation: Gets all of the returns statemetns, we only want them if they aren't the last in the method.
+	@Test
+	void testReturnStatement() {
+		StatementVisitor testSV = new StatementVisitor(cu);
+		System.out.print("SAD " + returns.toString());
+	}
+	
+	@Test
+	void testThrowStatement() {
+		StatementVisitor testSV = new StatementVisitor(cu);
+		testSV.visit(Throws.get(0));
+		assertEquals(1, testSV.getNodes().size());
+		assertEquals(sv.getNodes().get(11), testSV.getNodes().get(0));
 	}
 
 }
