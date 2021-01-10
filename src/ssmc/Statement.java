@@ -2,6 +2,10 @@ package ssmc;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.DoStatement;
+import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.SwitchStatement;
 
 public class Statement {
 	private CompilationUnit compilationUnit;
@@ -36,6 +40,8 @@ public class Statement {
 	public int getStartLine() {
 		return this.startLine;
 	}
+
+	
 
 	@Override
 	public String toString() {
