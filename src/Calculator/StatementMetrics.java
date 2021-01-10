@@ -11,7 +11,7 @@ import tree.JDTree;
 public class StatementMetrics {
 	
 	public StatementMetrics(JDTree[] classes) {
-		//this.numIfThenElseLoopsSwitch(classes);
+		this.numIfThenElseLoopsSwitch(classes);
 	}
 	
 	private HashMap<String, Integer> numIfThenElseLoopsSwitch(JDTree[] classes) {
@@ -25,12 +25,10 @@ public class StatementMetrics {
 				Class classNode = (Class) o;
 				ArrayList<Method> methodList = classNode.getMethods();
 				for(Method method : methodList) {
-					ArrayList<Statement> statementList = method.getStatements();
-					for(Statement statement : statementList) {
-						System.out.println(count);
-						System.out.println(statement.getNode());
-						count++;
-					}
+					HashMap<String, Integer> statements = method.getNumOfStatements();
+					System.out.println(method.getIdentifier());
+					printMap(statements);
+					
 				}
 			}
 		}
