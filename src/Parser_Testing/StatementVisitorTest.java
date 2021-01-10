@@ -103,7 +103,7 @@ class StatementVisitorTest {
 			}
 		}		
 	}
-	
+
 	@Test
 	void testGetArrayList() {
 		assertEquals(
@@ -720,7 +720,7 @@ class StatementVisitorTest {
 				+ " catch (    Exception e) {\n"
 				+ "    }\n"
 				+ "  }\n"
-				+ "}\n"
+				+ "}  \n"
 				+ ", complexityValue=1, startLine=42, endLine=44]]"
 				, sv.getArrayList().toString());
 		

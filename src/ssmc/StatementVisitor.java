@@ -37,14 +37,15 @@ public class StatementVisitor extends ASTVisitor {
 	public ArrayList<Statement> getArrayList() {
 		return this.statementList;
 	}
-	@SuppressWarnings("unchecked")
+
 	public Object[] getChildren(ASTNode node) {
-	    List<ASTNode> list= node.structuralPropertiesForType();
+		Object child;
+	    List list= node.structuralPropertiesForType();
 	    for (Object element : list) {
 	        StructuralPropertyDescriptor curr= (StructuralPropertyDescriptor) element;
-	            Object child= node.getStructuralProperty(curr);
+	            child= node.getStructuralProperty(curr);
 	        if (child instanceof List) {
-	                return ((List<ASTNode>) child).toArray();
+	                return ((List) child).toArray();
 	        } else if (child instanceof ASTNode) {
 	            return new Object[] { child };
 	            }
@@ -70,10 +71,7 @@ public class StatementVisitor extends ASTVisitor {
 	            } 
 	            
 	         }
-	    }else {
-	    	
-	        return; 
-	    }       
+	    } 
 	}
 	public ArrayList<ASTNode> getNodes(){
 		return this.nodes;
@@ -242,7 +240,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		//statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		//getChildren1(node);
 		return true;
 	}
 	
