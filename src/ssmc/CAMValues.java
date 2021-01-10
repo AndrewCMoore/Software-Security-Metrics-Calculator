@@ -210,7 +210,7 @@ public class CAMValues {
 			arrayList.add("native");
 		}
 		if( (modifiers & 512)!=0) {
-			arrayList.add("");
+			arrayList.add("DEFAULT");
 		}
 		if( (modifiers & 1024)!=0) {
 			arrayList.add("abstract");

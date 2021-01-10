@@ -8,6 +8,4 @@ public enum NodeType {
 	CLASS,
 	METHOD,
 	ATTRIBUTE
-	
-
 }

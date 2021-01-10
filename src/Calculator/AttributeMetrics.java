@@ -56,8 +56,8 @@ public class AttributeMetrics {
 				Class classNode = (Class) o; 									
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
 				for(Attribute attribute : attributeList) { 						
-					//System.out.println(attribute.toString());
-					if(attribute.getModifier().contains("private") || attribute.getModifier().contains("protected") || attribute.getModifier().contains("")) {
+					System.out.println(attribute.toString());
+					if(attribute.getModifier().contains("private") || attribute.getModifier().contains("protected") || attribute.getModifier().contains("DEFAULT")) {
 						if(!classNode.isAttributeInMethod(attribute) && !attribute.getModifier().contains("static")) {
 							count++;
 						} 												
