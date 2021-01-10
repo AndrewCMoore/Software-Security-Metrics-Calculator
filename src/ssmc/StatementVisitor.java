@@ -242,7 +242,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		//statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		//getChildren1(node);
 		return true;
 	}
 	
