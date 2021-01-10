@@ -14,13 +14,8 @@ public class Calculator {
 	}
 
 	public void calculate() {
-		AttributeMetrics attributes = new AttributeMetrics();
-		MethodMetrics methods = new MethodMetrics();
-		//attributes.numPublicInstanceAttributes(classes);
-		attributes.numPrivateProtectedInstanceAttributes(classes);
-		attributes.numPublicClassAttributes(classes);
-		//attributes.numPrivateProtectedClassAttributes(classes);
-		//methods.numNonFinalPrivateProtectedMethods(classes);
+		AttributeMetrics attributes = new AttributeMetrics(classes);
+		MethodMetrics methods = new MethodMetrics(classes);
 	}
 
 }

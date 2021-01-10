@@ -1,6 +1,7 @@
 package Calculator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ssmc.Class;
 import ssmc.Method;
@@ -8,7 +9,12 @@ import tree.JDTree;
 
 public class MethodMetrics {
 
-	protected int numNonFinalPrivateProtectedMethods(JDTree[] classes) {
+	public MethodMetrics(JDTree[] classes) {
+		//this.numNonFinalPrivateProtectedMethods(classes);
+	}
+
+	private HashMap<String, Integer> numNonFinalPrivateProtectedMethods(JDTree[] classes) {
+		HashMap<String, Integer> calcMap = new HashMap<String, Integer>();
 		int total = 0;
 		int count = 0;
 
@@ -24,12 +30,14 @@ public class MethodMetrics {
 					}
 				}
 				System.out.println("Non-Final Private Protected Methods in " + classNode.getIdentifier() + " : " + count);
+				calcMap.put(classNode.getIdentifier(), count);
 				total += count;
 				count = 0;
 			}
 			//ArrayList<Method> methods = (Method) classes[i]
 		}
 		System.out.println("program total: " + total);
-		return total;
+		calcMap.put("total", total);
+		return calcMap;
 	}
 }
