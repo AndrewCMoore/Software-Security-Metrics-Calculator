@@ -235,9 +235,9 @@ public class Method {
 			}
 			complexity += s.getComplexity();
 		}
-		
-		complexity += numOfReturnStatements - 1;
-		
+		if(numOfReturnStatements > 1) {
+			complexity += numOfReturnStatements - 1;
+		}
 		return complexity;
 	}
 	
