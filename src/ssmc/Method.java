@@ -34,7 +34,6 @@ public class Method {
 		this.length = 0;
 		this.numberOfOutputs = 0;
 		this.numberOfInputs	 = 0;
-		this.methodComplexity = 0.0;
 		this.isClassified = false;
 		this.isWriteClassified = false;	
 		this.isInherited = false;
@@ -238,6 +237,7 @@ public class Method {
 		if(numOfReturnStatements > 1) {
 			complexity += numOfReturnStatements - 1;
 		}
+		
 		return complexity;
 	}
 	
