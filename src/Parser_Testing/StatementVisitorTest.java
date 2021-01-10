@@ -7,14 +7,19 @@ import java.util.ArrayList;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.ThrowStatement;
+import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +36,10 @@ class StatementVisitorTest {
 	private ArrayList<SwitchStatement> switchStatements;
 	private ArrayList<WhileStatement> whileStatements;
 	private ArrayList<ConditionalExpression> conditionals;
+	private ArrayList<TryStatement> trys;
+	private ArrayList<ThrowStatement> Throws;
+	private ArrayList<CatchClause> catches;
+	private ArrayList<ReturnStatement> returns;
 	
 	public StatementVisitorTest() throws CoreException {
 		MainTest mt = new MainTest();
@@ -41,6 +50,10 @@ class StatementVisitorTest {
 		this.switchStatements = new ArrayList<SwitchStatement>();
 		this.whileStatements = new ArrayList<WhileStatement>();
 		this.conditionals = new ArrayList<ConditionalExpression>();
+		this.trys = new ArrayList<TryStatement>();
+		this.Throws = new ArrayList<ThrowStatement>();
+		this.catches = new ArrayList<CatchClause>();
+		this.returns = new ArrayList<ReturnStatement>();
 		
 		ICompilationUnit iCompilationUnit = mt.AccessTestClass().getCompilationUnit("Statement_Test.java");
 		this.cu = CAMValues.parse(iCompilationUnit);
@@ -49,32 +62,48 @@ class StatementVisitorTest {
 		
 		ArrayList<ASTNode> nodes = sv.getNodes();
 		
-		for(Object o: nodes) {
-			if(o instanceof DoStatement) {
-				doStatements.add((DoStatement) o);
-			} 
-			if(o instanceof ForStatement) {
-				forStatements.add((ForStatement) o);
+		for(ASTNode node : nodes) {
+	
+			switch(node.getNodeType()){
+				case 12: 
+					this.catches.add((CatchClause) node);
+					break;
+				case 16:
+					this.conditionals.add((ConditionalExpression) node);
+					break;
+				case 19: 
+					this.doStatements.add((DoStatement) node);
+					break;
+				case 24:
+					this.forStatements.add((ForStatement) node);
+					break;
+				case 25:
+					this.ifStatements.add((IfStatement) node);
+					break;
+				case 41: 
+					this.returns.add((ReturnStatement) node);
+					break;
+				case 50:
+					this.switchStatements.add((SwitchStatement) node);
+					break;
+				case 53: 
+					this.Throws.add((ThrowStatement) node);
+					break;
+				case 54: 
+					this.trys.add((TryStatement) node);
+					break;
+				case 61: 
+					this.whileStatements.add((WhileStatement) node);
+					break;
+				case 70:
+					this.forStatements.add((EnhancedForStatement) node);
+					break;
+				default:
+					break;		
 			}
-			if(o instanceof EnhancedForStatement) {
-				forStatements.add((EnhancedForStatement) o);
-			}
-			if(o instanceof IfStatement) {
-				ifStatements.add((IfStatement) o);
-			}
-		    if(o instanceof SwitchStatement) {
-				switchStatements.add((SwitchStatement) o);
-			}
-			if(o instanceof WhileStatement) {
-				whileStatements.add((WhileStatement) o);
-			}
-			if(o instanceof ConditionalExpression) {
-				conditionals.add((ConditionalExpression) o);
-			}
-		}
-		
-		
+		}		
 	}
+	
 	@Test
 	void testGetArrayList() {
 		assertEquals(
