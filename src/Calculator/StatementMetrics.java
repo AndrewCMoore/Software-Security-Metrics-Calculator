@@ -27,6 +27,7 @@ public class StatementMetrics {
 				for(Method method : methodList) {
 					HashMap<String, Integer> statements = method.getNumOfStatements();
 					System.out.println(method.getIdentifier());
+					System.out.println(classNode.getIdentifier() + ": " + method.getMethodComplexity1());
 					printMap(statements);
 					
 				}
