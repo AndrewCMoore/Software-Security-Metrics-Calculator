@@ -7,6 +7,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
@@ -22,7 +23,6 @@ public class Method {
 	private boolean isWriteClassified;
 	private int length;
 	private int links;
-	private double methodComplexity;
 	private ArrayList<String> modifiers;
 	private int numberOfInputs;
 	private int numberOfOutputs;
@@ -34,7 +34,6 @@ public class Method {
 		this.length = 0;
 		this.numberOfOutputs = 0;
 		this.numberOfInputs	 = 0;
-		this.methodComplexity = 0.0;
 		this.isClassified = false;
 		this.isWriteClassified = false;	
 		this.isInherited = false;
@@ -154,9 +153,7 @@ public class Method {
 	public void setLinks(int links) {
 		this.links = links;
 	}
-	public void setMethodComplexity(double newMethodComplexity) {
-		this.methodComplexity = newMethodComplexity;		
-	}
+
 	public void setMethodLength(int newLength) {
 		this.length = newLength;
 		
@@ -228,11 +225,17 @@ public class Method {
 	
 	public int getMethodComplexity() {
 		int complexity = 1;
-		System.out.println(statements.size());
+		int numOfReturnStatements = 0;
 		for(Statement s : statements) {
-			System.out.println(s.getNode());
+			if(s.getNode().getNodeType() == 41) {
+				numOfReturnStatements += 1;
+			}
 			complexity += s.getComplexity();
 		}
+		if(numOfReturnStatements > 1) {
+			complexity += numOfReturnStatements - 1;
+		}
+		
 		return complexity;
 	}
 	

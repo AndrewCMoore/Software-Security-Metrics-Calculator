@@ -6,11 +6,17 @@ import java.util.List;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.DoStatement;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.ThrowStatement;
+import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 import org.eclipse.jdt.core.dom.SwitchCase;
@@ -77,6 +83,12 @@ public class StatementVisitor extends ASTVisitor {
 			for(int i = 0; i < this.getChildren(node).length; i++) {
 				ASTNode node1 = (ASTNode) this.getChildren(node)[i];
 				switch(node1.getNodeType()) {
+				case 12: 
+					visit((CatchClause) node1);
+					break;
+				case 16:
+					visit((ConditionalExpression) node1);
+					break;
 				case 19: 
 					visit((DoStatement) node1);
 					break;
@@ -86,14 +98,26 @@ public class StatementVisitor extends ASTVisitor {
 				case 25:
 					visit((IfStatement) node1);
 					break;
+				case 41: 
+					visit((ReturnStatement) node1);
+					break;
 				case 49:
 					visit((SwitchCase) node1);
 					break;
 				case 50:
 					visit((SwitchStatement) node1);
 					break;
+				case 53: 
+					visit((ThrowStatement) node1);
+					break;
+				case 54: 
+					visit((TryStatement) node1);
+					break;
 				case 61: 
 					visit((WhileStatement) node1);
+					break;
+				case 70:
+					visit((EnhancedForStatement) node1);
 					break;
 				default:
 					break;		
@@ -167,5 +191,94 @@ public class StatementVisitor extends ASTVisitor {
 		//System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
 	}
+	
+	public boolean visit(ConditionalExpression node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
+		return true;
+	}
+	
+	public boolean visit(EnhancedForStatement node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
+		return false;
+	}
+	
+	public boolean visit(ThrowStatement node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
+		return true;
+	}
+	
+	public boolean visit(TryStatement node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
+		return true;
+	}
+	
+	public boolean visit(CatchClause node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
+		return true;
+	}
+	
+	public boolean visit(ReturnStatement node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		//statement.addComplexity(1);
+		statementList.add(statement);
+		getChildren1(node);
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
