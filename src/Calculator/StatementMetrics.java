@@ -1,19 +1,46 @@
 package Calculator;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import ssmc.Method;
+import ssmc.Statement;
+import ssmc.Class;
 import tree.JDTree;
 
 public class StatementMetrics {
 	
 	public StatementMetrics(JDTree[] classes) {
-		this.numIfThenElseLoopsSwitch(classes);
+		//this.numIfThenElseLoopsSwitch(classes);
 	}
 	
-	private int numIfThenElseLoopsSwitch(JDTree[] classes) {
+	private HashMap<String, Integer> numIfThenElseLoopsSwitch(JDTree[] classes) {
+		HashMap<String, Integer> calcMap = new HashMap<String, Integer>();
 		int count = 0;
 		int total = 0;
 		
+		for(int i = 0; i < classes.length; i++) {
+			Object o = classes[i].getNode();
+			if(o instanceof Class) {
+				Class classNode = (Class) o;
+				ArrayList<Method> methodList = classNode.getMethods();
+				for(Method method : methodList) {
+					ArrayList<Statement> statementList = method.getStatements();
+					for(Statement statement : statementList) {
+						System.out.println(count);
+						System.out.println(statement.getNode());
+						count++;
+					}
+				}
+			}
+		}
 		
-		
-		return total;
+		return calcMap;
+	}
+	
+	private void printMap(HashMap<String, Integer> map) {
+		for(String key : map.keySet()) {
+			System.out.println(key + ": " + map.get(key) + ", ");
+		}
 	}
 }

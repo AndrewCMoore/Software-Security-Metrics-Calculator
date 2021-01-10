@@ -16,6 +16,7 @@ public class Calculator {
 	public void calculate() {
 		AttributeMetrics attributes = new AttributeMetrics(classes);
 		MethodMetrics methods = new MethodMetrics(classes);
+		StatementMetrics statements = new StatementMetrics(classes);
 	}
 
 }

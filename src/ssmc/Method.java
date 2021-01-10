@@ -50,6 +50,10 @@ public class Method {
 	public void addStatement(Statement statement) {
 		this.statements.add(statement);
 	}
+	
+	public ArrayList<Statement> getStatements(){
+		return this.statements;
+	}
 
 	public void addUsage() {
 		this.usage = this.usage + 1;
@@ -95,8 +99,6 @@ public class Method {
 			
 	}
 	
-	
-
 	public ArrayList<String> getModifiers(){
 		return this.modifiers;
 		
