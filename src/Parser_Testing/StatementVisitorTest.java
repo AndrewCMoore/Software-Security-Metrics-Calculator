@@ -465,5 +465,13 @@ class StatementVisitorTest {
 		assertEquals(1, testSV.getNodes().size());
 		assertEquals(sv.getNodes().get(11), testSV.getNodes().get(0));
 	}
+	
+	@Test
+	void testCatchClause() {
+		StatementVisitor testSV = new StatementVisitor(cu);
+		testSV.visit(catches.get(0));
+		assertEquals(1, testSV.getNodes().size());
+		assertEquals(sv.getNodes().get(12), testSV.getNodes().get(0));
+	}
 
 }
