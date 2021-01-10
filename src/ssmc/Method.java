@@ -91,10 +91,6 @@ public class Method {
 	public int getLinks() {
 		return links;
 	}
-	public double getMethodComplexity() {
-		return methodComplexity;
-		
-	}
 
 	public int getMethodLength() {
 		return length;
@@ -232,7 +228,7 @@ public class Method {
 		return map;
 	}
 	
-	public int getMethodComplexity1() {
+	public int getMethodComplexity() {
 		int complexity = 0;;
 		for(Statement s : statements) {
 			complexity += s.getComplexity();
