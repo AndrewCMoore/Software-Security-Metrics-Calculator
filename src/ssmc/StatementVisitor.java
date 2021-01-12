@@ -274,6 +274,7 @@ public class StatementVisitor extends ASTVisitor {
 	
 	public boolean visit(ThrowStatement node) {
 		this.nodes.add(node);
+		System.out.println("THROWS: " + node.toString());
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
