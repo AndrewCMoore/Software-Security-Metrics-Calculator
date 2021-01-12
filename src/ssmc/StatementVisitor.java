@@ -7,12 +7,16 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CatchClause;
+import org.eclipse.jdt.core.dom.ChildPropertyDescriptor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.ThrowStatement;
@@ -142,16 +146,42 @@ public class StatementVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	public int getOperators(Expression e) {
+		if(e instanceof InfixExpression) {
+			InfixExpression i = (InfixExpression) e;
+			if(i.getOperator()!=null) {
+				return 1 + getOperators(i.getLeftOperand()) + getOperators(i.getRightOperand());
+			}
+		}
+		return 0;
+	}
+	
 	public boolean visit(IfStatement node) {
 		this.nodes.add(node);
+		
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
+		List<?> list = node.structuralPropertiesForType();
+		for(Object o : list) {
+			StructuralPropertyDescriptor property = (StructuralPropertyDescriptor) o;
+			Object child = node.getStructuralProperty(property);
+            if (child instanceof Expression) {
+                if(child instanceof InfixExpression) {
+                	InfixExpression infix = (InfixExpression) child;
+                	statement.addComplexity(getOperators(infix)-1);
+                }
+                
+            } 
+			
+			
+		}
 		if(node.getElseStatement() != null) {
 			if(node.getElseStatement() instanceof Block) {}
 			else {
 				//System.out.println(node.getElseStatement());
 				visit((IfStatement) node.getElseStatement());
+				
 			}			
 		}
 		getChildren1(node);

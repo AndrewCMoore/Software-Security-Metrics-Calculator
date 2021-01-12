@@ -46,7 +46,7 @@ public class CAMValues {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		CommentVisitor cv = new CommentVisitor(cu);
 		cu.accept(cv);
-		System.out.println("The total number of commented lines is: " + cv.getLineCount());
+		//System.out.println("The total number of commented lines is: " + cv.getLineCount());
 	}
 	
 	/**
@@ -59,11 +59,11 @@ public class CAMValues {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		MethodVisitor mv = new MethodVisitor(cu);
 		cu.accept(mv);
-		System.out.println("\n======================================");
+		//System.out.println("\n======================================");
 		for(Method m :mv.getMethods()) {
-			System.out.println(m.getIdentifier());
+			//System.out.println(m.getIdentifier());
 		}
-		System.out.println("======================================\n");
+		//System.out.println("======================================\n");
 		return mv.getMethods();
 	}
 	
@@ -77,8 +77,8 @@ public class CAMValues {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
-		System.out.println("In the Compilation Unit: " + unit.getElementName()
-						  +" the values returned are: \n"  + sv.toString());
+		//System.out.println("In the Compilation Unit: " + unit.getElementName()
+		//				  +" the values returned are: \n"  + sv.toString());
 		
 		return sv.getArrayList();
 	}
@@ -98,7 +98,7 @@ public class CAMValues {
 				}
 			}
 		}
-		System.out.println("The method is "+a.getIdentifier()+" and it belongs to "+cl.getIdentifier());
+		//System.out.println("The method is "+a.getIdentifier()+" and it belongs to "+cl.getIdentifier());
 		return cl;
 	}
 	
@@ -117,7 +117,7 @@ public class CAMValues {
 				}
 			}
 		}
-		System.out.println("The method is "+m.getIdentifier()+" and it belongs to "+cl.getIdentifier());
+		//System.out.println("The method is "+m.getIdentifier()+" and it belongs to "+cl.getIdentifier());
 		return cl;
 	}
 	
@@ -137,7 +137,7 @@ public class CAMValues {
 				}
 			}
 		}
-		System.out.println("The statement is " + getStatementNodeSimpleName(s) + " and it belongs to "+ m1.getIdentifier());
+		//System.out.println("The statement is " + getStatementNodeSimpleName(s) + " and it belongs to "+ m1.getIdentifier());
 		return m1;
 	}
 	
