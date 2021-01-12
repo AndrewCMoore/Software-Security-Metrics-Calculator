@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.ChildPropertyDescriptor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ConditionalExpression;
+import org.eclipse.jdt.core.dom.ContinueStatement;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
@@ -57,7 +58,7 @@ public class StatementVisitor extends ASTVisitor {
 	    }
 		return null;
 	}
-	public void getChildren1(ASTNode node) {
+	public void callNode(ASTNode node) {
 	    if (node != null) {
 	        List<ASTNode> children = new ArrayList<ASTNode>();
 	        List<?> list = node.structuralPropertiesForType();
@@ -71,7 +72,7 @@ public class StatementVisitor extends ASTVisitor {
 	        for(ASTNode node1 : children){
 	            if (node1 != null) {
 	            	itterateNode(node1);
-	                //getChildren1(node1);
+	                //callNode(node1);
 	            } 
 	            
 	         }
@@ -90,6 +91,9 @@ public class StatementVisitor extends ASTVisitor {
 					break;
 				case 16:
 					visit((ConditionalExpression) node1);
+					break;
+				case 18: 
+					visit((ContinueStatement) node1);
 					break;
 				case 19: 
 					visit((DoStatement) node1);
@@ -128,12 +132,20 @@ public class StatementVisitor extends ASTVisitor {
 		}
 	}
 		
+	public boolean visit(ContinueStatement node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		callNode(node);
+		return false;		
+	}
 	public boolean visit(DoStatement node) {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		return false;
 	}
 	
@@ -142,7 +154,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		return false;
 	}
 	
@@ -184,12 +196,12 @@ public class StatementVisitor extends ASTVisitor {
 				
 			}			
 		}
-		getChildren1(node);
+		callNode(node);
 		//System.out.println("We are in the IfStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		
 		return false;
 	}
-	
+
 	public boolean visit(SwitchStatement node) {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
@@ -205,7 +217,7 @@ public class StatementVisitor extends ASTVisitor {
 		statementList.add(statement);
 
 		//System.out.println("The number of cases are " + switchCount);
-		getChildren1(node);
+		callNode(node);
 		//System.out.println("We are in the SwitchStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return true;
 	}
@@ -215,7 +227,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		//System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
 		return false;
 	}
@@ -225,7 +237,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		return true;
 	}
 	
@@ -234,7 +246,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		return false;
 	}
 	
@@ -243,7 +255,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		return true;
 	}
 	
@@ -252,7 +264,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		return true;
 	}
 	
@@ -261,7 +273,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		getChildren1(node);
+		callNode(node);
 		return true;
 	}
 	
@@ -270,7 +282,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		//statement.addComplexity(1);
 		statementList.add(statement);
-		//getChildren1(node);
+		//callNode(node);
 		return true;
 	}
 	

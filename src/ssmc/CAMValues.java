@@ -148,13 +148,6 @@ public class CAMValues {
 		ArrayList<Statement> statements = generateStatementAST(unit);
 		ArrayList<Attribute> attributes = generateAttributeAST(unit);
 		
-		for(Method m :methods) {
-			Class c = getBelonging(m,classes);
-			if(c  != null) {
-				c.addMethod(m);
-			}
-		}
-		
 		for(Statement s: statements) {
 			Method m = getBelonging(s, methods);
 			if(m != null) {
@@ -169,6 +162,16 @@ public class CAMValues {
 				//System.out.println("The usage of attribute " + a.getIdentifier() + "defined on line " + a.getLineNum() + "is: " + a.getUsage());
 			}
 		}
+				
+		for(Method m :methods) {
+			Class c = getBelonging(m,classes);
+			if(c  != null) {
+				c.addMethod(m);
+			}
+		}
+		
+		
+		
 		
 		
 		Class[] classList = new Class[classes.size()];

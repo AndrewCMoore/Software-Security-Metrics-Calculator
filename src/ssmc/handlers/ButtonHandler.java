@@ -62,7 +62,7 @@ public class ButtonHandler extends AbstractHandler {
 					project = ((IResource) element).getProject();
 				} else if (element instanceof IJavaElement) {
 					IJavaProject jProject = ((IJavaElement) element).getJavaProject();
-					project = jProject.getProject();
+					project = jProject.getProject();			
 				}
 			}
 		}
