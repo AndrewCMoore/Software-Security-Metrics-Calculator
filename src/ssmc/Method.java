@@ -55,7 +55,14 @@ public class Method {
 	}
 	
 	public void addStatement(Statement statement) {
+		int id = System.identityHashCode(statement.getNode());
+		for(Statement s: statements) {
+			if(id == System.identityHashCode(s.getNode())) {
+				return ;
+			}
+		}
 		this.statements.add(statement);
+		
 	}
 
 	public void addUsage() {
@@ -184,8 +191,7 @@ public class Method {
 	public String toString() {
 		return this.identifier;
 	}
-	
-	
+		
 	// Return the number of types of statement within each Method 
 	
 	public HashMap<String, Integer> getNumOfStatements() {

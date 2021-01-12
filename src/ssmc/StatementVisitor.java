@@ -34,19 +34,21 @@ public class StatementVisitor extends ASTVisitor {
 	private CompilationUnit compilationUnit;
 	private ArrayList<ASTNode> nodes;
 	private ArrayList<Statement> statementList;
+	public ArrayList<Integer> ids;
 	
 	public StatementVisitor(CompilationUnit compilationUnit) {
 		super();
 		this.statementList = new ArrayList<Statement>();
 		this.compilationUnit = compilationUnit;
 		this.nodes = new ArrayList<ASTNode>();
+		this.ids = new ArrayList<Integer>();
 	}
 	
 	public ArrayList<Statement> getArrayList() {
 		return this.statementList;
 	}
 
-	public static Object[] getChildren(ASTNode node) {
+	public Object[] getChildren(ASTNode node) {
 		Object child;
 	    List list= node.structuralPropertiesForType();
 	    for (Object element : list) {
@@ -55,15 +57,16 @@ public class StatementVisitor extends ASTVisitor {
 	        if (child instanceof List) {
 	                return ((List) child).toArray();
 	        } else if (child instanceof ASTNode) {
+	        	confirm((ASTNode) child);
 	            return new Object[] { child };
 	            }
 	        return new Object[0];
 	    }
 		return null;
 	}
-	public void callNode(ASTNode node) {
+	public List<ASTNode> callNode(ASTNode node) {
+		List<ASTNode> children = new ArrayList<ASTNode>();
 	    if (node != null) {
-	        List<ASTNode> children = new ArrayList<ASTNode>();
 	        List<?> list = node.structuralPropertiesForType();
 	        for (int i = 0; i < list.size(); i++) {
 	            Object child = node.getStructuralProperty((StructuralPropertyDescriptor) list.get(i));
@@ -80,22 +83,26 @@ public class StatementVisitor extends ASTVisitor {
 	            
 	         }
 	    } 
+	    return children;
+	}
+	
+	public boolean confirm(ASTNode node) {
+		if(!ids.contains(System.identityHashCode(node))) {
+			this.ids.add(System.identityHashCode(node));
+			return true;
+		}
+		return false;
+		
 	}
 	public ArrayList<ASTNode> getNodes(){
 		return this.nodes;
 	}
 	public void itterateNode(ASTNode node) {
 		if(this.getChildren(node).length != 0) {
-			//System.out.println("Method does not work" + this.getChildren(node)[0]);
-			if(!(this.getChildren(node)[0] instanceof ASTNode)) {
-				try {
-				System.out.println("CALLTHIS " + this.getChildren(node)[0]);
-				}
-				catch(Exception e) {}
-			}
 			for(int i = 0; i < this.getChildren(node).length; i++) {
 				ASTNode node1 = (ASTNode) this.getChildren(node)[i];
-				//System.out.println("VISITING NODE " + node1.getNodeType());
+				
+				//System.out.println("Node " + node1.toString() + System.identityHashCode(node1));
 				switch(node1.getNodeType()) {
 				case 10:
 					visit((BreakStatement) node1);
@@ -127,12 +134,6 @@ public class StatementVisitor extends ASTVisitor {
 				case 50:
 					visit((SwitchStatement) node1);
 					break;
-				case 51: 
-					System.out.println("\n\n\n ======== \n\n\n" + node1);
-					//getChildren((ASTNode) node1);
-					//getChildren(node1);
-					visit((SynchronizedStatement) node1);
-					break;
 				case 53: 
 					visit((ThrowStatement) node1);
 					break;
@@ -146,23 +147,13 @@ public class StatementVisitor extends ASTVisitor {
 					visit((EnhancedForStatement) node1);
 					break;
 				default:
-					
-					System.out.println(node1.getNodeType());
-					//visit((ASTNode) node1);
+					callNode(node1);
 					break;		
 				}
 			}
 		}
 	}
 		
-	public boolean visit(SynchronizedStatement node) {
-		//this.nodes.add(node);
-		Statement statement = new Statement(node, this.compilationUnit);
-		//statement.addComplexity(1);
-		//statementList.add(statement);
-		callNode(node);
-		return false;		
-	}
 	
 	public boolean visit(ContinueStatement node) {
 		this.nodes.add(node);
@@ -251,9 +242,11 @@ public class StatementVisitor extends ASTVisitor {
 	}
 
 	public boolean visit(IfStatement node) {
+		
 		this.nodes.add(node);
 
 		Statement statement = new Statement(node, this.compilationUnit);
+		
 		statement.addComplexity(1);
 		statementList.add(statement);
 		List<?> list = node.structuralPropertiesForType();
