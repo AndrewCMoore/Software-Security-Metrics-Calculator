@@ -3,7 +3,10 @@ package Calculator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.jdt.core.dom.Statement;
+
 import ssmc.Method;
+import ssmc.StatementVisitor;
 import ssmc.Class;
 import tree.JDTree;
 
@@ -31,6 +34,7 @@ public class ComplexityMetrics {
 				for(Method method : methodList) {
 					//System.out.println(method.getIdentifier() + " complexity: " + method.getMethodComplexity());
 					System.out.println("     " + method.getIdentifier() + " : " + method.getMethodComplexity());
+							
 					count += method.getMethodComplexity();
 				}
 				System.out.println(classNode.getIdentifier() + " : " + count);

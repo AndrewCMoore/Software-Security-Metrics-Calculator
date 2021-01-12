@@ -44,7 +44,7 @@ public class StatementVisitor extends ASTVisitor {
 		return this.statementList;
 	}
 
-	public Object[] getChildren(ASTNode node) {
+	public static Object[] getChildren(ASTNode node) {
 		Object child;
 	    List list= node.structuralPropertiesForType();
 	    for (Object element : list) {
@@ -86,6 +86,7 @@ public class StatementVisitor extends ASTVisitor {
 		if(this.getChildren(node).length != 0) {
 			for(int i = 0; i < this.getChildren(node).length; i++) {
 				ASTNode node1 = (ASTNode) this.getChildren(node)[i];
+				//System.out.println("VISITING NODE " + node1.getNodeType());
 				switch(node1.getNodeType()) {
 				case 10:
 					visit((BreakStatement) node1);
@@ -286,7 +287,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
-		callNode(node);
+		//callNode(node);
 		return true;
 	}
 	

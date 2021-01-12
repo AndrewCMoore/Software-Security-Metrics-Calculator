@@ -45,8 +45,9 @@ public class Statement {
 
 	@Override
 	public String toString() {
-		return "Statement [nodeType=" + nodeType + ", compilationUnit=" + compilationUnit + ", complexityValue="
-				+ complexityValue + ", startLine=" + startLine + ", endLine=" + endLine + "]";
+		return "Statement [nodeType=" + nodeType + "| | | | | |" +  this.compilationUnit.getParent();
+				//+  ", compilationUnit=" +  ", complexityValue="
+				//+ complexityValue + ", startLine=" + startLine + ", endLine=" + endLine + "]";
 	}
 	
 }
