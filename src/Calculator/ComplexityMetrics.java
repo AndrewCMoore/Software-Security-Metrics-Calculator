@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ssmc.Method;
-import ssmc.Statement;
 import ssmc.Class;
 import tree.JDTree;
 

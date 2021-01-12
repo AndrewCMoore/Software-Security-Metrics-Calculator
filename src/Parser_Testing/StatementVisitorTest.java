@@ -549,7 +549,7 @@ class StatementVisitorTest {
 				+ "    }\n"
 				+ "  }\n"
 				+ "}\n"
-				+ ", complexityValue=1, startLine=29, endLine=29], Statement [nodeType=return false;\n"
+				+ ", complexityValue=0, startLine=29, endLine=29], Statement [nodeType=return false;\n"
 				+ ", compilationUnit=public class Statement_Test {\n"
 				+ "  Statement_Test(){\n"
 				+ "    int x=0;\n"
@@ -591,7 +591,7 @@ class StatementVisitorTest {
 				+ "    }\n"
 				+ "  }\n"
 				+ "}\n"
-				+ ", complexityValue=1, startLine=31, endLine=31], Statement [nodeType=throw new NullPointerException(\"demo\");\n"
+				+ ", complexityValue=0, startLine=31, endLine=31], Statement [nodeType=throw new NullPointerException(\"demo\");\n"
 				+ ", compilationUnit=public class Statement_Test {\n"
 				+ "  Statement_Test(){\n"
 				+ "    int x=0;\n"
@@ -720,7 +720,7 @@ class StatementVisitorTest {
 				+ " catch (    Exception e) {\n"
 				+ "    }\n"
 				+ "  }\n"
-				+ "}  \n"
+				+ "}\n"
 				+ ", complexityValue=1, startLine=42, endLine=44]]"
 				, sv.getArrayList().toString());
 		
