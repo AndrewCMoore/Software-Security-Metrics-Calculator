@@ -12,7 +12,9 @@ public class ComplexityMetrics {
 	public ComplexityMetrics(JDTree[] classes) {
 		this.methodComplexity(classes);
 	}
-	
+	//shouldnt count try, only catch
+	//check for interface
+	//add check for abstract class
 	private HashMap<String, Integer> methodComplexity(JDTree[] classes) {
 		System.out.println("======================================================");
 		System.out.println("Method Complexity");
