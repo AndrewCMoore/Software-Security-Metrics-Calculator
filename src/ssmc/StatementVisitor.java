@@ -158,35 +158,52 @@ public class StatementVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	public boolean checkLogic(InfixExpression.Operator o) {
+
+		if (o == InfixExpression.Operator.CONDITIONAL_OR || o == InfixExpression.Operator.CONDITIONAL_AND) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public int getOperators(Expression e) {
-		if(e instanceof InfixExpression) {
+		if (e instanceof InfixExpression) {
 			InfixExpression i = (InfixExpression) e;
-			if(i.getOperator()!=null) {
-				return 1 + getOperators(i.getLeftOperand()) + getOperators(i.getRightOperand());
+			if (i.getOperator() != null) {
+				if (checkLogic(i.getOperator())) {
+					return 1 + getOperators(i.getLeftOperand()) + getOperators(i.getRightOperand());
+				} else {
+					return getOperators(i.getLeftOperand()) + getOperators(i.getRightOperand());
+				}
+
 			}
 		}
 		return 0;
 	}
-	
+
 	public boolean visit(IfStatement node) {
 		this.nodes.add(node);
-		
+
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statementList.add(statement);
 		List<?> list = node.structuralPropertiesForType();
-		for(Object o : list) {
+		//System.out.println("=============================");
+		for (Object o : list) {
 			StructuralPropertyDescriptor property = (StructuralPropertyDescriptor) o;
 			Object child = node.getStructuralProperty(property);
-            if (child instanceof Expression) {
-                if(child instanceof InfixExpression) {
-                	InfixExpression infix = (InfixExpression) child;
-                	statement.addComplexity(getOperators(infix)-1);
-                }
-                
-            } 
-			
-			
+			if (child instanceof Expression) {
+				//System.out.println(child.getClass().getName());
+				//System.out.println(child);
+				if (child instanceof InfixExpression) {
+					InfixExpression infix = (InfixExpression) child;
+					//System.out.println(getOperators(infix));
+					statement.addComplexity(getOperators(infix));
+				}
+
+			}
+
 		}
 		if(node.getElseStatement() != null) {
 			if(node.getElseStatement() instanceof Block) {}
