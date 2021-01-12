@@ -310,9 +310,9 @@ public class StatementVisitor extends ASTVisitor {
 	public boolean visit(BreakStatement node) {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
-		//statement.addComplexity(1);
+		statement.addComplexity(1);
 		statementList.add(statement);
-		//callNode(node);
+		callNode(node);
 		return true;
 	}
 	
