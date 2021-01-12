@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.BreakStatement;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.ChildPropertyDescriptor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -86,6 +87,9 @@ public class StatementVisitor extends ASTVisitor {
 			for(int i = 0; i < this.getChildren(node).length; i++) {
 				ASTNode node1 = (ASTNode) this.getChildren(node)[i];
 				switch(node1.getNodeType()) {
+				case 10:
+					visit((BreakStatement) node1);
+					break;
 				case 12: 
 					visit((CatchClause) node1);
 					break;
@@ -300,6 +304,15 @@ public class StatementVisitor extends ASTVisitor {
 		//statement.addComplexity(1);
 		statementList.add(statement);
 		//callNode(node);
+		return true;
+	}
+	
+	public boolean visit(BreakStatement node) {
+		this.nodes.add(node);
+		Statement statement = new Statement(node, this.compilationUnit);
+		statement.addComplexity(1);
+		statementList.add(statement);
+		callNode(node);
 		return true;
 	}
 	
