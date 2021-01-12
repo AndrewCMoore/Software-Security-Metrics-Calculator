@@ -91,7 +91,7 @@ public class StatementVisitor extends ASTVisitor {
 					visit((BreakStatement) node1);
 					break;
 				case 12: 
-					visit((CatchClause) node1);
+					//visit((CatchClause) node1);
 					break;
 				case 16:
 					visit((ConditionalExpression) node1);
@@ -130,6 +130,7 @@ public class StatementVisitor extends ASTVisitor {
 					visit((EnhancedForStatement) node1);
 					break;
 				default:
+					//visit((ASTNode) node1);
 					break;		
 				}
 			}
@@ -289,6 +290,11 @@ public class StatementVisitor extends ASTVisitor {
 		return true;
 	}
 	
+	/**
+	 * DEPRECIATED 
+	 * Adds unecessary complexity
+	 */
+	/*
 	public boolean visit(CatchClause node) {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
@@ -297,6 +303,7 @@ public class StatementVisitor extends ASTVisitor {
 		callNode(node);
 		return true;
 	}
+	*/
 	
 	public boolean visit(ReturnStatement node) {
 		this.nodes.add(node);
