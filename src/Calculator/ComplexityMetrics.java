@@ -34,6 +34,11 @@ public class ComplexityMetrics {
 				for(Method method : methodList) {
 					//System.out.println(method.getIdentifier() + " complexity: " + method.getMethodComplexity());
 					System.out.println("     " + method.getIdentifier() + " : " + method.getMethodComplexity());
+					
+					for(ssmc.Statement s: method.getStatements()) {
+						System.out.println("" + s.getNode().getNodeType());
+						//System.out.println("\n\n\n\n\n" + s.getNode().getRoot());
+					}
 							
 					count += method.getMethodComplexity();
 				}
