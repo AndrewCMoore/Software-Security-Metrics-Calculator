@@ -33,14 +33,14 @@ public class DeclarationVisitor extends ASTVisitor {
 		int modifiers = node.getModifiers();
 		ArrayList<String> modify = CAMValues.getModifier(modifiers);
 		String id = name.toString();
-		System.out.println(id);
+		//System.out.println(id);
 		Class c = new Class(id,cu);
 		c.setStartLine(startLineNum);
 		c.setEndLine(endLineNum);
 		c.setModifier(modify);
 		
 		classes.add(c);
-		System.out.print(c.toString());
+		//System.out.print(c.toString());
 		return true;
     }
 
