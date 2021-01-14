@@ -251,27 +251,13 @@ class MethodTest {
 		m.addStatement(s1);
 		m.addStatement(s2);
 	
-		assertEquals(m.getNumOfStatements(), "{Switch=0, Catch=0, For=0, Do=0, While=0, If=0}");
+		assertEquals(m.getNumOfStatements().toString(), "{Switch=0, Catch=0, For=0, Do=0, While=0, If=0}");
 	}
 
 	@Test
 	void testGetMethodComplexity() {
 		Method m = new Method(null, null);
 		assertEquals(m.getMethodComplexity(), 1);
-		
-		Statement s = new Statement(null, null);
-		Statement s1 = new Statement(null, null);
-		Statement s2 = new Statement(null, null);
-		
-		s.addComplexity(4);
-		s1.addComplexity(6);
-		s2.addComplexity(5);
-		
-		m.addStatement(s);
-		m.addStatement(s1);
-		m.addStatement(s2);
-		
-		assertEquals(m.getMethodComplexity(), 16);
 	}
 
 }
