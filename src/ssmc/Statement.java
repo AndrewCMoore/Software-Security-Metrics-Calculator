@@ -18,8 +18,13 @@ public class Statement {
 		this.nodeType = node;
 		this.compilationUnit = compilationUnit; 
 		this.complexityValue = 0;
-		this.startLine = this.compilationUnit.getLineNumber(node.getStartPosition());
-		this.endLine = this.compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
+		try {
+			this.startLine = this.compilationUnit.getLineNumber(node.getStartPosition());
+			this.endLine = this.compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
+		} catch (NullPointerException e) {
+			
+		}
+		
 	}
 	
 	public void addComplexity(int value) {
