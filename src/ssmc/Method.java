@@ -244,7 +244,9 @@ public class Method {
 			}
 			complexity += s.getComplexity();
 		}
-		if(numOfReturnStatements > 1) {
+		if(this.modifiers.contains("void")) {
+			complexity += numOfReturnStatements;
+		} else {
 			complexity += numOfReturnStatements - 1;
 		}
 		
