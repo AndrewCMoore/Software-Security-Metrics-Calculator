@@ -2,6 +2,7 @@ package ssmc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
@@ -17,6 +18,8 @@ public class Class {
 	private ArrayList<String> modifier;
 	private boolean serialized;
 	private int startLine;
+	private String superClass;
+	private List<String> interfaces;
 	
 	
 	public Class(String identifier, CompilationUnit compilationUnit) {
@@ -27,6 +30,7 @@ public class Class {
 		this.setEnum(false);
 		methods = new ArrayList<Method>();
 		attributes = new ArrayList<Attribute>();
+		interfaces = new ArrayList<String>();
 		this.modifier = new ArrayList<String>();
 		
 	}
@@ -131,8 +135,8 @@ public class Class {
 	public boolean isSerialized() {
 		return this.serialized;
 	}
-	public void setCritical(boolean b) {
-		this.critical = b;
+	public void setCritical() {
+		this.critical = true;
 	}
 	
 	public void setEndLine(int end) {
@@ -158,5 +162,19 @@ public class Class {
 		return this.Identifier;
 	}
 	
+	public String getSuperClass() {
+		return superClass;
+	}
+	public void setSuperClass(String superClass) {
+		this.superClass = superClass;
+	}
+	
+	public void addInterfaces(List list) {
+		this.interfaces.addAll(list);
+	}
+	
+	public List<String> getInterfaces() {
+		return this.interfaces;
+	}
 }
 
