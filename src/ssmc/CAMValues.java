@@ -59,11 +59,7 @@ public class CAMValues {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		MethodVisitor mv = new MethodVisitor(cu);
 		cu.accept(mv);
-		//System.out.println("\n======================================");
-		for(Method m :mv.getMethods()) {
-			//System.out.println(m.getIdentifier());
-		}
-		//System.out.println("======================================\n");
+
 		return mv.getMethods();
 	}
 	
@@ -77,6 +73,7 @@ public class CAMValues {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
+		System.out.println("\n\n\n " + sv.ids + "\n\n\n");
 		//System.out.println("In the Compilation Unit: " + unit.getElementName()
 		//				  +" the values returned are: \n"  + sv.toString());
 		

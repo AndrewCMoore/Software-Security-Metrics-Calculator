@@ -2,10 +2,6 @@ package ssmc;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.DoStatement;
-import org.eclipse.jdt.core.dom.ForStatement;
-import org.eclipse.jdt.core.dom.IfStatement;
-import org.eclipse.jdt.core.dom.SwitchStatement;
 
 public class Statement {
 	private CompilationUnit compilationUnit;
@@ -18,8 +14,13 @@ public class Statement {
 		this.nodeType = node;
 		this.compilationUnit = compilationUnit; 
 		this.complexityValue = 0;
-		this.startLine = this.compilationUnit.getLineNumber(node.getStartPosition());
-		this.endLine = this.compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
+		try {
+			this.startLine = this.compilationUnit.getLineNumber(node.getStartPosition());
+			this.endLine = this.compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
+		} catch (NullPointerException e) {
+			
+		}
+		
 	}
 	
 	public void addComplexity(int value) {
@@ -41,12 +42,15 @@ public class Statement {
 		return this.startLine;
 	}
 
+	public String toString() {
+		return this.nodeType.toString();
+	}
 	
-
+/*
 	@Override
 	public String toString() {
 		return "Statement [nodeType=" + nodeType + ", compilationUnit=" + ", complexityValue="
 				+ complexityValue + ", startLine=" + startLine + ", endLine=" + endLine + "]";
 	}
-	
+	*/
 }
