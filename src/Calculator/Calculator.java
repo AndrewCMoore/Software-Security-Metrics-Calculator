@@ -10,14 +10,13 @@ public class Calculator {
 	public Calculator(JDTree tree) {
 		this.tree = tree;
 		this.classes = tree.getLeefs();
-	}
 
 	public void calculate() {
-		//AttributeMetrics attributes = new AttributeMetrics();
-		//attributes.numPublicInstanceAttributes(tree);
-		
+		AttributeMetrics attributes = new AttributeMetrics(classes);
+		MethodMetrics methods = new MethodMetrics(classes);
+		ComplexityMetrics statements = new ComplexityMetrics(classes);
 		ClasseMetrics cm = new ClasseMetrics(classes);
-		//InheritanceMetrics im = new InheritanceMetrics(classes);
-	}
+		InheritanceMetrics im = new InheritanceMetrics(classes);
 
+	}
 }

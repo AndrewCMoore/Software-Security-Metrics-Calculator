@@ -113,6 +113,7 @@ public class Class {
 				return true;
 			}
 		}
+
 		return false;
 	}
 	public boolean isCritical() {
