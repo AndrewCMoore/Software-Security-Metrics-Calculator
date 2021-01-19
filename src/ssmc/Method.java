@@ -1,5 +1,5 @@
 package ssmc;
-
+ 
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +9,6 @@ import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
-import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
@@ -122,6 +121,17 @@ public class Method {
 	public ArrayList<Statement> getStatements(){
 		return statements;
 	}
+	
+	//I'm working on making this functional - Anthony
+	/*public String getFirstStatement(){ 
+		try {
+			
+		return  statements.get(0).getCompilationUnit().toString();
+		
+		} catch(Exception e) {
+			return "";			
+		}
+	}*/
 	
 	public int getUsage() {
 		return this.usage;
@@ -252,28 +262,5 @@ public class Method {
 		
 		return complexity;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }
