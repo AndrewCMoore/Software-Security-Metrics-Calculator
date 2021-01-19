@@ -50,7 +50,7 @@ public class DeclarationVisitor extends ASTVisitor {
        try {
 			  
 			c.setSuperClass(node.getSuperclassType().toString());
-			if (node.getSuperclassType().toString().equals("Thread")) c.setCritical(); //if superclass is Thread then this is a critical class.
+			if (node.getSuperclassType().toString().equals("Thread")) c.setCritical(); // if superclass is Thread then this is a critical class.
 			}
 			catch(Exception e) {
 			 
