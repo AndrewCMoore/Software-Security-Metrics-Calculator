@@ -45,7 +45,7 @@ public class Statement {
 
 	@Override
 	public String toString() {
-		return "Statement [nodeType=" + nodeType + ", compilationUnit=" + compilationUnit + ", complexityValue="
+		return "Statement [nodeType=" + nodeType + ", compilationUnit=" + ", complexityValue="
 				+ complexityValue + ", startLine=" + startLine + ", endLine=" + endLine + "]";
 	}
 	

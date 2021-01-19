@@ -248,6 +248,7 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
+		System.out.println("+1 complexity in: " + statement.getClass() + "from " + statement.toString());
 		statementList.add(statement);
 		callNode(node);
 		//System.out.println("We are in the WhileStatement node on line " + compilationUnit.getLineNumber(node.getStartPosition()));
@@ -276,7 +277,7 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		System.out.println("THROWS: " + node.toString());
 		Statement statement = new Statement(node, this.compilationUnit);
-		statement.addComplexity(1);
+		//statement.addComplexity(1);
 		statementList.add(statement);
 		callNode(node);
 		return true;
