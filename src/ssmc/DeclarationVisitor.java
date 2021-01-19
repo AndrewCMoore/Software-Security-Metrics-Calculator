@@ -8,7 +8,6 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
-import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import java.util.List;
@@ -51,12 +50,12 @@ public class DeclarationVisitor extends ASTVisitor {
 			c.setSuperClass(node.getSuperclassType().toString());
 			if (node.getSuperclassType().toString().equals("Thread")) c.setCritical(); // if superclass is Thread then this is a critical class.
 			} catch (Exception e) {			 
-				c.setSuperClass("none");
+				c.setSuperClass("null");
 		}
        
         /**
 	    * get a List[] of all interfaces in each class, try catch required since program will crash due
-	    to null pointer exceptions when a class does not have a superclass"
+	    to null pointer exceptions when a class does not have interfaces"
 	    **/
        
         try {			  
@@ -64,10 +63,10 @@ public class DeclarationVisitor extends ASTVisitor {
 	    	} catch (Exception e) {
 				List<String> emptylst = Collections.emptyList();
 				c.addInterfaces(emptylst);
-	   }
+	    }
 
-       classes.add(c);
-	   //System.out.print(c.toString());
+        classes.add(c);
+	    //System.out.print(c.toString());
 		return true;
     }
 

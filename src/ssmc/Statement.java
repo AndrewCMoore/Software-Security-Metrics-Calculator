@@ -25,7 +25,7 @@ public class Statement {
 	public void addComplexity(int value) {
 		this.complexityValue = this.complexityValue + value;
 	}
-	public CompilationUnit getCompilationUnit() {
+	public CompilationUnit getCompilaztionUnit() {
 		return this.compilationUnit;
 	}
 	public int getComplexity() {
@@ -40,8 +40,6 @@ public class Statement {
 	public int getStartLine() {
 		return this.startLine;
 	}
-
-	
 
 	@Override
 	public String toString() {
