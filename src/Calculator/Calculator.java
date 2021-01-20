@@ -1,4 +1,4 @@
-package Calculator;
+
 
 import tree.JDTree;
 import Calculator.*;
@@ -35,8 +35,7 @@ public class Calculator {
 		AttributeMetrics attributes = new AttributeMetrics(classes);
 		MethodMetrics methods = new MethodMetrics(classes);
 		ComplexityMetrics statements = new ComplexityMetrics(classes);
-		ClasseMetrics cm = new ClasseMetrics(classes);
+		ClassMetrics cm = new ClassMetrics(classes);
 		InheritanceMetrics im = new InheritanceMetrics(classes);
-
 	}
 }
