@@ -48,7 +48,7 @@ class StatementTest {
 	void testGetComplexity() {
 		assertEquals(1, this.ifStatement.getComplexity());
 	}
-	
+	 
 	@Test
 	void testGetEndLine() {
 		assertEquals(10, this.ifStatement.getEndLine());

@@ -282,11 +282,10 @@ public class CAMValues {
 	}
 	
 	/**
-	 * This method gets the String representation of a Statement object's
-	 * type of ASTNode. This includes 
+	 * This method gets the String representation of a Statement object. 
 	 * 
-	 * @param s Statement object input
-	 * @return String representation of s's ASTNode type. 
+	 * @param s
+	 * @return
 	 */
 	public static String getStatementNodeSimpleName(Statement s) {
 		switch(s.getNode().getNodeType()) {

@@ -42,15 +42,11 @@ public class Statement {
 		return this.startLine;
 	}
 
-	public String toString() {
-		return this.nodeType.toString();
-	}
-	
-/*
+
 	@Override
 	public String toString() {
 		return "Statement [nodeType=" + nodeType + ", compilationUnit=" + ", complexityValue="
 				+ complexityValue + ", startLine=" + startLine + ", endLine=" + endLine + "]";
 	}
-	*/
+	
 }
