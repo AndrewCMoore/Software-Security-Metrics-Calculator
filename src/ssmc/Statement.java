@@ -26,7 +26,7 @@ public class Statement {
 	public void addComplexity(int value) {
 		this.complexityValue = this.complexityValue + value;
 	}
-	public CompilationUnit getCompilaztionUnit() {
+	public CompilationUnit getCompilationUnit() {
 		return this.compilationUnit;
 	}
 	public int getComplexity() {

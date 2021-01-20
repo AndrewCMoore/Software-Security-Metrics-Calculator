@@ -1,6 +1,7 @@
 package Calculator;
 
 import tree.JDTree;
+import Calculator.*;
 
 public class Calculator {
 	
@@ -10,6 +11,7 @@ public class Calculator {
 	public Calculator(JDTree tree) {
 		this.tree = tree;
 		this.classes = tree.getLeefs();
+	}
 
 	public void calculate() {
 		AttributeMetrics attributes = new AttributeMetrics(classes);
