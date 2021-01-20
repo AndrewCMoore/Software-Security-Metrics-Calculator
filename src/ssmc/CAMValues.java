@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 
 
 /**
- * This class generates values for the Class, Attribute, and Method objects
+ * This class generates values for the Class, Attribute, Method, and Statement objects
  */
 public class CAMValues {
 	
@@ -28,6 +28,12 @@ public class CAMValues {
 		return av.getArrayList();
 	}
 
+	/**
+	 * Uses unit to create a CompilationUnit to use in DeclarationVisitor. 
+	 * Runs the visitor class to get all Class values for the 
+	 * ICompilationUnit
+	 * @param unit ICompilationUnit input
+	 */
 	public static ArrayList<Class> generateBodyDeclarationAst(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		DeclarationVisitor dv = new DeclarationVisitor(cu);
@@ -65,7 +71,7 @@ public class CAMValues {
 	
 	/**
 	 * Uses unit to create a CompilationUnit to use in MethodVisitor. 
-	 * Runs the visitor class to get all statement values related
+	 * Runs the visitor class to get all Statement values related
 	 * to complexity for the ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
@@ -80,11 +86,22 @@ public class CAMValues {
 		return sv.getArrayList();
 	}
 	
+	/**
+	 * This method determines which Class object an Attribute object belongs to 
+	 * within the CompilationUnit. This is done by comparing the line on which 
+	 * the Attribute object reside on to the starting and ending line of the 
+	 * Class object. If the Attribute object is within the Class object, it 
+	 * sets variable c1 to that Class. It does this itteratively to ensure that 
+	 * inner classes are accounted for in the process. 
+	 * 
+	 * @param a Attribute object to be determine which Class object it belongs to
+	 * @param classes ArrayList of Class objects to be evaluated
+	 * @return The Class object the Attribute belongs to
+	 */
 	private static Class getBelonging(Attribute a, ArrayList<Class> classes) {
 		Class cl = null;
 		int min=Integer.MAX_VALUE;
 		for(Class c:classes) {
-			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
 			if(c.getStartLine() < a.getLineNum() && c.getEndLine() > a.getLineNum()) {
 				int size = c.getEndLine()-c.getStartLine();				
 				if(size<min) {
@@ -95,15 +112,24 @@ public class CAMValues {
 				}
 			}
 		}
-		//System.out.println("The method is "+a.getIdentifier()+" and it belongs to "+cl.getIdentifier());
 		return cl;
 	}
-	
+	/**
+	 * This method determines which Class object a Method object belongs to 
+	 * within the CompilationUnit. This is done by comparing the starting and
+	 * ending line on which the Method object reside on to the starting and ending 
+	 * line of the Class object. If the Method object is within the Class object, 
+	 * it sets variable c1 to that Class. It does this itteratively to ensure that 
+	 * inner classes are accounted for in the process. 
+	 * 
+	 * @param m Method object to be determine which Class object it belongs to
+	 * @param classes ArrayList of Class objects to be evaluated
+	 * @return The Class object the Method belongs to
+	 */
 	public static Class getBelonging(Method m,ArrayList<Class> classes) {
 		Class cl = null;
 		int min=Integer.MAX_VALUE;
 		for(Class c:classes) {
-			//System.out.println("C's start and end line are: " + c.getStartLine() + " " + c.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
 			if(c.getStartLine()<m.getStartLine()&&c.getEndLine()>m.getEndLine()) {
 				int size = c.getEndLine()-c.getStartLine();				
 				if(size<min) {
@@ -114,31 +140,56 @@ public class CAMValues {
 				}
 			}
 		}
-		//System.out.println("The method is "+m.getIdentifier()+" and it belongs to "+cl.getIdentifier());
 		return cl;
 	}
 	
-	
+	/**
+	 * This method determines which Method object a Statmenet object belongs to 
+	 * within the CompilationUnit. This is done by comparing the starting and
+	 * ending line on which the Statmenet object reside on to the starting and ending 
+	 * line of the Method object. If the Statement object is within the Method object, 
+	 * it sets variable m1 to that Method. 
+	 * 
+	 * @param s Statement objects to be determined which Class object it belongs to 
+	 * @param methods ArrayList of Method objects to be evaluated
+	 * @return The Method object the Statement belongs to
+	 */
 	private static Method getBelonging(Statement s, ArrayList<Method> methods) {
 		Method m1 = null;
 		int min=Integer.MAX_VALUE;
 		for(Method m:methods) {
-
-			//System.out.println("S's start and end line are: " + s.getStartLine() + " " + s.getEndLine() + "M's start and end line are: " + m.getStartLine() + " " + m.getEndLine());
-			if(m.getStartLine()<=s.getStartLine()&&m.getEndLine()>=s.getEndLine()) {
+			if(m.getStartLine()<=s.getStartLine() && m.getEndLine()>=s.getEndLine()) {
 				int size = m.getEndLine()-m.getStartLine();				
 				if(size<min) {
 					
 					m1 =m;
 					min = size;
 					
+					return m1;
+					
 				}
 			}
 		}
-		//System.out.println("The statement is " + getStatementNodeSimpleName(s) + " and it belongs to "+ m1.getIdentifier());
 		return m1;
 	}
 	
+	/**
+	 * This method gathers all the information in the CompilationUnit and 
+	 * aggregates the objects into Class objects. 
+	 * 
+	 * Calls methods generateBodyDeclarationAST(unit), generateMethodAST(unit),
+	 * generateStatementAST(unit),  and generateAttributeAST(unit) to gather information 
+	 * about the CompilationUnit. Each returns an ArrayList of the type object type: 
+	 * (Class, Method, Statement, Attribute)
+	 * 
+	 * From theses ArrayLists, it uses the getBelonging() methods to organize and aggregate
+	 * the objects from Statment into Method, Attribute into Class, and Method into 
+	 * Class.
+	 * 
+	 * 
+	 * @param unit CompilationUnit 
+	 * @return Array of Class objects with aggregated Statement, Attribute, and Method objects
+	 */
 	public static Class[] getClasses(ICompilationUnit unit) {
 		
 		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
@@ -157,7 +208,6 @@ public class CAMValues {
 			Class c = getBelonging(a, classes);
 			if(c != null) {
 				c.addAttribute(a);
-				//System.out.println("The usage of attribute " + a.getIdentifier() + "defined on line " + a.getLineNum() + "is: " + a.getUsage());
 			}
 		}
 				
@@ -180,7 +230,15 @@ public class CAMValues {
 		return classList;
 	}
 	
-	//This method simply runs through the flags and ads the string if the flag is on it
+
+	/**
+	 * This method takes an input of the modifier from the ASTNode's method 
+	 * call getModifiers() and determines what the modifier is by using a
+	 * bitwise AND. Adds all modifiers to an ArrayList to return. 
+	 * 
+	 * @param modifiers int return value of ASTNode's method getModifiers()
+	 * @return ArrayList of String object each representing a modifier
+	 */
 	public static ArrayList<String> getModifier(int modifiers) {
 		ArrayList<String> arrayList = new ArrayList<String>();
 		
@@ -223,22 +281,12 @@ public class CAMValues {
 		return arrayList;
 	}
 	
-	
-		// none is 0
-		// public is 1
-		// private is 2
-		// protected is 4
-		// static is 8
-		// final is 16
-		// synchronized 32
-		
-		//Volatile 64
-		//Transient 128
-		// native 256
-		
-		// abstract 1024
-		// strictfp 2048
-	
+	/**
+	 * This method gets the String representation of a Statement object. 
+	 * 
+	 * @param s
+	 * @return
+	 */
 	public static String getStatementNodeSimpleName(Statement s) {
 		switch(s.getNode().getNodeType()) {
 		case 19: 
