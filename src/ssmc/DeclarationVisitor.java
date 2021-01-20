@@ -18,6 +18,10 @@ public class DeclarationVisitor extends ASTVisitor {
 	private ArrayList<Class> classes;
 	private ArrayList<ASTNode> nodes;
 	
+	/**
+	 * Constructor class 
+	 * @param cu CompilationUnit
+	 */
 	public DeclarationVisitor(CompilationUnit cu) {
 		 super();
 		 this.cu = cu;
@@ -25,7 +29,31 @@ public class DeclarationVisitor extends ASTVisitor {
 		 nodes = new ArrayList<ASTNode>();
 	}
 	
-	
+	/**
+	 * This method is an overwritten method from the super class ASTVisitor. 
+	 * 
+	 * This method visits all the TypeDeclaration ASTNodes within the CompilationUnit. 
+	 * TypeDeclaration ASTNodes is a combination of interfaces and classes which follow 
+	 * the format of: 
+	 * 		
+	 * 		ClassDeclaration:
+     * 			[ Javadoc ] { ExtendedModifier } class Identifier
+     *                   [ < TypeParameter { , TypeParameter } > ]
+     *                   [ extends Type ]
+     *                   [ implements Type { , Type } ]
+     *                   { { ClassBodyDeclaration | ; } }
+ 	 *		InterfaceDeclaration:
+     * 			[ Javadoc ] { ExtendedModifier } interface Identifier
+     *                   [ < TypeParameter { , TypeParameter } > ]
+     *                   [ extends Type { , Type } ]
+     *                   { { InterfaceBodyDeclaration | ; } }
+	 *
+	 * This method determines key information of the Class in the 
+	 * CompilationUnt. It then creates a new Class object and sets 
+	 * these values within the class.
+	 * 
+	 * Returns true to search for a child ASTNode.
+	 */
 	public boolean visit(TypeDeclaration node){
 		nodes.add(node);
 		int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
@@ -34,7 +62,6 @@ public class DeclarationVisitor extends ASTVisitor {
 		int modifiers = node.getModifiers();
 		ArrayList<String> modify = CAMValues.getModifier(modifiers);
 		String id = name.toString();
-		//System.out.println(id);
 		Class c = new Class(id,cu);
 		c.setStartLine(startLineNum);
 		c.setEndLine(endLineNum);
@@ -56,7 +83,6 @@ public class DeclarationVisitor extends ASTVisitor {
 	    * get a List[] of all interfaces in each class, try catch required since program will crash due
 	    to null pointer exceptions when a class does not have interfaces"
 	    **/
-       
         try {			  
 			c.addInterfaces(node.superInterfaceTypes());
 	    	} catch (Exception e) {
@@ -65,10 +91,29 @@ public class DeclarationVisitor extends ASTVisitor {
 	    }
 
         classes.add(c);
-	    //System.out.print(c.toString());
 		return true;
     }
 
+	/**
+	 * This method is an overwritten method from the super class ASTVisitor. 
+	 * 
+	 * This method visits all the EnumDeclaration ASTNodes within the CompilationUnit. 
+	 * EnumDeclaration ASTNodes follow the format of: 
+	 * 		
+	 * 		EnumDeclaration:
+     *			[ Javadoc ] { ExtendedModifier } enum Identifier
+     *   			[ implements Type { , Type } ]
+     *   			{
+     *    			[ EnumConstantDeclaration { , EnumConstantDeclaration } ] [ , ]
+     *    			[ ; { ClassBodyDeclaration | ; } ]
+     *    			}
+	 *
+	 * This method determines key information of the Class in the 
+	 * CompilationUnt. It then creates a new Class object and sets 
+	 * these values within the class.
+	 * 
+	 * Returns true to search for a child ASTNode.
+	 */
 	public boolean visit(EnumDeclaration node) {
 		String id = node.getName().toString();
 		Class c = new Class(id, cu);
@@ -82,10 +127,19 @@ public class DeclarationVisitor extends ASTVisitor {
 		
 		return true;
 	}
+	
+	/**
+	 * Returns the ArrayList of Class objects this Vistor has visited. 
+	 * @return ArrayList of Class objects
+	 */
 	public ArrayList<Class> getClasses(){
 		return classes;
 	}
 	 
+	/**
+	 * Returns the ArrayList of ASTNode objects this Visitor has visited.
+	 * @return ArrayList of ASTNode objects. 
+	 */
 	public ArrayList<ASTNode> getNodes(){
 		return nodes;
 	}
