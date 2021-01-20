@@ -16,10 +16,10 @@ import tree.JDTree;
 public class InheritanceMetrics extends MetricClasses {
 	//Multimap<String, Integer> multiMap;
 	Set<String> classNames;
-	Set<String> BaseClassesNames;
+	Set<String> baseClassesNames;
 	//ArrayList<CustomPair> depthOfInhertance;
 	HashMap<String,String> superClassofChild;
-	HashMap<String, Integer> MethodsInaClass = new HashMap<String, Integer>();
+	HashMap<String, Integer> methodsInaClass = new HashMap<String, Integer>();
 	int NumberOfBaseClasses,maxDepthOfInheritance;
 	JDTree[] classes;
 	
@@ -29,9 +29,9 @@ public class InheritanceMetrics extends MetricClasses {
 	
 	public InheritanceMetrics(JDTree[] classes) {
 		this.classes = classes;
-		this.MethodsInaClass = new HashMap<String, Integer>();
+		this.methodsInaClass = new HashMap<String, Integer>();
 		this.classNames = new HashSet<String>(); 
-		this.BaseClassesNames = new HashSet<String>(); 
+		this.baseClassesNames = new HashSet<String>(); 
 		//this.depthOfInhertance = new ArrayList<CustomPair>(); 
 		this.superClassofChild= new HashMap<String,String>();
 		this.maxDepthOfInheritance=0;
@@ -65,14 +65,15 @@ public class InheritanceMetrics extends MetricClasses {
 					Class classNode = (Class) o;
 					if (DEBUG )System.out.println("======================================================");
 					if (classNames.contains(classNode.getSuperClass()))  { 
-						BaseClassesNames.add(classNode.getSuperClass()); //populate a hashSet of superclass names, (can't include duplicates)
+						baseClassesNames.add(classNode.getSuperClass()); //populate a hashSet of superclass names, (can't include duplicates)
 						//depthOfInhertance.add(new CustomPair(classNode.getSuperClass(),classNode.getIdentifier()));
-						 superClassofChild.put(classNode.getIdentifier(),classNode.getSuperClass()); //get hashMet with the superclass of each child class.
+						superClassofChild.put(classNode.getIdentifier(),classNode.getSuperClass()); //get hashMet with the superclass of each child class.
 					}
+					//For Temporary Testing
 					if (DEBUG ) {
 						System.out.println("The superclass for: "+classNode.getIdentifier()+"\nis: "+classNode.getSuperClass());	
-						System.out.println("The interfaces for: "+classNode.getIdentifier()+"\nis: "+classNode.getInterfaces().toString()); //add if statement for serilizable
-						System.out.println("is the superclass of this class a Thread?: "+classNode.getIdentifier()+"\nThen: "+classNode.isCritical()); //add if statment for Thread.
+						System.out.println("The interfaces for: "+classNode.getIdentifier()+"\nis: "+classNode.getInterfaces().toString()); 
+						System.out.println("is the superclass of this class a Thread?: "+classNode.getIdentifier()+"\nThen: "+classNode.isCritical()); 
 						System.out.println("======================================================");
 					}					
 					//System.out.println(classNode.getIdentifier() + " : " + MethodCounter);
@@ -84,13 +85,22 @@ public class InheritanceMetrics extends MetricClasses {
 		}
 	}
 	
+	/**
+	*Returns {@link #BaseClassesNames} 
+	 * @return 
+	**/
 	public int getNumberofBaseClasses() {
 		//if (DEBUG) { }
-		return BaseClassesNames.size();	
+		return baseClassesNames.size();	
 		
 	}
 	
-	public Map<String, ArrayList<String>> getImidiateChildren() {
+	/**
+	*Use a reverse HashMap  a Hashmap containing a superClassofChilds to reverse and map the associations while linking all children to a superclass
+	 * @return 
+	**/
+	
+	public Map<String, ArrayList<String>> getImidiateChildren() {  //<string,int> when fully tested. 
 		Map<String, ArrayList<String>> reverseMap = new HashMap<>(
 				superClassofChild.entrySet().stream()
 			        .collect(Collectors.groupingBy(Map.Entry::getValue)).values().stream()
@@ -110,24 +120,11 @@ public class InheritanceMetrics extends MetricClasses {
 		}		 
 		return reverseMap;	
 	}
-	//soon
+	
+	//soon, needs to be redone. this is simple as getImidiateChildren() gives you the superclass with all children.
 	/*
 	     public int maxDeapthOfInheritance() {
 		//given the child strings fromn the super strings in your
 		 remove all keys
 	}*/
-	
-	
-	
-	/*public void setupInheritanceClass(JDTree[] classes) {
-		for(int i = 0; i < classes.length; i++) {
-			Object o = classes[i].getNode(); 				
-			NumberOfBaseClasses=0;
-			if(o instanceof Class) {
-				Class classNode = (Class) o;
-				classNames.add(classNode.getIdentifier());
-				
 	}
-		}
-	}*/
-}

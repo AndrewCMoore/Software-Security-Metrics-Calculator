@@ -59,7 +59,7 @@ public class ClassMetrics extends MetricClasses {
 	}
 	
 	//#################
-	//Notes: getLengthOfMethod untested and you may need to use a hashmap of hashmaps here. <class, <method, size>>. 	
+	//Notes: getLengthOfMethod working but untested AND you may need to use a hashmap of hashmaps here. <class, <method, size>>. 	
 	//#################
 	
 	/**
