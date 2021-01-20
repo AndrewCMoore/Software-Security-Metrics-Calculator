@@ -1,4 +1,4 @@
-package Calculator;
+package calculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,98 +17,109 @@ public class InheritanceMetrics extends MetricClasses {
 	//Multimap<String, Integer> multiMap;
 	Set<String> classNames;
 	Set<String> BaseClassesNames;
-	ArrayList<CustomPair> depthOfInhertance;
-	HashMap<String,String> imidiateChildren;
+	//ArrayList<CustomPair> depthOfInhertance;
+	HashMap<String,String> superClassofChild;
 	HashMap<String, Integer> MethodsInaClass = new HashMap<String, Integer>();
 	int NumberOfBaseClasses,maxDepthOfInheritance;
+	JDTree[] classes;
 	
-	boolean CalculatedMethodsInaClass;
+	public static final boolean DEBUG = false;
+	
+	boolean extractInheritanceInformation;
 	
 	public InheritanceMetrics(JDTree[] classes) {
+		this.classes = classes;
 		this.MethodsInaClass = new HashMap<String, Integer>();
 		this.classNames = new HashSet<String>(); 
 		this.BaseClassesNames = new HashSet<String>(); 
-		this.depthOfInhertance = new ArrayList<CustomPair>(); 
-		this.imidiateChildren= new HashMap<String,String>();
+		//this.depthOfInhertance = new ArrayList<CustomPair>(); 
+		this.superClassofChild= new HashMap<String,String>();
 		this.maxDepthOfInheritance=0;
 		this.NumberOfBaseClasses = 0;
-		this.CalculatedMethodsInaClass = false;
-		this.setupInheritanceClass(classes);
-		this.getMethodsInClass(classes);
-		Set<String> depthOfInhertance;
+		this.extractInheritanceInformation = false;
+		this.extractInheritanceInformation();
+		//this.getMethodsInClass(classes);
+		//Set<String> depthOfInhertance;
 		
 	}
 	
-	public HashMap<String, Integer> getMethodsInClass(JDTree[] classes) {
-		System.out.println("======================================================");
-		System.out.println("SuperClass of A Class");
-		System.out.println("======================================================");
-		int NumberOfBaseClasses=0;
-		if (CalculatedMethodsInaClass) {
-			return MethodsInaClass;
-		} else { 		
-			
+	/**
+	*Get the JDT Tree
+	 * @return 
+	**/
+	public JDTree[] getJDTClasses() {
+		return this.classes;
+	}
+	
+	/**
+	*extract the Inheritance information from the JDT tree for the Code Artifact.
+	*@return
+	**/
+	public void extractInheritanceInformation() {
+		JDTree[] classes = getJDTClasses();
+		//int NumberOfBaseClasses=0;
+		if (!extractInheritanceInformation) {
 			for(int i = 0; i < classes.length; i++) {
 				Object o = classes[i].getNode();				
 				if(o instanceof Class) {
 					Class classNode = (Class) o;
-					System.out.println("======================================================");
+					if (DEBUG )System.out.println("======================================================");
 					if (classNames.contains(classNode.getSuperClass()))  { 
-						BaseClassesNames.add(classNode.getSuperClass()); 
-						depthOfInhertance.add(new CustomPair(classNode.getSuperClass(),classNode.getIdentifier()));
-						imidiateChildren.put(classNode.getIdentifier(),classNode.getSuperClass());
+						BaseClassesNames.add(classNode.getSuperClass()); //populate a hashSet of superclass names, (can't include duplicates)
+						//depthOfInhertance.add(new CustomPair(classNode.getSuperClass(),classNode.getIdentifier()));
+						 superClassofChild.put(classNode.getIdentifier(),classNode.getSuperClass()); //get hashMet with the superclass of each child class.
 					}
-					System.out.println("The superclass for: "+classNode.getIdentifier()+"\nis: "+classNode.getSuperClass());	
-					System.out.println("The interfaces for: "+classNode.getIdentifier()+"\nis: "+classNode.getInterfaces().toString());
-					System.out.println("is the superclass of this class a Thread?: "+classNode.getIdentifier()+"\nThen: "+classNode.isCritical());
-					
-					System.out.println("======================================================");
+					if (DEBUG ) {
+						System.out.println("The superclass for: "+classNode.getIdentifier()+"\nis: "+classNode.getSuperClass());	
+						System.out.println("The interfaces for: "+classNode.getIdentifier()+"\nis: "+classNode.getInterfaces().toString()); //add if statement for serilizable
+						System.out.println("is the superclass of this class a Thread?: "+classNode.getIdentifier()+"\nThen: "+classNode.isCritical()); //add if statment for Thread.
+						System.out.println("======================================================");
+					}					
 					//System.out.println(classNode.getIdentifier() + " : " + MethodCounter);
 					//MethodsInaClass.put(classNode.getIdentifier(), MethodCounter);
 				}				
-				
 			}
-			System.out.println("======================================================");
-			System.out.println("======================================================");
-			System.out.println("======================================================");
-			System.out.println("# base Classes :"+BaseClassesNames.size());		// the bottom most class do not count.	
-			System.out.println("Max Depth of Inheritance: ");
-			Map<String, ArrayList<String>> reverseMap = new HashMap<>(
-					imidiateChildren.entrySet().stream()
-				        .collect(Collectors.groupingBy(Map.Entry::getValue)).values().stream()
-				        .collect(Collectors.toMap(
-				                item -> item.get(0).getValue(),
-				                item -> new ArrayList<>(
-				                    item.stream()
-				                        .map(Map.Entry::getKey)
-				                        .collect(Collectors.toList())
-				                ))
-				        ));
-			for (String key :reverseMap.keySet())
-			System.out.println("The Base class: "+key + "\nhas the following children: "+ reverseMap.get(key));
-			//reverseMap.keySet();
-
-			//cp:depthOfInhertance can be solved using creating a List of Bi Directional Nodes.
-			
+			//System.out.println("======================================================");
+			//System.out.println("Max Depth of Inheritance: ");
 		}
-		
-		/*for (CustomPair cp:depthOfInhertance) { 
-			System.out.println(cp.getV() +" : "+ cp.getK());
-		}*/
-		return null;
-	
 	}
 	
-
+	public int getNumberofBaseClasses() {
+		//if (DEBUG) { }
+		return BaseClassesNames.size();	
+		
+	}
+	
+	public Map<String, ArrayList<String>> getImidiateChildren() {
+		Map<String, ArrayList<String>> reverseMap = new HashMap<>(
+				superClassofChild.entrySet().stream()
+			        .collect(Collectors.groupingBy(Map.Entry::getValue)).values().stream()
+			        .collect(Collectors.toMap(
+			                item -> item.get(0).getValue(),
+			                item -> new ArrayList<>(
+			                    item.stream()
+			                        .map(Map.Entry::getKey)
+			                        .collect(Collectors.toList())
+			                ))
+			        ));
+		//reverseMap.keySet();
+		if (DEBUG) {
+			for (String key :reverseMap.keySet()) {
+				System.out.println("The Base class: "+key + "\nhas the following children: "+ reverseMap.get(key));		
+			}
+		}		 
+		return reverseMap;	
+	}
 	//soon
-	/*public int maxDeapthOfInheritance() {
+	/*
+	     public int maxDeapthOfInheritance() {
 		//given the child strings fromn the super strings in your
 		 remove all keys
 	}*/
 	
 	
 	
-	public void setupInheritanceClass(JDTree[] classes) {
+	/*public void setupInheritanceClass(JDTree[] classes) {
 		for(int i = 0; i < classes.length; i++) {
 			Object o = classes[i].getNode(); 				
 			NumberOfBaseClasses=0;
@@ -118,9 +129,5 @@ public class InheritanceMetrics extends MetricClasses {
 				
 	}
 		}
-	}
-	
-	
-	
-	
+	}*/
 }
