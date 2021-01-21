@@ -5,6 +5,11 @@ import org.eclipse.jdt.core.dom.BlockComment;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.LineComment;
 
+/**
+ * @deprecated
+ * @author AndrewCMoore
+ *
+ */
 public class CommentVisitor extends ASTVisitor {
 
 	private CompilationUnit compilationUnit;
