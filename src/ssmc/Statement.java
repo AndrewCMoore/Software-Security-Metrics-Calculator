@@ -1,13 +1,18 @@
 package ssmc;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.InfixExpression;
+import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 
 public class Statement {
 	private CompilationUnit compilationUnit;
 	private int complexityValue;
 	private int endLine; 
-	private ASTNode nodeType;
+	private ASTNode node;
 	private int startLine;
 	
 	/**
@@ -16,7 +21,7 @@ public class Statement {
 	 * @param compilationUnit CompilationUnit
 	 */
 	public Statement(ASTNode node, CompilationUnit compilationUnit) {
-		this.nodeType = node;
+		this.node = node;
 		this.compilationUnit = compilationUnit; 
 		this.complexityValue = 0;
 		try {
@@ -65,7 +70,7 @@ public class Statement {
 	 * @return ASTNode
 	 */
 	public ASTNode getNode() {
-		return this.nodeType;
+		return this.node;
 	}
 	
 	/**
@@ -81,8 +86,48 @@ public class Statement {
 	 * ToString method for development purposes
 	 */
 	public String toString() {
-		return "Statement [nodeType=" + nodeType + ", compilationUnit=" + ", complexityValue="
+		return "Statement [nodeType=" + node + ", compilationUnit=" + ", complexityValue="
 				+ complexityValue + ", startLine=" + startLine + ", endLine=" + endLine + "]";
 	}
 	
+	public void checkExpressionForOperators() {
+		List<?> list = node.structuralPropertiesForType();
+		for (Object o : list) {
+			StructuralPropertyDescriptor property = (StructuralPropertyDescriptor) o;
+			Object child = node.getStructuralProperty(property);
+			if (child instanceof Expression) {
+				//System.out.println(child.getClass().getName());
+				//System.out.println(child);
+				if (child instanceof InfixExpression) {
+					InfixExpression infix = (InfixExpression) child;
+					//System.out.println(getOperators(infix));
+					this.addComplexity(getOperators(infix));
+				}
+			}
+		}
+	}
+	
+	private int getOperators(Expression e) {
+		if (e instanceof InfixExpression) {
+			InfixExpression i = (InfixExpression) e;
+			if (i.getOperator() != null) {
+				if (checkLogic(i.getOperator())) {
+					return 1 + getOperators(i.getLeftOperand()) + getOperators(i.getRightOperand());
+				} else {
+					return getOperators(i.getLeftOperand()) + getOperators(i.getRightOperand());
+				}
+
+			}
+		}
+		return 0;
+	}
+	
+	private boolean checkLogic(InfixExpression.Operator o) {
+
+		if (o == InfixExpression.Operator.CONDITIONAL_OR || o == InfixExpression.Operator.CONDITIONAL_AND) {
+			return true;
+		}
+
+		return false;
+	}
 }

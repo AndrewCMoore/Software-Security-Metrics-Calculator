@@ -79,7 +79,7 @@ public class CAMValues {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
-		System.out.println("\n\n\n " + sv.ids + "\n\n\n");
+		//System.out.println("\n\n\n " + sv.ids + "\n\n\n");
 		//System.out.println("In the Compilation Unit: " + unit.getElementName()
 		//				  +" the values returned are: \n"  + sv.toString());
 		

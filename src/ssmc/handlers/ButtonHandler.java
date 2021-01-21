@@ -37,8 +37,8 @@ public class ButtonHandler extends AbstractHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		try {
 			addToTree();
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+			System.out.println("Select a Project, Package or Class");
 			e.printStackTrace();
 		}
 
