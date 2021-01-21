@@ -107,7 +107,7 @@ class MethodTest {
 	@Test
 	void testGetNumbeOfInputs() {
 		Method m = new Method(null, null);
-		assertEquals(0, m.getNumbeOfInputs());
+		assertEquals(0, m.getNumberOfInputs());
 	}
 
 	@Test
@@ -210,9 +210,9 @@ class MethodTest {
 	@Test
 	void testSetNumbeOfInputs() {
 		Method m = new Method(null, null);
-		assertEquals(m.getNumbeOfInputs(), 0);
-		m.setNumbeOfInputs(6);
-		assertEquals(m.getNumbeOfInputs(), 6);
+		assertEquals(m.getNumberOfInputs(), 0);
+		m.setNumberOfInputs(6);
+		assertEquals(m.getNumberOfInputs(), 6);
 	}
 
 	@Test
