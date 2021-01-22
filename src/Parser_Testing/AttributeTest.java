@@ -104,12 +104,6 @@ class AttributeTest {
 	}
 	
 	@Test
-	void testSetModifierInt() {
-		attributeA.setModifier(2);
-		assertEquals("[private]", attributeA.getModifier().toString());
-		attributeA.setModifier(1);
-	}
-	@Test
 	void testSetModifierArrayList() {
 		ArrayList<String> arrayList = new ArrayList<String>();
 		

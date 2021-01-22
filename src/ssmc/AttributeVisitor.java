@@ -8,7 +8,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
-import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -139,13 +138,8 @@ public class AttributeVisitor extends ASTVisitor{
 		
 		SimpleName name = node.getName();											// Get the String ID of the node (variable)
 		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
-		
-		IVariableBinding type = node.resolveBinding(); 								// Get the variable type
-		
-		int modifiers = type.getModifiers(); 										// Get the modifier value 
-		ArrayList<String> modifier = CAMValues.getModifier(modifiers);
-		
-		a.setModifier(modifier); 	 												// Set the Attribute's variables
+
+		a.setModifier(ASTUtility.getModifers(node)); 	 												// Set the Attribute's variables
 		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
 		
 		this.names.add(name.getIdentifier());										// Add the node name to the set of names

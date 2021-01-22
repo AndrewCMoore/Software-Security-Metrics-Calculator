@@ -34,6 +34,7 @@ public class Method {
 	private int startLine;
 	private ArrayList<Statement> statements;
 	private int usage;
+	private HashMap<String, String>parameters;
 	
 	/**
 	 * Constructor method
@@ -41,6 +42,11 @@ public class Method {
 	 * @param compilationUnit CompilationUnit
 	 */
 	public Method(String identifier, CompilationUnit compilationUnit) {
+		// Set the variables from the parameters
+		this.identifier = identifier;
+		this.compilationUnit = compilationUnit;
+		
+		// Set the variables to base values
 		this.length = 0;
 		this.numberOfOutputs = 0;
 		this.numberOfInputs	 = 0;
@@ -48,36 +54,45 @@ public class Method {
 		this.isWriteClassified = false;	
 		this.isInherited = false;
 		this.isAccessible = false;
-		this.identifier = identifier;
 		this.usage = 0;
 		this.isFinalized = false;
-		this.compilationUnit = compilationUnit;
-		this.setLinks(0);
-		
+		this.links = 0;
 		this.startLine = 0;
 		this.endLine = 0;
 		
+		// Initialize ArrayLists
 		this.statements = new ArrayList<Statement>();
 		this.modifiers = new ArrayList<String>();
 		
+		this.parameters = new HashMap<String, String>();
+		
 	}
 	
+	public void setParameters(String name, String type) {
+		this.parameters.put(name, type);
+	}
+	
+	public HashMap<String, String> getParameters(){
+		return parameters;
+	}
 	/**
 	 * Adds a Statmenet object to the ArrayList of Statement objects
 	 * within this Method. 
 	 * @param statement Statement
 	 */
 	public void addStatement(Statement statement) {
+		// Get the ID of the System's hashcode of the object to be added
 		int id = System.identityHashCode(statement.getNode());
+		// For each Statement within this Method
 		for(Statement s: statements) {
-			//Determines if the Statement object is already in the ArrayList by 
-			//checking the system hashcode of both object's ASTNodes. 
+			// If the the ID matches any Statement object's ASTNode within the Method
 			if(id == System.identityHashCode(s.getNode())) {
+				// It is being revisited and thus does not need to be added
 				return ;
 			}
 		}
+		// Did not match any current Statement ASTNode's ID's and is added to the ArrayList
 		this.statements.add(statement);
-		
 	}
 
 	/**
@@ -165,8 +180,7 @@ public class Method {
 	 * @return ArrayList of String objects
 	 */
 	public ArrayList<String> getModifiers(){
-		return this.modifiers;
-		
+		return this.modifiers;	
 	}
 	
 	/**
@@ -279,7 +293,9 @@ public class Method {
 	 * @param modifiers ArrayList of String objects
 	 */
 	public void setModifiers(ArrayList<String> modifiers) {
+		// For each String object in the ArrayList
 		for(String s : modifiers) {
+			// Add that object to the modifier ArrayList
 			this.modifiers.add(s);
 		}
 	}
@@ -331,7 +347,10 @@ public class Method {
 	 * @return HashMap<String, Integer> 
 	 */
 	public HashMap<String, Integer> getNumOfStatements() {
+		// Create a new HashMap object to return 
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		
+		// Create Integer objects to track the number of each type of statement ASTNode
 		int numIf = 0; 
 		int numFor = 0;
 		int numDo = 0;
@@ -339,8 +358,10 @@ public class Method {
 		int numWhile = 0;
 		int numCatch = 0;
 		
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		
+		/*
+		 * For each Statement object in the Method, check what type of ASTNode it is and'
+		 * incremenet that type's count by one
+		 */
 		for(Statement s : statements) {
 			if(s.getNode() instanceof IfStatement) {
 				numIf += 1;
@@ -365,6 +386,7 @@ public class Method {
 			}
 		}
 		
+		// Assign the values to the HashMap
 		map.put("If", numIf);
 		map.put("For", numFor);
 		map.put("Do", numDo);
@@ -372,6 +394,7 @@ public class Method {
 		map.put("While", numWhile);
 		map.put("Catch", numCatch);
 		
+		// Return the HashMap
 		return map;
 	}
 	
@@ -381,20 +404,32 @@ public class Method {
 	 * @return int
 	 */
 	public int getMethodComplexity() {
+		// Method complexity starts at 1
 		int complexity = 1;
+		// Initialize the number of return statments to 0
 		int numOfReturnStatements = 0;
+		// For each Statement in Method
 		for(Statement s : statements) {
+			// if the statement type is a return statement
 			if(s.getNode().getNodeType() == 41) {
+				// increment the number of return statments in the method
 				numOfReturnStatements += 1;
 			}
+			//The complexity of the Method is the sum of the current 
+			//complexity plus the Statment's complexity
 			complexity += s.getComplexity();
 		}
+		// if the method is a void type
 		if(this.modifiers.contains("void")) {
+			// add complexity equal to the number of return statements in the method
 			complexity += numOfReturnStatements;
-		} else {
+		} 
+		// if the method is any other type
+		else {
+			// add complexity equal to the number of return statments beyond the first
 			complexity += numOfReturnStatements - 1;
 		}
-		
+		// return complexity
 		return complexity;
 	}
 		

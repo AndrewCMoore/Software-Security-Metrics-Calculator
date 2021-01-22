@@ -55,18 +55,14 @@ public class DeclarationVisitor extends ASTVisitor {
 	 * Returns true to search for a child ASTNode.
 	 */
 	public boolean visit(TypeDeclaration node){
-		nodes.add(node);
-		int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
-		int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
-		SimpleName name = node.getName();
-		int modifiers = node.getModifiers();
-		ArrayList<String> modify = CAMValues.getModifier(modifiers);
-		String id = name.toString();
-		Class c = new Class(id,cu);
-		c.setStartLine(startLineNum);
-		c.setEndLine(endLineNum);
-		c.setModifier(modify);
 		
+		nodes.add(node);
+		
+		Class c = new Class(ASTUtility.getNodeName(node), cu);
+		c.setStartLine(ASTUtility.getStartLine(node));
+		c.setEndLine(ASTUtility.getEndLine(node));
+		c.setModifier(ASTUtility.getModifers(node));
+		ASTUtility.checkInterfaces(c, node);
 		
 	    /**
 	    * get super class, try catch required since program will crash due
@@ -79,20 +75,14 @@ public class DeclarationVisitor extends ASTVisitor {
 				c.setSuperClass("null");
 		}
        
-        /**
-	    * get a List[] of all interfaces in each class, try catch required since program will crash due
-	    to null pointer exceptions when a class does not have interfaces"
-	    **/
-        try {			  
-			c.addInterfaces(node.superInterfaceTypes());
-	    	} catch (Exception e) {
-				List<String> emptylst = Collections.emptyList();
-				c.addInterfaces(emptylst);
-	    }
+        
+       
 
         classes.add(c);
 		return true;
     }
+	
+	
 
 	/**
 	 * This method is an overwritten method from the super class ASTVisitor. 
@@ -115,18 +105,17 @@ public class DeclarationVisitor extends ASTVisitor {
 	 * Returns true to search for a child ASTNode.
 	 */
 	public boolean visit(EnumDeclaration node) {
-		String id = node.getName().toString();
-		Class c = new Class(id, cu);
-		int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
-		int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
-		c.setStartLine(startLineNum);
-		c.setEndLine(endLineNum);
-		c.setModifier(CAMValues.getModifier(node.getModifiers()));
+		Class c = new Class(ASTUtility.getNodeName(node), cu);
+		c.setStartLine(ASTUtility.getStartLine(node));
+		c.setEndLine(ASTUtility.getEndLine(node));
+		c.setModifier(ASTUtility.getModifers(node));
+		ASTUtility.checkInterfaces(c, node);
 		c.setEnum(true);
 		classes.add(c);
 		
 		return true;
 	}
+	
 	
 	/**
 	 * Returns the ArrayList of Class objects this Vistor has visited. 

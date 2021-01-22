@@ -27,11 +27,16 @@ public class Class {
 	 * @param compilationUnit CompilationUnit the Class represents
 	 */
 	public Class(String identifier, CompilationUnit compilationUnit) {
+		// Sets variables from parameters 
 		this.Identifier = identifier;
 		this.compilationUnit = compilationUnit;
+		
+		// Sets variables to base values
 		this.serialized = false;
 		this.critical = false;
 		this.setEnum(false);
+		
+		// Initialize ArrayLists
 		methods = new ArrayList<Method>();
 		attributes = new ArrayList<Attribute>();
 		interfaces = new ArrayList<String>();
@@ -68,28 +73,35 @@ public class Class {
 	 * @return HashMap<String, Integer> Number of each type of Statement
 	 */
 	public HashMap<String, Integer> getNumOfStatements() {
+		// Create a HashMap object to be used for the return value and intialize it.
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		// Creates a count for each type of statement ASTNode that adds a unqiue complexity.
+		// If, For, Do, Switch, While
 		int numIf = 0; 
 		int numFor = 0;
 		int numDo = 0;
 		int numSwitch = 0;
 		int numWhile = 0;
 		
+		// Itterate through each Method object this class contains
 		for(Method m : methods) {
+			// Get the HashMap of Statements from the Method object
 			HashMap<String, Integer> tempMap = m.getNumOfStatements();
+			// Add the values to the total count
 			numIf += tempMap.get("If");
 			numFor += tempMap.get("For");
 			numDo += tempMap.get("Do");
 			numSwitch += tempMap.get("Switch");
 			numWhile += tempMap.get("While");	
 		}
-		
+		// Put the total values across all Method objects into the HashMap
 		map.put("If", numIf);
 		map.put("For", numFor);
 		map.put("Do", numDo);
 		map.put("Switch", numSwitch);
 		map.put("While", numWhile);
 		
+		// Return HashMap
 		return map;
 		
 	}
@@ -165,13 +177,15 @@ public class Class {
 	 * @return boolean if Attribute is in any method in the class
 	 */
 	public boolean isAttributeInMethod(Attribute a) {
-		
+		// For each Method object within this Class
 		for(Method m : methods) {
+			// If the Attribute's line number is between the start & end line of the Method
 			if(a.getLineNum() < m.getEndLine() && a.getLineNum() > m.getStartLine()) {
+				// Return true
 				return true;
 			}
 		}
-
+		// If here, the Attribute was not in any Method and thus was a member variable
 		return false;
 	}
 	
@@ -191,17 +205,21 @@ public class Class {
 	 * @return boolean
 	 */
 	public boolean isEnum() {
+		// If the Class an enumeration Class defined by DeclarationVisitor upon visiting the class
 		if(Enum) {
-			
+			// Create an ArrayList of the modifiers public static final
 			ArrayList<String> enumConstant = new ArrayList<String>();
 			enumConstant.add("public");
 			enumConstant.add("static");
 			enumConstant.add("final");
 			
+			// For each member named-constant in the enumeration class
 			for(Attribute a : attributes) {
+				// Set the modifier to public static final
 				a.setModifier(enumConstant);
 			}
 		}
+		// Return if an enumeration class
 		return Enum;
 	}
 	

@@ -25,13 +25,18 @@ public class Attribute {
 	 * @param compilationUnit CompilationUnit that Attribute is contained in
 	 */
 	public Attribute(String identifier, CompilationUnit compilationUnit) {
+		// Initialize variables from parameters
 		this.compilationUnit = compilationUnit;
 		this.Identifier = identifier;
-		this.modifier = new ArrayList<String>();
+		
+		// Initialize core variables
 		this.usage = 0;
 		this.finalized = false;
 		this.links = 0;
 		this.lineNum = 0;
+		
+		// Intialize ArrayList
+		this.modifier = new ArrayList<String>();
 	}
 
 	/**
@@ -100,15 +105,18 @@ public class Attribute {
 	 * @return (boolean) finalized attribute
 	 */
 	public boolean isFinalized() {
+		// Checks if the modifier contains the word final
 		if(this.modifier.contains("final")) {
-			setFinalized(true);
+			// If so sets the variable to true
+			this.finalized = true;
 		}
-		
+		// Returns if finalized or not
 		return finalized;
 	}
 
 	/**
 	 * Sets the finalizaed attribute within the Object. To be used in method isFinalized()
+	 * @deprecated
 	 * @param finalized Boolan value (true/false) 
 	 */
 	public void setFinalized(boolean finalized) {
@@ -141,14 +149,15 @@ public class Attribute {
 	}
 
 	/**
+	 * @deprecated
 	 * This method is used to set the modifier in most cases. The Integer i is used in the method 
 	 * getModifier in class CAMValues. This returns an ArrayList of Strings that represent the modifiers
 	 * of the method.
 	 * @param i Integer representing an ASTNode's modifiers.
 	 */
+	
 	public void setModifier(int i) {
-		this.modifier = CAMValues.getModifier(i);
-		
+		//this.modifier = ASTUtility.getModifier(i);
 	}
 	
 	/**

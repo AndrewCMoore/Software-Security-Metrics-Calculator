@@ -99,6 +99,7 @@ public class AttributeMetrics {
 		calcMap.put("total", total);
 		//printMap(calcMap);
 		return calcMap;
+		
 	}
 	
 	/**
