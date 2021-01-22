@@ -1,6 +1,6 @@
 package tree;
 
-public enum NodeType {
+public enum NodeType{
 	PROJECT,
 	PACKAGE,
 	FILE,

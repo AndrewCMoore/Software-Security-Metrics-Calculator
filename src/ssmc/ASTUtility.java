@@ -1,13 +1,16 @@
 package ssmc;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 public class ASTUtility {
@@ -39,7 +42,33 @@ public class ASTUtility {
 			AbstractTypeDeclaration ATDNode = (AbstractTypeDeclaration) node;
 			return ATDNode.getName().getIdentifier();
 		}
-		return null;
+		return "";
+		
+	}
+	
+	/**
+	    * get a List[] of all interfaces in each class, try catch required since program will crash due
+	    to null pointer exceptions when a class does not have interfaces"
+	    **/
+	public static final void checkInterfaces(Class c, ASTNode node) {
+		if(node instanceof TypeDeclaration) {
+			TypeDeclaration TDNode = (TypeDeclaration) node;
+			try {
+				c.addInterfaces(TDNode.superInterfaceTypes());
+			} catch (Exception e) {
+				List<String> emptylst = Collections.emptyList();
+				c.addInterfaces(emptylst);
+			}
+		}
+		if(node instanceof EnumDeclaration) {
+			EnumDeclaration EDNode = (EnumDeclaration) node;
+			try {
+				c.addInterfaces(EDNode.superInterfaceTypes());
+			} catch (Exception e) {
+				List<String> emptylst = Collections.emptyList();
+				c.addInterfaces(emptylst);
+			}
+		}
 		
 	}
 	

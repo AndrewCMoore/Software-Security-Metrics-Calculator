@@ -62,7 +62,7 @@ public class DeclarationVisitor extends ASTVisitor {
 		c.setStartLine(ASTUtility.getStartLine(node));
 		c.setEndLine(ASTUtility.getEndLine(node));
 		c.setModifier(ASTUtility.getModifers(node));
-		
+		ASTUtility.checkInterfaces(c, node);
 		
 	    /**
 	    * get super class, try catch required since program will crash due
@@ -75,16 +75,8 @@ public class DeclarationVisitor extends ASTVisitor {
 				c.setSuperClass("null");
 		}
        
-        /**
-	    * get a List[] of all interfaces in each class, try catch required since program will crash due
-	    to null pointer exceptions when a class does not have interfaces"
-	    **/
-        try {			  
-			c.addInterfaces(node.superInterfaceTypes());
-	    	} catch (Exception e) {
-				List<String> emptylst = Collections.emptyList();
-				c.addInterfaces(emptylst);
-	    }
+        
+       
 
         classes.add(c);
 		return true;
@@ -117,11 +109,13 @@ public class DeclarationVisitor extends ASTVisitor {
 		c.setStartLine(ASTUtility.getStartLine(node));
 		c.setEndLine(ASTUtility.getEndLine(node));
 		c.setModifier(ASTUtility.getModifers(node));
+		ASTUtility.checkInterfaces(c, node);
 		c.setEnum(true);
 		classes.add(c);
 		
 		return true;
 	}
+	
 	
 	/**
 	 * Returns the ArrayList of Class objects this Vistor has visited. 
