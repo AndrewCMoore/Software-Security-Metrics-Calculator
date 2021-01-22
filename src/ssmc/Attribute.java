@@ -28,11 +28,13 @@ public class Attribute {
 		// Initialize variables from parameters
 		this.compilationUnit = compilationUnit;
 		this.Identifier = identifier;
+		
 		// Initialize core variables
 		this.usage = 0;
 		this.finalized = false;
 		this.links = 0;
 		this.lineNum = 0;
+		
 		// Intialize ArrayList
 		this.modifier = new ArrayList<String>();
 	}
@@ -147,14 +149,15 @@ public class Attribute {
 	}
 
 	/**
+	 * @deprecated
 	 * This method is used to set the modifier in most cases. The Integer i is used in the method 
 	 * getModifier in class CAMValues. This returns an ArrayList of Strings that represent the modifiers
 	 * of the method.
 	 * @param i Integer representing an ASTNode's modifiers.
 	 */
+	
 	public void setModifier(int i) {
-		this.modifier = CAMValues.getModifier(i);
-		
+		//this.modifier = ASTUtility.getModifier(i);
 	}
 	
 	/**

@@ -55,17 +55,13 @@ public class DeclarationVisitor extends ASTVisitor {
 	 * Returns true to search for a child ASTNode.
 	 */
 	public boolean visit(TypeDeclaration node){
+		
 		nodes.add(node);
-		int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
-		int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
-		SimpleName name = node.getName();
-		int modifiers = node.getModifiers();
-		ArrayList<String> modify = CAMValues.getModifier(modifiers);
-		String id = name.toString();
-		Class c = new Class(id,cu);
-		c.setStartLine(startLineNum);
-		c.setEndLine(endLineNum);
-		c.setModifier(modify);
+		
+		Class c = new Class(ASTUtility.getNodeName(node), cu);
+		c.setStartLine(ASTUtility.getStartLine(node));
+		c.setEndLine(ASTUtility.getEndLine(node));
+		c.setModifier(ASTUtility.getModifers(node));
 		
 		
 	    /**
@@ -93,6 +89,8 @@ public class DeclarationVisitor extends ASTVisitor {
         classes.add(c);
 		return true;
     }
+	
+	
 
 	/**
 	 * This method is an overwritten method from the super class ASTVisitor. 
@@ -115,13 +113,10 @@ public class DeclarationVisitor extends ASTVisitor {
 	 * Returns true to search for a child ASTNode.
 	 */
 	public boolean visit(EnumDeclaration node) {
-		String id = node.getName().toString();
-		Class c = new Class(id, cu);
-		int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
-		int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
-		c.setStartLine(startLineNum);
-		c.setEndLine(endLineNum);
-		c.setModifier(CAMValues.getModifier(node.getModifiers()));
+		Class c = new Class(ASTUtility.getNodeName(node), cu);
+		c.setStartLine(ASTUtility.getStartLine(node));
+		c.setEndLine(ASTUtility.getEndLine(node));
+		c.setModifier(ASTUtility.getModifers(node));
 		c.setEnum(true);
 		classes.add(c);
 		

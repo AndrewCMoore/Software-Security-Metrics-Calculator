@@ -46,6 +46,7 @@ public class CAMValues {
 	 * Uses unit to create a CompilationUnit to use in CommentVisitor. 
 	 * Runs the visitor class to get all comment related values for the 
 	 * ICompilationUnit
+	 * @deprecated
 	 * @param unit ICompilationUnit input
 	 */
 	public static void generateCommentAST(ICompilationUnit unit) {
@@ -229,58 +230,7 @@ public class CAMValues {
 			
 		return classList;
 	}
-	
-
-	/**
-	 * This method takes an input of the modifier from the ASTNode's method 
-	 * call getModifiers() and determines what the modifier is by using a
-	 * bitwise AND. Adds all modifiers to an ArrayList to return. 
-	 * 
-	 * @param modifiers int return value of ASTNode's method getModifiers()
-	 * @return ArrayList of String object each representing a modifier
-	 */
-	public static ArrayList<String> getModifier(int modifiers) {
-		ArrayList<String> arrayList = new ArrayList<String>();
 		
-		if( (modifiers & 1)!=0) {
-			arrayList.add("public");
-		}
-		if( (modifiers & 2)!=0) {
-			arrayList.add("private");
-		}
-		if( (modifiers & 4)!=0) {
-			arrayList.add("protected");
-		}
-		if( (modifiers & 8)!=0) {
-			arrayList.add("static");
-		}
-		if( (modifiers & 16)!=0) {
-			arrayList.add("final");
-		}
-		if( (modifiers & 32)!=0) {
-			arrayList.add("synchronized");
-		}
-		if( (modifiers & 64)!=0) {
-			arrayList.add("volatile");
-		}
-		if( (modifiers & 128)!=0) {
-			arrayList.add("transient");
-		}
-		if( (modifiers & 256)!=0) {
-			arrayList.add("native");
-		}
-		if( (modifiers & 512)!=0) {
-			arrayList.add("DEFAULT");
-		}
-		if( (modifiers & 1024)!=0) {
-			arrayList.add("abstract");
-		}
-		if( (modifiers & 2048)!=0) {
-			arrayList.add("strictfp");
-		}
-		return arrayList;
-	}
-	
 	/**
 	 * This method gets the String representation of a Statement object. 
 	 * 
@@ -314,6 +264,7 @@ public class CAMValues {
 	 * @return CompilationUnit
 	 */
 	public static CompilationUnit parse(ICompilationUnit unit) {
+		@SuppressWarnings("deprecation")
 		ASTParser parser = ASTParser.newParser(AST.JLS14);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(unit);

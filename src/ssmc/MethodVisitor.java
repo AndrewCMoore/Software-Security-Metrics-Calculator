@@ -7,12 +7,13 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.TypeParameter;
+
+import ssmc.ASTUtility;
 
 public class MethodVisitor extends ASTVisitor{
 	
-	private static ArrayList<Method> methods;
-	private CompilationUnit cu;
+	private ArrayList<Method> methods;
+	private final CompilationUnit cu;
 	private ArrayList<ASTNode> nodes;
 	
 	/**
@@ -72,22 +73,17 @@ public class MethodVisitor extends ASTVisitor{
 	 * Returns true to search for a child ASTNode.
 	 */
     public boolean visit(MethodDeclaration node){  	
-    	nodes.add(node);
-    	int startLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
-	 	int endLineNum = ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition()+node.getLength() - 1);
-	 	
+
+    	nodes.add(node);	 	
         SimpleName name = node.getName();
         String id = name.toString();
-        
-        int modifiers = node.getModifiers();
-        ArrayList<String> modify = CAMValues.getModifier(modifiers);
     	
         Method m = new Method(id,cu);
-        m.setModifiers(modify);
+        m.setModifiers(ASTUtility.getModifers(node));
         m.setMethodLength(node.getLength());
-    	
-        m.setStartLine(startLineNum);
-        m.setEndLine(endLineNum);
+ 
+        m.setStartLine(ASTUtility.getStartLine(node));
+        m.setEndLine(ASTUtility.getEndLine(node));
         
         methods.add(m);
         
