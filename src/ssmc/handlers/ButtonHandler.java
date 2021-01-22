@@ -31,7 +31,12 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 public class ButtonHandler extends AbstractHandler {
 
 	/**
-	 * Upon button press, execute this code
+	 * responds to the button being pushed
+	 * Isn't meant to be called other than by the button push
+	 * 
+	 * @param event this is the event that is created by pushing a button   
+	 * @return returns null
+	 * @throws ExecutionException
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
@@ -44,34 +49,51 @@ public class ButtonHandler extends AbstractHandler {
 
 		return null;
 	}
-
+	
+	/**
+	 * Takes the active Workspace and a selection in the workspace 
+	 * if the selection is or is part of a java project then it will 
+	 * create a tree out of the project then call the calculator module
+	 * 
+	 * @throws JavaModelException
+	 * @throws CoreException
+	 */
 	public void addToTree() throws JavaModelException, CoreException {
 		IProject project = null;
 		IPath path = null;
+		//Gets the root directory of the workspace
 		IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
+		// Gets the active window
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (window != null) {
+			//gets the selection using the window
 			IStructuredSelection selection = (IStructuredSelection) window.getSelectionService().getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Object element = ((IStructuredSelection) selection).getFirstElement();
-
+				
 				if (element instanceof IResource) {
+					//gets the IProject that the selection is part of
 					project = ((IResource) element).getProject();
 				} else if (element instanceof IJavaElement) {
+					//Converts it to a better format
 					IJavaProject jProject = ((IJavaElement) element).getJavaProject();
 					project = jProject.getProject();			
 				}
 			}
 		}
-
+		
 		path = project.getFullPath();
 		project = fileRoot.getProject(path.toOSString());
 		if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+			// got the IJavaProject which is the format we need
 			IJavaProject javaProject = JavaCore.create(project);
 			String kind = project.getClass().getName();
+			//Build a tree out of the project
 			JDTree myTree = new JDTree(javaProject, null);
+			//pass the tree to the calculator
 			Calculator calc = new Calculator(myTree);
-			calc.calculate();;
+			//start calculating metrics
+			calc.calculate();
 		}
 		
 		// The JDTree class takes over from here
