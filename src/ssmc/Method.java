@@ -34,6 +34,7 @@ public class Method {
 	private int startLine;
 	private ArrayList<Statement> statements;
 	private int usage;
+	private HashMap<String, String>parameters;
 	
 	/**
 	 * Constructor method
@@ -63,8 +64,17 @@ public class Method {
 		this.statements = new ArrayList<Statement>();
 		this.modifiers = new ArrayList<String>();
 		
+		this.parameters = new HashMap<String, String>();
+		
 	}
 	
+	public void setParameters(String name, String type) {
+		this.parameters.put(name, type);
+	}
+	
+	public HashMap<String, String> getParameters(){
+		return parameters;
+	}
 	/**
 	 * Adds a Statmenet object to the ArrayList of Statement objects
 	 * within this Method. 

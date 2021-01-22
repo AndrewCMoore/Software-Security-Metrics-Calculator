@@ -7,6 +7,7 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 
 import ssmc.ASTUtility;
 
@@ -88,6 +89,25 @@ public class MethodVisitor extends ASTVisitor{
         methods.add(m);
         
         return true;
+    }
+    
+    public boolean visit(SingleVariableDeclaration node) {
+    	// Gets the parameter
+    	nodes.add(node);
+    	// For each Method visited
+    	for(Method m: methods) {
+    		// Check if the object in the () is on the same line
+    		if(m.getStartLine() == ASTUtility.getStartLine(node)) {
+    			// Gets the String representation of the parameters name
+    			final String name = node.getName().getIdentifier();
+    			// Gets the String representation of the parameters type
+    	    	final String type = node.getType().toString();
+    	    	// Set the parameter for the Method
+    	    	m.setParameters(name, type);
+    	    	//System.out.println("Method " + m.toString() + " has parameter" + m.getParameters().toString());
+    		}
+    	}
+    	return false;
     }
 
 }

@@ -10,12 +10,14 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 public class ASTUtility {
 
 	public static final int getStartLine(final ASTNode node) {
+		
 		return ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
 	}
 	
@@ -23,7 +25,13 @@ public class ASTUtility {
 		return ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition() + node.getLength() - 1);
 	}
 	
-	public static final ArrayList<String> getModifers(final ASTNode node) {
+	public static final ArrayList<String> getModifers(ASTNode node) {
+		if(node instanceof SingleVariableDeclaration){
+			SingleVariableDeclaration sVDNode = (SingleVariableDeclaration) node;
+			System.out.println(sVDNode.getModifiers());
+			
+			return getModifier(sVDNode.getModifiers());
+		}
 		if(node instanceof BodyDeclaration) {
 			BodyDeclaration bdNode = (BodyDeclaration) node;
 			return getModifier(bdNode.getModifiers());
@@ -33,6 +41,7 @@ public class ASTUtility {
 			IVariableBinding type = vdNode.resolveBinding();
 			return getModifier(type.getModifiers());
 		}
+		
 		
 		return null; 
 	}
