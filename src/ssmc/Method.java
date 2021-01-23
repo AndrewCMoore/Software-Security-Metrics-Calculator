@@ -35,7 +35,7 @@ public class Method {
 	private ArrayList<Statement> statements;
 	private int usage;
 	private HashMap<String, String>parameters;
-	
+	private int numberOfInvocations;
 	/**
 	 * Constructor method
 	 * @param identifier String representation of Method's identifier
@@ -59,6 +59,7 @@ public class Method {
 		this.links = 0;
 		this.startLine = 0;
 		this.endLine = 0;
+		this.numberOfInvocations = 0;	
 		
 		// Initialize ArrayLists
 		this.statements = new ArrayList<Statement>();
@@ -66,6 +67,14 @@ public class Method {
 		
 		this.parameters = new HashMap<String, String>();
 		
+	}
+	
+	public int getNumberOfInvocations() {
+		return numberOfInvocations;	
+	}
+	
+	public void addInvocation() {
+		this.numberOfInvocations += 1;
 	}
 	
 	public void setParameters(String name, String type) {

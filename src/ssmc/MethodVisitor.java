@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 
@@ -91,6 +92,23 @@ public class MethodVisitor extends ASTVisitor{
         return true;
     }
     
+    public boolean visit(MethodInvocation node) {
+    	// Gets the parameter
+    	nodes.add(node);
+    	
+    	try {
+    		// For the last method defined
+    		Method m = methods.get(methods.size() - 1);	
+    		// Add to the number of methods invoked in said method
+    		m.addInvocation();
+    		//System.out.println("Method : " + m.getIdentifier() + " invoked method: " + node.getName().getIdentifier() + " on line: " + ASTUtility.getStartLine(node));
+    	
+    		// Catch if methods is empty
+    	} catch (IndexOutOfBoundsException e) {}
+    	
+    	return true;
+    }
+    
     public boolean visit(SingleVariableDeclaration node) {
     	// Gets the parameter
     	nodes.add(node);
@@ -100,7 +118,7 @@ public class MethodVisitor extends ASTVisitor{
     		if(m.getStartLine() == ASTUtility.getStartLine(node)) {
     			// Gets the String representation of the parameters name
     			final String name = node.getName().getIdentifier();
-    			// Gets the String representation of the parameters type
+    			// Gets the String representation of the parameters t
     	    	final String type = node.getType().toString();
     	    	// Set the parameter for the Method
     	    	m.setParameters(name, type);
