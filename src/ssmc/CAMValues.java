@@ -193,10 +193,12 @@ public class CAMValues {
 	 */
 	public static Class[] getClasses(ICompilationUnit unit) {
 		
-		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
-		ArrayList<Method> methods = generateMethodAST(unit);
-		ArrayList<Statement> statements = generateStatementAST(unit);
 		ArrayList<Attribute> attributes = generateAttributeAST(unit);
+		ArrayList<Statement> statements = generateStatementAST(unit);
+		ArrayList<Method> methods = generateMethodAST(unit);
+		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
+		
+		
 		
 		for(Statement s: statements) {
 			Method m = getBelonging(s, methods);
@@ -217,6 +219,8 @@ public class CAMValues {
 			if(c  != null) {
 				c.addMethod(m);
 			}
+			m.isAccessor();
+			m.isMutator();
 		}
 		
 		

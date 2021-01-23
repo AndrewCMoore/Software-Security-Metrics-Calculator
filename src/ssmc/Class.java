@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 
 public class Class {
 	
@@ -43,6 +44,19 @@ public class Class {
 		this.modifier = new ArrayList<String>();
 		
 	}
+	
+	
+		
+	public void isMutatorMethod(Method m) {
+		// If the method name contains the word 'set' 
+		if(m.getIdentifier().contains("set")) {
+			// The method length should be 1 (or 0) 
+			if(m.getMethodLength() <= 1) {
+				// The variable should be used 
+			}
+		}
+	}
+	
 	
 	/**
 	 * This method is called to add an Attribute object to the 

@@ -82,15 +82,17 @@ public class MethodVisitor extends ASTVisitor{
     	
         Method m = new Method(id,cu);
         m.setModifiers(ASTUtility.getModifers(node));
-        m.setMethodLength(node.getLength());
+        
  
         m.setStartLine(ASTUtility.getStartLine(node));
         m.setEndLine(ASTUtility.getEndLine(node));
         
+        m.setMethodLength(m.getEndLine() - m.getStartLine());
         methods.add(m);
         
         return true;
     }
+    
     
     public boolean visit(MethodInvocation node) {
     	// Gets the parameter

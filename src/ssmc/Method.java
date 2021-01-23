@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 /**
@@ -36,6 +37,8 @@ public class Method {
 	private int usage;
 	private HashMap<String, String>parameters;
 	private int numberOfInvocations;
+	private boolean accessor;
+	private int mutator;
 	/**
 	 * Constructor method
 	 * @param identifier String representation of Method's identifier
@@ -60,6 +63,8 @@ public class Method {
 		this.startLine = 0;
 		this.endLine = 0;
 		this.numberOfInvocations = 0;	
+		this.accessor = false;
+		this.mutator = 0; 
 		
 		// Initialize ArrayLists
 		this.statements = new ArrayList<Statement>();
@@ -68,6 +73,39 @@ public class Method {
 		this.parameters = new HashMap<String, String>();
 		
 	}
+	public void isAccessor() {
+		// If the method name starts with the word 'get' 
+		if(getIdentifier().startsWith("get")) {
+				// The only statement within the method should be a ReturnStatement
+				if(getStatements().get(0).getNode() instanceof ReturnStatement) {
+					// At this point we have confirmed it is a getter method
+					System.out.println("Accessor: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine());	
+					setAccessor();
+			}
+		}	
+	}
+	
+	
+	public void isMutator() {
+		// If the method name starts winthe word 'set' 
+		if(getIdentifier().startsWith("set") && modifiers.contains("void")) {
+			// Then we determine the number of variables it sets by the number of parameters
+			setMutator(this.parameters.size());
+			System.out.println("Mutator: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine() + " Value: " + this.mutator);	
+		}
+	}
+	public boolean getAccessor() {
+		return accessor;
+	}
+	public int getMutator() {
+		return mutator;
+	}
+	public void setAccessor() {
+		this.accessor = true;
+    }
+    public void setMutator(int i) {
+    	this.mutator = i;
+    }
 	
 	public int getNumberOfInvocations() {
 		return numberOfInvocations;	
