@@ -18,6 +18,7 @@ public class Attribute {
 	private int links;
 	private ArrayList<String> modifier;
 	private int usage;
+	private boolean critical;
 
 	/**
 	 * Constructor for Attribute object
@@ -34,6 +35,7 @@ public class Attribute {
 		this.finalized = false;
 		this.links = 0;
 		this.lineNum = 0;
+		this.critical = false;
 		
 		// Intialize ArrayList
 		this.modifier = new ArrayList<String>();
@@ -45,6 +47,14 @@ public class Attribute {
 	 */
 	public void addUsage() {
 		this.usage += 1;
+	}
+	
+	public boolean isCritical() {
+		return critical;
+	}
+	
+	public void setCritical() {
+		this.critical = true;
 	}
 
 	/**

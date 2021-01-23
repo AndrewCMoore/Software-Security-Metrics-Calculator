@@ -109,6 +109,7 @@ public class AttributeVisitor extends ASTVisitor{
 				Attribute attribute = this.attributes.get(i);
 				if(attribute.getIdentifier().equals(node.getIdentifier().toString())) {
 					attribute.addUsage();
+					attribute.setCritical();
 				}
 			}
 		}
