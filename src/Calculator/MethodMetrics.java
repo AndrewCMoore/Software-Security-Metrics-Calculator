@@ -14,22 +14,134 @@ import tree.JDTree;
 * @author  Paul Hewson
 */
 public class MethodMetrics {
+	private HashMap<String, Integer> mapNonFinalPrivateProtected = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapClassified = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapPublic = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapTotal = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapMutatorInteractions = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapAccessorInteractions = new HashMap<String, Integer>();
 
 	/**
 	* The constructor currently calls each method in the class for testing purposes
 	*/
 	public MethodMetrics(JDTree[] classes) {
-		this.numNonFinalPrivateProtectedMethods(classes);
-		this.numClassifiedMethods(classes);
-		this.numPublicMethods(classes);
-		this.numMethods(classes);
+		calculateMethods(classes);
+		printResults();
+		//this.numNonFinalPrivateProtectedMethods(classes);
+		//this.numClassifiedMethods(classes);
+		//this.numPublicMethods(classes);
+		//this.numMethods(classes);
+		//this.numAccessorInteractions(classes);
+		//this.numMutatorInteractions(classes);
 	}
 
+	private void calculateMethods(JDTree[] classes) {
+		for(int i = 0; i < classes.length; i++) { 
+			int nonFinalPrivateProtected = 0;
+			int classifiedMethods = 0;
+			int publicMethods = 0;
+			int mutatorInteractions = 0;
+			int accessorInteractions = 0;
+			
+			Object o = classes[i].getNode();	
+			if(o instanceof Class) {			
+				Class classNode = (Class) o;	
+				ArrayList<Method> methodList = classNode.getMethods(); 
+				for(Method method : methodList) {	
+					if(!method.getIdentifier().equals(classNode.getIdentifier())) { 
+						nonFinalPrivateProtected += isNonFinalPrivateProtected(method);
+						classifiedMethods += isClassified(method);
+						publicMethods += isPublic(method);
+						mutatorInteractions += countMutatorInteractions(method);
+						accessorInteractions += countAccessorInteractions(method);
+					}
+				} 
+				mapNonFinalPrivateProtected.put(classNode.getIdentifier(), nonFinalPrivateProtected);
+				mapClassified.put(classNode.getIdentifier(), classifiedMethods);
+				mapPublic.put(classNode.getIdentifier(), publicMethods);
+				mapTotal.put(classNode.getIdentifier(), classifiedMethods + publicMethods);
+				mapMutatorInteractions.put(classNode.getIdentifier(), mutatorInteractions);
+				mapAccessorInteractions.put(classNode.getIdentifier(), accessorInteractions); 					
+			}
+		}
+	}
+
+	private void printResults() {
+		System.out.println("==========================================");
+		System.out.println("Non-Final Private or Protected Methods");
+		System.out.println("==========================================");
+		printMap(mapNonFinalPrivateProtected);
+
+		System.out.println("==========================================");
+		System.out.println("Classified Methods");
+		System.out.println("==========================================");
+		printMap(mapClassified);
+
+		System.out.println("==========================================");
+		System.out.println("Public Methods");
+		System.out.println("==========================================");
+		printMap(mapPublic);
+
+		System.out.println("==========================================");
+		System.out.println("Total Methods");
+		System.out.println("==========================================");
+		printMap(mapTotal);
+
+		System.out.println("==========================================");
+		System.out.println("Interactions Between Mutators and Attributes");
+		System.out.println("==========================================");
+		printMap(mapMutatorInteractions);
+
+		System.out.println("==========================================");
+		System.out.println("Interactions Between Accessors and Attributes");
+		System.out.println("==========================================");
+		printMap(mapAccessorInteractions);
+	}
+	
+	private int isNonFinalPrivateProtected(Method method) {
+		if((method.getModifiers().contains("private") || method.getModifiers().contains("protected")) && !method.getFinalized()) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	private int isClassified(Method method) {
+		if(!method.getModifiers().contains("public")) {
+			return 1; 
+		}
+		return 0;
+	}
+	
+	private int isPublic(Method method) {
+		if(method.getModifiers().contains("public")) {
+			return 1; 
+		}
+		return 0;
+	}
+	
+	private int countAccessorInteractions(Method method) {
+		if(method.getAccessor()) {
+			return 1; 
+		}
+		return 0;
+	}
+
+	private int countMutatorInteractions(Method method) {
+		return method.getMutator(); 
+	}
+
+	private void printMap(HashMap<String, Integer> map) {
+		for(String key : map.keySet()) {
+			System.out.println(key + ": " + map.get(key) + ", ");
+		}
+	}
+	
 	/**
 	* Method numNonFinalPrivateProtectedMethods determines the number of 
 	* public instance attributes in each class 
 	* @param classes An array of JDTree nodes containing classes
 	* @return HashMap<String, Integer> Returns the class name, total pair for each class
+	* @deprecated
 	*/
 	private HashMap<String, Integer> numNonFinalPrivateProtectedMethods(JDTree[] classes) {
 		System.out.println("======================================================");
@@ -68,6 +180,7 @@ public class MethodMetrics {
 	* classified (non-public) attributes in each class 
 	* @param classes An array of JDTree nodes containing classes
 	* @return HashMap<String, Integer> Returns the class name, total pair for each class
+	* @deprecated
 	*/
 	private HashMap<String, Integer> numClassifiedMethods(JDTree[] classes) {
 		System.out.println("======================================================");
@@ -106,6 +219,7 @@ public class MethodMetrics {
 	* public methods in each class 
 	* @param classes An array of JDTree nodes containing classes
 	* @return HashMap<String, Integer> Returns the class name, total pair for each class
+	* @deprecated
 	*/
 	private HashMap<String, Integer> numPublicMethods(JDTree[] classes){
 		System.out.println("======================================================");
@@ -145,6 +259,7 @@ public class MethodMetrics {
 	* of methods in each class 
 	* @param classes An array of JDTree nodes containing classes
 	* @return HashMap<String, Integer> Returns the class name, total pair for each class
+	* @deprecated
 	*/
 	private HashMap<String, Integer> numMethods(JDTree[] classes){
 		System.out.println("======================================================");
@@ -177,9 +292,76 @@ public class MethodMetrics {
 		return calcMap;
 	}
 	
-	private void printMap(HashMap<String, Integer> map) {
-		for(String key : map.keySet()) {
-			System.out.println(key + ": " + map.get(key) + ", ");
+	/**
+	 * 
+	 * @param classes
+	 * @return
+	 * @deprecated
+	 */
+	private HashMap<String, Integer> numAccessorInteractions(JDTree[] classes){
+		System.out.println("======================================================");
+		System.out.println("Interactions Between Accessors and Attributes");
+		System.out.println("======================================================");
+		HashMap<String, Integer> calcMap = new HashMap<String, Integer>();
+		int total = 0;
+		int count = 0;
+
+		for(int i = 0; i < classes.length; i++) {
+			Object o = classes[i].getNode();
+			if(o instanceof Class) {
+				Class classNode = (Class) o;
+				ArrayList<Method> methodList = classNode.getMethods();
+				for(Method method : methodList) {
+					System.out.println(method.getIdentifier() + " is accessor ??  " + method.getAccessor());
+					if(method.getAccessor()) {
+						count++; //increment counter only if method is an accessor
+					}
+				}
+				System.out.println(classNode.getIdentifier() + " : " + count);
+				calcMap.put(classNode.getIdentifier(), count);
+				total += count;
+				count = 0;
+			}
+			//ArrayList<Method> methods = (Method) classes[i]
 		}
+		System.out.println("program total: " + total);
+		calcMap.put("total", total);
+		//printMap(calcMap);
+		return calcMap;
+	}
+	
+	/**
+	 * 
+	 * @param classes
+	 * @return
+	 * @deprecated
+	 */
+	private HashMap<String, Integer> numMutatorInteractions(JDTree[] classes){
+		System.out.println("======================================================");
+		System.out.println("Interactions Between Mutators and Attributes");
+		System.out.println("======================================================");
+		HashMap<String, Integer> calcMap = new HashMap<String, Integer>();
+		int total = 0;
+		int count = 0;
+
+		for(int i = 0; i < classes.length; i++) {
+			Object o = classes[i].getNode();
+			if(o instanceof Class) {
+				Class classNode = (Class) o;
+				ArrayList<Method> methodList = classNode.getMethods();
+				for(Method method : methodList) {
+					count += method.getMutator(); //increment counter only if method is an accessor
+				}
+				System.out.println(classNode.getIdentifier() + " : " + count);
+				calcMap.put(classNode.getIdentifier(), count);
+				total += count;
+				count = 0;
+			}
+			//ArrayList<Method> methods = (Method) classes[i]
+		}
+		System.out.println("program total: " + total);
+		calcMap.put("total", total);
+		//printMap(calcMap);
+		return calcMap;
 	}
 }

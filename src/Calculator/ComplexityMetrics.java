@@ -17,12 +17,53 @@ import tree.JDTree;
 * @author  Paul Hewson
 */
 public class ComplexityMetrics {
+	private HashMap<String, Integer> mapMethodComplexity = new HashMap<String, Integer>();
 	
 	/**
 	* The constructor currently calls each method in the class for testing purposes
 	*/
 	public ComplexityMetrics(JDTree[] classes) {
-		this.methodComplexity(classes);
+		calculateComplexity(classes);
+		printResults();
+		//this.methodComplexity(classes);
+	}
+
+	private void calculateComplexity(JDTree[] classes) {
+		for(int i = 0; i < classes.length; i++) {
+			int methodComplexity = 0;
+			
+			Object o = classes[i].getNode();
+			if(o instanceof Class) {		
+				Class classNode = (Class) o;	
+				ArrayList<Method> methodList = classNode.getMethods(); 
+				for(Method method : methodList) { 						
+					methodComplexity += countComplexity(method); 
+				}
+				mapMethodComplexity.put(classNode.getIdentifier(), methodComplexity);
+			}
+		}
+	}
+
+	private void printResults() {
+		System.out.println("==========================================");
+		System.out.println("Cyclomatic Complexity");
+		System.out.println("==========================================");
+		printMap(mapMethodComplexity);	
+	}
+	
+	private int countComplexity(Method method) {
+		return method.getMethodComplexity();
+	}
+
+	/**
+	* Method printMap iterates over each key value pair in a 
+	* hashmap and prints them out.
+	* @param HashMap<String, Integer> The hashmap to me printed
+	*/
+	private void printMap(HashMap<String, Integer> map) {
+		for(String key : map.keySet()) {
+			System.out.println(key + ": " + map.get(key) + ", ");
+		}
 	}
 	
 	/**
@@ -31,6 +72,7 @@ public class ComplexityMetrics {
 	* 
 	* @param classes An array of JDTree nodes containing classes
 	* @return HashMap<String, Integer> Returns the class name, total pair for each class
+	* @deprecated
 	*/
 	private HashMap<String, Integer> methodComplexity(JDTree[] classes) {
 		System.out.println("======================================================");
@@ -59,16 +101,5 @@ public class ComplexityMetrics {
 		calcMap.put("total", total);			//add program total to hashmap
 		//printMap(calcMap);
 		return calcMap;
-	}
-
-	/**
-	* Method printMap iterates over each key value pair in a 
-	* hashmap and prints them out.
-	* @param HashMap<String, Integer> The hashmap to me printed
-	*/
-	private void printMap(HashMap<String, Integer> map) {
-		for(String key : map.keySet()) {
-			System.out.println(key + ": " + map.get(key) + ", ");
-		}
 	}
 }

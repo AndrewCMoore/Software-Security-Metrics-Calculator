@@ -32,11 +32,11 @@ public class Calculator {
 	* calls the appropriate methods for the calculator module
 	*/
 	public void calculate() {
-		AttributeMetrics attributes = new AttributeMetrics(classes);
+		//AttributeMetrics attributes = new AttributeMetrics(classes);
 		MethodMetrics methods = new MethodMetrics(classes);
-		ComplexityMetrics statements = new ComplexityMetrics(classes);
-		ClasseMetrics cm = new ClasseMetrics(classes);
-		InheritanceMetrics im = new InheritanceMetrics(classes);
+		//ComplexityMetrics statements = new ComplexityMetrics(classes);
+		//ClasseMetrics cm = new ClasseMetrics(classes);
+		//InheritanceMetrics im = new InheritanceMetrics(classes);
 
 	}
 }
