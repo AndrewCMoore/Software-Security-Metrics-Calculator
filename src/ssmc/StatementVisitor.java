@@ -136,57 +136,61 @@ public class StatementVisitor extends ASTVisitor {
 	 * Determines which type of ASTNode child to visit
 	 * @param node ASTNode
 	 */
-	public void determineNodeChildType(ASTNode node) {
-		if(this.getChildren(node).length != 0) {
-			for(int i = 0; i < this.getChildren(node).length; i++) {
-				ASTNode node1 = (ASTNode) this.getChildren(node)[i];
-				
-				//System.out.println("Node " + node1.toString() + System.identityHashCode(node1));
-				switch(node1.getNodeType()) {
-				case 10:
-					visit((BreakStatement) node1);
-					break;
-				case 16:
-					visit((ConditionalExpression) node1);
-					break;
-				case 18: 
-					visit((ContinueStatement) node1);
-					break;
-				case 19: 
-					visit((DoStatement) node1);
-					break;
-				case 24:
-					visit((ForStatement) node1);
-					break;
-				case 25:
-					visit((IfStatement) node1);
-					break;
-				case 41: 
-					visit((ReturnStatement) node1);
-					break;
-				case 49:
-					visit((SwitchCase) node1);
-					break;
-				case 50:
-					visit((SwitchStatement) node1);
-					break;
-				case 53: 
-					visit((ThrowStatement) node1);
-					break;
-				case 54: 
-					visit((TryStatement) node1);
-					break;
-				case 61: 
-					visit((WhileStatement) node1);
-					break;
-				case 70:
-					visit((EnhancedForStatement) node1);
-					break;
-				default:
-					callNode(node1);
-					break;		
+	public void determineNodeChildType(ASTNode node){
+		try {
+			if(this.getChildren(node).length != 0) {
+				for(int i = 0; i < this.getChildren(node).length; i++) {
+					ASTNode node1 = (ASTNode) this.getChildren(node)[i];
+					
+					//System.out.println("Node " + node1.toString() + System.identityHashCode(node1));
+					switch(node1.getNodeType()) {
+					case 10:
+						visit((BreakStatement) node1);
+						break;
+					case 16:
+						visit((ConditionalExpression) node1);
+						break;
+					case 18: 
+						visit((ContinueStatement) node1);
+						break;
+					case 19: 
+						visit((DoStatement) node1);
+						break;
+					case 24:
+						visit((ForStatement) node1);
+						break;
+					case 25:
+						visit((IfStatement) node1);
+						break;
+					case 41: 
+						visit((ReturnStatement) node1);
+						break;
+					case 49:
+						visit((SwitchCase) node1);
+						break;
+					case 50:
+						visit((SwitchStatement) node1);
+						break;
+					case 53: 
+						visit((ThrowStatement) node1);
+						break;
+					case 54: 
+						visit((TryStatement) node1);
+						break;
+					case 61: 
+						visit((WhileStatement) node1);
+						break;
+					case 70:
+						visit((EnhancedForStatement) node1);
+						break;
+					default:
+						callNode(node1);
+						break;		
+					}
 				}
 			}
+		} catch (NullPointerException e) {
+			//e.printStackTrace();
 		}
 	}
 	
@@ -371,8 +375,10 @@ public class StatementVisitor extends ASTVisitor {
 		if(node.getElseStatement() != null) {
 			if(node.getElseStatement() instanceof Block) {}
 			else {
-				visit((IfStatement) node.getElseStatement());		
-			}			
+				if(node.getElseStatement() instanceof IfStatement) {
+					visit((IfStatement) node.getElseStatement());
+				}
+			}
 		}
 		
 		callNode(node);

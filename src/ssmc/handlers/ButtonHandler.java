@@ -62,7 +62,7 @@ public class ButtonHandler extends AbstractHandler {
 		IProject project = null;
 		IPath path = null;
 		//Gets the root directory of the workspace
-		IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
+   		IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
 		// Gets the active window
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (window != null) {

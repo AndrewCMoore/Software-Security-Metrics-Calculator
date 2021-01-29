@@ -44,9 +44,10 @@ public class Class {
 		this.modifier = new ArrayList<String>();
 		
 	}
-	
-	
-		
+
+
+
+
 	public void isMutatorMethod(Method m) {
 		// If the method name contains the word 'set' 
 		if(m.getIdentifier().contains("set")) {

@@ -78,6 +78,7 @@ public class CAMValues {
 	 */
 	public static ArrayList<Statement> generateStatementAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		System.out.println("WABABA " + cu.getLineNumber(cu.getLength()-1));
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
 		//System.out.println("\n\n\n " + sv.ids + "\n\n\n");
