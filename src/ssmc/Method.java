@@ -39,6 +39,7 @@ public class Method {
 	private int numberOfInvocations;
 	private boolean accessor;
 	private int mutator;
+	private boolean isVoid;
 	/**
 	 * Constructor method
 	 * @param identifier String representation of Method's identifier
@@ -65,6 +66,7 @@ public class Method {
 		this.numberOfInvocations = 0;	
 		this.accessor = false;
 		this.mutator = 0; 
+		this.isVoid = false;
 		
 		// Initialize ArrayLists
 		this.statements = new ArrayList<Statement>();
@@ -73,6 +75,13 @@ public class Method {
 		this.parameters = new HashMap<String, String>();
 		
 	}
+	public boolean isVoid() {
+		return isVoid;
+	}
+	public void setVoid(boolean isVoid) {
+		this.isVoid = isVoid;
+	}
+	
 	public void isAccessor() {
 		// If the method name starts with the word 'get' 
 		if(getIdentifier().startsWith("get")) {
@@ -88,7 +97,7 @@ public class Method {
 	
 	public void isMutator() {
 		// If the method name starts winthe word 'set' 
-		if(getIdentifier().startsWith("set") && modifiers.contains("void")) {
+		if(getIdentifier().startsWith("set") && isVoid) {
 			// Then we determine the number of variables it sets by the number of parameters
 			setMutator(this.parameters.size());
 			System.out.println("Mutator: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine() + " Value: " + this.mutator);	
@@ -467,7 +476,7 @@ public class Method {
 			complexity += s.getComplexity();
 		}
 		// if the method is a void type
-		if(this.modifiers.contains("void")) {
+		if(isVoid) {
 			// add complexity equal to the number of return statements in the method
 			complexity += numOfReturnStatements;
 		} 
