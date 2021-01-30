@@ -1,0 +1,188 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #ecf0f1;
+  color: #444;
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.set-size {
+  font-size: 10em;
+}
+
+.charts-container:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.circle {
+  height: 1em;
+  width: 1em;
+  float: left;
+  margin: 15px;
+  position: relative;
+}
+.circle:nth-child(3n+1) {
+  clear: both;
+}
+.circle .pie {
+  height: 100%;
+  width: 100%;
+  clip: rect(0, 1em, 1em, 0.5em);
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.circle .pie .half-circle {
+  height: 100%;
+  width: 100%;
+  border: 0.1em solid #3498db;
+  border-radius: 50%;
+  clip: rect(0, 0.5em, 1em, 0);
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.circle .label {
+  background: #34495e;
+  border-radius: 50%;
+  color: #ecf0f1;
+  cursor: default;
+  display: block;
+  font-size: 16px;
+  left: 0.4em;
+  position: absolute;
+  right: 0.4em;
+  text-align: center;
+  top: 45%;
+}
+.circle .label .smaller {
+  color: #bdc3c7;
+  font-size: 0.45em;
+  padding-bottom: 20px;
+  vertical-align: super;
+}
+.circle .shadow {
+  height: 100%;
+  width: 100%;
+  border: 0.1em solid #bdc3c7;
+  border-radius: 50%;
+}
+.circle.style-2 .label {
+  background: none;
+  color: #7f8c8d;
+}
+.circle.style-2 .label .smaller {
+  color: #bdc3c7;
+}
+.circle.progress-30 .pie .half-circle {
+  border-color: #3498db;
+}
+.circle.progress-30 .pie .left-side {
+  transform: rotate(108deg);
+}
+.circle.progress-30 .pie .right-side {
+  display: none;
+}
+.circle.progress-60 .pie {
+  clip: rect(auto, auto, auto, auto);
+}
+.circle.progress-60 .pie .half-circle {
+  border-color: #9b59b6;
+}
+.circle.progress-60 .pie .left-side {
+  transform: rotate(216deg);
+}
+.circle.progress-60 .pie .right-side {
+  transform: rotate(180deg);
+}
+.circle.progress-90 .pie {
+  clip: rect(auto, auto, auto, auto);
+}
+.circle.progress-90 .pie .half-circle {
+  border-color: #e67e22;
+}
+.circle.progress-90 .pie .left-side {
+  transform: rotate(324deg);
+}
+.circle.progress-90 .pie .right-side {
+  transform: rotate(180deg);
+}
+.circle.progress-45 .pie .half-circle {
+  border-color: #1abc9c;
+}
+.circle.progress-45 .pie .left-side {
+  transform: rotate(162deg);
+}
+.circle.progress-45 .pie .right-side {
+  display: none;
+}
+.circle.progress-75 .pie {
+  clip: rect(auto, auto, auto, auto);
+}
+.circle.progress-75 .pie .half-circle {
+  border-color: #8e44ad;
+}
+.circle.progress-75 .pie .left-side {
+  transform: rotate(270deg);
+}
+.circle.progress-75 .pie .right-side {
+  transform: rotate(180deg);
+}
+.circle.progress-95 .pie {
+  clip: rect(auto, auto, auto, auto);
+}
+.circle.progress-95 .pie .half-circle {
+  border-color: #e74c3c;
+}
+.circle.progress-95 .pie .left-side {
+  transform: rotate(342deg);
+}
+.circle.progress-95 .pie .right-side {
+  transform: rotate(180deg);
+}
+
+.circle--solid {
+  border-radius: 50%;
+  overflow: hidden;
+}
+.circle--solid:before {
+  border-radius: 0 100% 100% 0/50%;
+  content: "";
+  display: block;
+  height: 100%;
+  margin-left: 50%;
+  transform-origin: left;
+}
+.circle--solid .label {
+  background: transparent;
+}
+.circle--solid.progress-65 {
+  background: linear-gradient(to right, #e67e22 50%, #34495e 50%);
+}
+.circle--solid.progress-65:before {
+  background: #e67e22;
+  transform: rotate(126deg);
+}
+.circle--solid.progress-25 {
+  background: linear-gradient(to right, #9b59b6 50%, #34495e 50%);
+}
+.circle--solid.progress-25:before {
+  background: #34495e;
+  transform: rotate(-270deg);
+}
+.circle--solid.progress-88 {
+  background: linear-gradient(to right, #3498db 50%, #34495e 50%);
+}
+.circle--solid.progress-88:before {
+  background: #3498db;
+  transform: rotate(43.2deg);
+}
