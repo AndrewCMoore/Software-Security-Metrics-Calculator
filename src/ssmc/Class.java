@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.BlockComment;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 
 public class Class {
@@ -21,6 +24,8 @@ public class Class {
 	private int startLine;
 	private String superClass;
 	private List<String> interfaces;
+	private int totalLines;
+	private int commentedLines;
 	
 	/**
 	 * Constructor method for class
@@ -37,6 +42,10 @@ public class Class {
 		this.critical = false;
 		this.setEnum(false);
 		
+		// Call methods to initialize values
+		setTotalNumberOfLines();
+		setNumberOfCommentedLines();
+		
 		// Initialize ArrayLists
 		methods = new ArrayList<Method>();
 		attributes = new ArrayList<Attribute>();
@@ -45,7 +54,51 @@ public class Class {
 		
 	}
 
-
+	public void setTotalNumberOfLines() {
+		this.totalLines = compilationUnit.getLineNumber(compilationUnit.getLength() - 1);
+	}
+	
+	public int getTotalNumberOfLines() {
+		return totalLines;
+	}
+	
+	public void setNumberOfCommentedLines() {
+		int numberOfLines = 0;
+		List list = compilationUnit.getCommentList();
+		for(Object obj : list) {
+			if(obj instanceof Javadoc) {
+				// Cast object to a Javadoc object
+				Javadoc comment = (Javadoc) obj;
+				
+				// Get start/end position within the compilation unit 
+				int startLine = compilationUnit.getLineNumber(comment.getStartPosition());
+				int endLine = compilationUnit.getLineNumber(comment.getStartPosition() + (comment.getLength() - 1));
+				
+				// The difference is the length of the comment: 
+				numberOfLines += endLine - startLine;				
+			}
+			else if(obj instanceof BlockComment) {
+				// Cast object to a BlockComment object
+				BlockComment comment = (BlockComment) obj;
+				
+				// Get start/end position within the compilation unit 
+				int startLine = compilationUnit.getLineNumber(comment.getStartPosition());
+				int endLine = compilationUnit.getLineNumber(comment.getStartPosition() + (comment.getLength() - 1));
+				
+				// The difference is the length of the comment: 
+				numberOfLines += endLine - startLine;	
+			}
+			else if(obj instanceof LineComment) {
+				// Add one line per line comment
+				numberOfLines += 1;
+			}
+		}
+		this.commentedLines = numberOfLines;
+	}
+	
+	public int getTotalNumberOfCommentedLines() {
+		return commentedLines;
+	}
 
 
 	public void isMutatorMethod(Method m) {

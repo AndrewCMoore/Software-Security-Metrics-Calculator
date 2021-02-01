@@ -42,6 +42,8 @@ class PerformanceTest {
 
 	HashMap<String, Long> timeValues;
 	HashMap<String, Integer> lengthValues;
+	HashMap<String, Long> parserValues;
+	HashMap<String, Long> calcValues;
 	
 	/*
 	 * This class is a test class that runs when the file is run as a JUnit-plugin 
@@ -51,12 +53,15 @@ class PerformanceTest {
 		// Initialize HashMap values
 		timeValues = new HashMap<String, Long>();
 		lengthValues = new HashMap<String, Integer>();
+		parserValues = new HashMap<String, Long>();
+		calcValues = new HashMap<String, Long>();
 		
 		// Intialize variables
 		float systemAverage = 0;
 		int projectsRun = 0;
 		IProject[] projects = null;
 		IPath path = null;
+		
 		
 		// Try catch to remove errors in projects
 		try {
@@ -72,17 +77,22 @@ class PerformanceTest {
 				int linesOfCode = getNumberOfLinesInProject(project);
 				// Start the timer for performace
 				long projectStartTime = System.currentTimeMillis();
-				
+				long parserStopTime = 0;
+				long calculatorStopTime = 0;
 				// Run the SSMC for the project
 				if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 					IJavaProject javaProject = JavaCore.create(project);
 					String kind = project.getClass().getName();
 					//Build a tree out of the project
 					JDTree myTree = new JDTree(javaProject, null);
+					// Stop timer -> parser timing 
+					parserStopTime = System.currentTimeMillis();
+					// Calculator timer 
 					//pass the tree to the calculator
 					Calculator calc = new Calculator(myTree);
 					//start calculating metrics
 					calc.calculate();
+					calculatorStopTime = System.currentTimeMillis();
 				}
 				// End the timer for performace
 				long projectEndTime = System.currentTimeMillis();
@@ -92,6 +102,9 @@ class PerformanceTest {
 				// Put values into Hashmap data structures
 				timeValues.put(project.getName(), time);
 				lengthValues.put(project.getName(), linesOfCode);
+				parserValues.put(project.getName(), parserStopTime - projectStartTime);
+				calcValues.put(project.getName(), projectEndTime - parserStopTime);
+				
 				
 				// Just incase a program is empty
 				if(time > 0) {
@@ -146,7 +159,7 @@ class PerformanceTest {
 		// Return value
 		return linesOfCode;
 	}
-	 
+
 	
 	void generateCSV() throws IOException {
 	
@@ -162,6 +175,10 @@ class PerformanceTest {
 		csvWriter.append(",");
 		csvWriter.append("Compile Time");
 		csvWriter.append(",");
+		csvWriter.append("Compile Time: Parser");
+		csvWriter.append(",");
+		csvWriter.append("Compile Time: Calculator");
+		csvWriter.append(",");
 		csvWriter.append("Lines of Code");
 		csvWriter.append(",");
 		csvWriter.append("Lines of Code per Minute");
@@ -175,6 +192,12 @@ class PerformanceTest {
 			csvWriter.append(",");
 			// Compile Time
 			csvWriter.append(timeValues.get(key).toString());
+			csvWriter.append(",");
+			// Parser Compile Time
+			csvWriter.append(parserValues.get(key).toString());
+			csvWriter.append(",");
+			// Calculator Compile Time
+			csvWriter.append(calcValues.get(key).toString());
 			csvWriter.append(",");
 			// Lines of Code
 			csvWriter.append(lengthValues.get(key).toString());
