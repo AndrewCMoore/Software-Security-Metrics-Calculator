@@ -34,6 +34,25 @@ public class MethodMetrics {
 		//this.numAccessorInteractions(classes);
 		//this.numMutatorInteractions(classes);
 	}
+	
+	public HashMap<String, Integer> getNonFinalPrivateProtected() {
+		return mapNonFinalPrivateProtected;
+	}
+	public HashMap<String, Integer> getMapClassified() {
+		return mapClassified;
+	}
+	public HashMap<String, Integer> getMapPublic() {
+		return mapPublic;
+	}
+	public HashMap<String, Integer> getMapTotal() {
+		return mapTotal;
+	}
+	public HashMap<String, Integer> getMapMutatorInteractions() {
+		return mapMutatorInteractions;
+	}
+	public HashMap<String, Integer> getMapAccessorInteractions() {
+		return mapAccessorInteractions;
+	}
 
 	private void calculateMethods(JDTree[] classes) {
 		for(int i = 0; i < classes.length; i++) { 
