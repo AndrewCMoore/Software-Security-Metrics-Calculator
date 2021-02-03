@@ -15,13 +15,12 @@ import org.eclipse.ui.PlatformUI;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import Calculator.ClassMetrics;
+import Calculator.ComplexityMetrics;
 import tree.JDTree;
 
-class ClassMetricsTest {
+class ComplexityMetricsTest {
 
-	static ClassMetrics classMetrics;
-	static JDTree[] classes;
+	static ComplexityMetrics complexityMetrics;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -45,41 +44,41 @@ class ClassMetricsTest {
 				String kind = project.getClass().getName();
 				//Build a tree out of the project and we will use this for tests. 
 				testTree = new JDTree(javaProject, null);
-				classes = testTree.getLeefs();
-				classMetrics = new ClassMetrics(classes);
+				JDTree[] classes = testTree.getLeefs();
+				complexityMetrics = new ComplexityMetrics(classes);
 				
 			}
-		}		
+		}	
 	}
 
 	@Test
-	void testGetMethodsInClass() {
+	void testGetCyclomaticComplexity() {
 		HashMap<String, Integer> expectedValues = new HashMap<String, Integer>();
 		//factoryClasses package
 		expectedValues.put("Components", 0);
-		expectedValues.put("FactoryObject_InheritanceLevel1", 3);
+		expectedValues.put("FactoryObject_InheritanceLevel1", 4);
 		expectedValues.put("FactoryObject_InheritanceLevel2", 2);
-		expectedValues.put("FactoryObject", 13);
-		expectedValues.put("Inspectors", 9);
+		expectedValues.put("FactoryObject", 17);
+		expectedValues.put("Inspectors", 32);
 		expectedValues.put("ObjectStates", 0);
 		expectedValues.put("Products", 0);
-		expectedValues.put("WorkStations", 9);
+		expectedValues.put("WorkStations", 31);
 		// pointless package
 		expectedValues.put("pointlessClass", 1);
 		expectedValues.put("pointlessInterface", 0);
-		expectedValues.put("pointlessLoops", 6);
+		expectedValues.put("pointlessLoops", 21);
 		// sfm package 
-		expectedValues.put("SimulateFactoryModel", 4);
+		expectedValues.put("SimulateFactoryModel", 22);
 		// simpleThreading package 
-		expectedValues.put("AgentThread", 10);
-		expectedValues.put("ChefThread", 3);
+		expectedValues.put("AgentThread", 17);
+		expectedValues.put("ChefThread", 13);
 		expectedValues.put("Ingredients", 0);
 		expectedValues.put("CriticalClassInheritance", 0);
 		// weibullGenerator package 
-		expectedValues.put("GenerateWeibullDistributionData", 2);
+		expectedValues.put("GenerateWeibullDistributionData", 5);
 		
 		for(String key : expectedValues.keySet()) {
-			assertEquals(expectedValues.get(key), classMetrics.getMethodsInClass(classes).get(key));
+			assertEquals(expectedValues.get(key), complexityMetrics.getCyclomaticComplexity().get(key));
 		}
 	}
 
