@@ -11,12 +11,26 @@ body{
 .container
 {
 	width: 80%;
-	margin: 40px auto 40px;
+	margin: 20px auto 20px;
 }
 .row
 {
 	width: 50%;
 	margin: 0 auto;
+	position: absolute;	
+}
+.left
+{
+	width: 50%;
+	float: left;
+}
+.right
+{
+	width: 50%;
+	float: left;
+}
+.circles
+{
 	position: relative;
 }
 .overall
@@ -59,4 +73,18 @@ body{
 	left: 350px;
 	top: 250px;
 	position: absolute;
+}
+.table
+{
+	width: 20%;
+	position: relative;
+	margin: 0 auto;
+	border: 1px solid #000;
+}
+table, td {
+  border: 1px solid #000;
+}
+
+table {
+  border-collapse: collapse;
 }
