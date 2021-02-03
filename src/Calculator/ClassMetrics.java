@@ -7,13 +7,13 @@ import tree.JDTree;
 import ssmc.*;
 import ssmc.Class;
 
-public class ClasseMetrics extends MetricClasses {
+public class ClassMetrics extends MetricClasses {
 	
 	HashMap<String, Integer> MethodsInaClass = new HashMap<String, Integer>();
 	int NumberOfClasses;
 	boolean CalculatedMethodsInaClass;
 	
-	public ClasseMetrics(JDTree[] classes) {
+	public ClassMetrics(JDTree[] classes) {
 		this.MethodsInaClass = new HashMap<String, Integer>();
 		this.NumberOfClasses = 0;
 		this.CalculatedMethodsInaClass = false;

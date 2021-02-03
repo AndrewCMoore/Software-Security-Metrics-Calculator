@@ -48,7 +48,6 @@ class AttributeMetricsTest {
 				testTree = new JDTree(javaProject, null);
 				JDTree[] classes = testTree.getLeefs();
 				attributeMetrics = new AttributeMetrics(classes);
-				System.out.println("WE got a tree");
 			}
 		}		
 	}

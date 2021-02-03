@@ -41,7 +41,7 @@ public class Calculator {
 		//AttributeMetrics attributes = new AttributeMetrics(classes);
 		MethodMetrics methods = new MethodMetrics(classes);
 		//ComplexityMetrics statements = new ComplexityMetrics(classes);
-		//ClasseMetrics cm = new ClasseMetrics(classes);
+		//ClassMetrics cm = new ClasseMetrics(classes);
 		//InheritanceMetrics im = new InheritanceMetrics(classes);
 
 	}
