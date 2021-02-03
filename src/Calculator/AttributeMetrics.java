@@ -42,7 +42,7 @@ public class AttributeMetrics {
 	*/
 	private void calculateAttributes(JDTree[] classes) {
 		for(int i = 0; i < classes.length; i++) { 
-			//initiate/reset counters for each metric
+			//initiate/reset counters for each metric  
 			int publicInstance = 0;
 			int publicClass = 0;
 			int privateProtectedInstance = 0;
