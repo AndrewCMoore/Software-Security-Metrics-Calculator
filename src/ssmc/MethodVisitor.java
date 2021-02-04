@@ -135,6 +135,7 @@ public class MethodVisitor extends ASTVisitor{
     	    	final String type = node.getType().toString();
     	    	// Set the parameter for the Method
     	    	m.setParameters(name, type);
+    	    	m.setOnlyparameterTypes(type);//anthony
     	    	//System.out.println("Method " + m.toString() + " has parameter" + m.getParameters().toString());
     		}
     	}
