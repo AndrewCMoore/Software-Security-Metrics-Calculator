@@ -473,11 +473,11 @@ public class MurgePulledValues {
 					if (method.getModifiers().contains("public")) numberOfAccesibleMethods++;
 					parametersInMethod = new HashMap<String,Integer>(); //improve
 					uniqueParametersInMethod = new HashSet <String>();
-					uniqueParametersInMethod.addAll(method.getOnlyParameterTypes());
-					parametersInMethod.put(method.getIdentifier(), method.getOnlyParameterTypes().size());
+					//uniqueParametersInMethod.addAll(method.getOnlyParameterTypes());
+					//parametersInMethod.put(method.getIdentifier(), method.getOnlyParameterTypes().size());
 					UniqueparametersPerMethod.put(method.getIdentifier(), uniqueParametersInMethod.size());
-					UniqueParamaterTypesInClass.addAll(method.getOnlyParameterTypes());
-					paramaterTypesInClass.addAll(method.getOnlyParameterTypes());
+					//UniqueParamaterTypesInClass.addAll(method.getOnlyParameterTypes());
+					//paramaterTypesInClass.addAll(method.getOnlyParameterTypes());
 					
 					
 					totalNumberOfMethodsPerClass+=1;

@@ -17,7 +17,7 @@ public class InheritanceMetrics extends MetricClasses {
 	//Multimap<String, Integer> multiMap;
 	Set<String> classNames;
 	Set<String> BaseClassesNames;
-	ArrayList<CustomPair> depthOfInhertance;
+	//ArrayList<CustomPair> depthOfInhertance;
 	HashMap<String,String> immediateChildren;
 	HashMap<String, Integer> MethodsInaClass = new HashMap<String, Integer>();
 	int NumberOfBaseClasses,maxDepthOfInheritance;
@@ -28,7 +28,7 @@ public class InheritanceMetrics extends MetricClasses {
 		this.MethodsInaClass = new HashMap<String, Integer>();
 		this.classNames = new HashSet<String>(); 
 		this.BaseClassesNames = new HashSet<String>(); 
-		this.depthOfInhertance = new ArrayList<CustomPair>(); 
+		//this.depthOfInhertance = new ArrayList<CustomPair>(); 
 		this.immediateChildren= new HashMap<String,String>();
 		this.maxDepthOfInheritance=0;
 		this.NumberOfBaseClasses = 0;
@@ -55,7 +55,7 @@ public class InheritanceMetrics extends MetricClasses {
 					System.out.println("======================================================");
 					if (classNames.contains(classNode.getSuperClass()))  { 
 						BaseClassesNames.add(classNode.getSuperClass()); 
-						depthOfInhertance.add(new CustomPair(classNode.getSuperClass(),classNode.getIdentifier()));
+						//depthOfInhertance.add(new CustomPair(classNode.getSuperClass(),classNode.getIdentifier()));
 						immediateChildren.put(classNode.getIdentifier(),classNode.getSuperClass());
 					}
 					System.out.println("The superclass for: "+classNode.getIdentifier()+"\nis: "+classNode.getSuperClass());	

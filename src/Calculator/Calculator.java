@@ -45,9 +45,11 @@ public class Calculator {
 		//ClassMetrics cm = new ClasseMetrics(classes);
 		//InheritanceMetrics im = new InheritanceMetrics(classes);
 		
-		//PulledValues pv = new PulledValues(classes);
-		//TertiaryMetrics tm = new TertiaryMetrics(pv);
-		//SecondaryMetrics sm = new SecondaryMetrics(tm);
-		//PrimaryMetrics pm = new PrimaryMetrics(sm);
+		PulledValues pv = new PulledValues(classes);
+		TertiaryMetrics tm = new TertiaryMetrics(pv);
+		SecondaryMetrics sm = new SecondaryMetrics(tm);
+		PrimaryMetrics pm = new PrimaryMetrics(sm);
+		DesignPrincipals dp = new DesignPrincipals(pm);
+		QualityAttributes qa = new QualityAttributes(dp);
 	}
 }

@@ -142,6 +142,7 @@ public class MethodMetrics {
 		return 0;
 	}
 
+	//needs to check if if attribute is classified
 	private int countMutatorInteractions(Method method) {
 		return method.getMutator(); 
 	}
