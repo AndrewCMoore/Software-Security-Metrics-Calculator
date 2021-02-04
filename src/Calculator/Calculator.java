@@ -33,10 +33,15 @@ public class Calculator {
 	*/
 	public void calculate() {
 		//AttributeMetrics attributes = new AttributeMetrics(classes);
-		MethodMetrics methods = new MethodMetrics(classes);
-		//ComplexityMetrics statements = new ComplexityMetrics(classes);
+		//MethodMetrics methods = new MethodMetrics(classes);
+		ComplexityMetrics statements = new ComplexityMetrics(classes);
 		//ClasseMetrics cm = new ClasseMetrics(classes);
 		//InheritanceMetrics im = new InheritanceMetrics(classes);
-
+		
+		//PulledValues pv = new PulledValues(classes);
+		//TertiaryMetrics tm = new TertiaryMetrics(pv);
+		//SecondaryMetrics sm = new SecondaryMetrics(tm);
+		//PrimaryMetrics pm = new PrimaryMetrics(sm);
 	}
+	
 }

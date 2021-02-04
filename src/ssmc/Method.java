@@ -464,6 +464,7 @@ public class Method {
 			}
 			//The complexity of the Method is the sum of the current 
 			//complexity plus the Statment's complexity
+			System.out.println("statement: " + s.getComplexity());
 			complexity += s.getComplexity();
 		}
 		// if the method is a void type

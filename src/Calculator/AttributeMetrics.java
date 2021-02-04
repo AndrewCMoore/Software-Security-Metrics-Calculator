@@ -20,6 +20,9 @@ public class AttributeMetrics {
 	private HashMap<String, Integer> mapPrivateProtectedClass = new HashMap<String, Integer>(); 
 	private HashMap<String, Integer> mapPrivateProtectedTotal = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapTotalAttributes = new HashMap<String, Integer>(); 
+	private HashMap<String, Integer> mapCriticalElements = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapCriticalNotUsed = new HashMap<String, Integer>();
+
 	
 	/**
 	* The constructor currently calls each method in the class for testing purposes
@@ -47,6 +50,8 @@ public class AttributeMetrics {
 			int publicClass = 0;
 			int privateProtectedInstance = 0;
 			int privateProtectedClass = 0;
+			int criticalElements = 0;
+			int criticalNotUsed = 0;
 			
 			Object o = classes[i].getNode(); 							
 			if(o instanceof Class) { 			
@@ -59,6 +64,8 @@ public class AttributeMetrics {
 						publicClass += isPublicClass(attribute);
 						privateProtectedInstance += isPrivateProtectedInstance(attribute);
 						privateProtectedClass += isPrivateProtectedClass(attribute);	
+						criticalElements += isCriticalElement(attribute);
+						criticalNotUsed += isCriticalNotUsed(attribute);
 					}
 				}
 				//add method counter pair to related hashmap
@@ -66,8 +73,10 @@ public class AttributeMetrics {
 				this.mapPublicClass.put(classNode.getIdentifier(), publicClass);
 				this.mapPrivateProtectedInstance.put(classNode.getIdentifier(), privateProtectedInstance);
 				this.mapPrivateProtectedClass.put(classNode.getIdentifier(), privateProtectedClass);
-				this.mapPrivateProtectedTotal.put(classNode.getIdentifier(), privateProtectedInstance + privateProtectedInstance);
+				this.mapPrivateProtectedTotal.put(classNode.getIdentifier(), privateProtectedInstance + privateProtectedClass);
 				this.mapTotalAttributes.put(classNode.getIdentifier(), publicInstance + publicClass + privateProtectedInstance + privateProtectedClass);
+				this.mapCriticalElements.put(classNode.getIdentifier(), criticalElements);
+				this.mapCriticalNotUsed.put(classNode.getIdentifier(), criticalNotUsed);
 			}
 		}
 	}
@@ -132,6 +141,22 @@ public class AttributeMetrics {
 		return 0;
 	}
 	
+	private int isCriticalElement(Attribute attribute) {
+		if(attribute.isCritical()) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	private int isCriticalNotUsed(Attribute attribute) {
+		if(attribute.isCritical()) {
+			if(attribute.getUsage() == 0) {
+				return 1;
+			}
+		}
+		return 0;
+	}
+	
 	public HashMap<String, Integer> getPublicInstanceAttributes(){
 		return this.mapPublicInstance;
 	}
@@ -154,6 +179,10 @@ public class AttributeMetrics {
 	
 	public HashMap<String, Integer> getTotalAttributes(){
 		return this.mapTotalAttributes;
+	}
+	
+	public HashMap<String, Integer> getCriticalElements(){
+		return this.mapCriticalElements;
 	}
 	
 	/**

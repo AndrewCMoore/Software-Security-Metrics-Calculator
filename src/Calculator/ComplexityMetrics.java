@@ -52,6 +52,7 @@ public class ComplexityMetrics {
 	}
 	
 	private int countComplexity(Method method) {
+		System.out.println(method.getIdentifier() + " has complexity: " + method.getMethodComplexity());
 		return method.getMethodComplexity();
 	}
 
