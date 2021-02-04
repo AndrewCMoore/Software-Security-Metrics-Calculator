@@ -52,33 +52,6 @@ class AttributeMetricsTest {
 		}		
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
-		HashMap<String, Integer> expectedValues = new HashMap<String, Integer>();
-		//factoryClasses package
-		expectedValues.put("Components", 0);
-		expectedValues.put("FactoryObject_InheritanceLevel1", 0);
-		expectedValues.put("FactoryObject_InheritanceLevel2", 0);
-		expectedValues.put("FactoryObject", 0);
-		expectedValues.put("Inspectors", 0);
-		expectedValues.put("ObjectStates", 0);
-		expectedValues.put("Products", 0);
-		expectedValues.put("WorkStations", 0);
-		// pointless package
-		expectedValues.put("pointlessClass", 0);
-		expectedValues.put("pointlessInterface", 0);
-		expectedValues.put("pointlessLoops", 0);
-		// sfm package 
-		expectedValues.put("SimulateFactoryModel", 0);
-		// simpleThreading package 
-		expectedValues.put("AgentThread", 0);
-		expectedValues.put("ChefThread", 0);
-		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", 0);
-		// weibullGenerator package 
-		expectedValues.put("GenerateWeibullDistributionData", 0);
-	}
-
 	@Test
 	void testGetPublicInstanceAttributes() {
 		HashMap<String, Integer> expectedValues = new HashMap<String, Integer>();
@@ -101,7 +74,7 @@ class AttributeMetricsTest {
 		expectedValues.put("AgentThread", 0);
 		expectedValues.put("ChefThread", 0);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", null);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 	
@@ -134,7 +107,7 @@ class AttributeMetricsTest {
 		expectedValues.put("AgentThread", 1);
 		expectedValues.put("ChefThread", 0);
 		expectedValues.put("Ingredients", 3);
-		expectedValues.put("CriticalClassInheritance", null);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
@@ -165,7 +138,7 @@ class AttributeMetricsTest {
 		expectedValues.put("AgentThread", 4);
 		expectedValues.put("ChefThread", 3);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", null);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
@@ -197,7 +170,7 @@ class AttributeMetricsTest {
 		expectedValues.put("AgentThread", 2);
 		expectedValues.put("ChefThread", 0);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", null);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
@@ -217,9 +190,9 @@ class AttributeMetricsTest {
 		expectedValues.put("Inspectors", 5);
 		expectedValues.put("ObjectStates", 0);
 		expectedValues.put("Products", 0);
-		expectedValues.put("WorkStations", 0);
+		expectedValues.put("WorkStations", 4);
 		// pointless package
-		expectedValues.put("pointlessClass", 4);
+		expectedValues.put("pointlessClass", 0);
 		expectedValues.put("pointlessInterface", 0);
 		expectedValues.put("pointlessLoops", 3);
 		// sfm package 
@@ -228,14 +201,11 @@ class AttributeMetricsTest {
 		expectedValues.put("AgentThread", 6);
 		expectedValues.put("ChefThread", 3);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", null);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
 		for(String key : expectedValues.keySet()) {
-			System.out.println("ERROR: " + key);
-			System.out.println("ERROR: " + expectedValues.get(key));
-			System.out.println("ERROR: " + attributeMetrics.getPrivateProtectedTotal().get(key));
 			assertEquals(expectedValues.get(key), attributeMetrics.getPrivateProtectedTotal().get(key));
 		}
 	}
@@ -262,7 +232,7 @@ class AttributeMetricsTest {
 		expectedValues.put("AgentThread", 7);
 		expectedValues.put("ChefThread", 3);
 		expectedValues.put("Ingredients", 3);
-		expectedValues.put("CriticalClassInheritance", null);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 	
@@ -270,8 +240,8 @@ class AttributeMetricsTest {
 		for(String key : expectedValues.keySet()) {
 			System.out.println("ERROR: " + key);
 			System.out.println("ERROR: " + expectedValues.get(key));
-			System.out.println("ERROR: " + attributeMetrics.getPrivateProtectedTotal().get(key));
-			assertEquals(expectedValues.get(key), attributeMetrics.getPrivateProtectedTotal().get(key));
+			System.out.println("ERROR: " + attributeMetrics.getTotalAttributes().get(key));
+			assertEquals(expectedValues.get(key), attributeMetrics.getTotalAttributes().get(key));
 		}
 	}
 

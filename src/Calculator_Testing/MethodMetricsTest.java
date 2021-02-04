@@ -78,7 +78,7 @@ class MethodMetricsTest {
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
 		for(String key : expectedValues.keySet()) {
-			assertEquals(expectedValues.get(key), methodMetrics.getNonFinalPrivateProtected().get(key));
+			assertEquals(expectedValues.get(key), methodMetrics.getMapNonFinalPrivateProtected().get(key));
 		}
 	}
 
