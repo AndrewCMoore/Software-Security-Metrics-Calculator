@@ -373,7 +373,9 @@ public class StatementVisitor extends ASTVisitor {
 		statementList.add(statement);
 		
 		if(node.getElseStatement() != null) {
-			if(node.getElseStatement() instanceof Block) {}
+			if(node.getElseStatement() instanceof Block) {
+				statement.addComplexity(1);
+			}
 			else {
 				if(node.getElseStatement() instanceof IfStatement) {
 					visit((IfStatement) node.getElseStatement());
