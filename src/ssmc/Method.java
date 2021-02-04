@@ -40,6 +40,7 @@ public class Method {
 	private boolean accessor;
 	private int mutator;
 	private boolean isVoid;
+	private ArrayList<String> onlyparameterTypes;
 	/**
 	 * Constructor method
 	 * @param identifier String representation of Method's identifier
@@ -73,6 +74,7 @@ public class Method {
 		this.modifiers = new ArrayList<String>();
 		
 		this.parameters = new HashMap<String, String>();
+		this.onlyparameterTypes = new ArrayList<String>();
 		
 	}
 	public boolean isVoid() {
@@ -388,6 +390,15 @@ public class Method {
 		this.isWriteClassified = b;
 	}
 
+    public  void setOnlyparameterTypes(String type) {//anthony
+        onlyparameterTypes.add(type);
+    }
+    
+    public ArrayList<String> getOnlyParameterTypes(){//anthony
+        return onlyparameterTypes;
+    }    
+	
+	
 	/**
 	 * Returns the String representation of the Method's name 
 	 * @return String
