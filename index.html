@@ -12,59 +12,59 @@
 			<div class="row">
 				<div class="left">
 					<table class="table" cellpadding="10" cellspacing="10">
-						<tr><td>Flexability</td><td>10</td></tr>
-						<tr><td>Readability</td><td>20</td></tr>
-						<tr><td>Reusability</td><td>30</td></tr>
-						<tr><td>Effectiveness</td><td>40</td></tr>
-						<tr><td>Extendability</td><td>50</td></tr>
-						<tr><td>Functionality</td><td>60</td></tr>
+						<tr><td>Flexability</td><td id="flexValue">10</td></tr>
+						<tr><td>Readability</td><td id="readValue">20</td></tr>
+						<tr><td>Functionality</td><td id="functValue">60</td></tr>
+						<tr><td>Extendability</td><td id="extendValue">50</td></tr>						
+						<tr><td>Effectiveness</td><td id="effectValue">40</td></tr>
+						<tr><td>Reusability</td><td id="reuseValue">10</td></tr>
 					</table>
 				</div>
 				<div class="right">
 					<div class="circles">
-						<div class="c100 p90 big flexability" id="flexability">
+						<div class="c100 big flexability" id="flexability">
 							<span class="title">Flexability</span>
 							<div class="slice">
 								<div class="bar"></div>
 								<div class="fill"></div>
 							</div>
 						</div>
-						<div class="c100 p90 big pink readability" id="readability">
+						<div class="c100 big pink readability" id="readability">
 							<span class="title">Readability</span>
 							<div class="slice">
 								<div class="bar"></div>
 								<div class="fill"></div>
 							</div>
 						</div>
-						<div class="c100 p90 big green reusability" id="reusability">
+						<div class="c100 big green reusability" id="reusability">
 							<span class="title">Reusability</span>
 							<div class="slice">
 								<div class="bar"></div>
 								<div class="fill"></div>
 							</div>
 						</div>
-						<div class="c100 p50 big maroon effectiveness" id="effectiveness">
+						<div class="c100 big maroon effectiveness" id="effectiveness">
 							<span class="title">Effectiveness</span>
 							<div class="slice">
 								<div class="bar"></div>
 								<div class="fill"></div>
 							</div>
 						</div>
-						<div class="c100 p50 big blue extendability" id="extendability">
+						<div class="c100 big blue extendability" id="extendability">
 							<span class="title">Extendability</span>
 							<div class="slice">
 								<div class="bar"></div>
 								<div class="fill"></div>
 							</div>
 						</div>
-						<div class="c100 p50 big skyblue functionality" id="functionality">
+						<div class="c100 big skyblue functionality" id="functionality">
 							<span class="title">Functionality</span>
 							<div class="slice">
 								<div class="bar"></div>
 								<div class="fill"></div>
 							</div>
 						</div>
-						<div class="c100 p50 big orange overall" id="overall">
+						<div class="c100 big orange overall" id="overall">
 							<span class="title">Overall Score</span>
 							<div class="slice">
 								<div class="bar"></div>
@@ -72,7 +72,23 @@
 							</div>
 						</div>
 					</div>
-				</div>				
+				</div>
+				<script>
+					var flex = parseInt(document.getElementById("flexValue").innerHTML);
+					var read = parseInt(document.getElementById("readValue").innerHTML);
+					var funct = parseInt(document.getElementById("functValue").innerHTML);
+					var extend = parseInt(document.getElementById("extendValue").innerHTML);
+					var effect = parseInt(document.getElementById("effectValue").innerHTML);
+					var reuse = parseInt(document.getElementById("reuseValue").innerHTML);
+					var overall = (flex+read+funct+extend+effect+reuse)/6;
+					document.getElementById("flexability").classList.add("p"+flex);
+					document.getElementById("readability").classList.add("p"+read);
+					document.getElementById("functionality").classList.add("p"+funct);
+					document.getElementById("extendability").classList.add("p"+extend);
+					document.getElementById("effectiveness").classList.add("p"+effect);
+					document.getElementById("reusability").classList.add("p"+reuse);
+					document.getElementById("overall").classList.add("p"+Math.ceil(overall));
+				</script>
 			</div>
 		</div>
     </body>
