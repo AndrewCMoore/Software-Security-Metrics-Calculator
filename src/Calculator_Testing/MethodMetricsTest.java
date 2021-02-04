@@ -73,7 +73,7 @@ class MethodMetricsTest {
 		expectedValues.put("AgentThread", 0);
 		expectedValues.put("ChefThread", 0);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", null);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
@@ -88,7 +88,7 @@ class MethodMetricsTest {
 		//factoryClasses package
 		expectedValues.put("Components", 0);
 		expectedValues.put("FactoryObject_InheritanceLevel1", 1);
-		expectedValues.put("FactoryObject_InheritanceLevel2", 0);
+		expectedValues.put("FactoryObject_InheritanceLevel2", 1);
 		expectedValues.put("FactoryObject", 0);
 		expectedValues.put("Inspectors", 4);
 		expectedValues.put("ObjectStates", 0);
@@ -104,7 +104,7 @@ class MethodMetricsTest {
 		expectedValues.put("AgentThread", 0);
 		expectedValues.put("ChefThread", 0);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", 0);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 				
@@ -118,8 +118,8 @@ class MethodMetricsTest {
 		HashMap<String, Integer> expectedValues = new HashMap<String, Integer>();
 		//factoryClasses package
 		expectedValues.put("Components", 0);
-		expectedValues.put("FactoryObject_InheritanceLevel1", 3);
-		expectedValues.put("FactoryObject_InheritanceLevel2", 2);
+		expectedValues.put("FactoryObject_InheritanceLevel1", 2);
+		expectedValues.put("FactoryObject_InheritanceLevel2", 1);
 		expectedValues.put("FactoryObject", 13);
 		expectedValues.put("Inspectors", 5);
 		expectedValues.put("ObjectStates", 0);
@@ -130,12 +130,12 @@ class MethodMetricsTest {
 		expectedValues.put("pointlessInterface", 0);
 		expectedValues.put("pointlessLoops", 6);
 		// sfm package 
-		expectedValues.put("SimulateFactoryModel", 2);
+		expectedValues.put("SimulateFactoryModel", 1);
 		// simpleThreading package 
 		expectedValues.put("AgentThread", 10);
 		expectedValues.put("ChefThread", 3);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", 0);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 2);
 		
@@ -166,7 +166,7 @@ class MethodMetricsTest {
 		expectedValues.put("AgentThread", 10);
 		expectedValues.put("ChefThread", 3);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", 0);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 2);
 		
@@ -181,12 +181,12 @@ class MethodMetricsTest {
 		//factoryClasses package
 		expectedValues.put("Components", 0);
 		expectedValues.put("FactoryObject_InheritanceLevel1", 0);
-		expectedValues.put("FactoryObject_InheritanceLevel2", 0);
-		expectedValues.put("FactoryObject", 5);
-		expectedValues.put("Inspectors", 4);
+		expectedValues.put("FactoryObject_InheritanceLevel2", 1);
+		expectedValues.put("FactoryObject", 2);
+		expectedValues.put("Inspectors", 6);
 		expectedValues.put("ObjectStates", 0);
 		expectedValues.put("Products", 0);
-		expectedValues.put("WorkStations", 4);
+		expectedValues.put("WorkStations", 1);
 		// pointless package
 		expectedValues.put("pointlessClass", 0);
 		expectedValues.put("pointlessInterface", 0);
@@ -194,10 +194,10 @@ class MethodMetricsTest {
 		// sfm package 
 		expectedValues.put("SimulateFactoryModel", 0);
 		// simpleThreading package 
-		expectedValues.put("AgentThread", 3);
+		expectedValues.put("AgentThread", 1);
 		expectedValues.put("ChefThread", 0);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", 0);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
@@ -213,22 +213,22 @@ class MethodMetricsTest {
 		expectedValues.put("Components", 0);
 		expectedValues.put("FactoryObject_InheritanceLevel1", 0);
 		expectedValues.put("FactoryObject_InheritanceLevel2", 0);
-		expectedValues.put("FactoryObject", 6);
-		expectedValues.put("Inspectors", 1);
+		expectedValues.put("FactoryObject", 4);
+		expectedValues.put("Inspectors", 0);
 		expectedValues.put("ObjectStates", 0);
 		expectedValues.put("Products", 0);
-		expectedValues.put("WorkStations", 2);
+		expectedValues.put("WorkStations", 1);
 		// pointless package
 		expectedValues.put("pointlessClass", 0);
 		expectedValues.put("pointlessInterface", 0);
 		expectedValues.put("pointlessLoops", 0);
 		// sfm package 
-		expectedValues.put("SimulateFactoryModel", 0);
+		expectedValues.put("SimulateFactoryModel", 1);
 		// simpleThreading package 
-		expectedValues.put("AgentThread", 3);
+		expectedValues.put("AgentThread", 1);
 		expectedValues.put("ChefThread", 0);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", 0);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 0);
 		
