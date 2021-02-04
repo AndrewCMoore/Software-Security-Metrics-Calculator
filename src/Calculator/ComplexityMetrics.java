@@ -27,6 +27,10 @@ public class ComplexityMetrics {
 		printResults();
 		//this.methodComplexity(classes);
 	}
+	
+	public HashMap<String, Integer> getCyclomaticComplexity() {
+		return mapMethodComplexity;
+	}
 
 	private void calculateComplexity(JDTree[] classes) {
 		for(int i = 0; i < classes.length; i++) {

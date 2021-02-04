@@ -18,7 +18,7 @@ public class InheritanceMetrics extends MetricClasses {
 	Set<String> classNames;
 	Set<String> BaseClassesNames;
 	ArrayList<CustomPair> depthOfInhertance;
-	HashMap<String,String> imidiateChildren;
+	HashMap<String,String> immediateChildren;
 	HashMap<String, Integer> MethodsInaClass = new HashMap<String, Integer>();
 	int NumberOfBaseClasses,maxDepthOfInheritance;
 	
@@ -29,7 +29,7 @@ public class InheritanceMetrics extends MetricClasses {
 		this.classNames = new HashSet<String>(); 
 		this.BaseClassesNames = new HashSet<String>(); 
 		this.depthOfInhertance = new ArrayList<CustomPair>(); 
-		this.imidiateChildren= new HashMap<String,String>();
+		this.immediateChildren= new HashMap<String,String>();
 		this.maxDepthOfInheritance=0;
 		this.NumberOfBaseClasses = 0;
 		this.CalculatedMethodsInaClass = false;
@@ -56,7 +56,7 @@ public class InheritanceMetrics extends MetricClasses {
 					if (classNames.contains(classNode.getSuperClass()))  { 
 						BaseClassesNames.add(classNode.getSuperClass()); 
 						depthOfInhertance.add(new CustomPair(classNode.getSuperClass(),classNode.getIdentifier()));
-						imidiateChildren.put(classNode.getIdentifier(),classNode.getSuperClass());
+						immediateChildren.put(classNode.getIdentifier(),classNode.getSuperClass());
 					}
 					System.out.println("The superclass for: "+classNode.getIdentifier()+"\nis: "+classNode.getSuperClass());	
 					System.out.println("The interfaces for: "+classNode.getIdentifier()+"\nis: "+classNode.getInterfaces().toString());
@@ -74,7 +74,7 @@ public class InheritanceMetrics extends MetricClasses {
 			System.out.println("# base Classes :"+BaseClassesNames.size());		// the bottom most class do not count.	
 			System.out.println("Max Depth of Inheritance: ");
 			Map<String, ArrayList<String>> reverseMap = new HashMap<>(
-					imidiateChildren.entrySet().stream()
+					immediateChildren.entrySet().stream()
 				        .collect(Collectors.groupingBy(Map.Entry::getValue)).values().stream()
 				        .collect(Collectors.toMap(
 				                item -> item.get(0).getValue(),

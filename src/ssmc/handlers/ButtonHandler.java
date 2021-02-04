@@ -1,5 +1,7 @@
 package ssmc.handlers;
 
+import java.util.Scanner;
+
 import org.eclipse.core.commands.AbstractHandler;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -27,9 +29,28 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  * 
  * @author Andrew
  *
- */
+ */  
 public class ButtonHandler extends AbstractHandler {
 
+	public static void main(String[] args) throws JavaModelException, CoreException {
+		// Create scanner item for user input into the kernal 
+		Scanner scanner = new Scanner(System.in);
+		// Get Project name, parse from there
+		System.out.println("Please enter the name of your Java Project");
+		IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
+		IProject project = fileRoot.getProject(scanner.nextLine());
+		if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+			// got the IJavaProject which is the format we need
+			IJavaProject javaProject = JavaCore.create(project);
+			String kind = project.getClass().getName();
+			//Build a tree out of the project
+			JDTree myTree = new JDTree(javaProject, null);
+			//pass the tree to the calculator
+			Calculator calc = new Calculator(myTree);
+			//start calculating metrics
+			calc.calculate();
+		}
+	}
 	/**
 	 * responds to the button being pushed
 	 * Isn't meant to be called other than by the button push
@@ -62,7 +83,7 @@ public class ButtonHandler extends AbstractHandler {
 		IProject project = null;
 		IPath path = null;
 		//Gets the root directory of the workspace
-		IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
+   		IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
 		// Gets the active window
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (window != null) {

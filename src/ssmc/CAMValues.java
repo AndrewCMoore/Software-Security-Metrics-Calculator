@@ -1,11 +1,16 @@
 package ssmc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.BlockComment;
+import org.eclipse.jdt.core.dom.Comment;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.LineComment;
 
 
 /**
@@ -19,7 +24,6 @@ public class CAMValues {
 	 * ICompilationUnit
 	 * @param unit ICompilationUnit input
 	 */
-	
 	public static ArrayList<Attribute> generateAttributeAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		AttributeVisitor av = new AttributeVisitor(cu);
@@ -78,6 +82,7 @@ public class CAMValues {
 	 */
 	public static ArrayList<Statement> generateStatementAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
+		System.out.println("WABABA " + cu.getLineNumber(cu.getLength()-1));
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
 		//System.out.println("\n\n\n " + sv.ids + "\n\n\n");
@@ -198,7 +203,7 @@ public class CAMValues {
 		ArrayList<Method> methods = generateMethodAST(unit);
 		ArrayList<Class> classes = generateBodyDeclarationAst(unit);
 		
-		
+		final CompilationUnit cu = (CompilationUnit) parse(unit);
 		
 		for(Statement s: statements) {
 			Method m = getBelonging(s, methods);

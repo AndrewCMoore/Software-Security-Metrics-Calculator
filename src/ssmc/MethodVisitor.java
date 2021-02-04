@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AnnotatableType;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
 
 import ssmc.ASTUtility;
 
@@ -82,8 +85,16 @@ public class MethodVisitor extends ASTVisitor{
     	
         Method m = new Method(id,cu);
         m.setModifiers(ASTUtility.getModifers(node));
-        
- 
+    
+    	// If the Return type is primitive
+    	if(node.getReturnType2() instanceof PrimitiveType) {
+    		// Cast to primitive and check if the primitive is void
+    		if(((PrimitiveType) node.getReturnType2()).getPrimitiveTypeCode() == PrimitiveType.VOID) {
+    			// Set the method to void type
+    			m.setVoid(true);
+    		}
+    	}
+
         m.setStartLine(ASTUtility.getStartLine(node));
         m.setEndLine(ASTUtility.getEndLine(node));
         
