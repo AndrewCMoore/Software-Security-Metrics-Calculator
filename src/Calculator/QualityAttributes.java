@@ -79,5 +79,40 @@ public class QualityAttributes {
 		return effectiveness;
 	}
 	
+	public Double getAverageReusability() {
+		return average(reusability);
+	}
+
+	public Double getAverageFlexibility() {
+		return average(flexibility);
+	}
+
+	public Double getAverageUnderstandability() {
+		return average(understandability);
+	}
+
+	public Double getAverageFunctionality() {
+		return average(functionality);
+	}
+
+	public Double getAverageExtendability() {
+		return average(extendability);
+	}
+
+	public Double getAverageEffectiveness() {
+		return average(effectiveness);
+	}
+	
+	public Double average(HashMap<String, Double> qualityAttribute) {
+		double sum = 0;
+		int count = 0;
+		
+		for(String key : qualityAttribute.keySet()) {
+			count ++;
+			sum += qualityAttribute.get(key);
+		}
+		return sum/count;
+	}
+	
 
 }
