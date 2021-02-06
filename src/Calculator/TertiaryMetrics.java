@@ -158,6 +158,54 @@ public class TertiaryMetrics {
 			}
 		}
 	}
+
+	public HashMap<String, Float> getClassifiedInstanceDataAccessibility() {
+		return classifiedInstanceDataAccessibility;
+	}
+
+	public HashMap<String, Float> getClassifiedClassDataAccessibility() {
+		return classifiedClassDataAccessibility;
+	}
+
+	public HashMap<String, Float> getClassifiedOperationAccessibility() {
+		return classifiedOperationAccessibility;
+	}
+
+	public HashMap<String, Float> getClassifiedMethodsExtensibility() {
+		return classifiedMethodsExtensibility;
+	}
+
+	public HashMap<String, Float> getClassifiedAccessorAttributeInteractions() {
+		return classifiedAccessorAttributeInteractions;
+	}
+
+	public HashMap<String, Float> getClassifiedMutatorAttributeInteractions() {
+		return classifiedMutatorAttributeInteractions;
+	}
+
+	public HashMap<String, Float> getClassifiedAttributesInteractionWeight() {
+		return classifiedAttributesInteractionWeight;
+	}
+
+	public HashMap<String, Float> getClassifiedMethodsWeight() {
+		return classifiedMethodsWeight;
+	}
+
+	public HashMap<String, Float> getClassifiedWritingMethodsProportion() {
+		return classifiedWritingMethodsProportion;
+	}
+
+	public HashMap<String, Float> getUncalledClassifiedAccessorMethod() {
+		return uncalledClassifiedAccessorMethod;
+	}
+
+	public int getClassifiedAttributesTotal() {
+		return classifiedAttributesTotal;
+	}
+
+	public int getClassifiedMethodsTotal() {
+		return classifiedMethodsTotal;
+	}
 	
 	
 
