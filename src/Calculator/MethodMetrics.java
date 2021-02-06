@@ -20,6 +20,9 @@ public class MethodMetrics {
 	private HashMap<String, Integer> mapTotal = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapMutatorInteractions = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapAccessorInteractions = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapMethodInvocations = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapWritesClassifiedAttributes = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapAccessClassifiedNeverCalled = new HashMap<String, Integer>();
 
 	/**
 	* The constructor currently calls each method in the class for testing purposes
@@ -34,25 +37,6 @@ public class MethodMetrics {
 		//this.numAccessorInteractions(classes);
 		//this.numMutatorInteractions(classes);
 	}
-	
-	public HashMap<String, Integer> getNonFinalPrivateProtected() {
-		return mapNonFinalPrivateProtected;
-	}
-	public HashMap<String, Integer> getMapClassified() {
-		return mapClassified;
-	}
-	public HashMap<String, Integer> getMapPublic() {
-		return mapPublic;
-	}
-	public HashMap<String, Integer> getMapTotal() {
-		return mapTotal;
-	}
-	public HashMap<String, Integer> getMapMutatorInteractions() {
-		return mapMutatorInteractions;
-	}
-	public HashMap<String, Integer> getMapAccessorInteractions() {
-		return mapAccessorInteractions;
-	}
 
 	private void calculateMethods(JDTree[] classes) {
 		for(int i = 0; i < classes.length; i++) { 
@@ -61,6 +45,9 @@ public class MethodMetrics {
 			int publicMethods = 0;
 			int mutatorInteractions = 0;
 			int accessorInteractions = 0;
+			int methodInvocations = 0;
+			int writesClassifiedAttributes = 0;
+			int accessClassifiedNeverCalled = 0;
 			
 			Object o = classes[i].getNode();	
 			if(o instanceof Class) {			
@@ -73,6 +60,9 @@ public class MethodMetrics {
 						publicMethods += isPublic(method);
 						mutatorInteractions += countMutatorInteractions(method);
 						accessorInteractions += countAccessorInteractions(method);
+						methodInvocations += countMethodInvocations(method);
+						writesClassifiedAttributes += writesClassifiedAttributes(method);
+						accessClassifiedNeverCalled += accessClassifiedNeverCalled(method);
 					}
 				} 
 				mapNonFinalPrivateProtected.put(classNode.getIdentifier(), nonFinalPrivateProtected);
@@ -80,7 +70,10 @@ public class MethodMetrics {
 				mapPublic.put(classNode.getIdentifier(), publicMethods);
 				mapTotal.put(classNode.getIdentifier(), classifiedMethods + publicMethods);
 				mapMutatorInteractions.put(classNode.getIdentifier(), mutatorInteractions);
-				mapAccessorInteractions.put(classNode.getIdentifier(), accessorInteractions); 					
+				mapAccessorInteractions.put(classNode.getIdentifier(), accessorInteractions);
+				mapMethodInvocations.put(classNode.getIdentifier(), methodInvocations);
+				mapWritesClassifiedAttributes.put(classNode.getIdentifier(), writesClassifiedAttributes);
+				mapAccessClassifiedNeverCalled.put(classNode.getIdentifier(), accessClassifiedNeverCalled);
 			}
 		}
 	}
@@ -117,6 +110,10 @@ public class MethodMetrics {
 		printMap(mapAccessorInteractions);
 	}
 	
+	////////////////////////////////////////////////////////////////
+	//calculator methods
+	////////////////////////////////////////////////////////////////
+	
 	private int isNonFinalPrivateProtected(Method method) {
 		if((method.getModifiers().contains("private") || method.getModifiers().contains("protected")) && !method.getFinalized()) {
 			return 1;
@@ -145,6 +142,7 @@ public class MethodMetrics {
 		return 0;
 	}
 
+	//needs to check if if attribute is classified
 	private int countMutatorInteractions(Method method) {
 		return method.getMutator(); 
 	}
@@ -153,6 +151,56 @@ public class MethodMetrics {
 		for(String key : map.keySet()) {
 			System.out.println(key + ": " + map.get(key) + ", ");
 		}
+	}
+	
+	private int countMethodInvocations(Method method) {
+		return method.getNumberOfInvocations();
+	}
+	
+	private int writesClassifiedAttributes(Method method) {
+		if(method.getWriteClassified()) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	private int accessClassifiedNeverCalled(Method method) {
+		if(method.getClassified() && method.getUsage() == 0) {
+			//check if accesses classified attribute
+		}
+		return 0;
+	}
+	
+	////////////////////////////////////////////////////////////////
+	//GETTERS
+	////////////////////////////////////////////////////////////////
+	
+	public HashMap<String, Integer> getMapNonFinalPrivateProtected() {
+		return mapNonFinalPrivateProtected;
+	}
+
+	public HashMap<String, Integer> getMapClassified() {
+		return mapClassified;
+	}
+
+	public HashMap<String, Integer> getMapPublic() {
+		return mapPublic;
+	}
+
+	public HashMap<String, Integer> getMapTotal() {
+		return mapTotal;
+	}
+
+	public HashMap<String, Integer> getMapMutatorInteractions() {
+		return mapMutatorInteractions;
+	}
+
+	public HashMap<String, Integer> getMapAccessorInteractions() {
+		return mapAccessorInteractions;
+	}
+
+	public HashMap<String, Integer> getMapMethodInvocations() {
+		return mapMethodInvocations;
 	}
 	
 	/**

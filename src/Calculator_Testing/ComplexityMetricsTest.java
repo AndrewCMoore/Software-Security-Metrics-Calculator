@@ -56,28 +56,31 @@ class ComplexityMetricsTest {
 		HashMap<String, Integer> expectedValues = new HashMap<String, Integer>();
 		//factoryClasses package
 		expectedValues.put("Components", 0);
-		expectedValues.put("FactoryObject_InheritanceLevel1", 4);
+		expectedValues.put("FactoryObject_InheritanceLevel1", 3);
 		expectedValues.put("FactoryObject_InheritanceLevel2", 2);
 		expectedValues.put("FactoryObject", 17);
-		expectedValues.put("Inspectors", 32);
+		expectedValues.put("Inspectors", 30);
 		expectedValues.put("ObjectStates", 0);
 		expectedValues.put("Products", 0);
-		expectedValues.put("WorkStations", 31);
+		expectedValues.put("WorkStations", 28);
 		// pointless package
 		expectedValues.put("pointlessClass", 1);
-		expectedValues.put("pointlessInterface", 0);
-		expectedValues.put("pointlessLoops", 21);
+		expectedValues.put("pointlessInterface", 1);
+		expectedValues.put("pointlessLoops", 20);
 		// sfm package 
-		expectedValues.put("SimulateFactoryModel", 22);
+		expectedValues.put("SimulateFactoryModel", 18);
 		// simpleThreading package 
-		expectedValues.put("AgentThread", 17);
-		expectedValues.put("ChefThread", 13);
+		expectedValues.put("AgentThread", 16);
+		expectedValues.put("ChefThread", 12);
 		expectedValues.put("Ingredients", 0);
-		expectedValues.put("CriticalClassInheritance", 0);
+		expectedValues.put("criticalClassInheritance", 0);
 		// weibullGenerator package 
 		expectedValues.put("GenerateWeibullDistributionData", 5);
 		
 		for(String key : expectedValues.keySet()) {
+			System.out.println("ERROR: " + key);
+			System.out.println("ERROR: " + expectedValues.get(key));
+			System.out.println("ERROR: " + complexityMetrics.getCyclomaticComplexity().get(key));
 			assertEquals(expectedValues.get(key), complexityMetrics.getCyclomaticComplexity().get(key));
 		}
 	}
