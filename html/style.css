@@ -102,3 +102,34 @@ body{
 	top: 250px;
 	position: absolute;
 }
+table{
+	margin-left:auto;
+	margin-right:auto;
+	border-collapse:collapse;
+	background:#C7C7E3;
+	
+}
+.tables{
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;
+	background:#F5F5F5;
+}
+.tableHead{
+	background:#00006D;
+	color:white;
+}
+th,td {
+	border: 1px solid black; 
+	text-align:left;
+	padding-right:10px;
+}
+tr:nth-child(even){
+	background:#FAFAFA;
+}
+h2{
+	text-align:center;
+}
+h3{
+	text-align:center
+}
