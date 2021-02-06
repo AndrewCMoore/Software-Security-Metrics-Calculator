@@ -13,27 +13,43 @@ public class TertiaryMetrics {
 	private HashMap<String, Float> classifiedMethodsWeight = new HashMap<String, Float>();
 	private HashMap<String, Float> classifiedWritingMethodsProportion = new HashMap<String, Float>();
 	private HashMap<String, Float> uncalledClassifiedAccessorMethod = new HashMap<String, Float>();
+	private HashMap<String, Float> classifiedMethodsInheritance = new HashMap<String, Float>(); //CMI metric.
 	//private HashMap<String, Float> unaccessedAssignedClassifiedAttribute = new HashMap<String, Float>();
 	private int classifiedAttributesTotal = 0;
 	private int classifiedMethodsTotal = 0;
+	private int criticalClassesTotal = 0;
+	
+	//all of these are project level ratio that can't be reduced to the class level :(
+	private float criticalClassesExtensibility = 0;
+	private float criticalClassesCoupling = 0;
+	private float compositePartCriticalClasses = 0;
+	private float unusedCriticalAccessorClass=0;
+	private float criticalDesignProportion=0;
+	private float criticalSerializedClassesProportion=0;
+	private float criticalSuperclassesProportion=0;
+	private float criticalSuperclassesInheritance=0;
+	private float reflectionPackageBoolean=0;
+	//private float unusedCriticalAccessorClass = 0;
 
-	public TertiaryMetrics(PulledValues pv) { 
-		classifiedInstanceDataAccessibility(pv);
-		classifiedClassDataAccessibility(pv);
-		classifiedOperationAccessibility(pv);
-		classifiedMethodsExtensibility(pv);
-		classifiedAttributesTotal(pv);
-		classifiedMethodsTotal(pv);
-		classifiedAccessorAttributeInteractions(pv);
-		classifiedMutatorAttributeInteractions(pv);
-		classifiedAttributesInteractionWeight(pv);
-		classifiedMethodsWeight(pv);
-		classifiedWritingMethodsProportion(pv);
-		uncalledClassifiedAccessorMethod(pv);
-		//unaccessedAssignedClassifiedAttribute(pv);
+	
+
+	public TertiaryMetrics(PulledValues pv, MurgePulledValues mpv) { 
+		classifiedInstanceDataAccessibility(pv,mpv);
+		classifiedClassDataAccessibility(pv,mpv);
+		classifiedOperationAccessibility(pv,mpv);
+		classifiedMethodsExtensibility(pv,mpv);
+		classifiedAttributesTotal(pv,mpv);
+		classifiedMethodsTotal(pv,mpv);
+		classifiedAccessorAttributeInteractions(pv,mpv);
+		classifiedMutatorAttributeInteractions(pv,mpv);
+		classifiedAttributesInteractionWeight(pv,mpv);
+		classifiedMethodsWeight(pv,mpv);
+		classifiedWritingMethodsProportion(pv,mpv);
+		uncalledClassifiedAccessorMethod(pv,mpv);
+		//unaccessedAssignedClassifiedAttribute(pv,mpv);
 	}
 	
-	private void uncalledClassifiedAccessorMethod(PulledValues pv) {
+	private void uncalledClassifiedAccessorMethod(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedNeverUsed = pv.getMapAccessClassifiedNeverCalled();
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
@@ -42,7 +58,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedWritingMethodsProportion(PulledValues pv) {
+	private void classifiedWritingMethodsProportion(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> methodsWriteClassifiedAttributes = pv.getMapWritesClassifiedAttributes();
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
@@ -51,7 +67,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedMethodsWeight(PulledValues pv) {
+	private void classifiedMethodsWeight(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		HashMap<String, Integer> totalMethods = pv.getMapTotalMethods();
 		
@@ -60,7 +76,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedAttributesInteractionWeight(PulledValues pv) {
+	private void classifiedAttributesInteractionWeight(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedAttributeInteractions = pv.getMapClassifiedAttributeInteractions();
 		HashMap<String, Integer> attributeInteractions = pv.getMapAccessorInteractions();
 		
@@ -69,7 +85,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedMutatorAttributeInteractions(PulledValues pv) {
+	private void classifiedMutatorAttributeInteractions(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> mutatorInteractions = pv.getMapMutatorInteractions();
 		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
@@ -78,7 +94,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedAccessorAttributeInteractions(PulledValues pv) {
+	private void classifiedAccessorAttributeInteractions(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> accessorInteractions = pv.getMapAccessorInteractions();
 		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
@@ -87,7 +103,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedMethodsTotal(PulledValues pv) {
+	private void classifiedMethodsTotal(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
@@ -95,7 +111,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedAttributesTotal(PulledValues pv) {
+	private void classifiedAttributesTotal(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : classifiedAttributes.keySet()) {
@@ -103,7 +119,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedMethodsExtensibility(PulledValues pv) {
+	private void classifiedMethodsExtensibility(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> nonFinalClassifiedMethods = pv.getMapNonFinalPrivateProtectedMethods();
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
@@ -117,7 +133,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedOperationAccessibility(PulledValues pv) {
+	private void classifiedOperationAccessibility(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedMethodsNotPrivate = pv.getMapClassifiedMethodsNotPrivate();
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
@@ -131,7 +147,7 @@ public class TertiaryMetrics {
 		}
 	}
 
-	private void classifiedClassDataAccessibility(PulledValues pv) {
+	private void classifiedClassDataAccessibility(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedClassNotPrivate = pv.getMapClassifiedClassAttributeNotPrivate();
 		HashMap<String, Integer> privateProtectedAttributes = pv.getMapPrivateProtectedTotal();
 		
@@ -145,7 +161,7 @@ public class TertiaryMetrics {
 		}	
 	}
 
-	private void classifiedInstanceDataAccessibility(PulledValues pv) {
+	private void classifiedInstanceDataAccessibility(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Integer> classifiedInstanceNotPrivate = pv.getMapPublicInstance();
 		HashMap<String, Integer> privateProtectedAttributes = pv.getMapPrivateProtectedTotal();
 		
@@ -158,6 +174,64 @@ public class TertiaryMetrics {
 			}
 		}
 	}
+	
+	
+	/**this was incorrect in the 100% diagram, it used TWO pulled values, not one. number of clasifed attributed that can be inherited in a hiarchy
+	total # ot classifgied attributes in a programs inheritance hyarchy*/
+
+	public void ClassifiedMethodsInheritance() {}		
+	public HashMap<String, Float> getClassifiedMethodsInheritance () {
+		classifiedMethodsInheritance.put("Temperary Placeholder", (float) 1.00);
+		return classifiedMethodsInheritance;
+	}
+	
+	//total # CC
+	private void criticalClassesTotal(PulledValues pv, MurgePulledValues mpv) {
+		criticalClassesTotal = mpv.getNumberOfCriticalClassesInProgram();
+	}
+	
+	//CCE
+	private void criticalClassesExtensibility(PulledValues pv, MurgePulledValues mpv) {
+		criticalClassesExtensibility=0;
+	}
+	
+	//CCC
+	private void criticalClassesCoupling(PulledValues pv, MurgePulledValues mpv) {
+		criticalClassesCoupling=1;
+	}
+	
+	//CPCC
+	private void compositePartCriticalClasses(PulledValues pv, MurgePulledValues mpv) {
+		compositePartCriticalClasses=1;
+	}
+	//UCAC
+	private void unusedCriticalAccessorClass() {
+		unusedCriticalAccessorClass=0;
+	}
+	
+	//CDP
+	private void criticalDesignProportion() {
+		criticalDesignProportion=0;
+	}
+	
+	//CSCP
+	private void criticalSerializedClassesProportion() {
+		criticalSerializedClassesProportion=0;
+	}
+	
+	//CSP
+	private void criticalSuperclassesProportion() {}
+	
+	//CSI
+	private void criticalSuperclassesInheritance() {}
+	
+	//RPB - this is actually a boolean not an int sum. fix it in murge pulled values.
+	private void reflectionPackageBoolean() {
+		reflectionPackageBoolean=0;
+	}
+	
+	//getters
+	
 
 	public HashMap<String, Float> getClassifiedInstanceDataAccessibility() {
 		return classifiedInstanceDataAccessibility;
@@ -206,7 +280,48 @@ public class TertiaryMetrics {
 	public int getClassifiedMethodsTotal() {
 		return classifiedMethodsTotal;
 	}
+
+	public int getCriticalClassesTotal() {
+		return criticalClassesTotal;
+	}
+
+	public float getCriticalClassesExtensibility() {
+		return criticalClassesExtensibility;
+	}
+
+	public float getCriticalClassesCoupling() {
+		return criticalClassesCoupling;
+	}
+
+	public float getCompositePartCriticalClasses() {
+		return compositePartCriticalClasses;
+	}
+
+	public float getUnusedCriticalAccessorClass() {
+		return unusedCriticalAccessorClass;
+	}
+
+	public float getCriticalDesignProportion() {
+		return criticalDesignProportion;
+	}
+
+	public float getCriticalSerializedClassesProportion() {
+		return criticalSerializedClassesProportion;
+	}
+
+	public float getCriticalSuperclassesProportion() {
+		return criticalSuperclassesProportion;
+	}
+
+	public float getCriticalSuperclassesInheritance() {
+		return criticalSuperclassesInheritance;
+	}
 	
+	public float getReflectionPackageBoolean() {
+		return reflectionPackageBoolean;
+	}
+	
+
 	
 
 }

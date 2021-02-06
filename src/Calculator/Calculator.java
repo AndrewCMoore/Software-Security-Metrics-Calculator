@@ -44,11 +44,11 @@ public class Calculator {
 		//ComplexityMetrics statements = new ComplexityMetrics(classes);
 		//ClassMetrics cm = new ClasseMetrics(classes);
 		//InheritanceMetrics im = new InheritanceMetrics(classes);
-		
+		MurgePulledValues mpv = new MurgePulledValues(classes);
 		PulledValues pv = new PulledValues(classes);
-		TertiaryMetrics tm = new TertiaryMetrics(pv);
+		TertiaryMetrics tm = new TertiaryMetrics(pv, mpv);
 		SecondaryMetrics sm = new SecondaryMetrics(tm);
-		PrimaryMetrics pm = new PrimaryMetrics(sm);
+		PrimaryMetrics pm = new PrimaryMetrics(pv,sm,mpv);
 		DesignPrincipals dp = new DesignPrincipals(pm);
 		QualityAttributes qa = new QualityAttributes(dp);
 	}

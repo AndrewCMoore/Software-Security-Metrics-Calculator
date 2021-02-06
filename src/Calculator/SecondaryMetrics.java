@@ -1,6 +1,9 @@
 package Calculator;
 
 public class SecondaryMetrics {
+	
+	private float readabilityOfCriticalClasses=0;
+	private float writabilityOfCriticalClasses=0;
 
 	public SecondaryMetrics(TertiaryMetrics tm) {
 		// TODO Auto-generated constructor stub
@@ -16,7 +19,12 @@ public class SecondaryMetrics {
 
 	public void readabilityOfClassifiedMethods (TertiaryMetrics tm) {}
 
-	public void readabilityOfCriticalClasses (TertiaryMetrics tm) {}
+	public void readabilityOfCriticalClasses (TertiaryMetrics tm) {		
+		readabilityOfCriticalClasses = 
+		tm.getCriticalClassesExtensibility()+tm.getCriticalSuperclassesProportion()
+			+tm.getCriticalDesignProportion()+tm.getCompositePartCriticalClasses()
+			+tm.getReflectionPackageBoolean();
+	}
 	//###########################################################################################################################################################	
 	//Complexity Metrics
 	//###########################################################################################################################################################
@@ -36,6 +44,10 @@ public class SecondaryMetrics {
 	
 	public void readabilityOfClassifiedClasses (TertiaryMetrics tm) {}
 	
-
-
+	public void writabilityOfCriticalClasses(TertiaryMetrics tm) {
+		writabilityOfCriticalClasses = 
+		tm.getCriticalClassesCoupling()+tm.getCriticalSuperclassesInheritance()
+			+tm.getCriticalSerializedClassesProportion()+tm.getUnusedCriticalAccessorClass();
+	}
+		
 }

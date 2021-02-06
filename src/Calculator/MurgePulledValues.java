@@ -508,8 +508,8 @@ public class MurgePulledValues {
 	//Let PV = pulled value
 	
 	// #classes PV
-	public int getNumberOfClassesInProject() {
-		return classNames.size();
+	public Set<String> getNumberOfClassesInProject() {
+		return classNames;
 	}
 	
 	// #Serializable classes PV
@@ -553,7 +553,7 @@ public class MurgePulledValues {
 	}
 	
 	//#numberOfHierarchyInProject PV
-	public int getNumberOfClassesInHierarchy() {
+	public int getNumberOfHierarchys() {
 		return topLevelSuperClassesInHierarchy.size();
 	}
 	
@@ -662,7 +662,13 @@ public class MurgePulledValues {
 		return this.mapbaseClassMethodsInheritedBySubClassm;
 	}
 	
+	public HashMap<String, HashSet<String>> getMethodNamesInClass() {
+		return methodNamesInClass;
+	}
 	
+	public HashMap<String, Integer> getClassMethodsInheritedBySubClassm() {
+		return mapbaseClassMethodsInheritedBySubClassm;
+	}
 	
 	//###########################################################################################################################################################	
 	//
