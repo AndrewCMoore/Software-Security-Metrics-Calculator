@@ -10,10 +10,10 @@ import tree.JDTree;
 
 
 public class PulledValues {
-	private HashMap<String, Integer> mapNonFinalPrivateProtected = new HashMap<String, Integer>();
-	private HashMap<String, Integer> mapClassified = new HashMap<String, Integer>();
-	private HashMap<String, Integer> mapPublic = new HashMap<String, Integer>();
-	private HashMap<String, Integer> mapTotal = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapNonFinalPrivateProtectedMethods = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapClassifiedMethods = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapPublicMethods = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapTotalMethods = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapMutatorInteractions = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapAccessorInteractions = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapMethodInvocations = new HashMap<String, Integer>();
@@ -29,7 +29,10 @@ public class PulledValues {
 	private HashMap<String, Integer> mapCriticalNotUsed = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapAttributeInteractions = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapClassifiedAttributeInteractions = new HashMap<String, Integer>();
-
+	private HashMap<String, Integer> mapClassifiedInstanceAttributeNotPrivate = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapClassifiedClassAttributeNotPrivate = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapClassifiedMethodsNotPrivate = new HashMap<String, Integer>();
+	
 	public PulledValues(JDTree[] classes) {
 		calculate(classes);
 		printResults();
@@ -53,6 +56,9 @@ public class PulledValues {
 			int criticalNotUsed = 0;
 			int attributeInteractions = 0;
 			int classifiedAttributeInteractions = 0;
+			int classifiedInstanceAttributeNotPrivate = 0;
+			int classifiedClassAttributeNotPrivate = 0;
+			int classifiedMethodsNotPrivate = 0;
 			
 			Object o = classes[i].getNode();	
 			if(o instanceof Class) {			
@@ -69,6 +75,7 @@ public class PulledValues {
 						methodInvocations += countMethodInvocations(method);
 						writesClassifiedAttributes += writesClassifiedAttributes(method);
 						accessClassifiedNeverCalled += accessClassifiedNeverCalled(method);
+						classifiedMethodsNotPrivate += isClassifiedMethodNotPrivate(method);
 					}
 				} 
 				for(Attribute attribute : attributeList) { 
@@ -82,12 +89,14 @@ public class PulledValues {
 						criticalNotUsed += isCriticalNotUsed(attribute);
 						attributeInteractions += countInteractions(attribute);
 						classifiedAttributeInteractions += countClassifiedInteractions(attribute);
+						classifiedInstanceAttributeNotPrivate += isCriticalInstanceNotPrivate(attribute);
+						classifiedClassAttributeNotPrivate += isCriticalClassNotPrivate(attribute);
 					}
 				}
-				mapNonFinalPrivateProtected.put(classNode.getIdentifier(), nonFinalPrivateProtected);
-				mapClassified.put(classNode.getIdentifier(), classifiedMethods);
-				mapPublic.put(classNode.getIdentifier(), publicMethods);
-				mapTotal.put(classNode.getIdentifier(), classifiedMethods + publicMethods);
+				mapNonFinalPrivateProtectedMethods.put(classNode.getIdentifier(), nonFinalPrivateProtected);
+				mapClassifiedMethods.put(classNode.getIdentifier(), classifiedMethods);
+				mapPublicMethods.put(classNode.getIdentifier(), publicMethods);
+				mapTotalMethods.put(classNode.getIdentifier(), classifiedMethods + publicMethods);
 				mapMutatorInteractions.put(classNode.getIdentifier(), mutatorInteractions);
 				mapAccessorInteractions.put(classNode.getIdentifier(), accessorInteractions);
 				mapMethodInvocations.put(classNode.getIdentifier(), methodInvocations);
@@ -103,11 +112,35 @@ public class PulledValues {
 				mapCriticalNotUsed.put(classNode.getIdentifier(), criticalNotUsed);
 				mapAttributeInteractions.put(classNode.getIdentifier(), attributeInteractions);
 				mapClassifiedAttributeInteractions.put(classNode.getIdentifier(), classifiedAttributeInteractions);
+				mapClassifiedInstanceAttributeNotPrivate.put(classNode.getIdentifier(), classifiedInstanceAttributeNotPrivate);
+				mapClassifiedClassAttributeNotPrivate.put(classNode.getIdentifier(), classifiedClassAttributeNotPrivate);
+				mapClassifiedMethodsNotPrivate.put(classNode.getIdentifier(), classifiedMethodsNotPrivate);
 			}
 		}
 		
 	}
 	
+	private int isClassifiedMethodNotPrivate(Method method) {
+		if(!method.getModifiers().contains("public") && !method.getModifiers().contains("private")) {
+			return 1;
+		}
+		return 0;
+	}
+
+	private int isCriticalInstanceNotPrivate(Attribute attribute) {
+		if(!attribute.getModifier().contains("public") && !attribute.getModifier().contains("private") && !attribute.getModifier().contains("static")) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	private int isCriticalClassNotPrivate(Attribute attribute) {
+		if(!attribute.getModifier().contains("public") && !attribute.getModifier().contains("private") && attribute.getModifier().contains("static")) {
+			return 1;
+		}
+		return 0;
+	}
+
 	private int countClassifiedInteractions(Attribute attribute) {
 		if(!attribute.getModifier().contains("public")) {
 			return attribute.getUsage();
@@ -216,20 +249,25 @@ public class PulledValues {
 	//////////////////////////////////////
 	//Getters
 	//////////////////////////////////////
-	public HashMap<String, Integer> getMapNonFinalPrivateProtected() {
-		return mapNonFinalPrivateProtected;
+	
+	public HashMap<String, Integer> getMapClassifiedMethodsNotPrivate() {
+		return mapClassifiedMethodsNotPrivate;
+	}
+	
+	public HashMap<String, Integer> getMapNonFinalPrivateProtectedMethods() {
+		return mapNonFinalPrivateProtectedMethods;
 	}
 
-	public HashMap<String, Integer> getMapClassified() {
-		return mapClassified;
+	public HashMap<String, Integer> getMapClassifiedMethods() {
+		return mapClassifiedMethods;
 	}
 
-	public HashMap<String, Integer> getMapPublic() {
-		return mapPublic;
+	public HashMap<String, Integer> getMapPublicMethods() {
+		return mapPublicMethods;
 	}
 
-	public HashMap<String, Integer> getMapTotal() {
-		return mapTotal;
+	public HashMap<String, Integer> getMapTotalMethods() {
+		return mapTotalMethods;
 	}
 
 	public HashMap<String, Integer> getMapMutatorInteractions() {
@@ -292,26 +330,34 @@ public class PulledValues {
 		return mapClassifiedAttributeInteractions;
 	}
 
+	public HashMap<String, Integer> getMapClassifiedInstanceAttributeNotPrivate() {
+		return mapClassifiedInstanceAttributeNotPrivate;
+	}
+
+	public HashMap<String, Integer> getMapClassifiedClassAttributeNotPrivate() {
+		return mapClassifiedClassAttributeNotPrivate;
+	}
+
 	private void printResults() {
 		System.out.println("==========================================");
 		System.out.println("Non-Final Private or Protected Methods");
 		System.out.println("==========================================");
-		printMap(mapNonFinalPrivateProtected);
+		//printMap(mapNonFinalPrivateProtected);
 
 		System.out.println("==========================================");
 		System.out.println("Classified Methods");
 		System.out.println("==========================================");
-		printMap(mapClassified);
+		//printMap(mapClassified);
 
 		System.out.println("==========================================");
 		System.out.println("Public Methods");
 		System.out.println("==========================================");
-		printMap(mapPublic);
+		//printMap(mapPublic);
 
 		System.out.println("==========================================");
 		System.out.println("Total Methods");
 		System.out.println("==========================================");
-		printMap(mapTotal);
+		//printMap(mapTotal);
 
 		System.out.println("==========================================");
 		System.out.println("Interactions Between Mutators and Attributes");
