@@ -8,88 +8,414 @@
 		<link rel="stylesheet" href="style.css">
     </head>
     <body>
+		<nav class="menu">
+			<ul>
+				<li><a class="link" href="#flexabilityData">Flexability</a></li>
+				<li><a class="link" href="#readabilityData">Readability</a></li>
+				<li><a class="link" href="#functionalityData">Functionality</a></li>
+				<li><a class="link" href="#extendabilityData">Extendability</a></li>
+				<li><a class="link" href="">Effectiveness</a></li>
+				<li><a class="link" href="">Reusability</a></li>
+				<li><a class="link" href="#overallscoreData">Overall Score</a></li>
+			</ul>
+		</nav>
 		<div class="container">
 			<div class="row">
-				<div class="left">
-					<table class="table" cellpadding="10" cellspacing="10">
-						<tr><td>Flexability</td><td id="flexValue">10</td></tr>
-						<tr><td>Readability</td><td id="readValue">20</td></tr>
-						<tr><td>Functionality</td><td id="functValue">60</td></tr>
-						<tr><td>Extendability</td><td id="extendValue">50</td></tr>						
-						<tr><td>Effectiveness</td><td id="effectValue">40</td></tr>
-						<tr><td>Reusability</td><td id="reuseValue">10</td></tr>
-					</table>
-				</div>
-				<div class="right">
-					<div class="circles">
-						<div class="c100 big flexability" id="flexability">
-							<span class="title">Flexability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<div class="c100 big pink readability" id="readability">
-							<span class="title">Readability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<div class="c100 big green reusability" id="reusability">
-							<span class="title">Reusability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<div class="c100 big maroon effectiveness" id="effectiveness">
-							<span class="title">Effectiveness</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<div class="c100 big blue extendability" id="extendability">
-							<span class="title">Extendability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<div class="c100 big skyblue functionality" id="functionality">
-							<span class="title">Functionality</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<div class="c100 big orange overall" id="overall">
-							<span class="title">Overall Score</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
+				<div class="c100 big flexability" id="flexability">
+					<span class="title">Flexability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
 					</div>
 				</div>
-				<script>
-					var flex = parseInt(document.getElementById("flexValue").innerHTML);
-					var read = parseInt(document.getElementById("readValue").innerHTML);
-					var funct = parseInt(document.getElementById("functValue").innerHTML);
-					var extend = parseInt(document.getElementById("extendValue").innerHTML);
-					var effect = parseInt(document.getElementById("effectValue").innerHTML);
-					var reuse = parseInt(document.getElementById("reuseValue").innerHTML);
-					var overall = (flex+read+funct+extend+effect+reuse)/6;
-					document.getElementById("flexability").classList.add("p"+flex);
-					document.getElementById("readability").classList.add("p"+read);
-					document.getElementById("functionality").classList.add("p"+funct);
-					document.getElementById("extendability").classList.add("p"+extend);
-					document.getElementById("effectiveness").classList.add("p"+effect);
-					document.getElementById("reusability").classList.add("p"+reuse);
-					document.getElementById("overall").classList.add("p"+Math.ceil(overall));
-				</script>
+				<div class="c100 big pink readability" id="readability">
+					<span class="title">Readability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
+				<div class="c100 big green reusability" id="reusability">
+					<span class="title">Reusability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
+				<div class="c100 big maroon effectiveness" id="effectiveness">
+					<span class="title">Effectiveness</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
+				<div class="c100 big blue extendability" id="extendability">
+					<span class="title">Extendability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
+				<div class="c100 big skyblue functionality" id="functionality">
+					<span class="title">Functionality</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
+				<div class="c100 big orange overall" id="overall">
+					<span class="title">Overall Score</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>				
 			</div>
 		</div>
+		<div class="tables">
+			<div id="overallscoreData">
+				<h1>Overall Score</h1>
+				<table class="table" cellpadding="10" cellspacing="10">
+					<thead>
+						<tr>
+							<td>Category</td>
+							<td class="textcenter">Score</td>
+							<td class="textcenter">Median</td>
+							<td class="textcenter">Standard Daviation</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Flexability</td>
+							<td class="textcenter" id="flexScoreValue">10</td>
+							<td class="textcenter" id="flexMedianValue">10</td>
+							<td class="textcenter" id="flexValue">10</td>
+						</tr>
+						<tr>
+							<td>Readability</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+						</tr>
+						<tr>
+							<td>Functionality</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+						</tr>
+						<tr>
+							<td>Extendability</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>						
+						<tr>
+							<td>Effectiveness</td>
+							<td class="textcenter" id="effectValue">40</td
+							><td class="textcenter" id="effectValue">40</td>
+							<td class="textcenter" id="effectValue">40</td>
+						</tr>
+						<tr>
+							<td>Reusability</td>
+							<td class="textcenter" id="reuseValue">10</td>
+							<td class="textcenter" id="reuseValue">10</td>
+							<td class="textcenter" id="reuseValue">10</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="flexabilityData">
+				<h1>Flexability</h1>
+				<table class="table" cellpadding="10" cellspacing="10">
+					<thead>
+						<tr>
+							<td>Metric</td>
+							<td class="textcenter">Score</td>
+							<td class="textcenter">Median</td>
+							<td class="textcenter">Standard Daviation</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Encapsulation</td>
+							<td class="textcenter" id="flexScoreValue">10</td>
+							<td class="textcenter" id="flexMedianValue">10</td>
+							<td class="textcenter" id="flexValue">10</td>
+						</tr>
+						<tr>
+							<td>Coupling</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+						</tr>
+						<tr>
+							<td>Composition</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+						</tr>
+						<tr>
+							<td>Polymorphism</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="readabilityData">
+				<h1>Readability</h1>
+				<table class="table" cellpadding="10" cellspacing="10">
+					<thead>
+						<tr>
+							<td>Metric</td>
+							<td class="textcenter">Score</td>
+							<td class="textcenter">Median</td>
+							<td class="textcenter">Standard Daviation</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Abstraction</td>
+							<td class="textcenter" id="flexScoreValue">10</td>
+							<td class="textcenter" id="flexMedianValue">10</td>
+							<td class="textcenter" id="flexValue">10</td>
+						</tr>
+						<tr>
+							<td>Encapsulation</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+						</tr>
+						<tr>
+							<td>Coupling</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+						</tr>
+						<tr>
+							<td>Cohesion</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+						<tr>
+							<td>Polymorphism</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+						<tr>
+							<td>Complexity</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+						<tr>
+							<td>Design Size</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="functionalityData">
+				<h1>Functionality</h1>
+				<table class="table" cellpadding="10" cellspacing="10">
+					<thead>
+						<tr>
+							<td>Metric</td>
+							<td class="textcenter">Score</td>
+							<td class="textcenter">Median</td>
+							<td class="textcenter">Standard Daviation</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Cohesion</td>
+							<td class="textcenter" id="flexScoreValue">10</td>
+							<td class="textcenter" id="flexMedianValue">10</td>
+							<td class="textcenter" id="flexValue">10</td>
+						</tr>
+						<tr>
+							<td>Polymorphism</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+						</tr>
+						<tr>
+							<td>Messaging</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+						</tr>
+						<tr>
+							<td>Design Size</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+						<tr>
+							<td>Hierarchies</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="extendabilityData">
+				<h1>Extendability</h1>
+				<table class="table" cellpadding="10" cellspacing="10">
+					<thead>
+						<tr>
+							<td>Metric</td>
+							<td class="textcenter">Score</td>
+							<td class="textcenter">Median</td>
+							<td class="textcenter">Standard Daviation</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Cohesion</td>
+							<td class="textcenter" id="flexScoreValue">10</td>
+							<td class="textcenter" id="flexMedianValue">10</td>
+							<td class="textcenter" id="flexValue">10</td>
+						</tr>
+						<tr>
+							<td>Polymorphism</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+						</tr>
+						<tr>
+							<td>Messaging</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+						</tr>
+						<tr>
+							<td>Design Size</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+						<tr>
+							<td>Hierarchies</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="effectivenessData">
+				<h1>Effectiveness</h1>
+				<table class="table" cellpadding="10" cellspacing="10">
+					<thead>
+						<tr>
+							<td>Metric</td>
+							<td class="textcenter">Score</td>
+							<td class="textcenter">Median</td>
+							<td class="textcenter">Standard Daviation</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Abstraction</td>
+							<td class="textcenter" id="flexScoreValue">10</td>
+							<td class="textcenter" id="flexMedianValue">10</td>
+							<td class="textcenter" id="flexValue">10</td>
+						</tr>
+						<tr>
+							<td>Encapsulation</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+						</tr>
+						<tr>
+							<td>Composition</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+						</tr>
+						<tr>
+							<td>Inheritance</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+						<tr>
+							<td>Polymorphism</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="reusabilityData">
+				<h1>Reusability</h1>
+				<table class="table" cellpadding="10" cellspacing="10">
+					<thead>
+						<tr>
+							<td>Metric</td>
+							<td class="textcenter">Score</td>
+							<td class="textcenter">Median</td>
+							<td class="textcenter">Standard Daviation</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Coupling</td>
+							<td class="textcenter" id="flexScoreValue">10</td>
+							<td class="textcenter" id="flexMedianValue">10</td>
+							<td class="textcenter" id="flexValue">10</td>
+						</tr>
+						<tr>
+							<td>Cohesion</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+							<td class="textcenter" id="readValue">20</td>
+						</tr>
+						<tr>
+							<td>Messaging</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+							<td class="textcenter" id="functValue">60</td>
+						</tr>
+						<tr>
+							<td>Design Size</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+							<td class="textcenter" id="extendValue">50</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script>
+			var flex = parseInt(document.getElementById("flexValue").innerHTML);
+			var read = parseInt(document.getElementById("readValue").innerHTML);
+			var funct = parseInt(document.getElementById("functValue").innerHTML);
+			var extend = parseInt(document.getElementById("extendValue").innerHTML);
+			var effect = parseInt(document.getElementById("effectValue").innerHTML);
+			var reuse = parseInt(document.getElementById("reuseValue").innerHTML);
+			var overall = (flex+read+funct+extend+effect+reuse)/6;
+			document.getElementById("flexability").classList.add("p"+flex);
+			document.getElementById("readability").classList.add("p"+read);
+			document.getElementById("functionality").classList.add("p"+funct);
+			document.getElementById("extendability").classList.add("p"+extend);
+			document.getElementById("effectiveness").classList.add("p"+effect);
+			document.getElementById("reusability").classList.add("p"+reuse);
+			document.getElementById("overall").classList.add("p"+Math.ceil(overall));
+		</script>
     </body>
 </html>
