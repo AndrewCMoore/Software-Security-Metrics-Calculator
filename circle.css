@@ -232,6 +232,21 @@
   margin: 0 0.1em 0.1em 0;
   background-color: #cccccc;
 }
+.c100  .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  font-size: 16px;
+}
+.c100:hover .tooltiptext {
+  visibility: visible;
+}
 .c100 *,
 .c100 *:before,
 .c100 *:after {
@@ -245,6 +260,9 @@
 }
 .c100.big {
   font-size: 150px;
+}
+.c100.bigger {
+  font-size: 200px;
 }
 .c100.small {
   font-size: 80px;
