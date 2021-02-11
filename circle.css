@@ -244,6 +244,26 @@
   z-index: 1;
   font-size: 16px;
 }
+.tooltiptext-category
+{
+	left: 100%;
+	top: 70px;
+}
+.tooltiptext-overall
+{
+	left: 100%;
+	top: 86px;
+}
+.c100 .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #555 transparent transparent;
+}
 .c100:hover .tooltiptext {
   visibility: visible;
 }
@@ -259,7 +279,7 @@
   margin: 0 auto;
 }
 .c100.big {
-  font-size: 150px;
+  font-size: 170px;
 }
 .c100.bigger {
   font-size: 200px;
