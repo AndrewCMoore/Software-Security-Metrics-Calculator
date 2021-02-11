@@ -44,51 +44,51 @@ ul li
 .row
 {
 	width: 50%;
-	min-height: 600px;
+	min-height: 650px;
 	margin: 0 auto;
 	position: relative;	
 }
 
 .overall
 {
-	left: 175px;
-	top: 220px;
+	left: 190px;
+	top: 240px;
 	position: absolute;
 }
 .flexability
 {
-	top: 50px;
-	left: 200px;
+	top: 40px;
+	left: 205px;
 	position: absolute;
 }
 .readability
 {
-	left: 370px;
-	top: 160px;
+	top: 145px;
+	left: 395px;	
 	position: absolute;
 }
 .reusability
 {
-	top: 160px;
-	left: 30px;
+	top: 145px;
+	left: 15px;
 	position: absolute;
 }
 .effectiveness
 {
-	top: 320px;
-	left: 30px;
+	top: 355px;
+	left: 15px;
 	position: absolute;
 }
 .extendability
 {
-	left: 200px;
-	top: 440px;
+	left: 205px;
+	top: 465px;
 	position: absolute;
 }
 .functionality
 {
-	left: 370px;
-	top: 320px;
+	top: 355px;
+	left: 395px;	
 	position: absolute;
 }
 .tables
