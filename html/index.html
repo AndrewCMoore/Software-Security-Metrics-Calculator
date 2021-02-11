@@ -126,6 +126,7 @@
 				<td>.2</td>
 			</tr>
 		</table>
+		
 		<h3>Reusability Overview</h3>
 		<table>
 			<tr class="tableHead">
@@ -159,6 +160,45 @@
 				<td>.2</td>
 			</tr>
 		</table>
+		<div>
+			<h3><button id="flex" onclick="collapse()">Flexability Breakdown</button></h3>
+		</div>
+		<div id = "flexSection" class="open">
+			<h4>Messaging</h4>
+			<table>
+			<tr class="tableHead">
+				<th>Metric</th>
+				<th>Score</th>
+				<th>Median</th>
+				<th>Standard Deviation</th>
+			</tr>
+			<tr>
+				<th>Encapsulation</th>
+				<td>45</th>
+				<td>45</td>
+				<td>.2</td>
+			</tr>
+			<tr>
+				<th>Coupling</th>
+				<td>45</th>
+				<td>45</td>
+				<td>.2</td>
+			</tr>
+			<tr>
+				<th>Composition</th>
+				<td>45</th>
+				<td>45</td>
+				<td>.2</td>
+			</tr>
+			<tr>
+				<th>Polymorphism</th>
+				<td>45</th>
+				<td>45</td>
+				<td>.2</td>
+			</tr>
+		</table>
+		
+		</div>
 		<h3>Flexability Overview</h3>
 		<table>
 			<tr class="tableHead">
@@ -362,4 +402,21 @@
 		</table>
 	</div>
 </body>
+	<script>
+		function collapse(){
+			button = event.target;
+			console.log(button)
+			console.log(button.getAttribute('id')+"Section");
+			section = document.getElementById(button.getAttribute('id')+"Section");
+			console.log(section);
+			if(section.classList.contains('close')){
+				section.classList.remove('close');
+				section.classList.add('open');
+			}else if(section.classList.contains('open')){
+				section.classList.remove('open');
+				section.classList.add('close');
+			}
+			
+		}
+	</script>
 </html>

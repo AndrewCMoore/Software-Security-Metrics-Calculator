@@ -133,3 +133,9 @@ h2{
 h3{
 	text-align:center
 }
+.open{
+	display:block;
+}
+.close{
+	display:none;
+}
