@@ -9,7 +9,8 @@
 </head>
 <body>
 	<nav class="navbar">
-		<ul class="line">
+		<button class="navButton" onclick="expand()">Open Menu</button>
+		<ul id="navBar" class="line collapse">
 			<li class="lineItem"><a>Flexability</a></li>
 			<li class="lineItem"><a>Readability</a></li>
 			<li class="lineItem"><a>Reusability</a></li>
@@ -415,6 +416,18 @@
 			}else if(section.classList.contains('open')){
 				section.classList.remove('open');
 				section.classList.add('close');
+			}
+			
+		}
+		function expand(){
+			section = document.getElementById("navBar");
+			console.log(section);
+			if(section.classList.contains('collapse')){
+				section.classList.remove('collapse');
+				section.classList.add('expand');
+			}else if(section.classList.contains('expand')){
+				section.classList.remove('expand');
+				section.classList.add('collapse');
 			}
 			
 		}
