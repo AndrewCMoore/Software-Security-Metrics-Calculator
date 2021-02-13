@@ -82,6 +82,14 @@
 		<div class="tables">
 			<div id="overallscoreData">
 				<h1>Overall Score</h1>
+				<div class="c100 bigger orange overall" id="overall1" style="position: relative; top: 0;">
+					<div class="tooltiptext tooltiptext-overall">Overall Score</div>
+					<span class="title">Overall Score</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
 				<table class="table" cellpadding="10" cellspacing="10">
 					<thead>
 						<tr>
@@ -134,6 +142,14 @@
 			
 			<div id="flexabilityData">
 				<h1>Flexability</h1>
+				<div class="c100 big flexability" id="flexability1" style="position: relative; top: 0;">
+					<div class="tooltiptext tooltiptext-category">Flexability</div>
+					<span class="title">Flexability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
 				<table class="table" cellpadding="10" cellspacing="10">
 					<thead>
 						<tr>
@@ -174,6 +190,14 @@
 			
 			<div id="readabilityData">
 				<h1>Readability</h1>
+				<div class="c100 big pink readability" id="readability1" style="position: relative; top: 0; 0; left: 200px;">
+					<div class="tooltiptext tooltiptext-category">Readability</div>
+					<span class="title">Readability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
 				<table class="table" cellpadding="10" cellspacing="10">
 					<thead>
 						<tr>
@@ -232,6 +256,14 @@
 			
 			<div id="functionalityData">
 				<h1>Functionality</h1>
+				<div class="c100 big skyblue functionality" id="functionality1" style="position: relative; top: 0; left: 200px;">
+					<div class="tooltiptext tooltiptext-category">Functionality</div>
+					<span class="title">Functionality</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
 				<table class="table" cellpadding="10" cellspacing="10">
 					<thead>
 						<tr>
@@ -278,6 +310,14 @@
 			
 			<div id="extendabilityData">
 				<h1>Extendability</h1>
+				<div class="c100 big blue extendability" id="extendability1" style="position: relative; top: 0;">
+					<div class="tooltiptext tooltiptext-category">Extendability</div>
+					<span class="title">Extendability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
 				<table class="table" cellpadding="10" cellspacing="10">
 					<thead>
 						<tr>
@@ -324,6 +364,14 @@
 			
 			<div id="effectivenessData">
 				<h1>Effectiveness</h1>
+				<div class="c100 big maroon effectiveness" id="effectiveness1" style="position: relative; top: 0; left: 200px;">
+					<div class="tooltiptext tooltiptext-category">Effectiveness</div>
+					<span class="title">Effectiveness</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
 				<table class="table" cellpadding="10" cellspacing="10">
 					<thead>
 						<tr>
@@ -370,6 +418,14 @@
 			
 			<div id="reusabilityData">
 				<h1>Reusability</h1>
+				<div class="c100 big green reusability" id="reusability1" style="position: relative; top: 0; left: 200px;">
+					<div class="tooltiptext tooltiptext-category">Reusability</div>
+					<span class="title">Reusability</span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
 				<table class="table" cellpadding="10" cellspacing="10">
 					<thead>
 						<tr>
@@ -417,12 +473,19 @@
 			var reuse = parseInt(document.getElementById("reuseValue").innerHTML);
 			var overall = (flex+read+funct+extend+effect+reuse)/6;
 			document.getElementById("flexability").classList.add("p"+flex);
+			document.getElementById("flexability1").classList.add("p"+flex);
 			document.getElementById("readability").classList.add("p"+read);
+			document.getElementById("readability1").classList.add("p"+read);
 			document.getElementById("functionality").classList.add("p"+funct);
+			document.getElementById("functionality1").classList.add("p"+funct);
 			document.getElementById("extendability").classList.add("p"+extend);
+			document.getElementById("extendability1").classList.add("p"+extend);
 			document.getElementById("effectiveness").classList.add("p"+effect);
+			document.getElementById("effectiveness1").classList.add("p"+effect);
 			document.getElementById("reusability").classList.add("p"+reuse);
+			document.getElementById("reusability1").classList.add("p"+reuse);
 			document.getElementById("overall").classList.add("p"+Math.ceil(overall));
+			document.getElementById("overall1").classList.add("p"+Math.ceil(overall));
 		</script>
     </body>
 </html>
