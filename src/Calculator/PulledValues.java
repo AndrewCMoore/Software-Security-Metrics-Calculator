@@ -32,6 +32,7 @@ public class PulledValues {
 	private HashMap<String, Integer> mapClassifiedInstanceAttributeNotPrivate = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapClassifiedClassAttributeNotPrivate = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapClassifiedMethodsNotPrivate = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapStrictComplexity = new HashMap<String, Integer>();
 	
 	public PulledValues(JDTree[] classes) {
 		calculate(classes);
@@ -59,6 +60,7 @@ public class PulledValues {
 			int classifiedInstanceAttributeNotPrivate = 0;
 			int classifiedClassAttributeNotPrivate = 0;
 			int classifiedMethodsNotPrivate = 0;
+			int strictComplexity = 0;
 			
 			Object o = classes[i].getNode();	
 			if(o instanceof Class) {			
@@ -76,6 +78,7 @@ public class PulledValues {
 						writesClassifiedAttributes += writesClassifiedAttributes(method);
 						accessClassifiedNeverCalled += accessClassifiedNeverCalled(method);
 						classifiedMethodsNotPrivate += isClassifiedMethodNotPrivate(method);
+						strictComplexity += strictComplexity(method);
 					}
 				} 
 				for(Attribute attribute : attributeList) { 
@@ -115,9 +118,9 @@ public class PulledValues {
 				mapClassifiedInstanceAttributeNotPrivate.put(classNode.getIdentifier(), classifiedInstanceAttributeNotPrivate);
 				mapClassifiedClassAttributeNotPrivate.put(classNode.getIdentifier(), classifiedClassAttributeNotPrivate);
 				mapClassifiedMethodsNotPrivate.put(classNode.getIdentifier(), classifiedMethodsNotPrivate);
+				mapStrictComplexity.put(classNode.getIdentifier(), strictComplexity);
 			}
 		}
-		
 	}
 	
 	private int isClassifiedMethodNotPrivate(Method method) {
@@ -244,6 +247,11 @@ public class PulledValues {
 			}
 		}
 		return 0;
+	}
+	
+	private int strictComplexity(Method method) {
+		System.out.println(method.getIdentifier() + " has complexity: " + method.getMethodComplexity());
+		return method.getMethodComplexity();
 	}
 	
 	//////////////////////////////////////
@@ -404,5 +412,9 @@ public class PulledValues {
 		for(String key : map.keySet()) {
 			System.out.println(key + ": " + map.get(key) + ", ");
 		}
+	}
+
+	public HashMap<String, Integer> getMapStrictComplexity() {
+		return mapStrictComplexity;
 	}
 }

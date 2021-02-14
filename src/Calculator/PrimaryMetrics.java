@@ -23,6 +23,10 @@ public class PrimaryMetrics {
 	private int stallRatio;
 	private HashMap<String,Float> couplingCorruptionPropagation = new HashMap<String,Float>();
 	private HashMap<String,Float> couplingBetweenObjects = new HashMap<String,Float>();
+	private HashMap<String, Double> failSafeDefaults = new HashMap<String, Double>();
+	private HashMap<String, Double> reduceAttackSurface = new HashMap<String, Double>();
+	private int economyOfMechanism = 0;
+	private HashMap<String, Integer> strictCyclomaticComplexity = new HashMap<String, Integer>();
 	
 	public PrimaryMetrics(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		// TODO Auto-generated constructor stub
@@ -38,9 +42,17 @@ public class PrimaryMetrics {
 
 	public void averageNumberOfAncestor(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
-	public void failSafeDefaults (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void failSafeDefaults (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: sm.getReadabilityOfClassifiedAttributes().keySet()) {
+			failSafeDefaults.put(key, sm.getReadabilityOfClassifiedAttributes().get(key) + sm.getReadabilityOfClassifiedMethods().get(key));
+		}
+	}
 	
-	public void reduceAttackSurface (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void reduceAttackSurface (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: sm.getReadabilityOfClassifiedAttributes().keySet()) {
+			reduceAttackSurface .put(key, sm.getReadabilityOfClassifiedAttributes().get(key) + sm.getReadabilityOfClassifiedMethods().get(key) + sm.getReadabilityOfCriticalClasses());
+		}
+	}
 	
 	//###########################################################################################################################################################	
 	//Cohesion Metrics
@@ -109,7 +121,7 @@ public class PrimaryMetrics {
 	
 	//CAT + CMT + CCT
 	public void economyOfMechanisum (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		
+		economyOfMechanism  = sm.getSecurityAbsoluteMeasurements();
 	}
 	
 	public void essentialCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
@@ -137,7 +149,9 @@ public class PrimaryMetrics {
 		numberOfMethods = mpv.getMethodsInClass();
 	}
 	
-	public void strictCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void strictCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		strictCyclomaticComplexity  = pv.getMapStrictComplexity();
+	}
 	
 	public void secureWeakestLink (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
@@ -155,7 +169,7 @@ public class PrimaryMetrics {
 	//Composition Metrics
 	//###########################################################################################################################################################
 
-	public void measureOfAggregtion (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void measureOfAggregation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
 	//###########################################################################################################################################################	
 	//Coupling Metrics

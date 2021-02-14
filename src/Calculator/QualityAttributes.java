@@ -113,6 +113,4 @@ public class QualityAttributes {
 		}
 		return sum/count;
 	}
-	
-
 }

@@ -14,7 +14,8 @@ public class TertiaryMetrics {
 	private HashMap<String, Float> classifiedWritingMethodsProportion = new HashMap<String, Float>();
 	private HashMap<String, Float> uncalledClassifiedAccessorMethod = new HashMap<String, Float>();
 	private HashMap<String, Float> classifiedMethodsInheritance = new HashMap<String, Float>(); //CMI metric.
-	//private HashMap<String, Float> unaccessedAssignedClassifiedAttribute = new HashMap<String, Float>();
+	private HashMap<String, Float> classifiedAttributesInheritance = new HashMap<String, Float>();
+	private HashMap<String, Float> unaccessedAssignedClassifiedAttribute = new HashMap<String, Float>();
 	private int classifiedAttributesTotal = 0;
 	private int classifiedMethodsTotal = 0;
 	private int criticalClassesTotal = 0;
@@ -319,6 +320,14 @@ public class TertiaryMetrics {
 	
 	public float getReflectionPackageBoolean() {
 		return reflectionPackageBoolean;
+	}
+
+	public HashMap<String, Float> getClassifiedAttributesInheritance() {
+		return classifiedAttributesInheritance;
+	}
+
+	public HashMap<String, Float> getUnaccessedAssignedClassifiedAttribute() {
+		return unaccessedAssignedClassifiedAttribute;
 	}
 	
 
