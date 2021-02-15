@@ -28,9 +28,12 @@ public class DesignPrincipals {
 		polymorphism(pm);
 		hierarchies(pm);
 	}
-
+	
+	//none of these are correct, just placeholders
 	private void hierarchies(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
+		for (String key: pm.getReduceAttackSurface().keySet()) {
+			hierarchies.put(key, (float) 1);
+		}
 		
 	}
 
@@ -85,46 +88,57 @@ public class DesignPrincipals {
 	}
 
 	public HashMap<String, Float> getAbstraction() {
-		return abstraction;
+		//return abstraction;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getCohesion() {
-		return cohesion;
+		//return cohesion;
+		return hierarchies;
 	}
 	
 	public HashMap<String, Float> getComplexity() {
-		return complexity;
+		//return complexity;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getComposition() {
-		return composition;
+		//return composition;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getCoupling() {
-		return coupling;
+		//return coupling;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getDesignSize() {
-		return designSize;
+		//return designSize;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getEncapsulation() {
-		return encapsulation;
+		//return encapsulation;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getInheritance() {
-		return inheritance;
+		//return inheritance;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getMessaging() {
-		return messaging;
+		//return messaging;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getPolymorphism() {
-		return polymorphism;
+		//return polymorphism;
+		return hierarchies;
 	}
 
 	public HashMap<String, Float> getHierarchies() {
+		//return hierarchies;
 		return hierarchies;
 	}
 	

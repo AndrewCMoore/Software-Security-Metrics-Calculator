@@ -472,7 +472,11 @@ public class Method {
 	 */
 	public int getMethodComplexity() {
 		// Method complexity starts at 1
-		int complexity = 1;
+		int strictComplexity = 1;
+		int essentialComplexity = 1;
+		int modifiedComplexity = 1;
+		int cyclomaticComplexity = 1;
+		
 		// Initialize the number of return statments to 0
 		int numOfReturnStatements = 0;
 		// For each Statement in Method
@@ -485,20 +489,20 @@ public class Method {
 			//The complexity of the Method is the sum of the current 
 			//complexity plus the Statment's complexity
 			System.out.println("statement: " + s.getComplexity());
-			complexity += s.getComplexity();
+			strictComplexity += s.getComplexity();
 		}
 		// if the method is a void type
 		if(isVoid) {
 			// add complexity equal to the number of return statements in the method
-			complexity += numOfReturnStatements;
+			strictComplexity += numOfReturnStatements;
 		} 
 		// if the method is any other type
 		else {
 			// add complexity equal to the number of return statments beyond the first
-			complexity += numOfReturnStatements - 1;
+			strictComplexity += numOfReturnStatements - 1;
 		}
 		// return complexity
-		return complexity;
+		return strictComplexity;
 	}
 		
 }

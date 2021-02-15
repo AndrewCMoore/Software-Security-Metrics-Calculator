@@ -624,7 +624,7 @@ public class MurgePulledValues {
 	//V(C) = SUM of ALL INSTANCE Variables PV (class level PV)
 	public HashMap<String,Integer> getSumOfAllInstanceVaribles() {
 		//.put String classNode.getIdentifier,sum Int sum pauls stuff /per class
-		return null;
+		return getSumOfAllInstanceMethodsInClass();
 	}
 	
 	//M( C)= SUM of all  INSTANCE methods (non static / final methods, abstract methods) PV
@@ -635,7 +635,7 @@ public class MurgePulledValues {
 	//this did not work, i need to redo it.
 	//E( C) = SET (no duplicates)  # pairs of (v,m) for each instance var v used by method m PV
 	public HashMap<String, Integer> EC() {
-		return null;
+		return getSumOfAllInstanceMethodsInClass();
 	}
 
 	//total # of lines PV

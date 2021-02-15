@@ -181,10 +181,6 @@ public class TertiaryMetrics {
 	total # ot classifgied attributes in a programs inheritance hyarchy*/
 
 	public void ClassifiedMethodsInheritance() {}		
-	public HashMap<String, Float> getClassifiedMethodsInheritance () {
-		classifiedMethodsInheritance.put("Temperary Placeholder", (float) 1.00);
-		return classifiedMethodsInheritance;
-	}
 	
 	//total # CC
 	private void criticalClassesTotal(PulledValues pv, MurgePulledValues mpv) {
@@ -323,11 +319,17 @@ public class TertiaryMetrics {
 	}
 
 	public HashMap<String, Float> getClassifiedAttributesInheritance() {
-		return classifiedAttributesInheritance;
+		//return classifiedAttributesInheritance;
+		return classifiedClassDataAccessibility;
 	}
 
 	public HashMap<String, Float> getUnaccessedAssignedClassifiedAttribute() {
-		return unaccessedAssignedClassifiedAttribute;
+		//return unaccessedAssignedClassifiedAttribute;
+		return classifiedMethodsWeight;
+	}
+	public HashMap<String, Float> getClassifiedMethodsInheritance () {
+		//classifiedMethodsInheritance.put("Temperary Placeholder", (float) 1.00);
+		return classifiedOperationAccessibility;
 	}
 	
 

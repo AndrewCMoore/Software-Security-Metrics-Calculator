@@ -29,10 +29,48 @@ public class PrimaryMetrics {
 	private HashMap<String, Integer> strictCyclomaticComplexity = new HashMap<String, Integer>();
 	
 	public PrimaryMetrics(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		// TODO Auto-generated constructor stub
-		//averageNumberOfAncestor(sm);
-		
-		
+		averageNumberOfAncestor(pv, sm, mpv);
+		failSafeDefaults(pv, sm, mpv);
+		reduceAttackSurface(pv, sm, mpv);
+		//lackOfCohesionOfMethods(pv, sm, mpv);
+		//cohesionAmongMethodsInClass(pv, sm, mpv);
+		commentRatio(pv, sm, mpv);
+		countBaseClasses(pv, sm, mpv);
+		cyclomaticComplexity(pv, sm, mpv);
+		depthOfInheritanceTree(pv, sm, mpv);
+		countPath(pv, sm, mpv);
+		economyOfMechanism(pv, sm, mpv);
+		essentialCyclomaticComplexity(pv, sm, mpv);
+		mcCabesCyclomaticComplexity(pv, sm, mpv);
+		modifiedCyclomaticComplexity(pv, sm, mpv);
+		nestingComplexity(pv, sm, mpv);
+		numberOfChildren(pv, sm, mpv);
+		numberOfMethods(pv, sm, mpv);
+		strictCyclomaticComplexity(pv, sm, mpv);
+		secureWeakestLink(pv, sm, mpv);
+		weightedMethodsPerClass(pv, sm, mpv);
+		SourceLinesOfCode(pv, sm, mpv);
+		measureOfAggregation(pv, sm, mpv);
+		countOfBaseClasses(pv, sm, mpv);
+		couplingBetweenObjects(pv, sm, mpv);
+		couplingCorruptionPropagation(pv, sm, mpv);
+		depthOfInheritace(pv, sm, mpv);
+		directClassCoupling(pv, sm, mpv);
+		fanIn(pv, sm, mpv);
+		fanOut(pv, sm, mpv);
+		henryKafura(pv, sm, mpv);
+		responceSetForaClass(pv, sm, mpv);
+		designSizeInClasses(pv, sm, mpv);
+		stallRatio(pv, sm, mpv);
+		criticalElementRatio(pv, sm, mpv);
+		dataAccessMetric(pv, sm, mpv);
+		grantLeastPrivilege(pv, sm, mpv);
+		isolation(pv, sm, mpv);
+		leastCommomMechanism(pv, sm, mpv);
+		numberOfHierarchies(pv, sm, mpv);
+		measureOfFunctionalAbtraction(pv, sm, mpv);
+		classInterfaceSize(pv, sm, mpv);
+		numberOfPolymorphicMethods(pv, sm, mpv);
 	}
 	
 	
@@ -120,7 +158,7 @@ public class PrimaryMetrics {
 	public void countPath (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
 	//CAT + CMT + CCT
-	public void economyOfMechanisum (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+	public void economyOfMechanism (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		economyOfMechanism  = sm.getSecurityAbsoluteMeasurements();
 	}
 	
@@ -227,13 +265,13 @@ public class PrimaryMetrics {
 
 	public void criticalElementRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
-	public void dataAcsessMetric (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void dataAccessMetric (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
 	public void grantLeastPrivilege (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 		
 	public void isolation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
-	public void leastCommomMechanisum (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void leastCommomMechanism (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
 	//
 	public void numberOfHierarchies (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -273,6 +311,98 @@ public class PrimaryMetrics {
 	
 	public int getSourceLinesOfCode() {
 		return this.sourceLinesOfCode;
+	}
+
+
+	public HashMap<String, Float> getCommentRatio() {
+		return commentRatio;
+	}
+
+
+	public HashMap<String, HashMap<String, Integer>> getNestingComplexity() {
+		return nestingComplexity;
+	}
+
+
+	public HashMap<String, Integer> getNumberOfChildren() {
+		return numberOfChildren;
+	}
+
+
+	public HashMap<String, Integer> getNumberOfMethods() {
+		return numberOfMethods;
+	}
+
+
+	public int getNumberOfHierarchies() {
+		return numberOfHierarchies;
+	}
+
+
+	public int getCountOfBaseClasses() {
+		return countOfBaseClasses;
+	}
+
+
+	public int getNumberofClasses() {
+		return numberofClasses;
+	}
+
+
+	public HashMap<String, Integer> getLackOfCohesionOfMethods() {
+		//return lackOfCohesionOfMethods;
+		return numberOfMethods;
+	}
+
+
+	public HashMap<String, Integer> getCohesionAmongMethodsInClass() {
+		//return cohesionAmongMethodsInClass;
+		return numberOfMethods;
+	}
+
+
+	public HashMap<String, Float> getMeasureOfFunctionalAbtraction() {
+		return measureOfFunctionalAbtraction;
+	}
+
+
+	public HashMap<String, HashMap<String, Integer>> getLengthOfMethod() {
+		return lengthOfMethod;
+	}
+
+
+	public int getStallRatio() {
+		return stallRatio;
+	}
+
+
+	public HashMap<String, Float> getCouplingCorruptionPropagation() {
+		return couplingCorruptionPropagation;
+	}
+
+
+	public HashMap<String, Float> getCouplingBetweenObjects() {
+		return couplingBetweenObjects;
+	}
+
+
+	public HashMap<String, Double> getFailSafeDefaults() {
+		return failSafeDefaults;
+	}
+
+
+	public HashMap<String, Double> getReduceAttackSurface() {
+		return reduceAttackSurface;
+	}
+
+
+	public int getEconomyOfMechanism() {
+		return economyOfMechanism;
+	}
+
+
+	public HashMap<String, Integer> getStrictCyclomaticComplexity() {
+		return strictCyclomaticComplexity;
 	}
 	
 }
