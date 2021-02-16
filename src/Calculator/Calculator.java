@@ -21,6 +21,13 @@ public class Calculator {
 	
 	private JDTree tree;
 	private JDTree[] classes;
+	private MurgePulledValues mpv;
+	private PulledValues pv;
+	private TertiaryMetrics tm;
+	private SecondaryMetrics sm;
+	private PrimaryMetrics pm;
+	private DesignPrincipals dp;
+	private QualityAttributes qa;
 	
 	/**
 	* The constructor takes the JDT tree, gets the 
@@ -44,12 +51,44 @@ public class Calculator {
 		//ComplexityMetrics statements = new ComplexityMetrics(classes);
 		//ClassMetrics cm = new ClasseMetrics(classes);
 		//InheritanceMetrics im = new InheritanceMetrics(classes);
-		MurgePulledValues mpv = new MurgePulledValues(classes);
-		PulledValues pv = new PulledValues(classes);
-		TertiaryMetrics tm = new TertiaryMetrics(pv, mpv);
-		SecondaryMetrics sm = new SecondaryMetrics(tm);
-		PrimaryMetrics pm = new PrimaryMetrics(pv,sm,mpv);
-		DesignPrincipals dp = new DesignPrincipals(pm);
-		QualityAttributes qa = new QualityAttributes(dp);
+		mpv = new MurgePulledValues(classes);
+		pv = new PulledValues(classes);
+		tm = new TertiaryMetrics(pv, mpv);
+		sm = new SecondaryMetrics(tm);
+		pm = new PrimaryMetrics(pv,sm,mpv);
+		dp = new DesignPrincipals(pm);
+		qa = new QualityAttributes(dp);
 	}
+
+	public MurgePulledValues getMurgePulledValues() {
+		return mpv;
+	}
+
+	public PulledValues getPulledValues() {
+		return pv;
+	}
+
+	public TertiaryMetrics getTertiaryMetrics() {
+		return tm;
+	}
+
+	public SecondaryMetrics getSecondaryMetrics() {
+		return sm;
+	}
+
+	public PrimaryMetrics getPrimaryMetrics() {
+		return pm;
+	}
+
+	public DesignPrincipals getDesignPrincipals() {
+		return dp;
+	}
+
+	public QualityAttributes getQualityAttributes() {
+		return qa;
+	}
+	
+	
+	
+	
 }
