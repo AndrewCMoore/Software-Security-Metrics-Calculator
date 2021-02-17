@@ -1,5 +1,6 @@
 package ssmc.handlers;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -21,6 +22,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import Calculator.Calculator;
+import Report_Generation.generateCSV;
 import tree.JDTree;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -115,6 +117,13 @@ public class ButtonHandler extends AbstractHandler {
 			Calculator calc = new Calculator(myTree);
 			//start calculating metrics
 			calc.calculate();
+			
+			try {
+				generateCSV CSV = new generateCSV(project, calc);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		// The JDTree class takes over from here
