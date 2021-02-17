@@ -234,7 +234,7 @@
 }
 .c100  .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 100px;
   background-color: black;
   color: #fff;
   text-align: center;
@@ -242,17 +242,17 @@
   border-radius: 6px;
   position: absolute;
   z-index: 1;
-  font-size: 16px;
+  font-size: 14px;
 }
 .tooltiptext-category
 {
 	left: 100%;
-	top: 70px;
+	top: 50px;
 }
 .tooltiptext-overall
 {
 	left: 100%;
-	top: 86px;
+	top: 66px;
 }
 .c100 .tooltiptext::after {
   content: "";
@@ -279,13 +279,21 @@
   margin: 0 auto;
 }
 .c100.big {
-  font-size: 170px;
+  font-size: 120px !important;
 }
 .c100.bigger {
-  font-size: 200px;
+  font-size: 150px;
 }
 .c100.small {
   font-size: 80px;
+}
+.c100.besides
+{
+	font-size: 150px !important;
+}
+.c100.besidesOverall
+{
+	font-size: 170px !important;
 }
 .c100 > span {
   position: absolute;

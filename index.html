@@ -81,68 +81,72 @@
 		</div>
 		<div class="tables">
 			<div id="overallscoreData">
-				<h1>Overall Score</h1>
-				<div class="c100 bigger orange overall" id="overall1" style="position: relative; top: 0;">
-					<div class="tooltiptext tooltiptext-overall">Overall Score</div>
-					<span class="title">Overall Score</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
+				<button class="accordion">Overall Score</button>
+				<div class="panel">
+					<div style="padding: 20px;">
+					<div class="c100 bigger orange overall besidesOverall" id="overall1" style="position: relative; top: 0;">
+						<div class="tooltiptext tooltiptext-overall">Overall Score</div>
+						<span class="title">Overall Score</span>
+						<div class="slice">
+							<div class="bar"></div>
+							<div class="fill"></div>
+						</div>
+					</div>				
+					<table class="table" cellpadding="10" cellspacing="10">
+						<thead>
+							<tr>
+								<td>Category</td>
+								<td class="textcenter">Score</td>
+								<td class="textcenter">Median</td>
+								<td class="textcenter">Standard Daviation</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Flexability</td>
+								<td class="textcenter" id="flexScoreValue">10</td>
+								<td class="textcenter" id="flexMedianValue">10</td>
+								<td class="textcenter" id="flexValue">10</td>
+							</tr>
+							<tr>
+								<td>Readability</td>
+								<td class="textcenter" id="readValue">20</td>
+								<td class="textcenter" id="readValue">20</td>
+								<td class="textcenter" id="readValue">20</td>
+							</tr>
+							<tr>
+								<td>Functionality</td>
+								<td class="textcenter" id="functValue">60</td>
+								<td class="textcenter" id="functValue">60</td>
+								<td class="textcenter" id="functValue">60</td>
+							</tr>
+							<tr>
+								<td>Extendability</td>
+								<td class="textcenter" id="extendValue">50</td>
+								<td class="textcenter" id="extendValue">50</td>
+								<td class="textcenter" id="extendValue">50</td>
+							</tr>						
+							<tr>
+								<td>Effectiveness</td>
+								<td class="textcenter" id="effectValue">40</td
+								><td class="textcenter" id="effectValue">40</td>
+								<td class="textcenter" id="effectValue">40</td>
+							</tr>
+							<tr>
+								<td>Reusability</td>
+								<td class="textcenter" id="reuseValue">10</td>
+								<td class="textcenter" id="reuseValue">10</td>
+								<td class="textcenter" id="reuseValue">10</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-				<table class="table" cellpadding="10" cellspacing="10">
-					<thead>
-						<tr>
-							<td>Category</td>
-							<td class="textcenter">Score</td>
-							<td class="textcenter">Median</td>
-							<td class="textcenter">Standard Daviation</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Flexability</td>
-							<td class="textcenter" id="flexScoreValue">10</td>
-							<td class="textcenter" id="flexMedianValue">10</td>
-							<td class="textcenter" id="flexValue">10</td>
-						</tr>
-						<tr>
-							<td>Readability</td>
-							<td class="textcenter" id="readValue">20</td>
-							<td class="textcenter" id="readValue">20</td>
-							<td class="textcenter" id="readValue">20</td>
-						</tr>
-						<tr>
-							<td>Functionality</td>
-							<td class="textcenter" id="functValue">60</td>
-							<td class="textcenter" id="functValue">60</td>
-							<td class="textcenter" id="functValue">60</td>
-						</tr>
-						<tr>
-							<td>Extendability</td>
-							<td class="textcenter" id="extendValue">50</td>
-							<td class="textcenter" id="extendValue">50</td>
-							<td class="textcenter" id="extendValue">50</td>
-						</tr>						
-						<tr>
-							<td>Effectiveness</td>
-							<td class="textcenter" id="effectValue">40</td
-							><td class="textcenter" id="effectValue">40</td>
-							<td class="textcenter" id="effectValue">40</td>
-						</tr>
-						<tr>
-							<td>Reusability</td>
-							<td class="textcenter" id="reuseValue">10</td>
-							<td class="textcenter" id="reuseValue">10</td>
-							<td class="textcenter" id="reuseValue">10</td>
-						</tr>
-					</tbody>
-				</table>
+				</div>
 			</div>
 			
 			<div id="flexabilityData">
 				<h1>Flexability</h1>
-				<div class="c100 big flexability" id="flexability1" style="position: relative; top: 0;">
+				<div class="c100 big flexability besides" id="flexability1" style="position: relative; top: 0;">
 					<div class="tooltiptext tooltiptext-category">Flexability</div>
 					<span class="title">Flexability</span>
 					<div class="slice">
@@ -190,7 +194,7 @@
 			
 			<div id="readabilityData">
 				<h1>Readability</h1>
-				<div class="c100 big pink readability" id="readability1" style="position: relative; top: 0; 0; left: 200px;">
+				<div class="c100 big pink readability besides" id="readability1" style="position: relative; top: 0; 0; left: 200px;">
 					<div class="tooltiptext tooltiptext-category">Readability</div>
 					<span class="title">Readability</span>
 					<div class="slice">
@@ -256,7 +260,7 @@
 			
 			<div id="functionalityData">
 				<h1>Functionality</h1>
-				<div class="c100 big skyblue functionality" id="functionality1" style="position: relative; top: 0; left: 200px;">
+				<div class="c100 big skyblue functionality besides" id="functionality1" style="position: relative; top: 0; left: 200px;">
 					<div class="tooltiptext tooltiptext-category">Functionality</div>
 					<span class="title">Functionality</span>
 					<div class="slice">
@@ -310,7 +314,7 @@
 			
 			<div id="extendabilityData">
 				<h1>Extendability</h1>
-				<div class="c100 big blue extendability" id="extendability1" style="position: relative; top: 0;">
+				<div class="c100 big blue extendability besides" id="extendability1" style="position: relative; top: 0;">
 					<div class="tooltiptext tooltiptext-category">Extendability</div>
 					<span class="title">Extendability</span>
 					<div class="slice">
@@ -364,7 +368,7 @@
 			
 			<div id="effectivenessData">
 				<h1>Effectiveness</h1>
-				<div class="c100 big maroon effectiveness" id="effectiveness1" style="position: relative; top: 0; left: 200px;">
+				<div class="c100 big maroon effectiveness besides" id="effectiveness1" style="position: relative; top: 0; left: 200px;">
 					<div class="tooltiptext tooltiptext-category">Effectiveness</div>
 					<span class="title">Effectiveness</span>
 					<div class="slice">
@@ -418,7 +422,7 @@
 			
 			<div id="reusabilityData">
 				<h1>Reusability</h1>
-				<div class="c100 big green reusability" id="reusability1" style="position: relative; top: 0; left: 200px;">
+				<div class="c100 big green reusability besides" id="reusability1" style="position: relative; top: 0; left: 200px;">
 					<div class="tooltiptext tooltiptext-category">Reusability</div>
 					<span class="title">Reusability</span>
 					<div class="slice">
@@ -465,6 +469,10 @@
 			</div>
 		</div>
 		<script>
+			var flexScore = ["10","20","60","50"];
+			var flexMedian = ["10","20","60","50"];
+			var flexStandardDaviation = ["10","20","60","50"];
+			
 			var flex = parseInt(document.getElementById("flexValue").innerHTML);
 			var read = parseInt(document.getElementById("readValue").innerHTML);
 			var funct = parseInt(document.getElementById("functValue").innerHTML);
@@ -486,6 +494,21 @@
 			document.getElementById("reusability1").classList.add("p"+reuse);
 			document.getElementById("overall").classList.add("p"+Math.ceil(overall));
 			document.getElementById("overall1").classList.add("p"+Math.ceil(overall));
+			
+			var acc = document.getElementsByClassName("accordion");
+			var i;
+
+			for (i = 0; i < acc.length; i++) {
+			  acc[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var panel = this.nextElementSibling;
+				if (panel.style.maxHeight) {
+				  panel.style.maxHeight = null;
+				} else {
+				  panel.style.maxHeight = panel.scrollHeight + "px";
+				} 
+			  });
+			}
 		</script>
     </body>
 </html>

@@ -44,15 +44,14 @@ ul li
 .row
 {
 	width: 50%;
-	min-height: 650px;
-	margin: 0 auto;
+	min-height: 500px;
 	position: relative;	
 }
 
 .overall
 {
 	left: 190px;
-	top: 240px;
+	top: 165px;
 	position: absolute;
 }
 .flexability
@@ -63,32 +62,32 @@ ul li
 }
 .readability
 {
-	top: 145px;
-	left: 395px;	
+	top: 115px;
+	left: 330px;	
 	position: absolute;
 }
 .reusability
 {
-	top: 145px;
-	left: 15px;
+	top: 115px;
+	left: 80px;
 	position: absolute;
 }
 .effectiveness
 {
-	top: 355px;
-	left: 15px;
+	top: 250px;
+	left: 80px;
 	position: absolute;
 }
 .extendability
 {
 	left: 205px;
-	top: 465px;
+	top: 320px;
 	position: absolute;
 }
 .functionality
 {
-	top: 355px;
-	left: 395px;	
+	top: 250px;
+	left: 330px;	
 	position: absolute;
 }
 .tables
@@ -124,4 +123,45 @@ thead tr td
 	background: #666;
 	color: #fff;
 	font-weight: bold;
+}
+
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 50%;
+  margin: 0 auto;
+  border: none;
+  text-align: left;
+  display: block;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  background-color: #cfcfcf;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+	width: 80%;
+	margin: 0 auto;
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
