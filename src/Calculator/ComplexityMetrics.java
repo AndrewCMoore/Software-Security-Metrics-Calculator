@@ -57,7 +57,7 @@ public class ComplexityMetrics {
 	
 	private int strictComplexity(Method method) {
 		System.out.println(method.getIdentifier() + " has complexity: " + method.getMethodComplexity());
-		return method.getMethodComplexity();
+		return method.getMethodComplexity().get("strict");
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class ComplexityMetrics {
 				ArrayList<Method> methodList = classNode.getMethods(); //get each method in the class
 				for(Method method : methodList) { 	//iterate over method
 					System.out.println("     " + method.getIdentifier() + " : " + method.getMethodComplexity());						
-					count += method.getMethodComplexity(); //add method complexity to class total
+					count += method.getMethodComplexity().get("strict"); //add method complexity to class total
 				}
 				System.out.println(classNode.getIdentifier() + " : " + count);
 				calcMap.put(classNode.getIdentifier(), count); //add class, count pair to hashmap

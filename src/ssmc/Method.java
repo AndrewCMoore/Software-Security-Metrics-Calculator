@@ -470,12 +470,12 @@ public class Method {
 	 * objects within the 
 	 * @return int
 	 */
-	public int getMethodComplexity() {
+	public HashMap<String, Integer> getMethodComplexity() {
 		// Method complexity starts at 1
 		int strictComplexity = 1;
-		int essentialComplexity = 1;
 		int modifiedComplexity = 1;
 		int cyclomaticComplexity = 1;
+		int countpath = 1;
 		
 		// Initialize the number of return statments to 0
 		int numOfReturnStatements = 0;
@@ -489,20 +489,32 @@ public class Method {
 			//The complexity of the Method is the sum of the current 
 			//complexity plus the Statment's complexity
 			System.out.println("statement: " + s.getComplexity());
-			strictComplexity += s.getComplexity();
+			strictComplexity += s.getStrictComplexity();
+			modifiedComplexity += s.getModifiedComplexity();
+			cyclomaticComplexity += s.getCyclomaticComplexity();
+			countpath += s.getCountPath();
 		}
 		// if the method is a void type
 		if(isVoid) {
 			// add complexity equal to the number of return statements in the method
 			strictComplexity += numOfReturnStatements;
+			modifiedComplexity += numOfReturnStatements;
+			cyclomaticComplexity += numOfReturnStatements;
 		} 
 		// if the method is any other type
 		else {
 			// add complexity equal to the number of return statments beyond the first
 			strictComplexity += numOfReturnStatements - 1;
+			modifiedComplexity += numOfReturnStatements - 1;
+			cyclomaticComplexity += numOfReturnStatements - 1;
 		}
 		// return complexity
-		return strictComplexity;
+		HashMap<String, Integer> complexities = new HashMap<String, Integer>();
+		complexities.put("strict", strictComplexity);
+		complexities.put("modified", modifiedComplexity);
+		complexities.put("cyclomatic", cyclomaticComplexity);
+		complexities.put("countpath", countpath);
+		return complexities;
 	}
 		
 }

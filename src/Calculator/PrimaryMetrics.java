@@ -27,6 +27,17 @@ public class PrimaryMetrics {
 	private HashMap<String, Double> reduceAttackSurface = new HashMap<String, Double>();
 	private int economyOfMechanism = 0;
 	private HashMap<String, Integer> strictCyclomaticComplexity = new HashMap<String, Integer>();
+	private HashMap<String, Float> cyclomaticComplexity = new HashMap<String, Float>();
+	private HashMap<String, Float> modifiedCyclomaticComplexity = new HashMap<String, Float>();
+	private HashMap<String, Float> mcCabesCyclomaticComplexity = new HashMap<String, Float>();
+	private HashMap<String, Float> countPath;
+	private double secureWeakestLink;
+	private HashMap<String, Float> fanIn;
+	private HashMap<String, Float> fanOut;
+	private HashMap<String, Float> henryKafura;
+	private HashMap<String, Float> criticalElementRatio;
+	private HashMap<String, Float> dataAccessMetric;
+	private HashMap<String, Double> grantLeastPrivelage;
 	
 	public PrimaryMetrics(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		averageNumberOfAncestor(pv, sm, mpv);
@@ -40,7 +51,6 @@ public class PrimaryMetrics {
 		depthOfInheritanceTree(pv, sm, mpv);
 		countPath(pv, sm, mpv);
 		economyOfMechanism(pv, sm, mpv);
-		essentialCyclomaticComplexity(pv, sm, mpv);
 		mcCabesCyclomaticComplexity(pv, sm, mpv);
 		modifiedCyclomaticComplexity(pv, sm, mpv);
 		nestingComplexity(pv, sm, mpv);
@@ -148,31 +158,44 @@ public class PrimaryMetrics {
 	
 	public void countBaseClasses (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
-	public void cyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void cyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapCyclomaticComplexity().keySet()) {
+			cyclomaticComplexity.put(key, (float) pv.getMapCyclomaticComplexity().get(key));
+		}
+	}
 	
 	//Incorrect Pulled Value. This is actually a class level metric, each class in the hiarchy returns it's relitive depth in its Hierarchy
 	public void depthOfInheritanceTree (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		//another ? #:0;
 	}
 	
-	public void countPath (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void countPath (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapCountPath().keySet()) {
+			countPath.put(key, (float) pv.getMapCountPath().get(key));
+		}
+	}
 	
 	//CAT + CMT + CCT
 	public void economyOfMechanism (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		economyOfMechanism  = sm.getSecurityAbsoluteMeasurements();
 	}
 	
-	public void essentialCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void modifiedCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapModifiedComplexity().keySet()) {
+			modifiedCyclomaticComplexity.put(key, (float) pv.getMapModifiedComplexity().get(key));
+		}
+	}
 	
-	public void mcCabesCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void mcCabesCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapMcCabesComplexity().keySet()) {
+			mcCabesCyclomaticComplexity .put(key, (float) pv.getMapMcCabesComplexity().get(key));
+		}
+	}
 	
-	public void modifiedCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
-	
-	//#proposal info lacking, refer to origional paper.
+	//#proposal info lacking, refer to original paper.
 	public void nestingComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		nestingComplexity = mpv.getComplexityDepthInClassMethods();
 	}
-	
 	
 	public void numberOfChildren (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		Map<String, ArrayList<String>> immidiateChildrenInClass = mpv.getImidiateChildren();
@@ -191,7 +214,11 @@ public class PrimaryMetrics {
 		strictCyclomaticComplexity  = pv.getMapStrictComplexity();
 	}
 	
-	public void secureWeakestLink (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void secureWeakestLink (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: sm.getWritabilityOfClassifiedAttributes().keySet()) {
+	        secureWeakestLink += sm.getWritabilityOfClassifiedAttributes().get(key) + sm.getWritabilityOfClassifiedMethods().get(key);
+	    }	
+	}
 	
 	public void weightedMethodsPerClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
@@ -232,16 +259,22 @@ public class PrimaryMetrics {
 	
 	public void directClassCoupling (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	
-	public void fanIn (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		
+	public void fanIn(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapMethodInputs().keySet()) {
+        	fanIn.put(key, (float) pv.getMapMethodInputs().get(key));
+        }
 	}
 	
-	public void fanOut (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void fanOut(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapMethodOutputs().keySet()) {
+        	fanOut.put(key, (float) pv.getMapMethodOutputs().get(key));
+        }
+	}
 	
-	public void henryKafura (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		//HK(F) = 	Length of Function*(FanIn*FanOut)²
-		 lengthOfMethod = mpv.getLngthOfEachMethodInEachClass();
-		
+	public void henryKafura(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapHenryKafura().keySet()) {
+        	henryKafura.put(key, (float) pv.getMapHenryKafura().get(key));
+        }
 	}
 	
 	//doublecheckthis
@@ -263,13 +296,27 @@ public class PrimaryMetrics {
 	//Encapsulation Metrics
 	//###########################################################################################################################################################
 
-	public void criticalElementRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void criticalElementRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapCriticalElements().keySet()) {
+        	criticalElementRatio.put(key, (float) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
+        }
+	}
 	
-	public void dataAccessMetric (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void dataAccessMetric (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: pv.getMapCriticalElements().keySet()) {
+        	dataAccessMetric.put(key, (float) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
+        }
+	}
 	
-	public void grantLeastPrivilege (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void grantLeastPrivilege (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for (String key: sm.getWritabilityOfClassifiedAttributes().keySet()) {
+        	grantLeastPrivelage.put(key, sm.getReadabilityOfClassifiedAttributes().get(key) + sm.getWritabilityOfClassifiedMethods().get(key) + sm.getWritabilityOfCriticalClasses());
+        }
+	}
 		
-	public void isolation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void isolation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		
+	}
 	
 	public void leastCommomMechanism (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
 	

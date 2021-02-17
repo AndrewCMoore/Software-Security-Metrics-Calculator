@@ -33,6 +33,14 @@ public class PulledValues {
 	private HashMap<String, Integer> mapClassifiedClassAttributeNotPrivate = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapClassifiedMethodsNotPrivate = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapStrictComplexity = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapCyclomaticComplexity = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapModifiedComplexity = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapMcCabesComplexity = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapCountPath = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapMethodInputs = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapMethodOutputs = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mapHenryKafura = new HashMap<String, Integer>();
+	
 	
 	public PulledValues(JDTree[] classes) {
 		calculate(classes);
@@ -61,6 +69,13 @@ public class PulledValues {
 			int classifiedClassAttributeNotPrivate = 0;
 			int classifiedMethodsNotPrivate = 0;
 			int strictComplexity = 0;
+			int cyclomaticComplexity = 0;
+			int modifiedComplexity = 0;
+			int mcCabesComplexity = 0;
+			int countPath = 0;
+			int methodInputs = 0;
+			int methodOutputs = 0;
+			int henryKafura = 0;
 			
 			Object o = classes[i].getNode();	
 			if(o instanceof Class) {			
@@ -79,6 +94,13 @@ public class PulledValues {
 						accessClassifiedNeverCalled += accessClassifiedNeverCalled(method);
 						classifiedMethodsNotPrivate += isClassifiedMethodNotPrivate(method);
 						strictComplexity += strictComplexity(method);
+						cyclomaticComplexity += cyclomaticComplexity(method);
+						modifiedComplexity += modifiedComplexity(method);
+						mcCabesComplexity += mcCabesComplexity(method, methodList.size());
+						countPath += countPath(method);
+						methodInputs += methodInputs(method);
+						methodOutputs += methodOutputs(method);
+						henryKafura += henryKafura(method);
 					}
 				} 
 				for(Attribute attribute : attributeList) { 
@@ -119,10 +141,34 @@ public class PulledValues {
 				mapClassifiedClassAttributeNotPrivate.put(classNode.getIdentifier(), classifiedClassAttributeNotPrivate);
 				mapClassifiedMethodsNotPrivate.put(classNode.getIdentifier(), classifiedMethodsNotPrivate);
 				mapStrictComplexity.put(classNode.getIdentifier(), strictComplexity);
+				mapCyclomaticComplexity.put(classNode.getIdentifier(), cyclomaticComplexity);
+				mapModifiedComplexity.put(classNode.getIdentifier(), modifiedComplexity);
+				mapMcCabesComplexity.put(classNode.getIdentifier(), mcCabesComplexity);
+				mapCountPath.put(classNode.getIdentifier(), countPath);
+				mapMethodInputs.put(classNode.getIdentifier(), methodInputs);
+				mapMethodOutputs.put(classNode.getIdentifier(), methodOutputs);
+				mapHenryKafura.put(classNode.getIdentifier(), henryKafura);
+				
 			}
 		}
 	}
-	
+
+	private int henryKafura(Method method) {
+		return method.getMethodLength() * (methodOutputs(method) * methodInputs(method)) * (methodOutputs(method) * methodInputs(method));
+	}
+
+	private int methodOutputs(Method method) {
+		return method.getNumberOfOutputs();
+	}
+
+	private int methodInputs(Method method) {
+		return method.getNumberOfInputs();
+	}
+
+	private int countPath(Method method) {
+		return method.getMethodComplexity().get("countpath");
+	}
+
 	private int isClassifiedMethodNotPrivate(Method method) {
 		if(!method.getModifiers().contains("public") && !method.getModifiers().contains("private")) {
 			return 1;
@@ -250,10 +296,21 @@ public class PulledValues {
 	}
 	
 	private int strictComplexity(Method method) {
-		System.out.println(method.getIdentifier() + " has complexity: " + method.getMethodComplexity());
-		return method.getMethodComplexity();
+		//System.out.println(method.getIdentifier() + " has complexity: " + method.getMethodComplexity());
+		return method.getMethodComplexity().get("strict");
 	}
 	
+	private int mcCabesComplexity(Method method, int methodsInClass) {
+		return method.getMethodComplexity().get("cyclomatic") / methodsInClass;
+	}
+
+	private int modifiedComplexity(Method method) {
+		return method.getMethodComplexity().get("modified");
+	}
+
+	private int cyclomaticComplexity(Method method) {
+		return method.getMethodComplexity().get("cyclomatic");
+	}
 	//////////////////////////////////////
 	//Getters
 	//////////////////////////////////////
@@ -345,76 +402,45 @@ public class PulledValues {
 	public HashMap<String, Integer> getMapClassifiedClassAttributeNotPrivate() {
 		return mapClassifiedClassAttributeNotPrivate;
 	}
+	
+	public HashMap<String, Integer> getMapStrictComplexity() {
+		return mapStrictComplexity;
+	}
+
+	public HashMap<String, Integer> getMapCyclomaticComplexity() {
+		return mapCyclomaticComplexity;
+	}
+
+	public HashMap<String, Integer> getMapModifiedComplexity() {
+		return mapModifiedComplexity;
+	}
+
+	public HashMap<String, Integer> getMapMcCabesComplexity() {
+		return mapMcCabesComplexity;
+	}
+	
+	public HashMap<String, Integer> getMapCountPath() {
+		return mapCountPath;
+	}
+
+	public HashMap<String, Integer> getMapMethodInputs() {
+		return mapMethodInputs;
+	}
+
+	public HashMap<String, Integer> getMapMethodOutputs() {
+		return mapMethodOutputs;
+	}
+
+	public HashMap<String, Integer> getMapHenryKafura() {
+		return mapHenryKafura;
+	}
 
 	private void printResults() {
-		System.out.println("==========================================");
-		System.out.println("Non-Final Private or Protected Methods");
-		System.out.println("==========================================");
-		//printMap(mapNonFinalPrivateProtected);
-
-		System.out.println("==========================================");
-		System.out.println("Classified Methods");
-		System.out.println("==========================================");
-		//printMap(mapClassified);
-
-		System.out.println("==========================================");
-		System.out.println("Public Methods");
-		System.out.println("==========================================");
-		//printMap(mapPublic);
-
-		System.out.println("==========================================");
-		System.out.println("Total Methods");
-		System.out.println("==========================================");
-		//printMap(mapTotal);
-
-		System.out.println("==========================================");
-		System.out.println("Interactions Between Mutators and Attributes");
-		System.out.println("==========================================");
-		printMap(mapMutatorInteractions);
-
-		System.out.println("==========================================");
-		System.out.println("Interactions Between Accessors and Attributes");
-		System.out.println("==========================================");
-		printMap(mapAccessorInteractions);
-		
-		System.out.println("==========================================");
-		System.out.println("Public Instance Attributes");
-		System.out.println("==========================================");
-		printMap(mapPublicInstance);
-		
-		System.out.println("==========================================");
-		System.out.println("Public Class Attributes");
-		System.out.println("==========================================");
-		printMap(mapPublicClass);
-		
-		System.out.println("==========================================");
-		System.out.println("Private & Protected Instance Attributes");
-		System.out.println("==========================================");
-		printMap(mapPrivateProtectedInstance);
-		
-		System.out.println("==========================================");
-		System.out.println("Private & Protected Class Attributes");
-		System.out.println("==========================================");
-		printMap(mapPrivateProtectedClass);
-		
-		System.out.println("==========================================");
-		System.out.println("Private & Protected Total");
-		System.out.println("==========================================");
-		printMap(mapPrivateProtectedTotal);
-		
-		System.out.println("==========================================");
-		System.out.println("Total Attributes");
-		System.out.println("==========================================");
-		printMap(mapTotalAttributes);
 	}
 	
 	private void printMap(HashMap<String, Integer> map) {
 		for(String key : map.keySet()) {
 			System.out.println(key + ": " + map.get(key) + ", ");
 		}
-	}
-
-	public HashMap<String, Integer> getMapStrictComplexity() {
-		return mapStrictComplexity;
 	}
 }

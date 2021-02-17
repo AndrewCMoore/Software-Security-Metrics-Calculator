@@ -11,6 +11,10 @@ import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 public class Statement {
 	private CompilationUnit compilationUnit;
 	private int complexityValue;
+	private int cyclomaticComplexity = 0;
+	private int modifiedComplexity = 0;
+	private int strictComplexity = 0;
+	private int countPath = 0;
 	private int endLine; 
 	private ASTNode node;
 	private int startLine;
@@ -42,7 +46,19 @@ public class Statement {
 	 * @param value int
 	 */
 	public void addComplexity(int value) {
-		this.complexityValue = this.complexityValue + value;
+		this.complexityValue += value;
+	}
+	public void addCyclomaticComplexity(int value) {
+		this.cyclomaticComplexity += value;
+	}
+	public void addModifiedComplexity(int value) {
+		this.modifiedComplexity += value;
+	}
+	public void addStrictComplexity(int value) {
+		this.strictComplexity += value;
+	}
+	public void addCountPath(int value) {
+		this.countPath += value;
 	}
 	
 	/**
@@ -59,6 +75,18 @@ public class Statement {
 	 */
 	public int getComplexity() {
 		return this.complexityValue;
+	}
+	public int getCyclomaticComplexity() {
+		return this.cyclomaticComplexity;
+	}
+	public int getModifiedComplexity() {
+		return this.modifiedComplexity;
+	}
+	public int getStrictComplexity() {
+		return this.strictComplexity;
+	}
+	public int getCountPath() {
+		return this.countPath;
 	}
 	
 	/**
@@ -109,7 +137,7 @@ public class Statement {
 				if (child instanceof InfixExpression) {
 					InfixExpression infix = (InfixExpression) child;
 					// Add complexity to the Statement based on the operators inside the ()
-					this.addComplexity(getOperators(infix));
+					this.addStrictComplexity(getOperators(infix));
 				}
 			}
 		}
