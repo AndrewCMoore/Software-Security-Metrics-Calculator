@@ -4,6 +4,9 @@ public class htmlGenerator {
 
 	public htmlGenerator() {
 		// TODO access list of metrics
+		
+		
+		
 	}
 
 	public String makeHead() {
