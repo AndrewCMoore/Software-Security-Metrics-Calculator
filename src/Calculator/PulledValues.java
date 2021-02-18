@@ -296,11 +296,10 @@ public class PulledValues {
 	}
 	
 	private int strictComplexity(Method method) {
-		//System.out.println(method.getIdentifier() + " has complexity: " + method.getMethodComplexity());
 		return method.getMethodComplexity().get("strict");
 	}
 	
-	private int mcCabesComplexity(Method method, int methodsInClass) {
+	private float mcCabesComplexity(Method method, int methodsInClass) {
 		return method.getMethodComplexity().get("cyclomatic") / methodsInClass;
 	}
 

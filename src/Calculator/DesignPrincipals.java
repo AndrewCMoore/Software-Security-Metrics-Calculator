@@ -3,17 +3,17 @@ package Calculator;
 import java.util.HashMap;
 
 public class DesignPrincipals {
-	private HashMap<String, Float> abstraction = new HashMap<String, Float>();
-	private HashMap<String, Float> cohesion = new HashMap<String, Float>();
-	private HashMap<String, Float> complexity = new HashMap<String, Float>();
-	private HashMap<String, Float> composition = new HashMap<String, Float>();
-	private HashMap<String, Float> coupling = new HashMap<String, Float>();
-	private HashMap<String, Float> designSize = new HashMap<String, Float>();
-	private HashMap<String, Float> encapsulation = new HashMap<String, Float>();
-	private HashMap<String, Float> inheritance = new HashMap<String, Float>();
-	private HashMap<String, Float> messaging = new HashMap<String, Float>();
-	private HashMap<String, Float> polymorphism = new HashMap<String, Float>();
-	private HashMap<String, Float> hierarchies = new HashMap<String, Float>();
+	private HashMap<String, Double> abstraction = new HashMap<String, Double>();
+	private HashMap<String, Double> cohesion = new HashMap<String, Double>();
+	private HashMap<String, Double> complexity = new HashMap<String, Double>();
+	private HashMap<String, Double> composition = new HashMap<String, Double>();
+	private HashMap<String, Double> coupling = new HashMap<String, Double>();
+	private HashMap<String, Double> designSize = new HashMap<String, Double>();
+	private HashMap<String, Double> encapsulation = new HashMap<String, Double>();
+	private HashMap<String, Double> inheritance = new HashMap<String, Double>();
+	private HashMap<String, Double> messaging = new HashMap<String, Double>();
+	private HashMap<String, Double> polymorphism = new HashMap<String, Double>();
+	private HashMap<String, Double> hierarchies = new HashMap<String, Double>();
 
 	public DesignPrincipals(PrimaryMetrics pm) {
 		abstraction(pm);
@@ -32,112 +32,159 @@ public class DesignPrincipals {
 	//none of these are correct, just placeholders
 	private void hierarchies(PrimaryMetrics pm) {
 		for (String key: pm.getReduceAttackSurface().keySet()) {
-			hierarchies.put(key, (float) 1);
+			hierarchies.put(key, (double) 1);
+		}
+	}
+
+	private void polymorphism(PrimaryMetrics pm) {
+		for (String key: pm.getNumberOfPolymorphicMethods().keySet()) {
+			polymorphism.put(key, (double) pm.getNumberOfPolymorphicMethods().get(key));
 		}
 		
 	}
 
-	private void polymorphism(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	private void messaging(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
+		for (String key: pm.getClassInterfaceSize().keySet()) {
+			messaging.put(key, (double) pm.getClassInterfaceSize().get(key));
+		}
 		
 	}
 
 	private void inheritance(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
+		for (String key: pm.getMeasureOfFunctionalAbtraction().keySet()) {
+			inheritance.put(key, (double) pm.getMeasureOfFunctionalAbtraction().get(key));
+		}
 		
 	}
 
 	private void encapsulation(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
+		for (String key: pm.getCriticalElementRatio().keySet()) {
+			encapsulation.put(key, (double) pm.getCriticalElementRatio().get(key) +
+					pm.getDataAccessMetric().get(key) +
+					pm.getGrantLeastPrivelage().get(key) +
+					pm.getIsolation().get(key) + 
+					pm.getLeastCommonMechanism().get(key) +
+					pm.getNumberOfHierarchies());
+		}
 		
 	}
 
 	private void designSize(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
+		for (String key: pm.getDesignSizeInClasses().keySet()) {
+			designSize.put(key, (double) pm.getDesignSizeInClasses().get(key));
+		}
 		
 	}
 
 	private void coupling(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
+		for (String key: pm.getCouplingBetweenObjects().keySet()) {
+			coupling.put(key, (double) pm.getCountOfBaseClasses() +
+					pm.getCouplingBetweenObjects().get(key) +
+					pm.getCouplingCorruptionPropagation().get(key) +
+					pm.getDepthOfInheritanceTree().get(key) +
+					pm.getDirectClassCoupling().get(key) +
+					pm.getFanIn().get(key) +
+					pm.getFanOut().get(key) +
+					pm.getHenryKafura().get(key) +
+					pm.getNumberOfChildren().get(key) +
+					pm.getResponseSetForAClass().get(key));
+		}
 		
 	}
 
 	private void composition(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
+		for (String key: pm.getMeasureOfAggregation().keySet()) {
+			composition.put(key, (double) pm.getMeasureOfAggregation().get(key));
+		}
 		
 	}
 	
+	//not sure how to deal with nesting complexity being a hashmap inside a hashmap
 	private void complexity(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
-		
+		for (String key: pm.getCountPath().keySet()) {
+			complexity.put(key, (double) pm.getCommentRatio().get(key) + 
+					pm.getCountOfBaseClasses() +
+					pm.getCyclomaticComplexity().get(key) + 
+					pm.getDepthOfInheritanceTree().get(key) + 
+					pm.getCountPath().get(key) +
+					pm.getEconomyOfMechanism() +
+					pm.getMcCabesCyclomaticComplexity().get(key) +
+					pm.getModifiedCyclomaticComplexity().get(key) +
+					//pm.getNestingComplexity().get(key).get(key) +
+					pm.getNumberOfChildren().get(key) +
+					pm.getStrictCyclomaticComplexity().get(key) +
+					pm.getSecureWeakestLink() +
+					pm.getSourceLinesOfCode() +
+					pm.getWeightedMethodsPerClass().get(key));
+		}
 	}
 
 	private void cohesion(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
-		
+		for (String key: pm.getReduceAttackSurface().keySet()) {
+			cohesion.put(key, (double) pm.getLackOfCohesionOfMethods().get(key) + 
+					pm.getCohesionAmongMethodsInClass().get(key));
+		}
 	}
 
 	private void abstraction(PrimaryMetrics pm) {
-		// TODO Auto-generated method stub
-		
+		for (String key: pm.getFailSafeDefaults().keySet()) {
+			abstraction.put(key, (double) pm.getFailSafeDefaults().get(key) + 
+					pm.getReduceAttackSurface().get(key) + 
+					pm.getAverageNumberOfAncestors().get(key));
+		}
 	}
 
-	public HashMap<String, Float> getAbstraction() {
+	public HashMap<String, Double> getAbstraction() {
 		//return abstraction;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getCohesion() {
+	public HashMap<String, Double> getCohesion() {
 		//return cohesion;
 		return hierarchies;
 	}
 	
-	public HashMap<String, Float> getComplexity() {
+	public HashMap<String, Double> getComplexity() {
 		//return complexity;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getComposition() {
+	public HashMap<String, Double> getComposition() {
 		//return composition;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getCoupling() {
+	public HashMap<String, Double> getCoupling() {
 		//return coupling;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getDesignSize() {
+	public HashMap<String, Double> getDesignSize() {
 		//return designSize;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getEncapsulation() {
+	public HashMap<String, Double> getEncapsulation() {
 		//return encapsulation;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getInheritance() {
+	public HashMap<String, Double> getInheritance() {
 		//return inheritance;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getMessaging() {
+	public HashMap<String, Double> getMessaging() {
 		//return messaging;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getPolymorphism() {
+	public HashMap<String, Double> getPolymorphism() {
 		//return polymorphism;
 		return hierarchies;
 	}
 
-	public HashMap<String, Float> getHierarchies() {
+	public HashMap<String, Double> getHierarchies() {
 		//return hierarchies;
 		return hierarchies;
 	}

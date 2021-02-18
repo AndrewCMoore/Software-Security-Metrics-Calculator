@@ -451,5 +451,126 @@ public class PrimaryMetrics {
 	public HashMap<String, Integer> getStrictCyclomaticComplexity() {
 		return strictCyclomaticComplexity;
 	}
+
+
+	public HashMap<String, Double> getAverageNumberOfAncestors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Float> getCyclomaticComplexity() {
+		return cyclomaticComplexity;
+	}
+
+
+	public HashMap<String, Float> getModifiedCyclomaticComplexity() {
+		return modifiedCyclomaticComplexity;
+	}
+
+
+	public HashMap<String, Float> getMcCabesCyclomaticComplexity() {
+		return mcCabesCyclomaticComplexity;
+	}
+
+
+	public HashMap<String, Float> getCountPath() {
+		return countPath;
+	}
+
+
+	public double getSecureWeakestLink() {
+		return secureWeakestLink;
+	}
+
+
+	public HashMap<String, Float> getFanIn() {
+		return fanIn;
+	}
+
+
+	public HashMap<String, Float> getFanOut() {
+		return fanOut;
+	}
+
+
+	public HashMap<String, Float> getHenryKafura() {
+		return henryKafura;
+	}
+
+
+	public HashMap<String, Float> getCriticalElementRatio() {
+		return criticalElementRatio;
+	}
+
+
+	public HashMap<String, Float> getDataAccessMetric() {
+		return dataAccessMetric;
+	}
+
+
+	public HashMap<String, Double> getGrantLeastPrivelage() {
+		return grantLeastPrivelage;
+	}
+
+
+	public HashMap<String, Double> getDepthOfInheritanceTree() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getWeightedMethodsPerClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getMeasureOfAggregation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getDirectClassCoupling() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getResponseSetForAClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getDesignSizeInClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getIsolation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getLeastCommonMechanism() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getClassInterfaceSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public HashMap<String, Double> getNumberOfPolymorphicMethods() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
