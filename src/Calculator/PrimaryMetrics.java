@@ -568,7 +568,7 @@ public class PrimaryMetrics {
 	}
 
 
-	public HashMap<String, Double> getNumberOfPolymorphicMethods() {
+	  HashMap<String, Double> getNumberOfPolymorphicMethods() {
 		// TODO Auto-generated method stub
 		return null;
 	}
