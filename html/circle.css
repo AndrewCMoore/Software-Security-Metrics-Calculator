@@ -232,6 +232,41 @@
   margin: 0 0.1em 0.1em 0;
   background-color: #cccccc;
 }
+.c100  .tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  font-size: 14px;
+}
+.tooltiptext-category
+{
+	left: 100%;
+	top: 50px;
+}
+.tooltiptext-overall
+{
+	left: 100%;
+	top: 66px;
+}
+.c100 .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #555 transparent transparent;
+}
+.c100:hover .tooltiptext {
+  visibility: visible;
+}
 .c100 *,
 .c100 *:before,
 .c100 *:after {
@@ -244,10 +279,21 @@
   margin: 0 auto;
 }
 .c100.big {
+  font-size: 120px !important;
+}
+.c100.bigger {
   font-size: 150px;
 }
 .c100.small {
   font-size: 80px;
+}
+.c100.besides
+{
+	font-size: 150px !important;
+}
+.c100.besidesOverall
+{
+	font-size: 170px !important;
 }
 .c100 > span {
   position: absolute;
@@ -255,9 +301,7 @@
   z-index: 1;
   left: 0;
   top: 0;
-  
-  padding-top:57px;
-  padding-bottom:57px; 
+  line-height: 10em;
   font-size: 0.1em;
   display: block;
   text-align: center;
@@ -1008,6 +1052,7 @@
   cursor: default;
 }
 .c100:hover > span {
+  line-height: 7em;
   font-size: 0.15em;
   color: #307bbb;
 }
