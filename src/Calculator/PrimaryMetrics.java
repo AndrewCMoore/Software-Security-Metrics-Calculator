@@ -39,6 +39,7 @@ public class PrimaryMetrics {
 	private HashMap<String, Float> dataAccessMetric = new HashMap<String, Float>();
 	private HashMap<String, Double> grantLeastPrivelage = new HashMap<String, Double>();
 	private HashMap<String, Double> responceSetForaClass = new HashMap<String, Double>();
+
 	
 	public PrimaryMetrics(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		averageNumberOfAncestor(pv, sm, mpv);
@@ -574,9 +575,10 @@ public class PrimaryMetrics {
 	}
 
 
-	  HashMap<String, Double> getNumberOfPolymorphicMethods() {
+	public HashMap<String, Double> getNumberOfPolymorphicMethods() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	  
 	
 }

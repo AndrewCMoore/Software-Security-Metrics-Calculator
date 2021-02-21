@@ -75,6 +75,7 @@ public class generateCSV {
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getQualityAttributes().getEffectiveness().get(key)) + ",");
+				
 			}
 			csvWriter.append("\n");
 
@@ -275,7 +276,6 @@ public class generateCSV {
 			generateDCC();
 			generateCR();
 			generateCP();
-			generateECC();
 			generateNOC();
 			generateSCC();
 
@@ -513,8 +513,7 @@ public class generateCSV {
 			csvWriter.append(",,Average Number of Ancestors (ANA),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getAverageNumberOfAncestors().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 		} catch (IOException e) {
@@ -617,8 +616,7 @@ public class generateCSV {
 			csvWriter.append(",,Critical Element Ratio (CER),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().criticalElementRatio().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCriticalElementRatio().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -635,8 +633,7 @@ public class generateCSV {
 			csvWriter.append(",,Class Interface Size (CIS),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().classInterfaceSize().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getClassInterfaceSize().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -653,8 +650,7 @@ public class generateCSV {
 			csvWriter.append(",,Count Path (CP),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().countPath(null, null, null);.get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCountPath().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -688,8 +684,7 @@ public class generateCSV {
 			csvWriter.append(",,Data Access Metric (DAM),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().dataAccessMetric().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDataAccessMetric().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -706,8 +701,7 @@ public class generateCSV {
 			csvWriter.append(",,Direct Class Coupling (DCC),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().directClassCoupling().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDirectClassCoupling().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -724,8 +718,7 @@ public class generateCSV {
 			csvWriter.append(",,Depth Of Inheritance Tree (DIT),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet Implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().depthOfInheritanceTree().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDepthOfInheritanceTree().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -742,26 +735,7 @@ public class generateCSV {
 			csvWriter.append(",,Design Size In Classes (DSC),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().designSizeInClasses().get(key)) + ",");
-			}
-			csvWriter.append("\n");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * Generates the Essential Cyclomatic Complexity (ECC) Primary Metric and its subceeded values in the csv file.
-	 */
-	private void generateECC() {
-		try {
-			// Primary Metric Essential Cyclomatic Complexity (ECC)
-			csvWriter.append(",,Essential Cyclomatic Complexity (ECC),,,");
-			// For each class in the project
-			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().essentialCyclomaticComplexity().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDesignSizeInClasses().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -799,8 +773,7 @@ public class generateCSV {
 			csvWriter.append(",,Fan In (FI),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet imeplemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().fanIn().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getFanIn().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -817,8 +790,7 @@ public class generateCSV {
 			csvWriter.append(",,Fan Out (FO),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet imeplemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().fanOut().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getFanOut().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -855,8 +827,7 @@ public class generateCSV {
 			csvWriter.append(",,Data Access Metric (DAM),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().grantLeastPrivilege().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getGrantLeastPrivelage().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -877,8 +848,7 @@ public class generateCSV {
 			csvWriter.append(",,Henry Kafura (HK),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				// csvWriter.append(String.valueOf(calc.getPrimaryMetrics().henryKafura().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getHenryKafura().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -895,8 +865,7 @@ public class generateCSV {
 			csvWriter.append(",,Isolation (ISO),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().isolation().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getIsolation().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -918,8 +887,7 @@ public class generateCSV {
 			csvWriter.append(",,Least Commom Mechanism (LCM),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().leastCommomMechanism().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getLeastCommonMechanism().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -957,8 +925,7 @@ public class generateCSV {
 			csvWriter.append(",,Modified Cyclomatic Complexity (MC),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not implemented yet
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics()().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getModifiedCyclomaticComplexity().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -992,8 +959,7 @@ public class generateCSV {
 			csvWriter.append(",,Measure Of Aggregation (MOA),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().measureOfAggregation().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getMeasureOfAggregation().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -1045,7 +1011,7 @@ public class generateCSV {
 			csvWriter.append(",,Number of Hierarchies (NOH),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
+				// Int
 				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNumberOfHierarchies().get(key)) + ",");
 			}
 			csvWriter.append("\n");
@@ -1080,8 +1046,7 @@ public class generateCSV {
 			csvWriter.append(",,Number Of Polymorphic Methods (NOP),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().numberOfPolymorphicMethods().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNumberOfPolymorphicMethods().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -1119,8 +1084,7 @@ public class generateCSV {
 			csvWriter.append(",,Responce Set For a Class (RFC),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not yet implemented
-				// csvWriter.append(String.valueOf(calc.getPrimaryMetrics().responceSetForaClass().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getResponseSetForAClass().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -1137,8 +1101,8 @@ public class generateCSV {
 			csvWriter.append(",,Secure Weakest Link (SWL),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not implemented yet
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().get(key)) + ",");
+				// Double 
+				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getSecureWeakestLink().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
@@ -1193,8 +1157,7 @@ public class generateCSV {
 			csvWriter.append(",,Weighted Methods per Class (WMC),,,");
 			// For each class in the project
 			for(String key: classNames) {
-				// Not implemented yet
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getWeightedMethodsPerClass().get(key)) + ",");
 			}
 			csvWriter.append("\n");
 
