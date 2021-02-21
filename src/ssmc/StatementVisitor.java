@@ -213,9 +213,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
 		statementList.add(statement);
 		callNode(node);
 		return true;
@@ -240,10 +237,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
-		statement.addCountPath(1);
 		statementList.add(statement);
 		callNode(node);
 		return true;
@@ -268,9 +261,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
 		statementList.add(statement);
 		callNode(node);
 		return true;		
@@ -295,10 +285,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
-		statement.addCountPath(1);
 		statement.checkExpressionForOperators();
 		statementList.add(statement);
 
@@ -326,10 +312,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
-		statement.addCountPath(1);
 		statement.checkExpressionForOperators();
 		statementList.add(statement);
 		
@@ -360,10 +342,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
-		statement.addCountPath(1);
 		statement.checkExpressionForOperators();
 		statementList.add(statement);
 		
@@ -391,20 +369,12 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
-		statement.addCountPath(1);
 		statement.checkExpressionForOperators();
 		statementList.add(statement);
 		
 		if(node.getElseStatement() != null) {
 			if(node.getElseStatement() instanceof Block) {
 				statement.addComplexity(1);
-				statement.addCyclomaticComplexity(1);
-				statement.addModifiedComplexity(1);
-				statement.addStrictComplexity(1);
-				statement.addCountPath(1);
 			}
 			else {
 				if(node.getElseStatement() instanceof IfStatement) {
@@ -461,7 +431,6 @@ public class StatementVisitor extends ASTVisitor {
 	public boolean visit(SwitchStatement node) {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
-		statement.addModifiedComplexity(1);
 		
 		// Node.getStatements give us the list of cases, logic, and breaks.
 		for(int i = 0; i < node.statements().size(); i++) {
@@ -469,9 +438,6 @@ public class StatementVisitor extends ASTVisitor {
 			if(node.statements().get(i) instanceof SwitchCase) {
 				statement.checkExpressionForOperators();
 				statement.addComplexity(1);
-				statement.addCyclomaticComplexity(1);
-				statement.addStrictComplexity(1);
-				statement.addCountPath(1);
 			}
 		}
 		
@@ -527,9 +493,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
 		statementList.add(statement);
 		callNode(node);
 		return true;
@@ -554,10 +517,6 @@ public class StatementVisitor extends ASTVisitor {
 		this.nodes.add(node);
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
-		statement.addCyclomaticComplexity(1);
-		statement.addModifiedComplexity(1);
-		statement.addStrictComplexity(1);
-		statement.addCountPath(1);
 		statement.checkExpressionForOperators();
 		System.out.println("+" + statement.getComplexity() +" complexity in: " + statement.getClass() + "from " + statement.toString());
 		statementList.add(statement);
