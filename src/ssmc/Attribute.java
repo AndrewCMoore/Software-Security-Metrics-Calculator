@@ -14,11 +14,13 @@ public class Attribute {
 	private CompilationUnit compilationUnit;
 	private boolean finalized;
 	private String Identifier;
+	private String attributeType;
 	private int lineNum;
 	private int links;
 	private ArrayList<String> modifier;
 	private int usage;
 	private boolean critical;
+	
 
 	/**
 	 * Constructor for Attribute object
@@ -29,6 +31,7 @@ public class Attribute {
 		// Initialize variables from parameters
 		this.compilationUnit = compilationUnit;
 		this.Identifier = identifier;
+		this.attributeType = ""; 
 		
 		// Initialize core variables
 		this.usage = 0;
@@ -187,6 +190,15 @@ public class Attribute {
 		this.usage = usage;
 	}
 
+	
+	public void setType(String type) {
+		attributeType=type;
+	}
+	
+	public String getType() {
+		return attributeType;
+	}
+	
 	/**
 	 * ToString method for helping with the development of the Attribute object. 
 	 */

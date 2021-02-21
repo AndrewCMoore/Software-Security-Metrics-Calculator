@@ -10,7 +10,9 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 public class AttributeVisitor extends ASTVisitor{
 
@@ -135,7 +137,7 @@ public class AttributeVisitor extends ASTVisitor{
 	 * 
 	 * Returns true to search for a child ASTNode.
 	 */
-	public boolean visit(VariableDeclarationFragment node) {
+	public boolean visit(SingleVariableDeclaration node) {
 		
 		SimpleName name = node.getName();											// Get the String ID of the node (variable)
 		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
@@ -143,11 +145,12 @@ public class AttributeVisitor extends ASTVisitor{
 		a.setModifier(ASTUtility.getModifers(node)); 	 												// Set the Attribute's variables
 		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
 		
+		System.out.println("AAB " + node.getType().toString());
+		a.setType(node.getType().toString());
 		this.names.add(name.getIdentifier());										// Add the node name to the set of names
 		this.attributes.add(a);	
 		nodes.add(node);
 		
 		return true;
-	}
-	
+	}	
 }

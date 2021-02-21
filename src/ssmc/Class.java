@@ -23,7 +23,7 @@ public class Class {
 	private boolean serialized;
 	private int startLine;
 	private String superClass;
-	private List<String> interfaces;
+	private String interfaces;
 	private int totalLines;
 	private int commentedLines;
 	
@@ -49,7 +49,7 @@ public class Class {
 		// Initialize ArrayLists
 		methods = new ArrayList<Method>();
 		attributes = new ArrayList<Attribute>();
-		interfaces = new ArrayList<String>();
+		interfaces = "";
 		this.modifier = new ArrayList<String>();
 		
 	}
@@ -374,8 +374,8 @@ public class Class {
 	 * Adds a List of String representations of the interfaces to the Class
 	 * @param list List of String objects.
 	 */
-	public void addInterfaces(List<String> list) {
-		this.interfaces.addAll(list);
+	public void addInterfaces(String interfaceString) {
+		this.interfaces = interfaceString;
 	}
 	
 	/**
@@ -383,7 +383,7 @@ public class Class {
 	 * to the Class
 	 * @return List of String objects.
 	 */
-	public List<String> getInterfaces() {
+	public String getInterfaces() {
 		return this.interfaces;
 	}
 }

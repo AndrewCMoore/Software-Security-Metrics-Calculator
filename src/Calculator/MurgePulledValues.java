@@ -3,6 +3,7 @@ package Calculator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,10 +56,24 @@ public class MurgePulledValues {
 	//may replace #methods in class.
 	private HashMap<String, HashSet<String>> methodNamesInClass = new HashMap<String, HashSet<String>>();
 	
+	private HashMap<String, HashSet<String>> validMethodNamesInClassThatCanBeInherited = new HashMap<String, HashSet<String>>();
+	private HashMap<String, ArrayList<String>> totalNumberOfMethodsAccesible = new HashMap<String, ArrayList<String>>();
 	
+	private LinkedHashSet<String> topToBottomClassHiarchy =  new  LinkedHashSet<String>();
+	
+	private HashMap<String,Integer> numberOfClassesThatInheritFromEachCriticalSuperClass = new HashMap<String,Integer>();
+	private HashMap<String,Integer> criticalSerializedClasses = new HashMap<String,Integer>();
+	private HashMap<String,Integer> nonFinalizedCriticalClasses = new HashMap<String,Integer>();
+	private HashMap<String,Integer> importBooleanReflectionClasses = new HashMap<String,Integer>();
+	private  HashMap<String,ArrayList<String>> numberOfProtectedMethodsInClass = new  HashMap<String,ArrayList<String>>();
+	private  HashMap<String,ArrayList<String>> numberOfClassesThatCanInheritFromEachSuperClass = new  HashMap<String,ArrayList<String>>(); 
+	private HashMap<String,Integer> depthOfInheritanceTreeAtCurrentSuperClass = new HashMap<String,Integer>();
+	
+	private HashMap<String,Integer> sumaztionOfuniqueParametersInEachMethodForAClass = new  HashMap<String,Integer>();
+	private HashMap<String,Integer> numberOfUniqueParametersInAClass = new HashMap<String,Integer> ();
 	
 	/**
-	* The constructor currently is shit
+	* The constructor currently is smelly
 	*/
 	public MurgePulledValues(JDTree[] classes) {		
 		
@@ -70,17 +85,11 @@ public class MurgePulledValues {
 		System.out.println("\n\n\n");
 		this.getTotalNumberOfCriticalSubClasses();
 		this.buildInheritanceDependencies(classes);
-		System.out.println(getNumberOfBaseClassMethodsInheritedBySubClass());
+		System.out.println(mapImidiateChildren);
+		System.out.println(sumaztionOfuniqueParametersInEachMethodForAClass);
+		//System.out.println(mapUniqueParamatersInClassEachMethod);
 		
-		
-		
-		//this.testing();		
-		
-		//this.numPrivateProtectedClassAttributes(classes);
-		//this.numPrivateProtectedInstanceAttributes(classes);
-		//this.numPublicClassAttributes(classes);
-		//this.numPrivateProtectedAttributes(classes);
-		//this.numTotalAttributes(classes);
+
 	}
 	
 	
@@ -98,7 +107,12 @@ public class MurgePulledValues {
 			if(o instanceof Class) {
 				Class classNode = (Class) o;
 				classNames.add(classNode.getIdentifier());
-				if (classNode.isCritical()) mapCriticalClasses.add(classNode.getIdentifier());
+				if (classNode.getInterfaces().contains("Runnable")) classNode.setCritical();
+				if (classNode.isCritical()) {
+					mapCriticalClasses.add(classNode.getIdentifier());
+					if (classNode.getInterfaces().contains("Serializable")) criticalSerializedClasses.put(classNode.getIdentifier(), 1); 
+				}
+				
 			}
 		}
 	}	
@@ -122,6 +136,8 @@ public class MurgePulledValues {
 	//#methods inherited by a class.
 	//Baseclasses must first be discovered before this can be calculated
 	//used to set # classes coupled to base classes PV 
+	//used to get number of methods that can be inherited and total # in class including inherited
+	//used to set #nonfinalizedCriticalClasses.
 	public void buildInheritanceDependencies(JDTree[] classes) {
 		
 		int numberOfCoupledClasses=0;
@@ -131,39 +147,79 @@ public class MurgePulledValues {
 			if(o instanceof Class) {
 				Class classNode = (Class) o;
 				
+				//set nonfinalizedCriticalClasses
+				
+				if (mapCriticalClasses.contains(classNode.getIdentifier())) {
+					if (!(classNode.getModifier().contains("final"))) nonFinalizedCriticalClasses.put(classNode.getIdentifier(), 1);
+				}
+				
+				
+				
 				//if current class is base class, get Attributes.
 				numberOfCoupledClasses = 0;
 				if (baseClassesNames.contains(classNode.getIdentifier())) {
 					ArrayList<Attribute> attributeList = classNode.getAttributes(); //get current class attributes.
+					try {
 					for(Attribute attribute : attributeList) { 
-						for (String aClass: classNames) {
-							if (attribute.getIdentifier().equals(aClass)) numberOfCoupledClasses++;
+						//for each class in the project check if className CONTAINS attribute type. Note that Queue<Workstations> is still coupled to workstations. thus check if contains.
+						for (String className: classNames) {
+							System.out.println(classNode.getIdentifier()+"::"+attribute.getType()+"::"+attribute.getType());
+							if (attribute.getType().contains(className)) numberOfCoupledClasses++;
 						}
-					}
+					}}catch (Exception e) {}
 					classesCoupledToBaseClass.put(classNode.getIdentifier(), numberOfCoupledClasses);
-				}
+				}}}
+				//System.out.println(topToBottomClassHiarchy);
+			//	System.out.println("topToBottomClassHiarchy");
+			//	System.out.println("classesCoupledToBaseClass");
+				//System.out.println(classesCoupledToBaseClass);
 				
 				//methodNamesInClass
 				//for each superclass
-				for (String key: mapImidiateChildren.keySet()) {
+				for (String key: topToBottomClassHiarchy) {
 					//check if the key is the name of a class
 					if (classNames.contains(key)) {
+						try {
 						ArrayList<String> childrenClasses = mapImidiateChildren.get(key);
 						//for each childClass
 						for (String childClass: childrenClasses) {
-							HashSet<String> SuperClassSet = methodNamesInClass.get(key);
-							HashSet<String> ChildClassSet = methodNamesInClass.get(childClass);
+							HashSet<String> SuperClassSet = validMethodNamesInClassThatCanBeInherited.get(key);
+							HashSet<String> ChildClassSet = validMethodNamesInClassThatCanBeInherited.get(childClass);
+							
+							//used to solve method not visable in subclass problem
+							HashSet<String> aggricationSet = SuperClassSet;
+							aggricationSet.addAll(ChildClassSet);
+							//System.out.println(aggricationSet);
+							ArrayList<String> test = new ArrayList<String>();
+							test.addAll(aggricationSet);
+							//System.out.println(test.size());
+							aggricationSet = new HashSet<String>();
+							aggricationSet.addAll(test);
+							
 							SuperClassSet.removeAll(ChildClassSet);
 							//System.out.println("The ChildClass: "+childClass+"\nHas Inherited these methods: "+(SuperClassSet)+"\nTotaling: "+SuperClassSet.size());
 							mapbaseClassMethodsInheritedBySubClassm.put(childClass, SuperClassSet.size());
-						}
+							//mapbaseClassMethodsInheritedBySubClassm.put(childClass, SuperClassSet) since you need to work with the superclass set at some point.
+							
+							validMethodNamesInClassThatCanBeInherited.remove(childClass);
+							//computation using subclass is done. replace old subclass methodList with a new stringset containing all inherited methods.
+							//System.out.println(validMethodNamesInClassThatCanBeInherited.put(childClass, aggricationSet));
+							//System.out.println("In Class X new # methods are:"+ childClass+"::"+aggricationSet.size());
+							totalNumberOfMethodsAccesible.put(childClass, test);
+							validMethodNamesInClassThatCanBeInherited.put(childClass, aggricationSet);
+							
+						}} catch (Exception e) {}
 						
 					}
-					
-				}
-			}
+			
 		}
-		
+		//System.out.println("mapbaseClassMethodsInheritedBySubClassm");
+		//System.out.println(mapbaseClassMethodsInheritedBySubClassm);
+		//System.out.println("totalNumberOfMethodsAccesible");
+		//System.out.println(totalNumberOfMethodsAccesible);
+		/*for(String key: totalNumberOfMethodsAccesible.keySet()) {
+			System.out.println("ClassName and #: "+key+"::"+totalNumberOfMethodsAccesible.get(key).size());
+		}*/
 		
 	}
 	
@@ -208,6 +264,9 @@ public class MurgePulledValues {
 				//int counter = (method.getEndLine()-method.getStartLine()) >1 ? ((method.getEndLine()-method.getStartLine())-1):1; //lengthofmethod ;
 				//System.out.println("In Class:" +classNode.getIdentifier()+" Method:"+method.getIdentifier()+":length is:"+(counter)); //lengthofmethod
 				methodLength.put(method.getIdentifier(), (method.getEndLine()-method.getStartLine()) >1 ? ((method.getEndLine()-method.getStartLine())-1):1);
+			
+				//method.getCompilationUnit().
+			
 			}
 			
 		}
@@ -305,6 +364,7 @@ public class MurgePulledValues {
 		for (String topBaseClass :topLevelSuperClassesInHierarchy) { //for each topSuperClass
 			
 			childrenClasses=mapImidiateChildren.get(topBaseClass); //aquire current children of topBaseClass
+			topToBottomClassHiarchy.add(topBaseClass);
 
 			while (!(childrenClasses.isEmpty())) {//while atleast one key-value pair exists
 				
@@ -312,8 +372,19 @@ public class MurgePulledValues {
 				for (int i=0;i<childrenClasses.size();i++) {
 					//System.out.println("I want to add: " +mapImidiateChildren.get(childrenClasses.get(i)));
 					try {
+					topToBottomClassHiarchy.addAll(childrenClasses);
 					nextChildrenClasses.addAll(mapImidiateChildren.get(childrenClasses.get(i)));
 					DepthOfInheriitanceCounter+=1;
+					
+					
+					
+					depthOfInheritanceTreeAtCurrentSuperClass.put(childrenClasses.get(i), DepthOfInheriitanceCounter);
+					for (String nextChildClass:nextChildrenClasses) {
+						depthOfInheritanceTreeAtCurrentSuperClass.put(nextChildClass, (DepthOfInheriitanceCounter+1));
+					}
+					
+					
+					
 					} catch (Exception e) {}
 					
 					
@@ -325,7 +396,7 @@ public class MurgePulledValues {
 				
 			
 			}
-
+			
 			
 		
 			mapHierarchySize.put(topBaseClass, (DepthOfInheriitanceCounter+1)); //+1 due to null condition at the last children. This can be solved via a do while, do this and make if better 
@@ -349,7 +420,8 @@ public class MurgePulledValues {
 				childrenClasses=mapImidiateChildren.get(topLevelCriticalSuperClass);
 				mapTotalCriticalClassInheritance.addAll(mapImidiateChildren.get(topLevelCriticalSuperClass)); //add direct  childclasses.
 				mapCriticalClassHierarchy.put(topLevelCriticalSuperClass, mapImidiateChildren.get(topLevelCriticalSuperClass).size());				
-				
+				numberOfClassesThatInheritFromEachCriticalSuperClass.put(topLevelCriticalSuperClass, childrenClasses.size());
+				numberOfClassesThatCanInheritFromEachSuperClass.put(topLevelCriticalSuperClass, childrenClasses);
 				//mapCriticalChildClassessInProgram
 				while (!(childrenClasses.isEmpty())) {//while atleast one key-value pair exists
 					
@@ -359,7 +431,11 @@ public class MurgePulledValues {
 					for (int i=0;i<childrenClasses.size();i++) {
 						System.out.println("I want to add: " +mapImidiateChildren.get(childrenClasses.get(i)));
 						
+						
 						try {
+							
+							
+							
 							/**THIS IS VERY CRITICAL PLEASE COMMENT ON WHY THIS IS DONE AND WHY IT WORKS
 							 *  //since .isCritical() ONLY WORKS  if the cclassNode..super is thread or interface 
 							 *  includes serilizable,  the .isCritical boolean for SUBCLASSES IS FALSE 
@@ -367,24 +443,44 @@ public class MurgePulledValues {
 							 *    classes to tmapCriticalClasses to make sure they are included!!!!!!!
 							 */
 							for (String cn :classNames) {							
-								if (childrenClasses.contains(cn)) mapCriticalClasses.add(childrenClasses.get(i)); 								
+								if (childrenClasses.contains(cn)) mapCriticalClasses.add(childrenClasses.get(i)); 	
+								
 							}
 
 							
 						nextChildrenClasses.addAll(mapImidiateChildren.get(childrenClasses.get(i)));
-						
+						numberOfClassesThatInheritFromEachCriticalSuperClass.put(childrenClasses.get(i), mapImidiateChildren.get(childrenClasses.get(i)).size());
 						
 						//mapCriticalClassHierarchy.put(mapImidiateChildren.get(childrenClasses.get(i))),nextChildrenClasses.size());
 						mapTotalCriticalClassInheritance.addAll(nextChildrenClasses);
 						criticalClasses.addAll(childrenClasses);
+						
+						
+						//# children from each SuperClass, anthony your problem solving is insane.
+						numberOfClassesThatCanInheritFromEachSuperClass.put(childrenClasses.get(i), nextChildrenClasses);
+						for (String key: numberOfClassesThatCanInheritFromEachSuperClass.keySet()) {
+							// if the currentClass has a superclass
+							if (numberOfClassesThatCanInheritFromEachSuperClass.get(key).contains(childrenClasses.get(i)))  {
+								ArrayList<String> addSubClassesToCurrentSuperClass = new ArrayList<String>();
+								addSubClassesToCurrentSuperClass.addAll((numberOfClassesThatCanInheritFromEachSuperClass.get(key)));
+								//if (nextChildrenClasses!=null) 
+								addSubClassesToCurrentSuperClass.addAll(nextChildrenClasses);
+								numberOfClassesThatCanInheritFromEachSuperClass.put(key,addSubClassesToCurrentSuperClass );							
+							}							
+						}
+						
+						
 						} catch (Exception e) {}
 						
 						//used to get a list of all sub critical classes used to calculate the #total critical classes.
 						
+			
 
 
 						System.out.println("next children classes Inner: "+nextChildrenClasses);
 					}
+					
+					
 					System.out.println("next children classes: "+nextChildrenClasses);
 					childrenClasses=nextChildrenClasses;
 					nextChildrenClasses=  new ArrayList<String>();
@@ -441,6 +537,8 @@ public class MurgePulledValues {
 		HashSet<String> UniqueParamaterTypesInClass = new HashSet <String>();
 		ArrayList<String> paramaterTypesInClass = new ArrayList<String>();
 		HashSet<String> methodNames = new HashSet<String>();
+		HashSet<String> validMethodNamesThatCanBeInherited = new HashSet<String>();
+		ArrayList<String> protectedMethods;
 
 		for(int i = 0; i < classes.length; i++) {
 			totalNumberOfMethodsPerClass=0; //reset counter
@@ -451,6 +549,11 @@ public class MurgePulledValues {
 			paramaterTypesInClass = new ArrayList<String>();
 			numberOfAccesibleMethods=0;
 			methodNames = new HashSet<String>();
+			validMethodNamesThatCanBeInherited = new HashSet<String>();
+			protectedMethods = new ArrayList<String>();
+			int uniqueParametersInEachMethodCounter;
+			
+			HashSet<String> uniqueParametersInEachMethod;
 			
 			Object o = classes[i].getNode();				
 			if(o instanceof Class) {
@@ -459,31 +562,53 @@ public class MurgePulledValues {
 				ArrayList<Method> methodList = classNode.getMethods();	//get ArrayList of Methods in the class;	
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); //get arraylist of attributes in class;
 				
+				if (classNode.getCompilationUnit().toString().contains("java.lang.reflect")) importBooleanReflectionClasses.put(classNode.getIdentifier(),1);
+				
+				
 				buildInheritanceRelationships(classNode); //store information about all super and sub classes.
 				isCriticalSerializableClass(classNode);
 				isNonFinalizedCriticalClass(classNode);
 				isReflectionPackageClass(classNode);
 				buildComplexityPV(classNode);
 				recordMethodLength(classNode);
-	
+				
+				
+				uniqueParametersInEachMethodCounter=0;
 				
 				for(Method method : methodList) {
 					methodNames.add(method.getIdentifier());
 					if (! ((method.getModifiers().contains("abstract")) || (method.getModifiers().contains("static")) || (method.getModifiers().contains("final")))) numberOfInstanceMethods++; //will be moved soon.
+					
+					//#methods inherited PV
+					if (!(method.getIdentifier().equals(classNode.getIdentifier()) ||(method.getIdentifier().equals("main")) || (method.getIdentifier().equals("run") || method.getModifiers().contains("abstract")))) {
+						validMethodNamesThatCanBeInherited.add(method.getIdentifier()); 
+					}
+					
+					if ((method.getModifiers().contains("protected"))) protectedMethods.add(method.getIdentifier());
+					
 					if (method.getModifiers().contains("public")) numberOfAccesibleMethods++;
 					parametersInMethod = new HashMap<String,Integer>(); //improve
-					uniqueParametersInMethod = new HashSet <String>();
-					//uniqueParametersInMethod.addAll(method.getOnlyParameterTypes());
-					//parametersInMethod.put(method.getIdentifier(), method.getOnlyParameterTypes().size());
+					uniqueParametersInEachMethod = new HashSet <String>();
+					if (!(method.getIdentifier().equals(classNode.getIdentifier()))) uniqueParametersInEachMethod.addAll(method.getOnlyParameterTypes());
+					uniqueParametersInEachMethodCounter+=uniqueParametersInEachMethod.size();
+					parametersInMethod.put(method.getIdentifier(), method.getOnlyParameterTypes().size());
 					UniqueparametersPerMethod.put(method.getIdentifier(), uniqueParametersInMethod.size());
-					//UniqueParamaterTypesInClass.addAll(method.getOnlyParameterTypes());
-					//paramaterTypesInClass.addAll(method.getOnlyParameterTypes());
+					UniqueParamaterTypesInClass.addAll(method.getOnlyParameterTypes());
+					paramaterTypesInClass.addAll(method.getOnlyParameterTypes());
 					
 					
 					totalNumberOfMethodsPerClass+=1;
 					ArrayList<Statement> statmentList = method.getStatements();
 					//totalNumberOfPrivateandPritectedmethods+= (method.getModifiers().contains("protected")) ? 1:0; //protected methods that CAN be inherited.
 				}
+				
+				sumaztionOfuniqueParametersInEachMethodForAClass.put(classNode.getIdentifier(),uniqueParametersInEachMethodCounter);
+				
+				//dependend on that attribute, type thing.
+				//numberOfUniqueParametersInAClass.put(classNode.getIdentifier(),uniqueParametersInClass)
+				
+				numberOfProtectedMethodsInClass.put(classNode.getIdentifier(),protectedMethods);
+				validMethodNamesInClassThatCanBeInherited.put(classNode.getIdentifier(),validMethodNamesThatCanBeInherited);
 				methodNamesInClass.put(classNode.getIdentifier(), methodNames);
 				mapAccesibleMethods.put(classNode.getIdentifier(),numberOfAccesibleMethods);
 				mapTotalLinesInClass.put(classNode.getIdentifier(), classNode.getTotalNumberOfLines());
@@ -495,7 +620,11 @@ public class MurgePulledValues {
 				mapProtectedMethodsInClass.put(classNode.getIdentifier(), totalNumberOfPrivateandPritectedmethods); //
 				sumOfAllInstanceMethodsInClass.put(classNode.getIdentifier(), numberOfInstanceMethods);
 				
-			}			
+				classNode.getInterfaces();
+				
+			}	
+			System.out.println("validMethodNamesThatCanBeInherited");
+			System.out.println(validMethodNamesThatCanBeInherited);
 		}
 	}
 	
@@ -624,7 +753,7 @@ public class MurgePulledValues {
 	//V(C) = SUM of ALL INSTANCE Variables PV (class level PV)
 	public HashMap<String,Integer> getSumOfAllInstanceVaribles() {
 		//.put String classNode.getIdentifier,sum Int sum pauls stuff /per class
-		return getSumOfAllInstanceMethodsInClass();
+		return null;
 	}
 	
 	//M( C)= SUM of all  INSTANCE methods (non static / final methods, abstract methods) PV
@@ -635,7 +764,7 @@ public class MurgePulledValues {
 	//this did not work, i need to redo it.
 	//E( C) = SET (no duplicates)  # pairs of (v,m) for each instance var v used by method m PV
 	public HashMap<String, Integer> EC() {
-		return getSumOfAllInstanceMethodsInClass();
+		return null;
 	}
 
 	//total # of lines PV
@@ -670,18 +799,39 @@ public class MurgePulledValues {
 		return mapbaseClassMethodsInheritedBySubClassm;
 	}
 	
+	
+	public HashMap<String, ArrayList<String>> getTotalNumberOfMethodsAccesible() {
+		return totalNumberOfMethodsAccesible;
+	}
+	
+	public HashMap<String, Integer> getMethodsInheritedBySubClass() {
+		return mapbaseClassMethodsInheritedBySubClassm;
+	}
+	
+	public HashMap<String, Integer> getnumberOfClassesThatInheritFromEachCriticalSuperClass() {
+		return numberOfClassesThatInheritFromEachCriticalSuperClass;
+	}
+	
+	public HashMap<String, Integer> getNonFinalizedCriticalClasses() {
+		return nonFinalizedCriticalClasses;
+	}
+	
+	public HashMap<String, Integer> getCriticalSerializedClasses() {
+		return criticalSerializedClasses;
+	}
+	
+	public HashMap<String, Integer> getImportBooleanReflectionClasses() {
+		return importBooleanReflectionClasses;
+	}
+	
+	public HashMap<String, ArrayList<String>> getNumberOfProtectedMethodsInClass() {
+		return numberOfProtectedMethodsInClass;
+	}
+	
+	
+	
 	//###########################################################################################################################################################	
 	//
 	//###########################################################################################################################################################
-
-
-
-/*	private void printMap(HashMap<String, Integer> map) {
-		for(String key : map.keySet()) {
-			System.out.println(key + ": " + map.get(key) + ", ");
-		}
-	}*/
-	
-
 
 }

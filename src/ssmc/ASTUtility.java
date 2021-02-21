@@ -63,19 +63,20 @@ public class ASTUtility {
 		if(node instanceof TypeDeclaration) {
 			TypeDeclaration TDNode = (TypeDeclaration) node;
 			try {
-				c.addInterfaces(TDNode.superInterfaceTypes());
+				 
+				c.addInterfaces(TDNode.superInterfaceTypes().toString());
 			} catch (Exception e) {
-				List<String> emptylst = Collections.emptyList();
-				c.addInterfaces(emptylst);
+				//List<String> emptylst = Collections.emptyList();
+				c.addInterfaces("");
 			}
 		}
 		if(node instanceof EnumDeclaration) {
 			EnumDeclaration EDNode = (EnumDeclaration) node;
 			try {
-				c.addInterfaces(EDNode.superInterfaceTypes());
+				c.addInterfaces(EDNode.superInterfaceTypes().toString());
 			} catch (Exception e) {
-				List<String> emptylst = Collections.emptyList();
-				c.addInterfaces(emptylst);
+				//List<String> emptylst = Collections.emptyList();
+				c.addInterfaces("");
 			}
 		}
 		
