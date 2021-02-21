@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 public class AttributeVisitor extends ASTVisitor{
 
@@ -146,6 +147,19 @@ public class AttributeVisitor extends ASTVisitor{
 		this.names.add(name.getIdentifier());										// Add the node name to the set of names
 		this.attributes.add(a);	
 		nodes.add(node);
+		
+		return true;
+	}
+	
+	//Anthony Andrew
+	public boolean visit(VariableDeclarationStatement node) {
+		nodes.add(node);
+		try {
+		for (Attribute a: attributes) {
+	    	final String type = node.getType().toString();
+	    	System.out.println("AX77X: "+type);
+	    	a.setType(type);
+		}}catch (Exception e) {}
 		
 		return true;
 	}
