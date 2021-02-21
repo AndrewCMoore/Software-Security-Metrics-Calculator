@@ -41,7 +41,6 @@ public class PulledValues {
 	private HashMap<String, Integer> mapMethodOutputs = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapHenryKafura = new HashMap<String, Integer>();
 	
-	
 	public PulledValues(JDTree[] classes) {
 		calculate(classes);
 		printResults();

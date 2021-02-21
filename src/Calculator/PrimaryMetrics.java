@@ -30,14 +30,15 @@ public class PrimaryMetrics {
 	private HashMap<String, Float> cyclomaticComplexity = new HashMap<String, Float>();
 	private HashMap<String, Float> modifiedCyclomaticComplexity = new HashMap<String, Float>();
 	private HashMap<String, Float> mcCabesCyclomaticComplexity = new HashMap<String, Float>();
-	private HashMap<String, Float> countPath;
+	private HashMap<String, Float> countPath = new HashMap<String, Float>();
 	private double secureWeakestLink;
-	private HashMap<String, Float> fanIn;
-	private HashMap<String, Float> fanOut;
-	private HashMap<String, Float> henryKafura;
-	private HashMap<String, Float> criticalElementRatio;
-	private HashMap<String, Float> dataAccessMetric;
-	private HashMap<String, Double> grantLeastPrivelage;
+	private HashMap<String, Float> fanIn = new HashMap<String, Float>();
+	private HashMap<String, Float> fanOut = new HashMap<String, Float>();
+	private HashMap<String, Float> henryKafura = new HashMap<String, Float>();
+	private HashMap<String, Float> criticalElementRatio = new HashMap<String, Float>();
+	private HashMap<String, Float> dataAccessMetric = new HashMap<String, Float>();
+	private HashMap<String, Double> grantLeastPrivelage = new HashMap<String, Double>();
+	private HashMap<String, Double> responceSetForaClass = new HashMap<String, Double>();
 	
 	public PrimaryMetrics(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		averageNumberOfAncestor(pv, sm, mpv);
@@ -278,7 +279,11 @@ public class PrimaryMetrics {
 	}
 	
 	//doublecheckthis
-	public void responceSetForaClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void responceSetForaClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for(String key : pv.getMapTotalMethods().keySet()) {
+			responceSetForaClass.put(key, (double) pv.getMapTotalMethods().get(key) + pv.getMapMethodInvocations().get(key));
+		}
+	}
 	
 
 	
@@ -290,7 +295,8 @@ public class PrimaryMetrics {
 		numberofClasses = mpv.getNumberOfClassesInProject().size();
 	}
 	
-	public void stallRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void stallRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+	}
 	
 	//###########################################################################################################################################################	
 	//Encapsulation Metrics
