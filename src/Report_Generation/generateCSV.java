@@ -23,7 +23,7 @@ public class generateCSV {
 		createCSV(project);
 		
 		// Add headers
-		csvWriter.append("Quality Attribute, Design Principle,Primary Metric,Secondary Metric, Teriary Metric,");
+		csvWriter.append("Quality Attribute, Design Principle,Primary Metric,Secondary Metric, Teriary Metric, Project Level Value");
 		for(String s : 	classNames) {
 			// Add class names next to headers
 			csvWriter.append(s + ",");
@@ -71,7 +71,7 @@ public class generateCSV {
 	private void generateEffectiveness() {
 		try {
 			// Quality Attribute Effectiveness
-			csvWriter.append("Effectiveness,,,,");
+			csvWriter.append("Effectiveness,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getQualityAttributes().getEffectiveness().get(key)) + ",");
@@ -97,7 +97,7 @@ public class generateCSV {
 	private void generateExtendability() {
 		try {
 			// Quality Attribute Extendability
-			csvWriter.append("Extendability,,,,");
+			csvWriter.append("Extendability,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getQualityAttributes().getExtendability().get(key)) + ",");
@@ -122,7 +122,7 @@ public class generateCSV {
 	private void generateFlexibility() {
 		try {
 			// Quality Attribute Flexbility
-			csvWriter.append("Flexbility,,,,");
+			csvWriter.append("Flexbility,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getQualityAttributes().getFlexibility().get(key)) + ",");
@@ -147,7 +147,7 @@ public class generateCSV {
 	private void generateFunctionality() {
 		try {
 			// Quality Attribute Functionality
-			csvWriter.append("Functionality,,,,");
+			csvWriter.append("Functionality,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getQualityAttributes().getFunctionality().get(key)) + ",");
@@ -173,7 +173,7 @@ public class generateCSV {
 	private void generateReusability() {
 		try {
 			// Quality Attribute Reusability
-			csvWriter.append("Reusability,,,,");
+			csvWriter.append("Reusability,,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getQualityAttributes().getReusability().get(key)) + ",");
@@ -198,7 +198,7 @@ public class generateCSV {
 	private void generateUnderstandability() {
 		try {
 			// Quality Attribute Understandability
-			csvWriter.append("Understandability,,,,");
+			csvWriter.append("Understandability,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getQualityAttributes().getUnderstandability().get(key)) + ",");
@@ -231,7 +231,7 @@ public class generateCSV {
 	private void generateAbstraction() {
 		try {
 			// Design Principle Abstraction
-			csvWriter.append(",Abstraction,,,,");
+			csvWriter.append(",Abstraction,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getAbstraction().get(key)) + ",");
@@ -256,7 +256,7 @@ public class generateCSV {
 	private void generateComplexity() {
 		try {
 			// Design Principle Complexity
-			csvWriter.append(",Complexity,,,,");
+			csvWriter.append(",Complexity,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getComplexity().get(key)) + ",");
@@ -291,7 +291,7 @@ public class generateCSV {
 	private void generateCohesion() {
 		try {
 			// Design Principle Cohesion
-			csvWriter.append(",Cohesion,,,,");
+			csvWriter.append(",Cohesion,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getCohesion().get(key)) + ",");
@@ -315,7 +315,7 @@ public class generateCSV {
 	private void generateComposition() {
 		try {
 			// Design Principle Compoisiton
-			csvWriter.append(",Compoisiton,,,,");
+			csvWriter.append(",Compoisiton,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getComposition().get(key)) + ",");
@@ -337,7 +337,7 @@ public class generateCSV {
 	private void generateCoupling() {
 		try {
 			// Design Principle Coupling
-			csvWriter.append(",Coupling,,,,");
+			csvWriter.append(",Coupling,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getCoupling().get(key)) + ",");
@@ -368,7 +368,7 @@ public class generateCSV {
 	private void generateDesignSize() {
 		try {
 			// Design Principle Design Size
-			csvWriter.append(",Design Size,,,,");
+			csvWriter.append(",Design Size,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getDesignSize().get(key)) + ",");
@@ -390,7 +390,7 @@ public class generateCSV {
 	private void generateEncapsulation() {
 		try {
 			// Design Principle Encapsulation
-			csvWriter.append(",Encapsulation,,,,");
+			csvWriter.append(",Encapsulation,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getEncapsulation().get(key)) + ",");
@@ -417,7 +417,7 @@ public class generateCSV {
 	private void generateHierarchies() {
 		try {
 			// Design Principle Hierarchies
-			csvWriter.append(",Hierarchies,,,,");
+			csvWriter.append(",Hierarchies,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getEncapsulation().get(key)) + ",");
@@ -439,7 +439,7 @@ public class generateCSV {
 	private void generateInheritance() {
 		try {
 			// Design Principle Inheritance
-			csvWriter.append(",Inheritance,,,,");
+			csvWriter.append(",Inheritance,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getInheritance().get(key)) + ",");
@@ -461,7 +461,7 @@ public class generateCSV {
 	private void generateMessaging() {
 		try {
 			// Design Principle Messaging
-			csvWriter.append(",Messaging,,,,");
+			csvWriter.append(",Messaging,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getMessaging().get(key)) + ",");
@@ -483,7 +483,7 @@ public class generateCSV {
 	private void generatePolymorphism() {
 		try {
 			// Design Principle Polymorphism
-			csvWriter.append(",Polymorphism,,,,");
+			csvWriter.append(",Polymorphism,,,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getDesignPrincipals().getPolymorphism().get(key)) + ",");
@@ -510,7 +510,7 @@ public class generateCSV {
 	private void generateANA() {
 		try {
 			// Primary Metric Average Number of Ancestors (ANA)
-			csvWriter.append(",,Average Number of Ancestors (ANA),,,");
+			csvWriter.append(",,Average Number of Ancestors (ANA),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getAverageNumberOfAncestors().get(key)) + ",");
@@ -526,7 +526,7 @@ public class generateCSV {
 	private void generateCAM() {
 		try {
 			// Primary Metric Cohesion Among Methods in Class (CAM)
-			csvWriter.append(",,Cohesion Among Methods in Class (CAM),,,");
+			csvWriter.append(",,Cohesion Among Methods in Class (CAM),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCohesionAmongMethodsInClass().get(key)) + ",");
@@ -543,7 +543,7 @@ public class generateCSV {
 	private void generateCBC() {
 		try {
 			// Primary Metric Count Of Base Classes (CBC)
-			csvWriter.append(",,Count Of Base Classes (CBC),,,");
+			csvWriter.append(",,Count Of Base Classes (CBC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				// Int?
@@ -561,7 +561,7 @@ public class generateCSV {
 	private void generateCBO() {
 		try {
 			// Primary Metric Coupling Between Objects (CBO)
-			csvWriter.append(",,Coupling Between Objects (CBO),,,");
+			csvWriter.append(",,Coupling Between Objects (CBO),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCouplingBetweenObjects().get(key)) + ",");
@@ -578,7 +578,7 @@ public class generateCSV {
 	private void generateCC() {
 		try {
 			// Primary Metric Cyclomatic Complexity (CC)
-			csvWriter.append(",,Cyclomatic Complexity (CC),,,");
+			csvWriter.append(",,Cyclomatic Complexity (CC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				// Not yet Implemeneted
@@ -596,7 +596,7 @@ public class generateCSV {
 	private void generateCCP() {
 		try {
 			// Primary Metric Coupling Corruption Propagation (CCP)
-			csvWriter.append(",,Coupling Corruption Propagation (CCP),,,");
+			csvWriter.append(",,Coupling Corruption Propagation (CCP),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCouplingCorruptionPropagation().get(key)) + ",");
@@ -613,7 +613,7 @@ public class generateCSV {
 	private void generateCER() {
 		try {
 			// Primary Metric Critical Element Ratio (CER)
-			csvWriter.append(",,Critical Element Ratio (CER),,,");
+			csvWriter.append(",,Critical Element Ratio (CER),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCriticalElementRatio().get(key)) + ",");
@@ -630,7 +630,7 @@ public class generateCSV {
 	private void generateCIS() {
 		try {
 			// Primary Metric Class Interface Size (CIS)
-			csvWriter.append(",,Class Interface Size (CIS),,,");
+			csvWriter.append(",,Class Interface Size (CIS),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getClassInterfaceSize().get(key)) + ",");
@@ -647,7 +647,7 @@ public class generateCSV {
 	private void generateCP() {
 		try {
 			// Primary Metric Count Path (CP)
-			csvWriter.append(",,Count Path (CP),,,");
+			csvWriter.append(",,Count Path (CP),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCountPath().get(key)) + ",");
@@ -664,7 +664,7 @@ public class generateCSV {
 	private void generateCR() {
 		try {
 			// Primary Metric Comment Ratio (CR)
-			csvWriter.append(",,Comment Ratio (CR),,,");
+			csvWriter.append(",,Comment Ratio (CR),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getCommentRatio().get(key)) + ",");
@@ -681,7 +681,7 @@ public class generateCSV {
 	private void generateDAM() {
 		try {
 			// Primary Metric Data Access Metric (DAM)
-			csvWriter.append(",,Data Access Metric (DAM),,,");
+			csvWriter.append(",,Data Access Metric (DAM),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDataAccessMetric().get(key)) + ",");
@@ -698,7 +698,7 @@ public class generateCSV {
 	private void generateDCC() {
 		try {
 			// Primary Metric Direct Class Coupling (DCC)
-			csvWriter.append(",,Direct Class Coupling (DCC),,,");
+			csvWriter.append(",,Direct Class Coupling (DCC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDirectClassCoupling().get(key)) + ",");
@@ -715,7 +715,7 @@ public class generateCSV {
 	private void generateDIT() {
 		try {
 			// Primary Metric Depth Of Inheritance Tree (DIT)
-			csvWriter.append(",,Depth Of Inheritance Tree (DIT),,,");
+			csvWriter.append(",,Depth Of Inheritance Tree (DIT),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDepthOfInheritanceTree().get(key)) + ",");
@@ -732,7 +732,7 @@ public class generateCSV {
 	private void generateDSC() {
 		try {
 			// Primary Metric Design Size In Classes (DSC)
-			csvWriter.append(",,Design Size In Classes (DSC),,,");
+			csvWriter.append(",,Design Size In Classes (DSC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDesignSizeInClasses().get(key)) + ",");
@@ -750,11 +750,9 @@ public class generateCSV {
 		try {
 			// Primary Metric Economoy of Mechanism (EOM)
 			csvWriter.append(",,Economoy of Mechanism (EOM),,,");
-			// For each class in the project
-			for(String key: classNames) {
-				// Int value?
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getEconomyOfMechanism().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getEconomyOfMechanism()) + ",");
+			
 			csvWriter.append("\n");
 
 			// Generate the associated Secondary Metric
@@ -770,7 +768,7 @@ public class generateCSV {
 	private void generateFI() {
 		try {
 			// Primary Metric Fan In (FI)
-			csvWriter.append(",,Fan In (FI),,,");
+			csvWriter.append(",,Fan In (FI),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getFanIn().get(key)) + ",");
@@ -787,7 +785,7 @@ public class generateCSV {
 	private void generateFO() {
 		try {
 			// Primary Metric Fan Out (FO)
-			csvWriter.append(",,Fan Out (FO),,,");
+			csvWriter.append(",,Fan Out (FO),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getFanOut().get(key)) + ",");
@@ -804,7 +802,7 @@ public class generateCSV {
 	private void generateFSD() {
 		try {
 			// Primary Metric Fail Safe Defaults (FSD)
-			csvWriter.append(",,Fail Safe Defaults (FSD),,,");
+			csvWriter.append(",,Fail Safe Defaults (FSD),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getFailSafeDefaults().get(key)) + ",");
@@ -824,7 +822,7 @@ public class generateCSV {
 	private void generateGLP() {
 		try {
 			// Primary Metric Grant Least Privilege (GLP)
-			csvWriter.append(",,Data Access Metric (DAM),,,");
+			csvWriter.append(",,Data Access Metric (DAM),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getGrantLeastPrivelage().get(key)) + ",");
@@ -845,7 +843,7 @@ public class generateCSV {
 	private void generateHK() {
 		try {
 			// Primary Metric Henry Kafura (HK)
-			csvWriter.append(",,Henry Kafura (HK),,,");
+			csvWriter.append(",,Henry Kafura (HK),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getHenryKafura().get(key)) + ",");
@@ -862,7 +860,7 @@ public class generateCSV {
 	private void generateISO() {
 		try {
 			// Primary Metric Isolation (ISO)
-			csvWriter.append(",,Isolation (ISO),,,");
+			csvWriter.append(",,Isolation (ISO),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getIsolation().get(key)) + ",");
@@ -884,7 +882,7 @@ public class generateCSV {
 	private void generateLCM() {
 		try {
 			// Primary Metric Least Commom Mechanism (LCM)
-			csvWriter.append(",,Least Commom Mechanism (LCM),,,");
+			csvWriter.append(",,Least Commom Mechanism (LCM),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getLeastCommonMechanism().get(key)) + ",");
@@ -905,7 +903,7 @@ public class generateCSV {
 	private void generateLCOM() {
 		try {
 			// Primary Metric Lack of Cohesion of Methods (LCOM)
-			csvWriter.append(",,Lack of Cohesion of Methods (LCOM),,,");
+			csvWriter.append(",,Lack of Cohesion of Methods (LCOM),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getLackOfCohesionOfMethods().get(key)) + ",");
@@ -922,7 +920,7 @@ public class generateCSV {
 	private void generateMC() {
 		try {
 			// Primary Metric Modified Cyclomatic Complexity (MC)
-			csvWriter.append(",,Modified Cyclomatic Complexity (MC),,,");
+			csvWriter.append(",,Modified Cyclomatic Complexity (MC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getModifiedCyclomaticComplexity().get(key)) + ",");
@@ -939,7 +937,7 @@ public class generateCSV {
 	private void generateMFA() {
 		try {
 			// Primary Metric Measure Of Functional Abtraction (MFA)
-			csvWriter.append(",,Measure Of Functional Abtraction (MFA),,,");
+			csvWriter.append(",,Measure Of Functional Abtraction (MFA),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction().get(key)) + ",");
@@ -956,7 +954,7 @@ public class generateCSV {
 	private void generateMOA() {
 		try {
 			// Primary Metric Measure Of Aggregation (MOA)
-			csvWriter.append(",,Measure Of Aggregation (MOA),,,");
+			csvWriter.append(",,Measure Of Aggregation (MOA),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getMeasureOfAggregation().get(key)) + ",");
@@ -974,7 +972,7 @@ public class generateCSV {
 	private void generateNC() {
 		try {
 			// Primary Metric Nesting Complexity (NC)
-			csvWriter.append(",,Nesting Complexity (NC),,,");
+			csvWriter.append(",,Nesting Complexity (NC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNestingComplexity().get(key)) + ",");
@@ -991,7 +989,7 @@ public class generateCSV {
 	private void generateNOC() {
 		try {
 			// Primary Metric Number Of Children (NOC)
-			csvWriter.append(",,Number Of Children (NOC),,,");
+			csvWriter.append(",,Number Of Children (NOC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNumberOfChildren().get(key)) + ",");
@@ -1009,11 +1007,9 @@ public class generateCSV {
 		try {
 			// Primary Metric Number of Hierarchies (NOH)
 			csvWriter.append(",,Number of Hierarchies (NOH),,,");
-			// For each class in the project
-			for(String key: classNames) {
-				// Int
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNumberOfHierarchies().get(key)) + ",");
-			}
+			// Project Level metric
+			csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNumberOfHierarchies()) + ",");
+			
 			csvWriter.append("\n");
 
 		} catch (IOException e) {
@@ -1026,7 +1022,7 @@ public class generateCSV {
 	private void generateNOM() {
 		try {
 			// Primary Metric Number Of Methods (NOM)
-			csvWriter.append(",,Number Of Methods (NOM),,,");
+			csvWriter.append(",,Number Of Methods (NOM),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNumberOfMethods().get(key)) + ",");
@@ -1043,7 +1039,7 @@ public class generateCSV {
 	private void generateNOP() {
 		try {
 			// Primary Metric Number Of Polymorphic Methods (NOP)
-			csvWriter.append(",,Number Of Polymorphic Methods (NOP),,,");
+			csvWriter.append(",,Number Of Polymorphic Methods (NOP),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getNumberOfPolymorphicMethods().get(key)) + ",");
@@ -1060,7 +1056,7 @@ public class generateCSV {
 	private void generateRAS() {
 		try {
 			// Primary Metric Reduce Attack Surface (RAS)
-			csvWriter.append(",,Reduce Attack Surface (RAS),,,");
+			csvWriter.append(",,Reduce Attack Surface (RAS),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getReduceAttackSurface().get(key)) + ",");
@@ -1081,7 +1077,7 @@ public class generateCSV {
 	private void generateRFC() {
 		try {
 			// Primary Metric Responce Set For a Class (RFC)
-			csvWriter.append(",,Responce Set For a Class (RFC),,,");
+			csvWriter.append(",,Responce Set For a Class (RFC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getResponseSetForAClass().get(key)) + ",");
@@ -1099,11 +1095,9 @@ public class generateCSV {
 		try {
 			// Primary Metric Secure Weakest Link (SWL)
 			csvWriter.append(",,Secure Weakest Link (SWL),,,");
-			// For each class in the project
-			for(String key: classNames) {
-				// Double 
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getSecureWeakestLink().get(key)) + ",");
-			}
+			// Project Level 
+			csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getSecureWeakestLink()) + ",");
+		
 			csvWriter.append("\n");
 
 			// Generate the associated Secondary Metric
@@ -1120,11 +1114,9 @@ public class generateCSV {
 		try {
 			// Primary Metric Source Lines Of Code (SLOC)
 			csvWriter.append(",,Source Lines Of Code (SLOC),,,");
-			// For each class in the project
-			for(String key: classNames) {
-				// Int value?
-				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getSourceLinesOfCode.get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getSourceLinesOfCode()) + ",");
+			
 			csvWriter.append("\n");
 
 		} catch (IOException e) {
@@ -1137,7 +1129,7 @@ public class generateCSV {
 	private void generateSCC() {
 		try {
 			// Primary Metric Strict Cyclomatic Complexity (SCC)
-			csvWriter.append(",,Strict Cyclomatic Complexity (SCC),,,");
+			csvWriter.append(",,Strict Cyclomatic Complexity (SCC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getStrictCyclomaticComplexity().get(key)) + ",");
@@ -1154,7 +1146,7 @@ public class generateCSV {
 	private void generateWMC() {
 		try {
 			// Primary Metric Weighted Methods per Class (WMC)
-			csvWriter.append(",,Weighted Methods per Class (WMC),,,");
+			csvWriter.append(",,Weighted Methods per Class (WMC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getWeightedMethodsPerClass().get(key)) + ",");
@@ -1176,7 +1168,7 @@ public class generateCSV {
 	private void generateRCA() {
 		try {
 			// Seconday Metric Readability of Classified Attributes (RCA)
-			csvWriter.append(",,,Readability of Classified Attributes (RCA),,");
+			csvWriter.append(",,,Readability of Classified Attributes (RCA),,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getReadabilityOfClassifiedAttributes().get(key)) + ",");
@@ -1199,11 +1191,8 @@ public class generateCSV {
 		try {
 			// Seconday Metric Readability of Critical Classes (RCC)
 			csvWriter.append(",,,Readability of Critical Classes (RCC),,");
-			// For each class in the project
-			for(String key: classNames) {
-				//Float value???
-				//csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getReadabilityOfCriticalClasses().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getReadabilityOfCriticalClasses()) + ",");			
 			csvWriter.append("\n");
 
 			// Generate the associated Tertiary Metrics
@@ -1224,7 +1213,7 @@ public class generateCSV {
 	private void generateRCM() {
 		try {
 			// Seconday Metric Readability of Classifed Methods (RCM)
-			csvWriter.append(",,,Readability of Classifed Methods (RCM),,");
+			csvWriter.append(",,,Readability of Classifed Methods (RCM),,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getReadabilityOfClassifiedMethods().get(key)) + ",");
@@ -1248,11 +1237,9 @@ public class generateCSV {
 		try {
 			// Seconday Metric Security Absolute Measurements (SAM)
 			csvWriter.append(",,,Security Absolute Measurements (SAM),,");
-			// For each class in the project
-			for(String key: classNames) {
-				//int value???
-				//csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getSecurityAbsoluteMeasurements().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getSecurityAbsoluteMeasurements()) + ",");
+			
 			csvWriter.append("\n");
 
 			// Generate the associated Tertiary Metrics
@@ -1271,7 +1258,7 @@ public class generateCSV {
 	private void generateWCA() {
 		try {
 			// Seconday Metric Writability Of Classified Attributes (WCA)
-			csvWriter.append(",,,Writability Of Classified Attributes (WCA),,");
+			csvWriter.append(",,,Writability Of Classified Attributes (WCA),,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getWritabilityOfClassifiedAttributes().get(key)) + ",");
@@ -1295,11 +1282,8 @@ public class generateCSV {
 		try {
 			// Seconday Metric Writability via Critical Classes (WCC)
 			csvWriter.append(",,,Writability via Critical Classes (WCC),,");
-			// For each class in the project
-			for(String key: classNames) {
-				//float value???
-				//csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getWritabilityOfCriticalClasses().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getWritabilityOfCriticalClasses()) + ",");
 			csvWriter.append("\n");
 
 			// Generate the associated Tertiary Metrics
@@ -1319,7 +1303,7 @@ public class generateCSV {
 	private void generateWCM() {
 		try {
 			// Seconday Metric Writability Of Classified Methods (WCM)
-			csvWriter.append(",,,Writability Of Classified Methods (WCM),,");
+			csvWriter.append(",,,Writability Of Classified Methods (WCM),,,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getSecondaryMetrics().getWritabilityOfClassifiedMethods().get(key)) + ",");
@@ -1348,7 +1332,7 @@ public class generateCSV {
 	private void generateCAAI() {
 		try {
 			// Tertiary Metric Classified Accessor Attribute Interactions (CAAI)
-			csvWriter.append(",,,,Classified Accessor Attribute Interactions (CAAI),");
+			csvWriter.append(",,,,Classified Accessor Attribute Interactions (CAAI),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedAccessorAttributeInteractions().get(key)) + ",");
@@ -1365,7 +1349,7 @@ public class generateCSV {
 	private void generateCAI() {
 		try {
 			// Tertiary Metric Classified Attributes Inheritance (CAI)
-			csvWriter.append(",,,,Classified Attributes Inheritance (CAI),");
+			csvWriter.append(",,,,Classified Attributes Inheritance (CAI),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedAttributesInheritance().get(key)) + ",");
@@ -1382,7 +1366,7 @@ public class generateCSV {
 	private void generateCAIW() {
 		try {
 			// Tertiary Metric Classified Attributes Interaction Weight (CAIW)
-			csvWriter.append(",,,,Classified Attributes Interaction Weight (CAIW),");
+			csvWriter.append(",,,,Classified Attributes Interaction Weight (CAIW),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedAttributesInteractionWeight().get(key)) + ",");
@@ -1400,11 +1384,8 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Classified Attributes Total (CAT)
 			csvWriter.append(",,,,Classified Attributes Total (CAT),");
-			// For each class in the project
-			for(String key: classNames) {
-				//int??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedAttributesTotal().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedAttributesTotal()) + ",");
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1418,12 +1399,10 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Critical Classes Coupling (CCC)
 			csvWriter.append(",,,,Critical Classes Coupling (CCC),");
-			// For each class in the project
-			for(String key: classNames) {
-				//float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalClassesCoupling().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalClassesCoupling()) + ",");
 			csvWriter.append("\n");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1435,7 +1414,7 @@ public class generateCSV {
 	private void generateCCDA() {
 		try {
 			// Tertiary Metric Classified Class Data Accessibility (CCDA)
-			csvWriter.append(",,,,Classified Class Data Accessibility (CCDA),");
+			csvWriter.append(",,,,Classified Class Data Accessibility (CCDA),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedClassDataAccessibility().get(key)) + ",");
@@ -1453,11 +1432,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Critical Classes Extensibility (CCE)
 			csvWriter.append(",,,,Critical Classes Extensibility (CCE),");
-			// For each class in the project
-			for(String key: classNames) {
-				//Float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalClassesExtensibility().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalClassesExtensibility()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1471,11 +1448,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Critical Classes Total (CCT)
 			csvWriter.append(",,,,Critical Classes Total (CCT),");
-			// For each class in the project
-			for(String key: classNames) {
-				//int??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalClassesTotal().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalClassesTotal()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1489,11 +1464,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Critical Design Proportion (CDP)
 			csvWriter.append(",,,,Critical Design Proportion (CDP),");
-			// For each class in the project
-			for(String key: classNames) {
-				//Float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalDesignProportion().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalDesignProportion()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1506,7 +1479,7 @@ public class generateCSV {
 	private void generateCIDA() {
 		try {
 			// Tertiary Metric Classified Instance Data Accessbility (CIDA)
-			csvWriter.append(",,,Classified Instance Data Accessbility (CIDA),");
+			csvWriter.append(",,,Classified Instance Data Accessbility (CIDA),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedInstanceDataAccessibility().get(key)) + ",");
@@ -1523,7 +1496,7 @@ public class generateCSV {
 	private void generateCMAI() {
 		try {
 			// Tertiary Metric Classified Mutator Attribute Interactions (CMAI)
-			csvWriter.append(",,,,Classified Mutator Attribute Interactions (CMAI),");
+			csvWriter.append(",,,,Classified Mutator Attribute Interactions (CMAI),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedMutatorAttributeInteractions().get(key)) + ",");
@@ -1540,7 +1513,7 @@ public class generateCSV {
 	private void generateCME() {
 		try {
 			// Tertiary Metric Classified Methods Extensiblity (CME)
-			csvWriter.append(",,,,Classified Methods Extensiblity (CME),");
+			csvWriter.append(",,,,Classified Methods Extensiblity (CME),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedMethodsExtensibility().get(key)) + ",");
@@ -1557,7 +1530,7 @@ public class generateCSV {
 	private void generateCMI() {
 		try {
 			// Tertiary Metric Classified Methods Inheritance  (CMI)
-			csvWriter.append(",,,,Classified Methods Inheritance  (CMI),");
+			csvWriter.append(",,,,Classified Methods Inheritance  (CMI),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedMethodsInheritance().get(key)) + ",");
@@ -1575,11 +1548,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Classified Methods Total (CMT)
 			csvWriter.append(",,.,Classified Methods Total (CMT),");
-			// For each class in the project
-			for(String key: classNames) {
-				//int??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedMethodsTotal().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedMethodsTotal()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1592,7 +1563,7 @@ public class generateCSV {
 	private void generateCMW() {
 		try {
 			// Tertiary Metric Classified Methods Weight (CMW)
-			csvWriter.append(",,,,Classified Methods Weight (CMW),");
+			csvWriter.append(",,,,Classified Methods Weight (CMW),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedMethodsWeight().get(key)) + ",");
@@ -1609,7 +1580,7 @@ public class generateCSV {
 	private void generateCOA() {
 		try {
 			// Tertiary Metric Classified Operation Accessiblity (COA)
-			csvWriter.append(",,,,Classified Operation Accessiblity (COA),");
+			csvWriter.append(",,,,Classified Operation Accessiblity (COA),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedOperationAccessibility().get(key)) + ",");
@@ -1627,11 +1598,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Composite-Part Critical Classes (CPCC)
 			csvWriter.append(",,,,Composite-Part Critical Classes (CPCC),");
-			// For each class in the project
-			for(String key: classNames) {
-				//Float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCompositePartCriticalClasses().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCompositePartCriticalClasses()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1645,11 +1614,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Critical Serialized Classes Proportion (CSCP)
 			csvWriter.append(",,,,Critical Serialized Classes Proportion (CSCP),");
-			// For each class in the project
-			for(String key: classNames) {
-				//float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalSerializedClassesProportion().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalSerializedClassesProportion()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1663,11 +1630,8 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Critical Superclasses Inheritance (CSI)
 			csvWriter.append(",,,,Critical Superclasses Inheritance (CSI),");
-			// For each class in the project
-			for(String key: classNames) {
-				//float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalSuperclassesInheritance().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalSuperclassesInheritance()) + ",");
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1681,11 +1645,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Critical Superclasses Proportion (CSP)
 			csvWriter.append(",,,,Critical Superclasses Proportion (CSP),");
-			// For each class in the project
-			for(String key: classNames) {
-				//Float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalSuperclassesProportion().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getCriticalSuperclassesProportion()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1698,7 +1660,7 @@ public class generateCSV {
 	private void generateCWMP() {
 		try {
 			// Tertiary Metric Classified Writing Methods Proportion (CWMP)
-			csvWriter.append(",,,,Classified Writing Methods Proportion (CWMP),");
+			csvWriter.append(",,,,Classified Writing Methods Proportion (CWMP),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getClassifiedWritingMethodsProportion().get(key)) + ",");
@@ -1716,12 +1678,10 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Reflection Package Boolean (RPB)
 			csvWriter.append(",,,,Reflection Package Boolean (RPB),");
-			// For each class in the project
-			for(String key: classNames) {
-				// float???
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getReflectionPackageBoolean().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getReflectionPackageBoolean()) + ",");
 			csvWriter.append("\n");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1733,7 +1693,7 @@ public class generateCSV {
 	private void generateUACA() {
 		try {
 			// Tertiary Metric Unaccessed Assigned Classified Attribute (UACA)
-			csvWriter.append(",,,,Unaccessed Assigned Classified Attribute (UACA),");
+			csvWriter.append(",,,,Unaccessed Assigned Classified Attribute (UACA),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getUnaccessedAssignedClassifiedAttribute().get(key)) + ",");
@@ -1751,11 +1711,9 @@ public class generateCSV {
 		try {
 			// Tertiary Metric Unused Critical Accessor Class (UCAC)
 			csvWriter.append(",,,,Unused Critical Accessor Class (UCAC),");
-			// For each class in the project
-			for(String key: classNames) {
-				//float??
-				//csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getUnusedCriticalAccessorClass().get(key)) + ",");
-			}
+			// Project Level
+			csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getUnusedCriticalAccessorClass()) + ",");
+			
 			csvWriter.append("\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1768,7 +1726,7 @@ public class generateCSV {
 	private void generateUCAM() {
 		try {
 			// Tertiary Metric Uncalled Classified Accessor Method (UCAM)
-			csvWriter.append(",,,,Uncalled Classified Accessor Method (UCAM),");
+			csvWriter.append(",,,,Uncalled Classified Accessor Method (UCAM),,");
 			// For each class in the project
 			for(String key: classNames) {
 				csvWriter.append(String.valueOf(calc.getTertiaryMetrics().getUncalledClassifiedAccessorMethod().get(key)) + ",");

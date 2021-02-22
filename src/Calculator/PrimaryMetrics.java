@@ -461,8 +461,8 @@ public class PrimaryMetrics {
 
 
 	public HashMap<String, Double> getAverageNumberOfAncestors() {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return new HashMap<String, Double>();
 	}
 
 
