@@ -165,3 +165,43 @@ thead tr td
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
+
+#overall1
+{
+	position: relative;
+	top: 0;
+}
+#flexability1
+{
+	position: relative;
+	top: 0;
+}
+#readability1
+{
+	position: relative;
+	top: 0;
+	left: 200px;
+}
+#functionality1
+{
+	position: relative;
+	top: 0;
+	left: 200px;
+}
+#extendability1
+{
+	position: relative;
+	top: 0;
+}
+#effectiveness1
+{
+	position: relative;
+	top: 0;
+	left: 200px;
+}
+#reusability1
+{
+	position: relative;
+	top: 0;
+	left: 200px;
+}
