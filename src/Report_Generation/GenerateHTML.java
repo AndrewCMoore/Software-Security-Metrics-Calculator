@@ -3,6 +3,10 @@ package Report_Generation;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
+
+import Calculator.Calculator;
 
 public class GenerateHTML {
 
@@ -10,10 +14,31 @@ public class GenerateHTML {
 	private final String type = ".html";
 	private File htmlFile;
 	private String fileName;
+	private Calculator calc;
+	private String flex;
+	String read;
+	String reuse;
+	String effect;
+	String extend;
+	String function;
+	String overall;
 
-	public GenerateHTML() {
+	public GenerateHTML(Calculator c) {
 		// TODO access list of metrics
-
+		this.calc = c;
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		 flex = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getFlexibility()));
+		 read = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getUnderstandability()));
+		 reuse = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getReusability()));
+		 effect = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getEffectiveness()));
+		 extend = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getExtendability()));
+		 function = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getFunctionality()));
+		 overall = String.valueOf((generateAverage(classNames, calc.getQualityAttributes().getFlexibility())
+				+ generateAverage(classNames, calc.getQualityAttributes().getUnderstandability())
+				+ generateAverage(classNames, calc.getQualityAttributes().getReusability())
+				+ generateAverage(classNames, calc.getQualityAttributes().getEffectiveness())
+				+ generateAverage(classNames, calc.getQualityAttributes().getExtendability())
+				+ generateAverage(classNames, calc.getQualityAttributes().getFunctionality())) / 6);
 		try {
 
 			htmlFile = new File(FILENAME + type);
@@ -31,12 +56,121 @@ public class GenerateHTML {
 			FileWriter writer = new FileWriter(fileName);
 			writer.append(makeHead());
 			writer.append(makeNavBar());
-			String head = makeHead();
+			writer.append(makeSplashPage());
+			writer.append(makeTableSection());
+			writer.append(makeJavaScriptSection());
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public String generateOverAllScore() {
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] overallTable = new String[7][6];
+		String section = makeCircle("Overall Score", overall, "c100 bigger orange overall besidesOverall p"+overall, "overall1");
+		overallTable[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		overallTable[1] = generateRow(classNames, calc.getQualityAttributes().getEffectiveness(), "Effectiveness");
+		overallTable[2] = generateRow(classNames, calc.getQualityAttributes().getFlexibility(), "Flexability");
+		overallTable[3] = generateRow(classNames, calc.getQualityAttributes().getFunctionality(), "Functionality");
+		overallTable[4] = generateRow(classNames, calc.getQualityAttributes().getExtendability(), "Extendability");
+		overallTable[6] = generateRow(classNames, calc.getQualityAttributes().getReusability(), "Reusability");
+		overallTable[6] = generateRow(classNames, calc.getQualityAttributes().getUnderstandability(), "Readability");
+		section += makeTable(overallTable);
+		section += "</div>\r\n" + "</div>\r\n" + "</div>";
+		return section;
+	}
+
+	public String generateEffectiveness() {
+		String section = makeCircle("Effectiveness", effect, "c100 big maroon effectiveness besides p"+effect, "effectiveness1");
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] effectiveness = new String[6][6];
+		effectiveness[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		effectiveness[1] = generateRow(classNames, calc.getDesignPrincipals().getAbstraction(), "Abstraction");
+		effectiveness[2] = generateRow(classNames, calc.getDesignPrincipals().getEncapsulation(), "Encapsulation");
+		effectiveness[3] = generateRow(classNames, calc.getDesignPrincipals().getComposition(), "Composition");
+		effectiveness[4] = generateRow(classNames, calc.getDesignPrincipals().getInheritance(), "Inheritance");
+		effectiveness[5] = generateRow(classNames, calc.getDesignPrincipals().getPolymorphism(), "Polymorphism");
+		section += makeTable(effectiveness);
+		return section;
+	}
+
+	public String generateReusability() {
+		String section = makeCircle("Reusability", reuse, "c100 big green reusability besides p"+reuse, "reusability1");
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] reusability = new String[5][6];
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getCoupling(), "Coupling");
+		reusability[2] = generateRow(classNames, calc.getDesignPrincipals().getCohesion(), "Cohesion");
+		reusability[3] = generateRow(classNames, calc.getDesignPrincipals().getMessaging(), "Messaging");
+		reusability[4] = generateRow(classNames, calc.getDesignPrincipals().getDesignSize(), "Design Size");
+		section += makeTable(reusability);
+		return section;
+	}
+
+	public String generateUnderstandability() {
+		String section = makeCircle("Readability", read, "c100 big pink readability besides p"+read, "readability1");
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] reusability = new String[8][6];
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getAbstraction(), "Abstraction");
+		reusability[2] = generateRow(classNames, calc.getDesignPrincipals().getEncapsulation(), "Encapsulation");
+		reusability[3] = generateRow(classNames, calc.getDesignPrincipals().getCoupling(), "Coupling");
+		reusability[4] = generateRow(classNames, calc.getDesignPrincipals().getCohesion(), "Cohesion");
+		reusability[5] = generateRow(classNames, calc.getDesignPrincipals().getPolymorphism(), "Polymorphism");
+		reusability[6] = generateRow(classNames, calc.getDesignPrincipals().getComplexity(), "Complexity");
+		reusability[8] = generateRow(classNames, calc.getDesignPrincipals().getDesignSize(), "Design Size");
+		section += makeTable(reusability);
+		return section;
+	}
+
+	public String generateFlexability() {
+		String section = makeCircle("Flexability", flex, "c100 big flexability besides p"+flex, "readability1");
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] reusability = new String[5][6];
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getEncapsulation(), "Encapsulation");
+		reusability[2] = generateRow(classNames, calc.getDesignPrincipals().getCoupling(), "Coupling");
+		reusability[3] = generateRow(classNames, calc.getDesignPrincipals().getComposition(), "Composition");
+		reusability[4] = generateRow(classNames, calc.getDesignPrincipals().getPolymorphism(), "Polymorphism");
+		section += makeTable(reusability);
+		return section;
+	}
+
+	public String generateFunctionality() {
+		String section = makeCircle("Functionality", function, "c100 big skyblue functionality besides p"+function, "functionality1");
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] reusability = new String[5][6];
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getCohesion(), "Cohesion");
+		reusability[2] = generateRow(classNames, calc.getDesignPrincipals().getPolymorphism(), "Polymorphism");
+		reusability[3] = generateRow(classNames, calc.getDesignPrincipals().getMessaging(), "Messaging");
+		reusability[4] = generateRow(classNames, calc.getDesignPrincipals().getDesignSize(), "Design Size");
+		reusability[5] = generateRow(classNames, calc.getDesignPrincipals().getHierarchies(), "Hierarchies");
+		section += makeTable(reusability);
+		return section;
+	}
+
+	public String generateExtendability() {
+		String section = makeCircle("Extendability", extend, "c100 big blue extendability besides p"+extend, "extendability1");
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] reusability = new String[5][6];
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getAbstraction(), "Abstraction");
+		reusability[2] = generateRow(classNames, calc.getDesignPrincipals().getCoupling(), "Coupling");
+		reusability[3] = generateRow(classNames, calc.getDesignPrincipals().getMessaging(), "Messaging");
+		reusability[4] = generateRow(classNames, calc.getDesignPrincipals().getDesignSize(), "Design Size");
+		reusability[5] = generateRow(classNames, calc.getDesignPrincipals().getHierarchies(), "Hierarchies");
+		section += makeTable(reusability);
+		return section;
 	}
 
 	public String makeHead() {
@@ -58,6 +192,51 @@ public class GenerateHTML {
 		return navBar;
 	}
 
+	public String makeSplashPage() {
+
+		String splash = "<div class=\"container\">\r\n" + "			<div class=\"row\">";
+
+
+
+		splash += makeCircle("Flexability", flex, "c100 big flexability p" + flex, "flexability");
+		splash += makeCircle("Reusability", read, "c100 big pink readability p" + read, "readability");
+		splash += makeCircle("Readability", reuse, "c100 big pink readability p" + reuse, "reusability");
+		splash += makeCircle("Effectiveness", effect, "c100 big maroon effectiveness p" + effect, "effectiveness");
+		splash += makeCircle("Extendability", extend, "c100 big maroon effectiveness p" + extend, "extendability");
+		splash += makeCircle("Functionality", function, "c100 big maroon effectiveness p" + function, "functionality");
+		splash += makeCircle("Overall Score", overall, "c100 big maroon effectiveness p" + overall, "overall");
+		splash +="</div>\r\n"
+				+ "		</div>";
+		return splash;
+	}
+	public String makeTableSection() {
+		String section ="<div class=\"tables\">\r\n"
+						+ "<div id=\"overallscoreData\">";
+		section += makeCollapseSection("Overall Score",generateOverAllScore());
+			section += "</div>\r\n"
+					+ "			\r\n"
+					+ "			<div id=\"flexabilityData\">";
+		section += makeCollapseSection("Flexability" ,generateFlexability());
+			section +="</div>\r\n"
+					+ "			\r\n"
+					+ "			<div id=\"readabilityData\">";
+		section += makeCollapseSection("Functionality" ,generateFunctionality());
+			section +="</div>\r\n"
+					+ "			\r\n"
+					+ "			<div id=\"functionalityData\">";
+		section += makeCollapseSection("Extendability" ,generateExtendability());
+			section +="</div>\r\n"
+					+ "			\r\n"
+					+ "			<div id=\"extendabilityData\">";
+		section += makeCollapseSection("Effectiveness" ,generateEffectiveness());
+			section +="</div>\r\n"
+					+ "			\r\n"
+					+ "			<div id=\"reusabilityData\">";
+		section += makeCollapseSection("Reusability" ,generateReusability());
+			section +="</div>";
+		return section;
+	}
+
 	public String makeCircle(String name, String number, String cssClass, String id) {
 		String c = "";
 		c += "<div class=\"" + cssClass + "\"id=\"" + id + "\">";
@@ -67,14 +246,11 @@ public class GenerateHTML {
 		return c;
 	}
 
-	public String makeCollapseSection(String name,String number, String cssClass, String id,String content) {
-		String section ="<button class=\"accordion\">"+name+"</button>"
-				+ "<div class=\"panel\">"
+	public String makeCollapseSection(String name, String content) {
+		String section = "<button class=\"accordion\">" + name + "</button>" + "<div class=\"panel\">"
 				+ "<div style=\"padding: 20px;\">";
 		section += content;
-		section +="	</div>\r\n"
-				+ "	</div>\r\n"
-				+ "	</div>";
+		section += "	</div>\r\n" + "	</div>\r\n" + "	</div>";
 
 		return section;
 	}
@@ -243,6 +419,106 @@ public class GenerateHTML {
 				+ "			  });\r\n" + "			}\r\n" + "		</script>";
 
 		return script;
+	}
+
+	public String[] generateRowString(Set<String> classNames, HashMap<String, Double> results, String metric) {
+		String[] row = new String[6];
+		row[0] = metric;
+		int average = generateAverage(classNames, results);
+		int standardDeviation = generateStanderdDeviation(classNames, results, average);
+		int highest = getHigestValue(classNames, results);
+		int lowest = getLowestValue(classNames, results);
+		int count = getCount(classNames, results);
+		row[1] = Integer.toString(average);
+		row[2] = Integer.toString(standardDeviation);
+		row[3] = Integer.toString(highest);
+		row[4] = Integer.toString(lowest);
+		row[5] = Integer.toString(count);
+		return row;
+	}
+
+	public String[] generateRow(Set<String> classNames, HashMap<String, Double> results, String metric) {
+		String[] row = new String[6];
+		row[0] = metric;
+		int average = generateAverage(classNames, results);
+		int standardDeviation = generateStanderdDeviation(classNames, results, average);
+		int highest = getHigestValue(classNames, results);
+		int lowest = getLowestValue(classNames, results);
+		int count = getCount(classNames, results);
+		row[1] = Integer.toString(average);
+		row[2] = Integer.toString(standardDeviation);
+		row[3] = Integer.toString(highest);
+		row[4] = Integer.toString(lowest);
+		row[5] = Integer.toString(count);
+		return row;
+	}
+
+	public int getHigestValue(Set<String> classNames, HashMap<String, Double> results) {
+		int highest = Integer.MIN_VALUE;
+		for (String key : classNames) {
+			String value = String.valueOf(results.get(key));
+			if (Integer.getInteger(value) != null) {
+				if (highest < Integer.getInteger(value)) {
+					highest = Integer.getInteger(value);
+				}
+			}
+		}
+
+		return highest;
+	}
+
+	public int getLowestValue(Set<String> classNames, HashMap<String, Double> results) {
+		int lowest = Integer.MAX_VALUE;
+		for (String key : classNames) {
+			String value = String.valueOf(results.get(key));
+			if (Integer.getInteger(value) != null) {
+				if (lowest > Integer.getInteger(value)) {
+					lowest = Integer.getInteger(value);
+				}
+			}
+		}
+
+		return lowest;
+	}
+
+	public int getCount(Set<String> classNames, HashMap<String, Double> results) {
+		int size = 0;
+		for (String key : classNames) {
+			String value = String.valueOf(results.get(key));
+			if (Integer.getInteger(value) != null) {
+				size++;
+			}
+		}
+
+		return size;
+	}
+
+	public int generateAverage(Set<String> classNames, HashMap<String, Double> results) {
+		int average = 0;
+		int size = 0;
+		for (String key : classNames) {
+			String value = String.valueOf(results.get(key));
+			if (Integer.getInteger(value) != null) {
+				size++;
+				average += Integer.getInteger(value);
+			}
+		}
+		average /= size;
+		return average;
+	}
+
+	public int generateStanderdDeviation(Set<String> classNames, HashMap<String, Double> results, int average) {
+		int standardDeviation = 0;
+		int size = 0;
+		for (String key : classNames) {
+			String value = String.valueOf(results.get(key));
+			if (Integer.getInteger(value) != null) {
+				size++;
+				standardDeviation += Math.pow((Integer.getInteger(value) - average), 2);
+			}
+		}
+		standardDeviation /= size;
+		return standardDeviation;
 	}
 
 }
