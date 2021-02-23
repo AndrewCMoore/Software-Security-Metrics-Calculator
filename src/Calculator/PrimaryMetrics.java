@@ -8,35 +8,35 @@ import java.util.Set;
 
 public class PrimaryMetrics {
 
-	private int sourceLinesOfCode=0; //Project Level Metric
-	private HashMap<String, Float> commentRatio = new HashMap<String, Float>(); //class level metric
+	private Double sourceLinesOfCode=(double) 0; //Project Level Metric
+	private HashMap<String, Double> commentRatio = new HashMap<String, Double>(); //class level metric
 	private HashMap<String, HashMap<String, Integer>> nestingComplexity = new HashMap<String, HashMap<String, Integer>>(); //method level metric (max loop complexity of each method)
-	private HashMap<String, Integer> numberOfChildren = new HashMap<String, Integer>(); //class level metric
-	private HashMap<String, Integer> numberOfMethods = new HashMap<String, Integer>(); //classlevelmetric
-	private int numberOfHierarchies=0;  //project level
-	private int countOfBaseClasses=0; //project level
-	private int numberofClasses=0; //Project level
-	private HashMap<String,Float> lackOfCohesionOfMethods = new HashMap<String,Float>();
-	private HashMap<String,Float> cohesionAmongMethodsInClass = new HashMap<String,Float>();
-	private HashMap<String,Float> measureOfFunctionalAbtraction = new HashMap<String,Float>();
+	private HashMap<String, Double> numberOfChildren = new HashMap<String, Double>(); //class level metric
+	private HashMap<String, Double> numberOfMethods = new HashMap<String, Double>(); //classlevelmetric
+	private double numberOfHierarchies=0;  //project level
+	private double countOfBaseClasses=0; //project level
+	private double numberofClasses=0; //Project level
+	private HashMap<String,Double> lackOfCohesionOfMethods = new HashMap<String,Double>();
+	private HashMap<String,Double> cohesionAmongMethodsInClass = new HashMap<String,Double>();
+	private HashMap<String,Double> measureOfFunctionalAbtraction = new HashMap<String,Double>();
 	private HashMap<String, HashMap<String, Integer>> lengthOfMethod = new HashMap<String, HashMap<String, Integer>>();
-	private int stallRatio;
-	private HashMap<String,Float> couplingCorruptionPropagation = new HashMap<String,Float>();
-	private HashMap<String,Float> couplingBetweenObjects = new HashMap<String,Float>();
+	private double stallRatio;
+	private HashMap<String,Double> couplingCorruptionPropagation = new HashMap<String,Double>();
+	private HashMap<String,Double> couplingBetweenObjects = new HashMap<String,Double>();
 	private HashMap<String, Double> failSafeDefaults = new HashMap<String, Double>();
 	private HashMap<String, Double> reduceAttackSurface = new HashMap<String, Double>();
-	private int economyOfMechanism = 0;
-	private HashMap<String, Integer> strictCyclomaticComplexity = new HashMap<String, Integer>();
-	private HashMap<String, Float> cyclomaticComplexity = new HashMap<String, Float>();
-	private HashMap<String, Float> modifiedCyclomaticComplexity = new HashMap<String, Float>();
-	private HashMap<String, Float> mcCabesCyclomaticComplexity = new HashMap<String, Float>();
-	private HashMap<String, Float> countPath = new HashMap<String, Float>();
+	private double economyOfMechanism = (double) 0;
+	private HashMap<String, Double> strictCyclomaticComplexity = new HashMap<String, Double>();
+	private HashMap<String, Double> cyclomaticComplexity = new HashMap<String, Double>();
+	private HashMap<String, Double> modifiedCyclomaticComplexity = new HashMap<String, Double>();
+	private HashMap<String, Double> mcCabesCyclomaticComplexity = new HashMap<String, Double>();
+	private HashMap<String, Double> countPath = new HashMap<String, Double>();
 	private double secureWeakestLink;
-	private HashMap<String, Float> fanIn = new HashMap<String, Float>();
-	private HashMap<String, Float> fanOut = new HashMap<String, Float>();
-	private HashMap<String, Float> henryKafura = new HashMap<String, Float>();
-	private HashMap<String, Float> criticalElementRatio = new HashMap<String, Float>();
-	private HashMap<String, Float> dataAccessMetric = new HashMap<String, Float>();
+	private HashMap<String, Double> fanIn = new HashMap<String, Double>();
+	private HashMap<String, Double> fanOut = new HashMap<String, Double>();
+	private HashMap<String, Double> henryKafura = new HashMap<String, Double>();
+	private HashMap<String, Double> criticalElementRatio = new HashMap<String, Double>();
+	private HashMap<String, Double> dataAccessMetric = new HashMap<String, Double>();
 	private HashMap<String, Double> grantLeastPrivelage = new HashMap<String, Double>();
 	private HashMap<String, Double> responceSetForaClass = new HashMap<String, Double>();
 	
@@ -115,14 +115,14 @@ public class PrimaryMetrics {
 		HashMap<String,Integer> MC = mpv.getSumOfAllInstanceMethodsInClass();
 		
 		for (String key: VC.keySet()) {
-			lackOfCohesionOfMethods.put(key, (float) (1-(VC.get(key) /(VC.get(key)*MC.get(key))))*100);
+			lackOfCohesionOfMethods.put(key, (double) (1-(VC.get(key) /(VC.get(key)*MC.get(key))))*100);
 		}
 		
 	}
 	
 	//need requirment method names from each classes.
 	public void cohesionAmongMethodsInClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		HashMap<String,Integer> k = mpv.getMethodsInClass();
+		HashMap<String,Double> k = mpv.getMethodsInClass();
 		HashMap<String, HashMap<String, Integer>> l = mpv.getUniqueParamatersInEachMethodInEachClass();
 		HashMap<String,Integer> a = mpv.getNumberOfUniqueParametersInClassForAllMethods();
 		//HashMap<String, Integer> methodClassL = mpv.getMethodNamesInClass();
@@ -139,7 +139,7 @@ public class PrimaryMetrics {
 		
 		//CAMC = a / kl
 		for (String key :newL.keySet()) {
-			cohesionAmongMethodsInClass.put(key, (float) ((a.get(key))/((k.get(key)*newL.get(key)))));
+			cohesionAmongMethodsInClass.put(key, (double) ((a.get(key))/((k.get(key)*newL.get(key)))));
 		}		
 	}
 	
@@ -153,7 +153,7 @@ public class PrimaryMetrics {
 			HashMap<String,Integer> totalCommentsInCode = mpv.getTotalNumberOfCommentedLinesInEachClass();
 			
 			for (String key: totalCommentsInCode.keySet()) {
-				commentRatio.put(key, (float) totalCommentsInCode.get(key)/(totalLinesOfCode.get(key)-totalCommentsInCode.get(key)));
+				commentRatio.put(key, (double) totalCommentsInCode.get(key)/(totalLinesOfCode.get(key)-totalCommentsInCode.get(key)));
 			}
 	}
 	
@@ -161,7 +161,7 @@ public class PrimaryMetrics {
 	
 	public void cyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapCyclomaticComplexity().keySet()) {
-			cyclomaticComplexity.put(key, (float) pv.getMapCyclomaticComplexity().get(key));
+			cyclomaticComplexity.put(key, (double) pv.getMapCyclomaticComplexity().get(key));
 		}
 	}
 	
@@ -172,7 +172,7 @@ public class PrimaryMetrics {
 	
 	public void countPath (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapCountPath().keySet()) {
-			countPath.put(key, (float) pv.getMapCountPath().get(key));
+			countPath.put(key, (double) pv.getMapCountPath().get(key));
 		}
 	}
 	
@@ -183,13 +183,13 @@ public class PrimaryMetrics {
 	
 	public void modifiedCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapModifiedComplexity().keySet()) {
-			modifiedCyclomaticComplexity.put(key, (float) pv.getMapModifiedComplexity().get(key));
+			modifiedCyclomaticComplexity.put(key, (double) pv.getMapModifiedComplexity().get(key));
 		}
 	}
 	
 	public void mcCabesCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapMcCabesComplexity().keySet()) {
-			mcCabesCyclomaticComplexity .put(key, (float) pv.getMapMcCabesComplexity().get(key));
+			mcCabesCyclomaticComplexity .put(key, (double) pv.getMapMcCabesComplexity().get(key));
 		}
 	}
 	
@@ -203,7 +203,7 @@ public class PrimaryMetrics {
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
 		//for each class in project, ? operator, is the class name part of a inheritance hearchy ? yes-> put classname,#children : no-> put classname,0 children.
 		for (String key: classNames) {
-			numberOfChildren.put(key, (immidiateChildrenInClass.get(key)!=null) ? numberOfChildren.put(key, mpv.getImidiateChildren().get(key).size()) : numberOfChildren.put(key, 0));
+			numberOfChildren.put(key, (immidiateChildrenInClass.get(key)!=null) ? numberOfChildren.put(key, (double) mpv.getImidiateChildren().get(key).size()) : numberOfChildren.put(key, (double) 0));
 		}
 	}
 	
@@ -262,19 +262,19 @@ public class PrimaryMetrics {
 	
 	public void fanIn(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapMethodInputs().keySet()) {
-        	fanIn.put(key, (float) pv.getMapMethodInputs().get(key));
+        	fanIn.put(key, (double) pv.getMapMethodInputs().get(key));
         }
 	}
 	
 	public void fanOut(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapMethodOutputs().keySet()) {
-        	fanOut.put(key, (float) pv.getMapMethodOutputs().get(key));
+        	fanOut.put(key, (double) pv.getMapMethodOutputs().get(key));
         }
 	}
 	
 	public void henryKafura(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapHenryKafura().keySet()) {
-        	henryKafura.put(key, (float) pv.getMapHenryKafura().get(key));
+        	henryKafura.put(key, (double) pv.getMapHenryKafura().get(key));
         }
 	}
 	
@@ -304,13 +304,13 @@ public class PrimaryMetrics {
 
 	public void criticalElementRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapCriticalElements().keySet()) {
-        	criticalElementRatio.put(key, (float) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
+        	criticalElementRatio.put(key, (double) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
         }
 	}
 	
 	public void dataAccessMetric (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapCriticalElements().keySet()) {
-        	dataAccessMetric.put(key, (float) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
+        	dataAccessMetric.put(key, (double) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
         }
 	}
 	
@@ -341,7 +341,7 @@ public class PrimaryMetrics {
 		HashMap<String,Integer> totalNumberOfMethodsAccessible =  mpv.getClassMethodsInheritedBySubClassm(); //temp
 		
 		for (String key: numberOfMethodsInherited.keySet()) {
-			measureOfFunctionalAbtraction.put(key, (float) (numberOfMethodsInherited.get(key)/totalNumberOfMethodsAccessible.get(key)));
+			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/totalNumberOfMethodsAccessible.get(key)));
 		}
 	}
 	
@@ -362,12 +362,12 @@ public class PrimaryMetrics {
 	//###########################################################################################################################################################
 
 	
-	public int getSourceLinesOfCode() {
+	public Double getSourceLinesOfCode() {
 		return this.sourceLinesOfCode;
 	}
 
 
-	public HashMap<String, Float> getCommentRatio() {
+	public HashMap<String, Double> getCommentRatio() {
 		return commentRatio;
 	}
 
@@ -377,44 +377,44 @@ public class PrimaryMetrics {
 	}
 
 
-	public HashMap<String, Integer> getNumberOfChildren() {
+	public HashMap<String, Double> getNumberOfChildren() {
 		return numberOfChildren;
 	}
 
 
-	public HashMap<String, Integer> getNumberOfMethods() {
+	public HashMap<String, Double> getNumberOfMethods() {
 		return numberOfMethods;
 	}
 
 
-	public int getNumberOfHierarchies() {
+	public double getNumberOfHierarchies() {
 		return numberOfHierarchies;
 	}
 
 
-	public int getCountOfBaseClasses() {
+	public double getCountOfBaseClasses() {
 		return countOfBaseClasses;
 	}
 
 
-	public int getNumberofClasses() {
+	public double getNumberofClasses() {
 		return numberofClasses;
 	}
 
 
-	public HashMap<String, Integer> getLackOfCohesionOfMethods() {
+	public HashMap<String, Double> getLackOfCohesionOfMethods() {
 		//return lackOfCohesionOfMethods;
 		return numberOfMethods;
 	}
 
 
-	public HashMap<String, Integer> getCohesionAmongMethodsInClass() {
+	public HashMap<String, Double> getCohesionAmongMethodsInClass() {
 		//return cohesionAmongMethodsInClass;
 		return numberOfMethods;
 	}
 
 
-	public HashMap<String, Float> getMeasureOfFunctionalAbtraction() {
+	public HashMap<String, Double> getMeasureOfFunctionalAbtraction() {
 		return measureOfFunctionalAbtraction;
 	}
 
@@ -424,17 +424,17 @@ public class PrimaryMetrics {
 	}
 
 
-	public int getStallRatio() {
+	public double getStallRatio() {
 		return stallRatio;
 	}
 
 
-	public HashMap<String, Float> getCouplingCorruptionPropagation() {
+	public HashMap<String, Double> getCouplingCorruptionPropagation() {
 		return couplingCorruptionPropagation;
 	}
 
 
-	public HashMap<String, Float> getCouplingBetweenObjects() {
+	public HashMap<String, Double> getCouplingBetweenObjects() {
 		return couplingBetweenObjects;
 	}
 
@@ -449,12 +449,12 @@ public class PrimaryMetrics {
 	}
 
 
-	public int getEconomyOfMechanism() {
+	public Double getEconomyOfMechanism() {
 		return economyOfMechanism;
 	}
 
 
-	public HashMap<String, Integer> getStrictCyclomaticComplexity() {
+	public HashMap<String, Double> getStrictCyclomaticComplexity() {
 		return strictCyclomaticComplexity;
 	}
 
@@ -465,22 +465,22 @@ public class PrimaryMetrics {
 	}
 
 
-	public HashMap<String, Float> getCyclomaticComplexity() {
+	public HashMap<String, Double> getCyclomaticComplexity() {
 		return cyclomaticComplexity;
 	}
 
 
-	public HashMap<String, Float> getModifiedCyclomaticComplexity() {
+	public HashMap<String, Double> getModifiedCyclomaticComplexity() {
 		return modifiedCyclomaticComplexity;
 	}
 
 
-	public HashMap<String, Float> getMcCabesCyclomaticComplexity() {
+	public HashMap<String, Double> getMcCabesCyclomaticComplexity() {
 		return mcCabesCyclomaticComplexity;
 	}
 
 
-	public HashMap<String, Float> getCountPath() {
+	public HashMap<String, Double> getCountPath() {
 		return countPath;
 	}
 
@@ -490,27 +490,27 @@ public class PrimaryMetrics {
 	}
 
 
-	public HashMap<String, Float> getFanIn() {
+	public HashMap<String, Double> getFanIn() {
 		return fanIn;
 	}
 
 
-	public HashMap<String, Float> getFanOut() {
+	public HashMap<String, Double> getFanOut() {
 		return fanOut;
 	}
 
 
-	public HashMap<String, Float> getHenryKafura() {
+	public HashMap<String, Double> getHenryKafura() {
 		return henryKafura;
 	}
 
 
-	public HashMap<String, Float> getCriticalElementRatio() {
+	public HashMap<String, Double> getCriticalElementRatio() {
 		return criticalElementRatio;
 	}
 
 
-	public HashMap<String, Float> getDataAccessMetric() {
+	public HashMap<String, Double> getDataAccessMetric() {
 		return dataAccessMetric;
 	}
 
