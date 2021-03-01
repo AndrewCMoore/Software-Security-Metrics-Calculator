@@ -32,7 +32,7 @@ public class MurgePulledValues {
 	private HashMap<String,HashMap<String,Integer>> complexityDepthInClassMethods = new HashMap<String,HashMap<String,Integer>>();
 	private HashMap<String,HashMap<String,Integer>> loopSizeInClassMethods = new HashMap<String,HashMap<String,Integer>>();
 	private HashMap<String,Integer> mapProtectedMethodsInClass = new  HashMap<String,Integer>();
-	private HashMap<String,Integer> methodsInClass = new HashMap<String,Integer>();
+	private HashMap<String, Double> methodsInClass = new HashMap<String,Double>();
 	private HashMap<String,HashMap<String,Integer>> mapUniqueParamatersInClassEachMethod = new HashMap<String,HashMap<String,Integer>>();
 	private HashMap<String,Integer> mapuniqueParametersInClassAllMethods = new HashMap<String,Integer>();
 	private Map<String, ArrayList<String>> mapImidiateChildren; //no = new req.
@@ -616,7 +616,7 @@ public class MurgePulledValues {
 				mapParamatersInClassEachMethod.put(classNode.getIdentifier(), parametersInMethod);
 				mapUniqueParamatersInClassEachMethod.put(classNode.getIdentifier(), parametersInMethod);
 				mapuniqueParametersInClassAllMethods.put(classNode.getIdentifier(), UniqueParamaterTypesInClass.size());
-				methodsInClass.put(classNode.getIdentifier(), totalNumberOfMethodsPerClass);
+				methodsInClass.put(classNode.getIdentifier(), (double) totalNumberOfMethodsPerClass);
 				mapProtectedMethodsInClass.put(classNode.getIdentifier(), totalNumberOfPrivateandPritectedmethods); //
 				sumOfAllInstanceMethodsInClass.put(classNode.getIdentifier(), numberOfInstanceMethods);
 				
@@ -677,7 +677,7 @@ public class MurgePulledValues {
 	}
 	
 	//#methods for each class PV //may be murged to <String>, Arraylist<String>
-	public HashMap<String, Integer> getMethodsInClass() {
+	public HashMap<String, Double> getMethodsInClass() {
 		return this.methodsInClass;
 	}
 	

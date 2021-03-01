@@ -9,9 +9,9 @@ public class SecondaryMetrics {
 	private HashMap<String, Double> writabilityOfClassifiedAttributes = new HashMap<String, Double>();
 	private HashMap<String, Double> writabilityOfClassifiedMethods = new HashMap<String, Double>();
 	private HashMap<String, Double> writabilityOfClassifiedClasses = new HashMap<String, Double>();
-	private float readabilityOfCriticalClasses=0;
-	private float writabilityOfCriticalClasses=0;
-	private int securityAbsoluteMeasurements = 0;
+	private Double readabilityOfCriticalClasses=(double) 0;
+	private Double writabilityOfCriticalClasses=(double) 0;
+	private Double securityAbsoluteMeasurements = (double) 0;
 	
 	public SecondaryMetrics(TertiaryMetrics tm) {
 		this.readabilityOfClassifiedAttributes(tm);
@@ -44,16 +44,16 @@ public class SecondaryMetrics {
 
 	public void readabilityOfCriticalClasses (TertiaryMetrics tm) {		
 		readabilityOfCriticalClasses = 
-		tm.getCriticalClassesExtensibility()+tm.getCriticalSuperclassesProportion()
+		(double) (tm.getCriticalClassesExtensibility()+tm.getCriticalSuperclassesProportion()
 			+tm.getCriticalDesignProportion()+tm.getCompositePartCriticalClasses()
-			+tm.getReflectionPackageBoolean();
+			+tm.getReflectionPackageBoolean());
 	}
 	//###########################################################################################################################################################	
 	//Complexity Metrics
 	//###########################################################################################################################################################
 	
 	public void securityAbsoluteMeasurments (TertiaryMetrics tm) {
-		securityAbsoluteMeasurements  = tm.getClassifiedAttributesTotal() + tm.getClassifiedMethodsTotal() + tm.getCriticalClassesTotal();
+		securityAbsoluteMeasurements  = (double) (tm.getClassifiedAttributesTotal() + tm.getClassifiedMethodsTotal() + tm.getCriticalClassesTotal());
 	}
 	
 	//###########################################################################################################################################################	
@@ -80,8 +80,8 @@ public class SecondaryMetrics {
 	
 	public void writabilityOfCriticalClasses(TertiaryMetrics tm) {
 		writabilityOfCriticalClasses = 
-		tm.getCriticalClassesCoupling()+tm.getCriticalSuperclassesInheritance()
-			+tm.getCriticalSerializedClassesProportion()+tm.getUnusedCriticalAccessorClass();
+		(double) (tm.getCriticalClassesCoupling()+tm.getCriticalSuperclassesInheritance()
+			+tm.getCriticalSerializedClassesProportion()+tm.getUnusedCriticalAccessorClass());
 	}
 
 	public HashMap<String, Double> getReadabilityOfClassifiedAttributes() {
@@ -104,15 +104,15 @@ public class SecondaryMetrics {
 		return writabilityOfClassifiedClasses;
 	}
 
-	public float getReadabilityOfCriticalClasses() {
+	public Double getReadabilityOfCriticalClasses() {
 		return readabilityOfCriticalClasses;
 	}
 
-	public float getWritabilityOfCriticalClasses() {
+	public Double getWritabilityOfCriticalClasses() {
 		return writabilityOfCriticalClasses;
 	}
 
-	public int getSecurityAbsoluteMeasurements() {
+	public Double getSecurityAbsoluteMeasurements() {
 		return securityAbsoluteMeasurements;
 	}
 		

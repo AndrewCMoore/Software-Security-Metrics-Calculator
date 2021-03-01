@@ -3,19 +3,19 @@ package Calculator;
 import java.util.HashMap;
 
 public class TertiaryMetrics {
-	private HashMap<String, Float> classifiedInstanceDataAccessibility  = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedClassDataAccessibility = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedOperationAccessibility = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedMethodsExtensibility = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedAccessorAttributeInteractions = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedMutatorAttributeInteractions = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedAttributesInteractionWeight = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedMethodsWeight = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedWritingMethodsProportion = new HashMap<String, Float>();
-	private HashMap<String, Float> uncalledClassifiedAccessorMethod = new HashMap<String, Float>();
-	private HashMap<String, Float> classifiedMethodsInheritance = new HashMap<String, Float>(); //CMI metric.
-	private HashMap<String, Float> classifiedAttributesInheritance = new HashMap<String, Float>();
-	private HashMap<String, Float> unaccessedAssignedClassifiedAttribute = new HashMap<String, Float>();
+	private HashMap<String, Double> classifiedInstanceDataAccessibility  = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedClassDataAccessibility = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedOperationAccessibility = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedMethodsExtensibility = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedAccessorAttributeInteractions = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedMutatorAttributeInteractions = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedAttributesInteractionWeight = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedMethodsWeight = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedWritingMethodsProportion = new HashMap<String, Double>();
+	private HashMap<String, Double> uncalledClassifiedAccessorMethod = new HashMap<String, Double>();
+	private HashMap<String, Double> classifiedMethodsInheritance = new HashMap<String, Double>(); //CMI metric.
+	private HashMap<String, Double> classifiedAttributesInheritance = new HashMap<String, Double>();
+	private HashMap<String, Double> unaccessedAssignedClassifiedAttribute = new HashMap<String, Double>();
 	private int classifiedAttributesTotal = 0;
 	private int classifiedMethodsTotal = 0;
 	private int criticalClassesTotal = 0;
@@ -55,7 +55,7 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
-			uncalledClassifiedAccessorMethod.put(key, (float) classifiedNeverUsed.get(key)/classifiedMethods.get(key));
+			uncalledClassifiedAccessorMethod.put(key, (double) classifiedNeverUsed.get(key)/classifiedMethods.get(key));
 		}
 	}
 
@@ -64,7 +64,7 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
-			classifiedWritingMethodsProportion.put(key, (float) methodsWriteClassifiedAttributes.get(key)/classifiedMethods.get(key));
+			classifiedWritingMethodsProportion.put(key, (double) methodsWriteClassifiedAttributes.get(key)/classifiedMethods.get(key));
 		}
 	}
 
@@ -73,7 +73,7 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> totalMethods = pv.getMapTotalMethods();
 		
 		for(String key : totalMethods.keySet()) {
-			classifiedMethodsWeight.put(key, (float) classifiedMethods.get(key)/totalMethods.get(key));
+			classifiedMethodsWeight.put(key, (double) classifiedMethods.get(key)/totalMethods.get(key));
 		}
 	}
 
@@ -82,7 +82,7 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> attributeInteractions = pv.getMapAccessorInteractions();
 		
 		for(String key : attributeInteractions.keySet()) {
-			classifiedAttributesInteractionWeight.put(key, (float) classifiedAttributeInteractions.get(key)/attributeInteractions.get(key));
+			classifiedAttributesInteractionWeight.put(key, (double) classifiedAttributeInteractions.get(key)/attributeInteractions.get(key));
 		}
 	}
 
@@ -91,7 +91,7 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : mutatorInteractions.keySet()) {
-			classifiedMutatorAttributeInteractions.put(key, (float) mutatorInteractions.get(key) / (mutatorInteractions.get(key) * classifiedAttributes.get(key)));
+			classifiedMutatorAttributeInteractions.put(key, (double) mutatorInteractions.get(key) / (mutatorInteractions.get(key) * classifiedAttributes.get(key)));
 		}
 	}
 
@@ -100,7 +100,7 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : accessorInteractions.keySet()) {
-			classifiedAccessorAttributeInteractions.put(key, (float) accessorInteractions.get(key) / (accessorInteractions.get(key) * classifiedAttributes.get(key)));
+			classifiedAccessorAttributeInteractions.put(key, (double) accessorInteractions.get(key) / (accessorInteractions.get(key) * classifiedAttributes.get(key)));
 		}
 	}
 
@@ -126,10 +126,10 @@ public class TertiaryMetrics {
 		
 		for(String key : classifiedMethods.keySet()) {
 			if(classifiedMethods.get(key) != 0) {
-				classifiedMethodsExtensibility.put(key, (float) (nonFinalClassifiedMethods.get(key)/classifiedMethods.get(key)));
+				classifiedMethodsExtensibility.put(key, (double) (nonFinalClassifiedMethods.get(key)/classifiedMethods.get(key)));
 			}
 			else {
-				classifiedMethodsExtensibility.put(key, (float) 0);
+				classifiedMethodsExtensibility.put(key, (double) 0);
 			}
 		}
 	}
@@ -140,10 +140,10 @@ public class TertiaryMetrics {
 		
 		for(String key : classifiedMethods.keySet()) {
 			if(classifiedMethods.get(key) != 0) {
-				classifiedOperationAccessibility.put(key, (float) (classifiedMethodsNotPrivate.get(key)/classifiedMethods.get(key)));
+				classifiedOperationAccessibility.put(key, (double) (classifiedMethodsNotPrivate.get(key)/classifiedMethods.get(key)));
 			}
 			else {
-				classifiedOperationAccessibility.put(key, (float) 0);
+				classifiedOperationAccessibility.put(key, (double) 0);
 			}
 		}
 	}
@@ -154,10 +154,10 @@ public class TertiaryMetrics {
 		
 		for(String key : privateProtectedAttributes.keySet()) {
 			if(privateProtectedAttributes.get(key) != 0) {
-				classifiedClassDataAccessibility.put(key, (float) (classifiedClassNotPrivate.get(key)/privateProtectedAttributes.get(key)));
+				classifiedClassDataAccessibility.put(key, (double) (classifiedClassNotPrivate.get(key)/privateProtectedAttributes.get(key)));
 			}
 			else {
-				classifiedClassDataAccessibility.put(key, (float) 0);
+				classifiedClassDataAccessibility.put(key, (double) 0);
 			}
 		}	
 	}
@@ -168,10 +168,10 @@ public class TertiaryMetrics {
 		
 		for(String key : privateProtectedAttributes.keySet()) {
 			if(privateProtectedAttributes.get(key) != 0) {
-				classifiedInstanceDataAccessibility.put(key, (float) (classifiedInstanceNotPrivate.get(key)/privateProtectedAttributes.get(key)));		
+				classifiedInstanceDataAccessibility.put(key, (double) (classifiedInstanceNotPrivate.get(key)/privateProtectedAttributes.get(key)));		
 			}
 			else {
-				classifiedInstanceDataAccessibility.put(key, (float) 0);
+				classifiedInstanceDataAccessibility.put(key, (double) 0);
 			}
 		}
 	}
@@ -230,43 +230,43 @@ public class TertiaryMetrics {
 	//getters
 	
 
-	public HashMap<String, Float> getClassifiedInstanceDataAccessibility() {
+	public HashMap<String, Double> getClassifiedInstanceDataAccessibility() {
 		return classifiedInstanceDataAccessibility;
 	}
 
-	public HashMap<String, Float> getClassifiedClassDataAccessibility() {
+	public HashMap<String, Double> getClassifiedClassDataAccessibility() {
 		return classifiedClassDataAccessibility;
 	}
 
-	public HashMap<String, Float> getClassifiedOperationAccessibility() {
+	public HashMap<String, Double> getClassifiedOperationAccessibility() {
 		return classifiedOperationAccessibility;
 	}
 
-	public HashMap<String, Float> getClassifiedMethodsExtensibility() {
+	public HashMap<String, Double> getClassifiedMethodsExtensibility() {
 		return classifiedMethodsExtensibility;
 	}
 
-	public HashMap<String, Float> getClassifiedAccessorAttributeInteractions() {
+	public HashMap<String, Double> getClassifiedAccessorAttributeInteractions() {
 		return classifiedAccessorAttributeInteractions;
 	}
 
-	public HashMap<String, Float> getClassifiedMutatorAttributeInteractions() {
+	public HashMap<String, Double> getClassifiedMutatorAttributeInteractions() {
 		return classifiedMutatorAttributeInteractions;
 	}
 
-	public HashMap<String, Float> getClassifiedAttributesInteractionWeight() {
+	public HashMap<String, Double> getClassifiedAttributesInteractionWeight() {
 		return classifiedAttributesInteractionWeight;
 	}
 
-	public HashMap<String, Float> getClassifiedMethodsWeight() {
+	public HashMap<String, Double> getClassifiedMethodsWeight() {
 		return classifiedMethodsWeight;
 	}
 
-	public HashMap<String, Float> getClassifiedWritingMethodsProportion() {
+	public HashMap<String, Double> getClassifiedWritingMethodsProportion() {
 		return classifiedWritingMethodsProportion;
 	}
 
-	public HashMap<String, Float> getUncalledClassifiedAccessorMethod() {
+	public HashMap<String, Double> getUncalledClassifiedAccessorMethod() {
 		return uncalledClassifiedAccessorMethod;
 	}
 
@@ -318,16 +318,16 @@ public class TertiaryMetrics {
 		return reflectionPackageBoolean;
 	}
 
-	public HashMap<String, Float> getClassifiedAttributesInheritance() {
+	public HashMap<String, Double> getClassifiedAttributesInheritance() {
 		//return classifiedAttributesInheritance;
 		return classifiedClassDataAccessibility;
 	}
 
-	public HashMap<String, Float> getUnaccessedAssignedClassifiedAttribute() {
+	public HashMap<String, Double> getUnaccessedAssignedClassifiedAttribute() {
 		//return unaccessedAssignedClassifiedAttribute;
 		return classifiedMethodsWeight;
 	}
-	public HashMap<String, Float> getClassifiedMethodsInheritance () {
+	public HashMap<String, Double> getClassifiedMethodsInheritance () {
 		//classifiedMethodsInheritance.put("Temperary Placeholder", (float) 1.00);
 		return classifiedOperationAccessibility;
 	}

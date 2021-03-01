@@ -32,7 +32,7 @@ public class PulledValues {
 	private HashMap<String, Integer> mapClassifiedInstanceAttributeNotPrivate = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapClassifiedClassAttributeNotPrivate = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapClassifiedMethodsNotPrivate = new HashMap<String, Integer>();
-	private HashMap<String, Integer> mapStrictComplexity = new HashMap<String, Integer>();
+	private HashMap<String, Double> mapStrictComplexity = new HashMap<String, Double>();
 	private HashMap<String, Integer> mapCyclomaticComplexity = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapModifiedComplexity = new HashMap<String, Integer>();
 	private HashMap<String, Integer> mapMcCabesComplexity = new HashMap<String, Integer>();
@@ -139,7 +139,7 @@ public class PulledValues {
 				mapClassifiedInstanceAttributeNotPrivate.put(classNode.getIdentifier(), classifiedInstanceAttributeNotPrivate);
 				mapClassifiedClassAttributeNotPrivate.put(classNode.getIdentifier(), classifiedClassAttributeNotPrivate);
 				mapClassifiedMethodsNotPrivate.put(classNode.getIdentifier(), classifiedMethodsNotPrivate);
-				mapStrictComplexity.put(classNode.getIdentifier(), strictComplexity);
+				mapStrictComplexity.put(classNode.getIdentifier(), (double) strictComplexity);
 				mapCyclomaticComplexity.put(classNode.getIdentifier(), cyclomaticComplexity);
 				mapModifiedComplexity.put(classNode.getIdentifier(), modifiedComplexity);
 				mapMcCabesComplexity.put(classNode.getIdentifier(), mcCabesComplexity);
@@ -401,7 +401,7 @@ public class PulledValues {
 		return mapClassifiedClassAttributeNotPrivate;
 	}
 	
-	public HashMap<String, Integer> getMapStrictComplexity() {
+	public HashMap<String, Double> getMapStrictComplexity() {
 		return mapStrictComplexity;
 	}
 
