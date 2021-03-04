@@ -4,26 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
-import javax.swing.JTextArea;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -34,9 +23,7 @@ import ssmc.CAMValues;
 import tree.JDTree;
 
 /**
- * 
  * @author AndrewCMoore
- *
  */
 class PerformanceTest {
 
@@ -44,6 +31,7 @@ class PerformanceTest {
 	HashMap<String, Integer> lengthValues;
 	HashMap<String, Long> parserValues;
 	HashMap<String, Long> calcValues;
+	HashMap<String, Long> memoryValues;
 	
 	/*
 	 * This class is a test class that runs when the file is run as a JUnit-plugin 
@@ -55,6 +43,7 @@ class PerformanceTest {
 		lengthValues = new HashMap<String, Integer>();
 		parserValues = new HashMap<String, Long>();
 		calcValues = new HashMap<String, Long>();
+		memoryValues = new HashMap<String, Long>();
 		
 		// Intialize variables
 		float systemAverage = 0;
@@ -83,16 +72,24 @@ class PerformanceTest {
 				if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 					IJavaProject javaProject = JavaCore.create(project);
 					String kind = project.getClass().getName();
+					// Check memory for Plugin module 
+					System.out.print("The plugin gave us: ");
+					memoryUsage();
 					//Build a tree out of the project
 					JDTree myTree = new JDTree(javaProject, null);
 					// Stop timer -> parser timing 
 					parserStopTime = System.currentTimeMillis();
+					// Check memory for Parser module 
+					System.out.print("The parser gave us: ");
+					memoryUsage();
 					// Calculator timer 
 					//pass the tree to the calculator
 					Calculator calc = new Calculator(myTree);
 					//start calculating metrics
-					calc.calculate();
+					//calc.calculate();
 					calculatorStopTime = System.currentTimeMillis();
+					// Check memory for Calculator module 
+					long memory = memoryUsage();
 				}
 				// End the timer for performace
 				long projectEndTime = System.currentTimeMillis();
@@ -104,6 +101,7 @@ class PerformanceTest {
 				lengthValues.put(project.getName(), linesOfCode);
 				parserValues.put(project.getName(), parserStopTime - projectStartTime);
 				calcValues.put(project.getName(), projectEndTime - parserStopTime);
+				memoryValues.put(project.getName(), memoryUsage());
 				
 				
 				// Just incase a program is empty
@@ -182,6 +180,8 @@ class PerformanceTest {
 		csvWriter.append("Lines of Code");
 		csvWriter.append(",");
 		csvWriter.append("Lines of Code per Minute");
+		csvWriter.append(",");
+		csvWriter.append("Memory Usage");
 		csvWriter.append("\n");
 
 		// For each Project visited
@@ -205,6 +205,11 @@ class PerformanceTest {
 			// Lines of Code per Minute
 			float average = lengthValues.get(key) / timeValues.get(key).floatValue() * 60000;
 			csvWriter.append("" + average);
+			csvWriter.append(",");
+			// Memory Usage 
+			csvWriter.append(memoryValues.get(key).toString());
+			csvWriter.append(",");
+	
 			csvWriter.append("\n");
 			
 			// Add to values
@@ -232,7 +237,17 @@ class PerformanceTest {
 		csvWriter.close();
 	}
 	
-	
+	long memoryUsage() {
+		final long MEGABYTE = 1024L * 1024L;
+		Runtime runtime = Runtime.getRuntime();
+		// Run Garbage Collector
+		runtime.gc();
+		// Calculate used memory
+		long memory = runtime.totalMemory() - runtime.freeMemory();
+		System.out.println("bytes: " + memory);
+		
+		return memory;
+	}
 	
 	@Test
 	void test() {}
