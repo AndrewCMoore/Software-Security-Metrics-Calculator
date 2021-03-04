@@ -71,6 +71,23 @@ public class JDTree {
 			IPackageFragment pack = (IPackageFragment) node;
 			//get the list of compilation units
 			ICompilationUnit[] units = pack.getCompilationUnits();
+			
+			for(int j = 0; j < units.length; j++) {
+				CAMValues cv = new CAMValues(units[j]);
+				cv.run();
+				Class[] classes = cv.getClassArray();
+				//Class[] classes = new CAMValues().run(comp);
+				//Class[] classes = CAMValues.getClasses(comp);
+				//if the there are classes in here then we add them to the list of children
+				if (classes != null) {
+					children = new JDTree[classes.length];
+					for (int i = 0; i < classes.length; i++) {
+						children[i] = new JDTree(classes[i], this);
+						System.out.println("the Class is "+classes[i].getIdentifier());
+						
+					}
+				}
+			}
 			children = new JDTree[units.length];
 			//add children to the array
 			for (int i = 0; i < units.length; i++) {
@@ -84,7 +101,11 @@ public class JDTree {
 			type = NodeType.COMPILATIONUNIT;
 		
 			ICompilationUnit comp = (ICompilationUnit) node;
-			Class[] classes = CAMValues.getClasses(comp);
+			CAMValues cv = new CAMValues(comp);
+			cv.run();
+			Class[] classes = cv.getClassArray();
+			//Class[] classes = new CAMValues().run(comp);
+			//Class[] classes = CAMValues.getClasses(comp);
 			//if the there are classes in here then we add them to the list of children
 			if (classes != null) {
 				children = new JDTree[classes.length];
@@ -98,8 +119,8 @@ public class JDTree {
 		//if it is a class there arne't any more steps
 		if (kind.equals("ssmc.Class")) {
 			type = NodeType.CLASS;
-			
 		}
+		
 
 	}
 	

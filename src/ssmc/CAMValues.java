@@ -16,7 +16,15 @@ import org.eclipse.jdt.core.dom.LineComment;
 /**
  * This class generates values for the Class, Attribute, Method, and Statement objects
  */
-public class CAMValues {
+public class CAMValues extends Thread {
+	
+	Class[] classArray;
+	ICompilationUnit unit;
+	
+	public CAMValues(ICompilationUnit unit) {
+		this.unit = unit;
+	}
+	
 	
 	/**
 	 * Uses unit to create a CompilationUnit to use in AttributeVisitor. 
@@ -279,5 +287,20 @@ public class CAMValues {
 		parser.setSource(unit);
 		parser.setResolveBindings(true);
 		return (CompilationUnit) parser.createAST(null); //parse		
+	}
+	
+	public void run() {
+		try {
+			System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
+		} catch (Exception e) {
+			
+		}
+		this.classArray = getClasses(unit);
+		
+		System.out.println("Thread " + Thread.currentThread().getId()+ " is now closed");
+	}
+
+	public Class[] getClassArray() {
+		return classArray;
 	}
 }

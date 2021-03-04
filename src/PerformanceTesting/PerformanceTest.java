@@ -112,7 +112,7 @@ class PerformanceTest {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			assert(false	);
+			assert(false);
 		}
 		
    		try {
