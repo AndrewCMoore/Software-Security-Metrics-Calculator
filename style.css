@@ -47,7 +47,10 @@ ul li
 	min-height: 500px;
 	position: relative;	
 }
-
+.number
+{
+	font-size: 16px;
+}
 .overall
 {
 	left: 190px;

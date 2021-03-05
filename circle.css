@@ -301,8 +301,7 @@
   z-index: 1;
   left: 0;
   top: 0;
-  line-height: 10em;
-  font-size: 0.1em;
+  padding: 45px 0;
   display: block;
   text-align: center;
   white-space: nowrap;
@@ -318,6 +317,15 @@
   -moz-transition-timing-function: ease-out;
   -o-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
+}
+.c100 > span.overallscore {
+	padding: 60px 0;
+}
+.c100 > span.overall_title {
+	line-height: 5rem;
+}
+.c100 > span.flex_title, .c100 > span.read_title, .c100 > span.funct_title, .c100 > span.extend_title, .c100 > span.effect_title, .c100 > span.reuse_title{
+	line-height: 4rem;
 }
 .c100:after {
   position: absolute;
@@ -1052,7 +1060,6 @@
   cursor: default;
 }
 .c100:hover > span {
-  line-height: 7em;
   font-size: 0.15em;
   color: #307bbb;
 }
