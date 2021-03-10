@@ -50,7 +50,7 @@ public class MurgePulledValues {
 	private HashMap<String,Integer> mapTotalLinesInClass = new HashMap<String,Integer>();
 	private HashMap<String,Integer> mapTotalCommentsInClass = new HashMap<String,Integer>();
 	private HashMap<String,Integer> mapAccesibleMethods = new HashMap<String,Integer>();
-	private HashMap<String, Integer> classesCoupledToBaseClass = new HashMap<String, Integer>();
+	private HashMap<String, Double> classesCoupledToBaseClass = new HashMap<String, Double>();
 	private HashMap<String,Integer> mapbaseClassMethodsInheritedBySubClassm = new HashMap<String,Integer>();
 	
 	//may replace #methods in class.
@@ -67,10 +67,14 @@ public class MurgePulledValues {
 	private HashMap<String,Integer> importBooleanReflectionClasses = new HashMap<String,Integer>();
 	private  HashMap<String,ArrayList<String>> numberOfProtectedMethodsInClass = new  HashMap<String,ArrayList<String>>();
 	private  HashMap<String,ArrayList<String>> numberOfClassesThatCanInheritFromEachSuperClass = new  HashMap<String,ArrayList<String>>(); 
-	private HashMap<String,Integer> depthOfInheritanceTreeAtCurrentSuperClass = new HashMap<String,Integer>();
+	private HashMap<String,Double> depthOfInheritanceTreeAtCurrentSuperClass = new HashMap<String,Double>();
+	private Set<String> criticalBaseClasses = new HashSet<String>();
 	
 	private HashMap<String,Integer> sumaztionOfuniqueParametersInEachMethodForAClass = new  HashMap<String,Integer>();
 	private HashMap<String,Integer> numberOfUniqueParametersInAClass = new HashMap<String,Integer> ();
+	
+	Set<String>  isCriticalListInHyarchy = new HashSet<String>();	
+	private static final double CONVERT_TO_DOUBLE = 1.0;
 	
 	/**
 	* The constructor currently is smelly
@@ -88,7 +92,8 @@ public class MurgePulledValues {
 		System.out.println(mapImidiateChildren);
 		System.out.println(sumaztionOfuniqueParametersInEachMethodForAClass);
 		//System.out.println(mapUniqueParamatersInClassEachMethod);
-		
+		System.out.println("AXX78");
+		System.out.println(getAllHierarchySize());
 
 	}
 	
@@ -167,7 +172,7 @@ public class MurgePulledValues {
 							if (attribute.getType().contains(className)) numberOfCoupledClasses++;
 						}
 					}}catch (Exception e) {}
-					classesCoupledToBaseClass.put(classNode.getIdentifier(), numberOfCoupledClasses);
+					classesCoupledToBaseClass.put(classNode.getIdentifier(), numberOfCoupledClasses*CONVERT_TO_DOUBLE);
 				}}}
 				//System.out.println(topToBottomClassHiarchy);
 			//	System.out.println("topToBottomClassHiarchy");
@@ -378,9 +383,9 @@ public class MurgePulledValues {
 					
 					
 					
-					depthOfInheritanceTreeAtCurrentSuperClass.put(childrenClasses.get(i), DepthOfInheriitanceCounter);
+					depthOfInheritanceTreeAtCurrentSuperClass.put(childrenClasses.get(i), (Double) (DepthOfInheriitanceCounter*CONVERT_TO_DOUBLE));
 					for (String nextChildClass:nextChildrenClasses) {
-						depthOfInheritanceTreeAtCurrentSuperClass.put(nextChildClass, (DepthOfInheriitanceCounter+1));
+						depthOfInheritanceTreeAtCurrentSuperClass.put(nextChildClass, (Double) ((DepthOfInheriitanceCounter+1)*CONVERT_TO_DOUBLE));
 					}
 					
 					
@@ -409,7 +414,7 @@ public class MurgePulledValues {
 	
 	public void setUpCriticalClassInformation() {
 		ArrayList<String> listOfCriticalClassNames = new ArrayList<String>();
-		Set<String>  isCriticalListInHyarchy = new HashSet<String>();		
+		//Set<String>  isCriticalListInHyarchy = new HashSet<String>();		
 		ArrayList<String> childrenClasses = new ArrayList<String>();
 		ArrayList<String> nextChildrenClasses = new ArrayList<String>();		
 		 Set<String> criticalClasses = new HashSet<String>(); 			
@@ -422,6 +427,8 @@ public class MurgePulledValues {
 				mapCriticalClassHierarchy.put(topLevelCriticalSuperClass, mapImidiateChildren.get(topLevelCriticalSuperClass).size());				
 				numberOfClassesThatInheritFromEachCriticalSuperClass.put(topLevelCriticalSuperClass, childrenClasses.size());
 				numberOfClassesThatCanInheritFromEachSuperClass.put(topLevelCriticalSuperClass, childrenClasses);
+				
+				criticalBaseClasses.add(topLevelCriticalSuperClass);
 				//mapCriticalChildClassessInProgram
 				while (!(childrenClasses.isEmpty())) {//while atleast one key-value pair exists
 					
@@ -434,7 +441,7 @@ public class MurgePulledValues {
 						
 						try {
 							
-							
+							criticalBaseClasses.add(childrenClasses.get(i));
 							
 							/**THIS IS VERY CRITICAL PLEASE COMMENT ON WHY THIS IS DONE AND WHY IT WORKS
 							 *  //since .isCritical() ONLY WORKS  if the cclassNode..super is thread or interface 
@@ -642,8 +649,8 @@ public class MurgePulledValues {
 	}
 	
 	// #Serializable classes PV
-	public int getNumberOfSerializableClassesInProject() {
-		return criticalSerializableClasses.size();		
+	public ArrayList<String> getNumberOfSerializableClassesInProject() {
+		return criticalSerializableClasses;		
 	}
 	
 	// #Non-Finalized Critical classes PV
@@ -783,7 +790,7 @@ public class MurgePulledValues {
 	}
 	
 	// # classes coupled to base classes PV 
-	public HashMap<String, Integer> getClassesCoupledToBaseClass() {
+	public HashMap<String, Double> getClassesCoupledToBaseClass() {
 		return this.classesCoupledToBaseClass;
 	}
 	
@@ -828,8 +835,22 @@ public class MurgePulledValues {
 		return numberOfProtectedMethodsInClass;
 	}
 	
+	public Double getSumOfClassesWhichMayInheritFromEachCriticalSuperClass() {
+		return (Double) (isCriticalListInHyarchy.size()*CONVERT_TO_DOUBLE);
+	}
+	
+	public Set<String> getCriticalBaseClasses() {
+		return criticalBaseClasses;
+	}
+	
+	public Set<String> getNumberOfCriticalClassesInProgramHeirchy(){
+		return isCriticalListInHyarchy;
+	}
 	
 	
+	public HashMap<String, Double> getDepthOfInheritanceTreeAtCurrentSuperClass() {
+		return depthOfInheritanceTreeAtCurrentSuperClass;
+	}
 	//###########################################################################################################################################################	
 	//
 	//###########################################################################################################################################################

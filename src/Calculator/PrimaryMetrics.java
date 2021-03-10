@@ -32,6 +32,8 @@ public class PrimaryMetrics {
 	private HashMap<String, Double> mcCabesCyclomaticComplexity = new HashMap<String, Double>();
 	private HashMap<String, Double> countPath = new HashMap<String, Double>();
 	private double secureWeakestLink;
+	private double isolation;
+	private double leastCommomMechanism;
 	private HashMap<String, Double> fanIn = new HashMap<String, Double>();
 	private HashMap<String, Double> fanOut = new HashMap<String, Double>();
 	private HashMap<String, Double> henryKafura = new HashMap<String, Double>();
@@ -39,6 +41,20 @@ public class PrimaryMetrics {
 	private HashMap<String, Double> dataAccessMetric = new HashMap<String, Double>();
 	private HashMap<String, Double> grantLeastPrivelage = new HashMap<String, Double>();
 	private HashMap<String, Double> responceSetForaClass = new HashMap<String, Double>();
+	private HashMap<String, Double> numberOfPolymorphicMethods = new HashMap<String, Double>();
+	private HashMap<String, Double> classInterfaceSize = new HashMap<String, Double>();
+	private HashMap<String, Double> depthOfInheritace = new HashMap<String, Double>();
+	private HashMap<String, Double> weightedMethodsPerClass = new HashMap<String, Double>();
+	private HashMap<String, Double> measureOfAggregation = new HashMap<String, Double>();
+	private HashMap<String, Double> directClassCoupling = new HashMap<String, Double>();
+	private ArrayList<String> classesInProject = new ArrayList<String>();
+
+
+	
+	
+	
+	private static final double INT_TO_DOUBLE = 1.0;
+	
 
 	
 	public PrimaryMetrics(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -66,7 +82,7 @@ public class PrimaryMetrics {
 		countOfBaseClasses(pv, sm, mpv);
 		couplingBetweenObjects(pv, sm, mpv);
 		couplingCorruptionPropagation(pv, sm, mpv);
-		depthOfInheritace(pv, sm, mpv);
+		//depthOfInheritace(pv, sm, mpv); duplicate of depthOfInheritanceTree
 		directClassCoupling(pv, sm, mpv);
 		fanIn(pv, sm, mpv);
 		fanOut(pv, sm, mpv);
@@ -83,6 +99,7 @@ public class PrimaryMetrics {
 		measureOfFunctionalAbtraction(pv, sm, mpv);
 		classInterfaceSize(pv, sm, mpv);
 		numberOfPolymorphicMethods(pv, sm, mpv);
+		classesInProject= (ArrayList<String>) mpv.getNumberOfClassesInProject();
 	}
 	
 	
@@ -166,10 +183,6 @@ public class PrimaryMetrics {
 		}
 	}
 	
-	//Incorrect Pulled Value. This is actually a class level metric, each class in the hiarchy returns it's relitive depth in its Hierarchy
-	public void depthOfInheritanceTree (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		//another ? #:0;
-	}
 	
 	public void countPath (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapCountPath().keySet()) {
@@ -222,7 +235,24 @@ public class PrimaryMetrics {
 	    }	
 	}
 	
-	public void weightedMethodsPerClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void weightedMethodsPerClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		HashMap<String, HashMap<String,Integer>> complexityDepthInClassMethods = mpv.getComplexityDepthInClassMethods();
+		HashMap<String, Double> complexityDepthInClassMethodsInClass = new HashMap<String, Double>();
+		double classMethodComplexityTotal;
+		double classMethodAverageMultiplier; 
+		for (String key:mpv.getMethodsInClass().keySet()) {
+			classMethodComplexityTotal=0.0;
+			classMethodAverageMultiplier=0.0;
+			for (String methodName: complexityDepthInClassMethodsInClass.keySet()){
+				classMethodComplexityTotal+=complexityDepthInClassMethods.get(key).get(methodName);
+				classMethodAverageMultiplier+=1;
+			}
+			weightedMethodsPerClass.put(key, (classMethodComplexityTotal / (classMethodAverageMultiplier*classMethodAverageMultiplier)));
+		}
+		
+		
+		
+	}
 	
 	
 	public void SourceLinesOfCode (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -236,7 +266,12 @@ public class PrimaryMetrics {
 	//Composition Metrics
 	//###########################################################################################################################################################
 
-	public void measureOfAggregation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	//Attributes that are classes vs # attribuutes/ this was missed, temp soln for now. :(
+	public void measureOfAggregation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		for(String key : pv.getMapTotalMethods().keySet()) {
+			measureOfAggregation.put(key, (double) pv.getMapTotalMethods().get(key) + pv.getMapMethodInvocations().get(key));
+		}
+	}
 	
 	//###########################################################################################################################################################	
 	//Coupling Metrics
@@ -252,14 +287,18 @@ public class PrimaryMetrics {
 		mpv.getClassesCoupledToBaseClass();
 	}
 	
-	//CCP
+	//CCP //:(
 	public void couplingCorruptionPropagation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		
+		couplingCorruptionPropagation=mpv.getDepthOfInheritanceTreeAtCurrentSuperClass();
 	}
 	
-	public void depthOfInheritace (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void depthOfInheritanceTree (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		depthOfInheritace=mpv.getDepthOfInheritanceTreeAtCurrentSuperClass();
+	}
 	
-	public void directClassCoupling (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void directClassCoupling (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		directClassCoupling=mpv.getClassesCoupledToBaseClass();
+	}
 	
 	public void fanIn(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapMethodInputs().keySet()) {
@@ -297,6 +336,7 @@ public class PrimaryMetrics {
 	}
 	
 	public void stallRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		//This metric will no longer be used.
 	}
 	
 	//###########################################################################################################################################################	
@@ -322,10 +362,12 @@ public class PrimaryMetrics {
 	}
 		
 	public void isolation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		
+		isolation = sm.getWritabilityOfCriticalClasses();
 	}
 	
-	public void leastCommomMechanism (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void leastCommomMechanism (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		leastCommomMechanism=sm.getReadabilityOfCriticalClasses()+sm.getWritabilityOfCriticalClasses();
+	}
 	
 	//
 	public void numberOfHierarchies (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -350,13 +392,20 @@ public class PrimaryMetrics {
 	//Messaging  Metrics
 	//###########################################################################################################################################################
 	
-	public void classInterfaceSize (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void classInterfaceSize (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		HashMap<String,Integer> mapPublicInstance = pv.getMapPublicInstance();
+		for (String key: mapPublicInstance.keySet()) {
+			classInterfaceSize.put(key, (Double) (mapPublicInstance.get(key)+pv.getMapPublicClass().get(key)*INT_TO_DOUBLE));
+		}
+	}
 
 	//###########################################################################################################################################################	
 	//Polymorphism Metrics
 	//###########################################################################################################################################################
 
-	public void numberOfPolymorphicMethods (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void numberOfPolymorphicMethods (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		numberOfPolymorphicMethods=mpv.getMethodsInClass();
+	}
 
 	//###########################################################################################################################################################	
 	//Getters 
@@ -459,7 +508,7 @@ public class PrimaryMetrics {
 		return strictCyclomaticComplexity;
 	}
 
-
+	// :(
 	public HashMap<String, Double> getAverageNumberOfAncestors() {
 	
 		return new HashMap<String, Double>();
@@ -522,63 +571,56 @@ public class PrimaryMetrics {
 
 
 	public HashMap<String, Double> getDepthOfInheritanceTree() {
-		// TODO Auto-generated method stub
-		return null;
+		return depthOfInheritace;
 	}
 
 
 	public HashMap<String, Double> getWeightedMethodsPerClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return weightedMethodsPerClass;
 	}
 
 
 	public HashMap<String, Double> getMeasureOfAggregation() {
-		// TODO Auto-generated method stub
-		return null;
+		return measureOfAggregation;
 	}
 
 
 	public HashMap<String, Double> getDirectClassCoupling() {
-		// TODO Auto-generated method stub
-		return null;
+		return directClassCoupling;
 	}
 
 
 	public HashMap<String, Double> getResponseSetForAClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return responceSetForaClass;
 	}
 
 
-	public HashMap<String, Double> getDesignSizeInClasses() {
-		// TODO Auto-generated method stub
-		return null;
+	public double getDesignSizeInClasses() {
+		return numberofClasses;
 	}
 
 
-	public HashMap<String, Double> getIsolation() {
-		// TODO Auto-generated method stub
-		return null;
+	public double getIsolation() {
+		return isolation;
 	}
 
 
-	public HashMap<String, Double> getLeastCommonMechanism() {
-		// TODO Auto-generated method stub
-		return null;
+	public double getLeastCommonMechanism() {
+		return leastCommomMechanism;
 	}
 
 
 	public HashMap<String, Double> getClassInterfaceSize() {
-		// TODO Auto-generated method stub
-		return null;
+		return classInterfaceSize;
 	}
 
 
 	public HashMap<String, Double> getNumberOfPolymorphicMethods() {
-		// TODO Auto-generated method stub
-		return null;
+		return numberOfPolymorphicMethods;
+	}
+	
+	public ArrayList<String> getClassesInProject() {
+		return classesInProject;
 	}
 	  
-	
 }
