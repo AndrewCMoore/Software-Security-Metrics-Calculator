@@ -217,7 +217,7 @@ public class PrimaryMetrics {
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
 		//for each class in project, ? operator, is the class name part of a inheritance hearchy ? yes-> put classname,#children : no-> put classname,0 children.
 		for (String key: classNames) {
-			numberOfChildren.put(key, (immidiateChildrenInClass.get(key)!=null) ? numberOfChildren.put(key, (double) mpv.getImidiateChildren().get(key).size()) : numberOfChildren.put(key, (double) 0));
+			numberOfChildren.put(key, (immidiateChildrenInClass.get(key)!=null) ?  (double) mpv.getImidiateChildren().get(key).size() :  (double) 0.0);
 		}
 	}
 	
@@ -293,7 +293,9 @@ public class PrimaryMetrics {
 	}
 	
 	public void depthOfInheritanceTree (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		depthOfInheritace=mpv.getDepthOfInheritanceTreeAtCurrentSuperClass();
+		for (String className: mpv.getNumberOfClassesInProject()) {
+			depthOfInheritace.put(className,(mpv.getDepthOfInheritanceTreeAtCurrentSuperClass().containsKey(className)==true) ? mpv.getDepthOfInheritanceTreeAtCurrentSuperClass().get(className) : (Double) 0.0) ;
+		}
 	}
 	
 	public void directClassCoupling (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -511,7 +513,7 @@ public class PrimaryMetrics {
 	// :(
 	public HashMap<String, Double> getAverageNumberOfAncestors() {
 	
-		return new HashMap<String, Double>();
+		return strictCyclomaticComplexity;
 	}
 
 
