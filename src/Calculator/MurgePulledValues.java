@@ -93,8 +93,9 @@ public class MurgePulledValues {
 		System.out.println(sumaztionOfuniqueParametersInEachMethodForAClass);
 		//System.out.println(mapUniqueParamatersInClassEachMethod);
 		System.out.println("AXX78");
-		System.out.println(getAllHierarchySize());
-
+		//System.out.println(getAllHierarchySize());
+		System.out.println(nonFinalizedCriticalClass);
+		
 	}
 	
 	
