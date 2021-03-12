@@ -72,16 +72,10 @@ class PerformanceTest {
 				if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 					IJavaProject javaProject = JavaCore.create(project);
 					String kind = project.getClass().getName();
-					// Check memory for Plugin module 
-					System.out.print("The plugin gave us: ");
-					memoryUsage();
 					//Build a tree out of the project
 					JDTree myTree = new JDTree(javaProject, null);
 					// Stop timer -> parser timing 
 					parserStopTime = System.currentTimeMillis();
-					// Check memory for Parser module 
-					System.out.print("The parser gave us: ");
-					memoryUsage();
 					// Calculator timer 
 					//pass the tree to the calculator
 					Calculator calc = new Calculator(myTree);

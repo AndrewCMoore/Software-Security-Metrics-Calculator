@@ -12,7 +12,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import ssmc.*;
 import ssmc.Class;
 
-public class JDTree {
+public class JDTree extends Thread{
 	//the parent node for the tree, if it is null it is the root node
 	private JDTree parent;
 	//List of Children, if it is null there are no children and it is the leaf nodes
@@ -22,6 +22,7 @@ public class JDTree {
 	// Actual node that we are organizing
 	private Object node;
 	
+	private boolean Threading = true;
 	
 	/**
 	 * Constructor for JDTree
@@ -34,46 +35,77 @@ public class JDTree {
 	**/
 	public JDTree(Object node, JDTree parent) throws JavaModelException {
 		
-		this.node = node;
-		this.parent = parent;
-		//we get a string of the kind of node that we are dealing with
-		String kind = node.getClass().getName();
-		//Check the kind of node
-		if (kind.equals("org.eclipse.jdt.internal.core.JavaProject")) {
-			//if it is a project
-			IJavaProject project = (IJavaProject) node;
-			//set the type
-			type = NodeType.PROJECT;
-			//get the packages in the project
-			IPackageFragment[] packages = project.getPackageFragments();
-			//Create a list of children
-			ArrayList<JDTree> aChildren = new ArrayList<JDTree>();
-			//loop through the packages and create a new node for each one
-			for (int i = 0; i < packages.length; i++) {
-				String childKind = packages[i].getClass().getName();
-				// we have to do it this way because we want to exclude all of the Jar files
-				//only do this if it is actually a PackageFragment 
-				if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
-					//add it to an array list first because we don't know how many there are goin to be
-					 aChildren.add(new JDTree(packages[i], this));
+		if (Threading) {
+			this.node = node;
+			this.parent = parent;
+			//we get a string of the kind of node that we are dealing with
+			String kind = node.getClass().getName();
+			//Check the kind of node
+			if (kind.equals("org.eclipse.jdt.internal.core.JavaProject")) {
+				//if it is a project
+				IJavaProject project = (IJavaProject) node;
+				//set the type
+				type = NodeType.PROJECT;
+				//get the packages in the project
+				IPackageFragment[] packages = project.getPackageFragments();
+				//Create a list of children
+				ArrayList<JDTree> aChildren = new ArrayList<JDTree>();
+				//loop through the packages and create a new node for each one
+				for (int i = 0; i < packages.length; i++) {
+					String childKind = packages[i].getClass().getName();
+					// we have to do it this way because we want to exclude all of the Jar files
+					//only do this if it is actually a PackageFragment 
+					if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+						//add it to an array list first because we don't know how many there are goin to be
+						 aChildren.add(new JDTree(packages[i], this));
+					}
+				}
+				//Then add it to an array later when we know the size
+				//TODO make children an arraylist so we don't have to do this twice
+				children = new JDTree[aChildren.size()];
+				for(int j=0; j<aChildren.size(); j++) {
+					children[j] = aChildren.get(j);
 				}
 			}
-			//Then add it to an array later when we know the size
-			//TODO make children an arraylist so we don't have to do this twice
-			children = new JDTree[aChildren.size()];
-			for(int j=0; j<aChildren.size(); j++) {
-				children[j] = aChildren.get(j);
+			//repeat of the packages
+			if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+				type = NodeType.PACKAGE;
+				IPackageFragment pack = (IPackageFragment) node;
+				//get the list of compilation units
+				ICompilationUnit[] units = pack.getCompilationUnits();
+				
+				for(int j = 0; j < units.length; j++) {
+					type = NodeType.COMPILATIONUNIT;
+					CAMValues cv = new CAMValues(units[j]);
+					cv.start();
+					Class[] classes = cv.getClassArray();
+					//Class[] classes = new CAMValues().run(comp);
+					//Class[] classes = CAMValues.getClasses(comp);
+					//if the there are classes in here then we add them to the list of children
+					if (classes != null) {
+						children = new JDTree[classes.length];
+						for (int i = 0; i < classes.length; i++) {
+							children[i] = new JDTree(classes[i], this);
+							System.out.println("the Class is "+classes[i].getIdentifier());
+							
+						}
+					}
+				}
+				children = new JDTree[units.length];
+				//add children to the array
+				for (int i = 0; i < units.length; i++) {
+					children[i] = new JDTree(units[i], this);
+				}
+				// generateAST();
 			}
-		}
-		//repeat of the packages
-		if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
-			type = NodeType.PACKAGE;
-			IPackageFragment pack = (IPackageFragment) node;
-			//get the list of compilation units
-			ICompilationUnit[] units = pack.getCompilationUnits();
+			/*
+			//If it is a Compilation unit
+			if (kind.equals("org.eclipse.jdt.internal.core.CompilationUnit")) {
+				//set type
+				type = NodeType.COMPILATIONUNIT;
 			
-			for(int j = 0; j < units.length; j++) {
-				CAMValues cv = new CAMValues(units[j]);
+				ICompilationUnit comp = (ICompilationUnit) node;
+				CAMValues cv = new CAMValues(comp);
 				cv.run();
 				Class[] classes = cv.getClassArray();
 				//Class[] classes = new CAMValues().run(comp);
@@ -88,37 +120,79 @@ public class JDTree {
 					}
 				}
 			}
-			children = new JDTree[units.length];
-			//add children to the array
-			for (int i = 0; i < units.length; i++) {
-				children[i] = new JDTree(units[i], this);
+			*/
+			//if it is a class there arne't any more steps
+			if (kind.equals("ssmc.Class")) {
+				type = NodeType.CLASS;
 			}
-			// generateAST();
 		}
-		//If it is a Compilation unit
-		if (kind.equals("org.eclipse.jdt.internal.core.CompilationUnit")) {
-			//set type
-			type = NodeType.COMPILATIONUNIT;
-		
-			ICompilationUnit comp = (ICompilationUnit) node;
-			CAMValues cv = new CAMValues(comp);
-			cv.run();
-			Class[] classes = cv.getClassArray();
-			//Class[] classes = new CAMValues().run(comp);
-			//Class[] classes = CAMValues.getClasses(comp);
-			//if the there are classes in here then we add them to the list of children
-			if (classes != null) {
-				children = new JDTree[classes.length];
-				for (int i = 0; i < classes.length; i++) {
-					children[i] = new JDTree(classes[i], this);
-					System.out.println("the Class is "+classes[i].getIdentifier());
-					
+		else {
+			this.node = node;
+			this.parent = parent;
+			//we get a string of the kind of node that we are dealing with
+			String kind = node.getClass().getName();
+			//Check the kind of node
+			if (kind.equals("org.eclipse.jdt.internal.core.JavaProject")) {
+				//if it is a project
+				IJavaProject project = (IJavaProject) node;
+				//set the type
+				type = NodeType.PROJECT;
+				//get the packages in the project
+				IPackageFragment[] packages = project.getPackageFragments();
+				//Create a list of children
+				ArrayList<JDTree> aChildren = new ArrayList<JDTree>();
+				//loop through the packages and create a new node for each one
+				for (int i = 0; i < packages.length; i++) {
+					String childKind = packages[i].getClass().getName();
+					// we have to do it this way because we want to exclude all of the Jar files
+					//only do this if it is actually a PackageFragment 
+					if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+						//add it to an array list first because we don't know how many there are goin to be
+						 aChildren.add(new JDTree(packages[i], this));
+					}
+				}
+				//Then add it to an array later when we know the size
+				//TODO make children an arraylist so we don't have to do this twice
+				children = new JDTree[aChildren.size()];
+				for(int j=0; j<aChildren.size(); j++) {
+					children[j] = aChildren.get(j);
 				}
 			}
-		}
-		//if it is a class there arne't any more steps
-		if (kind.equals("ssmc.Class")) {
-			type = NodeType.CLASS;
+			//repeat of the packages
+			if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+				type = NodeType.PACKAGE;
+				IPackageFragment pack = (IPackageFragment) node;
+				//get the list of compilation units
+				ICompilationUnit[] units = pack.getCompilationUnits();
+				children = new JDTree[units.length];
+				//add children to the array
+				for (int i = 0; i < units.length; i++) {
+					children[i] = new JDTree(units[i], this);
+				}
+				// generateAST();
+			}
+			//If it is a Compilation unit
+			if (kind.equals("org.eclipse.jdt.internal.core.CompilationUnit")) {
+				//set type
+				type = NodeType.COMPILATIONUNIT;
+			
+				ICompilationUnit comp = (ICompilationUnit) node;
+				Class[] classes = CAMValues.getClasses(comp);
+				//if the there are classes in here then we add them to the list of children
+				if (classes != null) {
+					children = new JDTree[classes.length];
+					for (int i = 0; i < classes.length; i++) {
+						children[i] = new JDTree(classes[i], this);
+						System.out.println("the Class is "+classes[i].getIdentifier());
+						
+					}
+				}
+			}
+			//if it is a class there arne't any more steps
+			if (kind.equals("ssmc.Class")) {
+				type = NodeType.CLASS;
+				
+			}
 		}
 		
 
