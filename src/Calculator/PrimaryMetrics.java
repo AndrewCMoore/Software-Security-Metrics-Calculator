@@ -99,7 +99,7 @@ public class PrimaryMetrics {
 		measureOfFunctionalAbtraction(pv, sm, mpv);
 		classInterfaceSize(pv, sm, mpv);
 		numberOfPolymorphicMethods(pv, sm, mpv);
-		classesInProject= (ArrayList<String>) mpv.getNumberOfClassesInProject();
+		//classesInProject= (ArrayList<String>) mpv.getNumberOfClassesInProject();
 	}
 	
 	

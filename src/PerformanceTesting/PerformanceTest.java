@@ -68,6 +68,7 @@ class PerformanceTest {
 				long projectStartTime = System.currentTimeMillis();
 				long parserStopTime = 0;
 				long calculatorStopTime = 0;
+				long memory = 0;
 				// Run the SSMC for the project
 				if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 					IJavaProject javaProject = JavaCore.create(project);
@@ -80,10 +81,10 @@ class PerformanceTest {
 					//pass the tree to the calculator
 					Calculator calc = new Calculator(myTree);
 					//start calculating metrics
-					//calc.calculate();
+					calc.calculate();
 					calculatorStopTime = System.currentTimeMillis();
 					// Check memory for Calculator module 
-					long memory = memoryUsage();
+					memory = memoryUsage();
 				}
 				// End the timer for performace
 				long projectEndTime = System.currentTimeMillis();
@@ -94,8 +95,8 @@ class PerformanceTest {
 				timeValues.put(project.getName(), time);
 				lengthValues.put(project.getName(), linesOfCode);
 				parserValues.put(project.getName(), parserStopTime - projectStartTime);
-				calcValues.put(project.getName(), projectEndTime - parserStopTime);
-				memoryValues.put(project.getName(), memoryUsage());
+				calcValues.put(project.getName(), calculatorStopTime - projectStartTime);
+				memoryValues.put(project.getName(), memory);
 				
 				
 				// Just incase a program is empty
@@ -221,7 +222,7 @@ class PerformanceTest {
 		csvWriter.append(compileTotal.toString());
 		csvWriter.append(",");
 		csvWriter.append(linesTotal.toString());
-		csvWriter.append(",");
+		csvWriter.append(",,,");
 		csvWriter.append("Average Lines/Minute: " + average);
 		csvWriter.append("\n");
 		
@@ -237,8 +238,8 @@ class PerformanceTest {
 		// Run Garbage Collector
 		runtime.gc();
 		// Calculate used memory
-		long memory = runtime.totalMemory() - runtime.freeMemory();
-		System.out.println("bytes: " + memory);
+		long memory = (runtime.totalMemory() - runtime.freeMemory()) / MEGABYTE;
+		System.out.println("bytes: " + memory/MEGABYTE);
 		
 		return memory;
 	}
