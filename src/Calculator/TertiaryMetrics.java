@@ -54,6 +54,19 @@ public class TertiaryMetrics {
 		classifiedMethodsWeight(pv,mpv);
 		classifiedWritingMethodsProportion(pv,mpv);
 		uncalledClassifiedAccessorMethod(pv,mpv);
+		criticalClassesExtensibility(pv,mpv);
+		criticalClassesTotal(pv,mpv);
+		criticalClassesCoupling(pv,mpv);
+		compositePartCriticalClasses(pv,mpv);
+		unusedCriticalAccessorClass(pv,mpv);
+		criticalDesignProportion(pv,mpv);
+		criticalSerializedClassesProportion(pv,mpv);
+		criticalSuperclassesProportion(pv,mpv);
+		criticalSuperclassesInheritance(pv,mpv);
+		reflectionPackageBoolean(pv,mpv);
+		
+		
+		
 		//unaccessedAssignedClassifiedAttribute(pv,mpv);
 	}
 	
@@ -196,7 +209,7 @@ public class TertiaryMetrics {
 	
 	//CCE //:(
 	private void criticalClassesExtensibility(PulledValues pv, MurgePulledValues mpv) {
-		criticalClassesExtensibility=(Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
+		criticalClassesExtensibility=(mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
 	}
 	
 	//CCC //:(
