@@ -73,6 +73,8 @@ public class MurgePulledValues {
 	private HashMap<String,Integer> sumaztionOfuniqueParametersInEachMethodForAClass = new  HashMap<String,Integer>();
 	private HashMap<String,Integer> numberOfUniqueParametersInAClass = new HashMap<String,Integer> ();
 	
+	private HashMap<String, HashSet<String>> mapNumberOfUniqueAttributesTypesInClass = new HashMap<String, HashSet<String>>();
+	
 	Set<String>  isCriticalListInHyarchy = new HashSet<String>();	
 	private static final double CONVERT_TO_DOUBLE = 1.0;
 	
@@ -86,15 +88,15 @@ public class MurgePulledValues {
 		this.extractInheritanceInformation(classes); //main extraction method. Extracts almost all of the data.
 		this.aquireTopLevelSuperClasses(classes);
 		this.setUpImidiateSuperChildRelationship();
-		System.out.println("\n\n\n");
+		//System.out.println("\n\n\n");
 		this.getTotalNumberOfCriticalSubClasses();
 		this.buildInheritanceDependencies(classes);
-		System.out.println(mapImidiateChildren);
-		System.out.println(sumaztionOfuniqueParametersInEachMethodForAClass);
+		//System.out.println(mapImidiateChildren);
+		//System.out.println(sumaztionOfuniqueParametersInEachMethodForAClass);
 		//System.out.println(mapUniqueParamatersInClassEachMethod);
-		System.out.println("AXX78");
+		//System.out.println("AXX78");
 		//System.out.println(getAllHierarchySize());
-		System.out.println(depthOfInheritanceTreeAtCurrentSuperClass);
+		//System.out.println(depthOfInheritanceTreeAtCurrentSuperClass);
 		
 	}
 	
@@ -147,7 +149,7 @@ public class MurgePulledValues {
 	public void buildInheritanceDependencies(JDTree[] classes) {
 		
 		int numberOfCoupledClasses=0;
-		System.out.println("\n\n\n\n");
+		//System.out.println("\n\n\n\n");
 		for(int i = 0; i < classes.length; i++) {
 			Object o = classes[i].getNode(); 			
 			if(o instanceof Class) {
@@ -169,7 +171,7 @@ public class MurgePulledValues {
 					for(Attribute attribute : attributeList) { 
 						//for each class in the project check if className CONTAINS attribute type. Note that Queue<Workstations> is still coupled to workstations. thus check if contains.
 						for (String className: classNames) {
-							System.out.println(classNode.getIdentifier()+"::"+attribute.getType()+"::"+attribute.getType());
+							//System.out.println(classNode.getIdentifier()+"::"+attribute.getType()+"::"+attribute.getType());
 							if (attribute.getType().contains(className)) numberOfCoupledClasses++;
 						}
 					}}catch (Exception e) {}
@@ -353,7 +355,7 @@ public class MurgePulledValues {
 	                ))
 	        ));		
 		determineDepthOfInheritance();
-		System.out.println("\n\n\n\n\n");
+		//System.out.println("\n\n\n\n\n");
 		setUpCriticalClassInformation();
 		
 	}
@@ -435,7 +437,7 @@ public class MurgePulledValues {
 					
 					
 					
-					System.out.println("Current Children Classes: " +childrenClasses); //should be level1+workstations.
+					//System.out.println("Current Children Classes: " +childrenClasses); //should be level1+workstations.
 					for (int i=0;i<childrenClasses.size();i++) {
 						System.out.println("I want to add: " +mapImidiateChildren.get(childrenClasses.get(i)));
 						
@@ -485,11 +487,11 @@ public class MurgePulledValues {
 			
 
 
-						System.out.println("next children classes Inner: "+nextChildrenClasses);
+						//System.out.println("next children classes Inner: "+nextChildrenClasses);
 					}
 					
 					
-					System.out.println("next children classes: "+nextChildrenClasses);
+					//System.out.println("next children classes: "+nextChildrenClasses);
 					childrenClasses=nextChildrenClasses;
 					nextChildrenClasses=  new ArrayList<String>();
 
@@ -508,13 +510,13 @@ public class MurgePulledValues {
 				}
 				
 				
-				System.out.println("True Total Number of Critical Classes In Hyarchy: "+isCriticalListInHyarchy.size());
+				//System.out.println("True Total Number of Critical Classes In Hyarchy: "+isCriticalListInHyarchy.size());
 				//mapTotalCriticalClassInheritance.put(topLevelCriticalSuperClass, isCriticalListInHyarchy.size());
-				System.out.println("True Total Number of Possible Inheritance From a TopLevelCritical Classes In Hyarchy: "+(isCriticalListInHyarchy.size()-1)); //# possible inheritances from all critical classes
+				//System.out.println("True Total Number of Possible Inheritance From a TopLevelCritical Classes In Hyarchy: "+(isCriticalListInHyarchy.size()-1)); //# possible inheritances from all critical classes
 				//mapCriticalClassHierarchy=mapImidiateChildren;
 				
 				//for loop to set up critical class Hierarchy
-				System.out.println("Critical Class Hierarchy: \n" + mapCriticalClassHierarchy.keySet());
+				//System.out.println("Critical Class Hierarchy: \n" + mapCriticalClassHierarchy.keySet());
 				
 			} //Endpoint of depth of NumberOfCriticalSuperClasses		
 			//printMap(mapCriticalClassHierarchy);
@@ -560,6 +562,7 @@ public class MurgePulledValues {
 			validMethodNamesThatCanBeInherited = new HashSet<String>();
 			protectedMethods = new ArrayList<String>();
 			int uniqueParametersInEachMethodCounter;
+			HashSet<String> classAttrubuteTypes;
 			
 			HashSet<String> uniqueParametersInEachMethod;
 			
@@ -582,6 +585,14 @@ public class MurgePulledValues {
 				
 				
 				uniqueParametersInEachMethodCounter=0;
+				
+				
+				classAttrubuteTypes = new HashSet<String>();
+				for(Attribute a : attributeList) {
+					classAttrubuteTypes.add(a.getType());
+				}
+				mapNumberOfUniqueAttributesTypesInClass.put(classNode.getIdentifier(), classAttrubuteTypes);
+				
 				
 				for(Method method : methodList) {
 					methodNames.add(method.getIdentifier());
@@ -631,8 +642,8 @@ public class MurgePulledValues {
 				classNode.getInterfaces();
 				
 			}	
-			System.out.println("validMethodNamesThatCanBeInherited");
-			System.out.println(validMethodNamesThatCanBeInherited);
+			//System.out.println("validMethodNamesThatCanBeInherited");
+			//System.out.println(validMethodNamesThatCanBeInherited);
 		}
 	}
 	
@@ -852,6 +863,12 @@ public class MurgePulledValues {
 	public HashMap<String, Double> getDepthOfInheritanceTreeAtCurrentSuperClass() {
 		return depthOfInheritanceTreeAtCurrentSuperClass;
 	}
+	
+	//Number Of Unique Attributes Per Class
+	public HashMap<String, HashSet<String>> getNumberOfUniqueAttributesTypesInClass() {
+		return mapNumberOfUniqueAttributesTypesInClass;
+	}
+	
 	//###########################################################################################################################################################	
 	//
 	//###########################################################################################################################################################
