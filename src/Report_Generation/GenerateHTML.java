@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import Calculator.Calculator;
@@ -22,7 +23,9 @@ public class GenerateHTML {
 	String extend;
 	String function;
 	String overall;
-
+	
+	// MAIN METHOD
+	
 	public GenerateHTML(Calculator c) {
 		// TODO access list of metrics
 		this.calc = c;
@@ -58,6 +61,7 @@ public class GenerateHTML {
 			writer.append(makeNavBar());
 			writer.append(makeSplashPage());
 			writer.append(makeTableSection());
+			writer.append(makeDesignQualitiesBreakdown());
 			writer.append(makeJavaScriptSection());
 
 		} catch (IOException e) {
@@ -66,6 +70,8 @@ public class GenerateHTML {
 
 	}
 
+	//QUALITY ATTRIBUTES
+	
 	public String generateOverAllScore() {
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] overallTable = new String[7][6];
@@ -172,7 +178,9 @@ public class GenerateHTML {
 		section += makeTable(reusability);
 		return section;
 	}
-
+	// HTML SECTIONS
+	
+	
 	public String makeHead() {
 		String head = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n" + "<meta charset=\"utf-8\">\r\n"
 				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n"
@@ -211,6 +219,7 @@ public class GenerateHTML {
 	}
 	public String makeTableSection() {
 		String section ="<div class=\"tables\">\r\n"
+						+"<h2>Metrics BreakDown</h2>"
 						+ "<div id=\"overallscoreData\">";
 		section += makeCollapseSection("Overall Score",generateOverAllScore());
 			section += "</div>\r\n"
@@ -234,6 +243,15 @@ public class GenerateHTML {
 					+ "			<div id=\"reusabilityData\">";
 		section += makeCollapseSection("Reusability" ,generateReusability());
 			section +="</div>";
+		return section;
+	}
+	
+	public String makeDesignQualitiesBreakdown() {
+		String section ="<div class=\"tables\">\r\n"
+				+"<h2>Metrics BreakDown</h2>"
+				+ "<div id=\"apstractionData\">";
+				
+		section += "</div>\r\n";
 		return section;
 	}
 
@@ -520,5 +538,331 @@ public class GenerateHTML {
 		standardDeviation /= size;
 		return standardDeviation;
 	}
+	// DESIGN QUALITY METRICS
+	
+	public String generateAbstraction() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] abstraction = new String[4][6];
+		abstraction[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		abstraction[1] = generateRow(classNames,calc.getPrimaryMetrics().getAverageNumberOfAncestors(),"Average Number of Ancestors");
+		abstraction[2] = generateRow(classNames,calc.getPrimaryMetrics().getFailSafeDefaults(),"Fail-Safe Defaults");
+		abstraction[3] = generateRow(classNames,calc.getPrimaryMetrics().getReduceAttackSurface(),"Reduce Attack Surface");
+		section += makeTable(abstraction);
+		return section;
+	}
+	public String generateCohesion() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] cohesion = new String[3][6];
+		cohesion[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		cohesion[1] = generateRow(classNames,calc.getPrimaryMetrics().getCohesionAmongMethodsInClass(),"Cohesion Among Methods in a Class");
+		cohesion[2] = generateRow(classNames,calc.getPrimaryMetrics().getLackOfCohesionOfMethods(),"Lack of Cohesion of Methods");
+		section += makeTable(cohesion);
+		return section;
+	}
+	public String generateCoupling() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] coupling = new String[10][6];
+		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		HashMap<String,Double> baseClasses = new HashMap<String,Double>();
+		baseClasses.put("project",calc.getPrimaryMetrics().getCountOfBaseClasses());
+		coupling[1] = generateRow(classNames,baseClasses,"Count of Base Classes");
+		coupling[2] = generateRow(classNames,calc.getPrimaryMetrics().getCouplingBetweenObjects(),"Coupling Between Objects");
+		coupling[3] = generateRow(classNames,calc.getPrimaryMetrics().getCouplingCorruptionPropagation(),"Coupling Corruption Propagation");
+		coupling[4] = generateRow(classNames,calc.getPrimaryMetrics().getDepthOfInheritanceTree(),"Depth of Inheritance Tree");
+		coupling[5] = generateRow(classNames,calc.getPrimaryMetrics().getDirectClassCoupling(),"Direct Class Coupling");
+		coupling[6] = generateRow(classNames,calc.getPrimaryMetrics().getFanIn(),"Fan In");
+		coupling[7] = generateRow(classNames,calc.getPrimaryMetrics().getFanOut(),"Fan Out");
+		coupling[8] = generateRow(classNames,calc.getPrimaryMetrics().getHenryKafura(),"Henry Kafura");
+		coupling[9] = generateRow(classNames,calc.getPrimaryMetrics().getNumberOfChildren(),"Number of Children");
+		coupling[9] = generateRow(classNames,calc.getPrimaryMetrics().getNumberOfChildren(),"Responses set for a Class");
+		section += makeTable(coupling);
+		return section;
+	}
+	public String DesignSize() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] coupling = new String[3][6];
+		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		HashMap<String,Double> stallRatio = new HashMap<String,Double>();
+		stallRatio.put("project",calc.getPrimaryMetrics().getStallRatio());
+		
+		coupling[1] = generateRow(classNames,stallRatio,"Stall Ration");
+		coupling[2] = generateRow(classNames,calc.getPrimaryMetrics().getDesignSizeInClasses(),"Design Size in Classes");
+		
+		section += makeTable(coupling);
+		return section;
+	}
+	public String encapsulation() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] coupling = new String[7][6];
+		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		
+		HashMap<String,Double> heirarchies = new HashMap<String,Double>();
+		heirarchies.put("project",calc.getPrimaryMetrics().getNumberOfHierarchies());
+		
+		coupling[1] = generateRow(classNames,calc.getPrimaryMetrics().getCriticalElementRatio(),"Critical Element Ratio");
+		coupling[2] = generateRow(classNames,calc.getPrimaryMetrics().getDataAccessMetric(),"Data Access Metric");
+		coupling[3] = generateRow(classNames,calc.getPrimaryMetrics().getGrantLeastPrivelage(),"Grant Least Privilege");
+		coupling[4] = generateRow(classNames,calc.getPrimaryMetrics().getIsolation(),"Isolation");		
+		coupling[5] = generateRow(classNames,calc.getPrimaryMetrics().getLeastCommonMechanism(),"Least Common Mechanism");
+		coupling[6] = generateRow(classNames,heirarchies,"Number of Hierarchies");
+		
+		section += makeTable(coupling);
+		return section;
+	}
+	public String generateInheritance() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] inheritance = new String[2][6];
+		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		inheritance[1] = generateRow(classNames,calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction(),"Measure of Functional Abstraction");
+		section += makeTable(inheritance);
+		
+		return section;
+	}
+	
+	public String generateMessaging() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] inheritance = new String[2][6];
+		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		inheritance[1] = generateRow(classNames,calc.getPrimaryMetrics().getClassInterfaceSize(),"Measure of Functional Abstraction");
+		section += makeTable(inheritance);
+		
+		return section;
+	}
+	
+	public String generatePolymorphism() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] inheritance = new String[2][6];
+		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		inheritance[1] = generateRow(classNames,calc.getPrimaryMetrics().getClassInterfaceSize(),"Measure of Functional Abstraction");
+		section += makeTable(inheritance);
+		
+		return section;
+	}
+	public String generateComplexity() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] inheritance = new String[17][6];
+		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		
+		Set<String> classes = new HashSet<String>();
+		classes.add("project");
+		HashMap<String,Double> countofBase = new HashMap<String,Double>();
+		countofBase.put("project",calc.getPrimaryMetrics().getCountOfBaseClasses());
+		HashMap<String,Double> economyOfMechanism = new HashMap<String,Double>();
+		countofBase.put("project",calc.getPrimaryMetrics().getEconomyOfMechanism());
+		
+		
+		HashMap<String,Double> weakestLink = new HashMap<String,Double>();
+		weakestLink.put("project",calc.getPrimaryMetrics().getSecureWeakestLink());
+		
+		HashMap<String,Double> linesOfCode = new HashMap<String,Double>();
+		weakestLink.put("project",calc.getPrimaryMetrics().getSourceLinesOfCode());
+		
+		
+		inheritance[1] = generateRow(classNames,calc.getPrimaryMetrics().getCommentRatio(),"Comment Ratio");
+		inheritance[2] = generateRow(classNames,countofBase,"Count of Base Classes");
+		inheritance[3] = generateRow(classNames,calc.getPrimaryMetrics().getCyclomaticComplexity(),"Cyclomatic Complexity");
+		inheritance[4] = generateRow(classNames,calc.getPrimaryMetrics().getDepthOfInheritanceTree(),"Depth of Inheritance");
+		inheritance[5] = generateRow(classNames,calc.getPrimaryMetrics().getCountPath(),"Count Path");
+		inheritance[6] = generateRow(classNames,economyOfMechanism,"Economy of Mechanism");
+		inheritance[7] = generateRow(classNames,calc.getPrimaryMetrics().getMcCabesCyclomaticComplexity(),"Mcabes Cyclomatic Complexity");
+		inheritance[8] = generateRow(classNames,calc.getPrimaryMetrics().getModifiedCyclomaticComplexity(),"Modified Cyclomatic Complexity");
+		//inheritance[9] = generateRow(classNames,calc.getPrimaryMetrics().getNestingComplexity(),"Nesting Complexity");
+		inheritance[9] = generateRow(classNames,calc.getPrimaryMetrics().getNumberOfChildren(),"Number of Children");
+		inheritance[10]= generateRow(classNames,calc.getPrimaryMetrics().getNumberOfMethods(),"Number of Methods");
+		inheritance[11]= generateRow(classNames,calc.getPrimaryMetrics().getStrictCyclomaticComplexity(),"Strict Cyclomatic Complexity");
+		inheritance[12]= generateRow(classNames,weakestLink,"Secure Weakest Link");
+		inheritance[13]= generateRow(classNames,linesOfCode,"Lines of Code");
+		inheritance[14]= generateRow(classNames,calc.getPrimaryMetrics().getWeightedMethodsPerClass(),"Weighted Methods per Class");
+		
+		
+		section += makeTable(inheritance);
+		
+		return section;
+	}
+	
+	public String generateComposition() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] inheritance = new String[2][6];
+		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+				"Count" };
+		inheritance[1] = generateRow(classNames,calc.getPrimaryMetrics().getMeasureOfAggregation(),"Measure of Functional Abstraction");
+		section += makeTable(inheritance);
+		
+		return section;
+	}
+	
+	public String generateAllMetricsBreakdown() {
+		String section = "";
+		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		String[][] metrics = new String[30][6];
+		metrics[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		"Count" };
+		
+		Set<String> classes = new HashSet<String>();
+		HashMap<String,Double> countofBaseClasses = new HashMap<String,Double>();
+		countofBaseClasses.put("project",calc.getPrimaryMetrics().getCountOfBaseClasses());
+		
+		HashMap<String,Double> economyofMechanism = new HashMap<String,Double>();
+		economyofMechanism.put("project",calc.getPrimaryMetrics().getEconomyOfMechanism());
+		
+		HashMap<String,Double> secureWeakestLink = new HashMap<String,Double>();
+		secureWeakestLink.put("project",calc.getPrimaryMetrics().getSecureWeakestLink());
+		
+		HashMap<String,Double> linesOfCode = new HashMap<String,Double>();
+		linesOfCode.put("project",calc.getPrimaryMetrics().getSourceLinesOfCode());
+		
+		HashMap<String,Double> baseClass = new HashMap<String,Double>();
+		baseClass.put("project",calc.getPrimaryMetrics().getCountOfBaseClasses());
+		
+		HashMap<String,Double> stallRatio = new HashMap<String,Double>();
+		stallRatio.put("project",calc.getPrimaryMetrics().getStallRatio());
+		
+		HashMap<String,Double> heirarchies = new HashMap<String,Double>();
+		heirarchies.put("project",calc.getPrimaryMetrics().getNumberOfHierarchies());
+		
+		HashMap<String,Double> sercurityAbsoulte = new HashMap<String,Double>();
+		sercurityAbsoulte.put("project",calc.getSecondaryMetrics().getSecurityAbsoluteMeasurements());
+		
+		double totalAttributes = calc.getTertiaryMetrics().getClassifiedAttributesTotal();
+		double totalMethods = calc.getTertiaryMetrics().getClassifiedMethodsTotal();
+		double totalClass = calc.getTertiaryMetrics().getCriticalClassesTotal();
+		
+		HashMap<String,Double> classifiedAttricbute = new HashMap<String,Double>();
+		classifiedAttricbute.put("project",totalMethods);
+		
+		HashMap<String,Double> classifiedMethods = new HashMap<String,Double>();
+		classifiedMethods.put("project",totalAttributes);
+		
+		HashMap<String,Double> classifiedClasses = new HashMap<String,Double>();
+		classifiedClasses.put("project",totalClass);
+		
+		HashMap<String,Double> criticalClassCoupling = new HashMap<String,Double>();
+		criticalClassCoupling.put("project",(double)calc.getTertiaryMetrics().getCriticalClassesCoupling());
+		
+		HashMap<String,Double> seialized = new HashMap<String,Double>();
+		seialized.put("project",(double)calc.getTertiaryMetrics().getCriticalSerializedClassesProportion());
+		
+		
+		HashMap<String,Double> superClass = new HashMap<String,Double>();
+		superClass.put("project",(double)calc.getTertiaryMetrics().getCriticalSuperclassesInheritance());
+		
+
+		HashMap<String,Double> accesserClass = new HashMap<String,Double>();
+		accesserClass.put("project",(double)calc.getTertiaryMetrics().getUnusedCriticalAccessorClass());
+		
+		HashMap<String,Double> reflection = new HashMap<String,Double>();
+		reflection.put("project",(double)calc.getTertiaryMetrics().getReflectionPackageBoolean());
+		
+		HashMap<String,Double> partCriticalClasses = new HashMap<String,Double>();
+		partCriticalClasses.put("project",(double)calc.getTertiaryMetrics().getCompositePartCriticalClasses());
+		
+		HashMap<String,Double> criticalClassExtensibility = new HashMap<String,Double>();
+		criticalClassExtensibility.put("project",(double)calc.getTertiaryMetrics().getCriticalClassesExtensibility());
+		
+		HashMap<String,Double> criticalDesignProportion = new HashMap<String,Double>();
+		criticalDesignProportion.put("project",(double)calc.getTertiaryMetrics().getCriticalDesignProportion());
+		
+		HashMap<String,Double> criticalSuperClassProportion = new HashMap<String,Double>();
+		criticalSuperClassProportion.put("project",(double)calc.getTertiaryMetrics().getCriticalSuperclassesProportion());
+		
+		//Primary Metrics
+		metrics[1] = generateRow(classNames,calc.getPrimaryMetrics().getAverageNumberOfAncestors(),"Average Number of Ancestors");
+		metrics[2] = generateRow(classNames,calc.getPrimaryMetrics().getFailSafeDefaults(),"Fail Safe Defaults");
+		metrics[3] = generateRow(classNames,calc.getPrimaryMetrics().getReduceAttackSurface(),"Reduce Attack Surface");
+		metrics[4] = generateRow(classNames,calc.getPrimaryMetrics().getLackOfCohesionOfMethods(),"Lack of Cohesion Methods");
+		metrics[5] = generateRow(classNames,calc.getPrimaryMetrics().getCohesionAmongMethodsInClass(),"Cohesion Among Methods in Class");
+		metrics[6] = generateRow(classNames,calc.getPrimaryMetrics().getCommentRatio(),"Comment Ratio");
+		metrics[7] = generateRow(classes,countofBaseClasses,"Count of Base Classes");
+		metrics[8] = generateRow(classNames,calc.getPrimaryMetrics().getCyclomaticComplexity(),"Cyclomatic Complexity");
+		metrics[9] = generateRow(classNames,calc.getPrimaryMetrics().getDepthOfInheritanceTree(),"Depth of Inheritance");
+		metrics[10]= generateRow(classNames,calc.getPrimaryMetrics().getCountPath(),"Count Path");
+		metrics[11]= generateRow(classes,economyofMechanism,"Economy of Mechanism");
+		metrics[12]= generateRow(classNames,calc.getPrimaryMetrics().getMcCabesCyclomaticComplexity(),"McCabes Cyclomatic Complexity");
+		metrics[13]= generateRow(classNames,calc.getPrimaryMetrics().getModifiedCyclomaticComplexity(),"Modified Cyclomatic Complexity");
+		//metrics[14]= generateRow(classNames,calc.getPrimaryMetrics().getNestingComplexity(),"Nesting Complexity");
+		metrics[14]= generateRow(classNames,calc.getPrimaryMetrics().getNumberOfChildren(),"Number of Children");
+		metrics[15]= generateRow(classNames,calc.getPrimaryMetrics().getNumberOfMethods(),"number of Methods");
+		metrics[16]= generateRow(classNames,calc.getPrimaryMetrics().getStrictCyclomaticComplexity(),"Strict Cyclomatic Complexity");
+		metrics[17]= generateRow(classes,secureWeakestLink,"Secure Weakest Link");
+		metrics[18]= generateRow(classes,linesOfCode,"Lines of Code");
+		metrics[19]= generateRow(classNames,calc.getPrimaryMetrics().getWeightedMethodsPerClass(),"Weighted Methods per Class");
+		metrics[20]= generateRow(classNames,calc.getPrimaryMetrics().getMeasureOfAggregation(),"Measure of Aggregation");
+		metrics[21]= generateRow(classNames,baseClass,"Count of Base Classes");
+		metrics[22]= generateRow(classNames,calc.getPrimaryMetrics().getCouplingBetweenObjects(),"Coupling Between Objects");
+		metrics[23]= generateRow(classNames,calc.getPrimaryMetrics().getCouplingCorruptionPropagation(),"Coupling Corruption Propagation");
+		metrics[24]= generateRow(classNames,calc.getPrimaryMetrics().getDepthOfInheritanceTree(),"Depth of Inheritance Tree");
+		metrics[25]= generateRow(classNames,calc.getPrimaryMetrics().getDirectClassCoupling(),"Direct Class Coupling");
+		metrics[26]= generateRow(classNames,calc.getPrimaryMetrics().getFanIn(),"Fan in");
+		metrics[27]= generateRow(classNames,calc.getPrimaryMetrics().getFanOut(),"Fan out");
+		metrics[28]= generateRow(classNames,calc.getPrimaryMetrics().getHenryKafura(),"Henry Kafura");
+		metrics[29]= generateRow(classNames,calc.getPrimaryMetrics().getNumberOfChildren(),"Number of Children");
+		metrics[30]= generateRow(classNames,calc.getPrimaryMetrics().getResponseSetForAClass(),"Response Set for a Class");
+		metrics[31]= generateRow(classNames,calc.getPrimaryMetrics().getDesignSizeInClasses(),"Design Size in Classes");
+		metrics[32]= generateRow(classes,stallRatio,"Stall Ratio");
+		metrics[33]= generateRow(classNames,calc.getPrimaryMetrics().getCriticalElementRatio(),"Critical Element Ratio");
+		metrics[34]= generateRow(classNames,calc.getPrimaryMetrics().getDataAccessMetric(),"Data Access Metric");
+		metrics[35]= generateRow(classNames,calc.getPrimaryMetrics().getGrantLeastPrivelage(),"Grant Least Privilage");
+		metrics[36]= generateRow(classNames,calc.getPrimaryMetrics().getIsolation(),"Isolation");
+		metrics[37]= generateRow(classNames,calc.getPrimaryMetrics().getLeastCommonMechanism(),"least Common Mechanism");
+		metrics[38]= generateRow(classes,heirarchies,"Number of Hierarchies");
+		metrics[39]= generateRow(classNames,calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction(),"Measure of Functional Abstraction");
+		metrics[40]= generateRow(classNames,calc.getPrimaryMetrics().getClassInterfaceSize(),"Class Interface Size");
+		metrics[41]= generateRow(classNames,calc.getPrimaryMetrics().getNumberOfPolymorphicMethods(),"number of PolyMorphic Methods");
+		metrics[42]= generateRow(classNames,calc.getSecondaryMetrics().getReadabilityOfClassifiedAttributes(),"readability of Classified attributes");
+		metrics[43]= generateRow(classNames,calc.getSecondaryMetrics().getReadabilityOfClassifiedMethods(),"Readability of Classified Methods");
+		metrics[44]= generateRow(classes,sercurityAbsoulte,"Security Absolute Measurements");
+		metrics[45]= generateRow(classNames,calc.getSecondaryMetrics().getWritabilityOfClassifiedAttributes(),"writability of Classified Attributes");
+		metrics[46]= generateRow(classNames,calc.getSecondaryMetrics().getWritabilityOfClassifiedMethods(),"Writability of Classified Methods");
+		metrics[47]= generateRow(classNames,calc.getSecondaryMetrics().getWritabilityOfClassifiedClasses(),"Writablility of Classified Classes");
+		metrics[48]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedInstanceDataAccessibility(),"Classified Instance Data Accessibility");
+		metrics[49]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedClassDataAccessibility(),"Classified Class Data Accessibility");
+		metrics[50]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedAttributesInheritance(),"Classified Attributes Inheritance");
+		metrics[51]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedOperationAccessibility(),"Classified Operation Accessibility");
+		metrics[52]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedMethodsExtensibility(),"Classified Methods Extensibility");
+		metrics[53]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedMethodsInheritance(),"Classified Methods Inheritance");
+		metrics[54]= generateRow(classes,classifiedAttricbute,"Classified Attributes Total");
+		metrics[55]= generateRow(classes,classifiedMethods,"Classified Methods Total");
+		metrics[55]= generateRow(classes,classifiedClasses,"Critical Classes Total");
+		metrics[56]= generateRow(classNames,calc.getTertiaryMetrics().getUnaccessedAssignedClassifiedAttribute(),"Unaccessed Assigned Classified Attribute");
+		metrics[57]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedAccessorAttributeInteractions(),"Classified Accessor Attribute Interactions");
+		metrics[58]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedMutatorAttributeInteractions(),"Classified Mutator Attribute Interactions");
+		metrics[59]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedAttributesInteractionWeight(),"Classified Attributes Interaction Weight");
+		metrics[60]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedMethodsWeight(),"Classified Methods Weight");
+		metrics[61]= generateRow(classNames,calc.getTertiaryMetrics().getClassifiedWritingMethodsProportion(),"Classified Writing Methods Proportion");
+		metrics[62]= generateRow(classNames,calc.getTertiaryMetrics().getUncalledClassifiedAccessorMethod(),"Uncalled Classified Accessor Methods");
+		metrics[63]= generateRow(classes,criticalClassCoupling,"Critical Class Coupling");
+		metrics[64]= generateRow(classes,seialized,"Critical Class Serialization");
+		metrics[65]= generateRow(classes,superClass,"Critical Superclasses Inheritance");
+		metrics[66]= generateRow(classes,accesserClass,"Unused Critical AccessorClass");
+		metrics[67]= generateRow(classes,reflection,"Reflection Package Boolean");
+		metrics[68]= generateRow(classes,partCriticalClasses,"Composite Part Critical Classes");
+		metrics[69]= generateRow(classes,criticalClassExtensibility,"Critical Classes Extensibility");
+		metrics[70]= generateRow(classes,criticalDesignProportion,"Critical Design Proportion");
+		metrics[71]= generateRow(classes,criticalSuperClassProportion,"Critical Superclasses Proportion");
+		
+		section += makeTable(metrics);
+		
+		return section;
+	}
+	
 
 }
