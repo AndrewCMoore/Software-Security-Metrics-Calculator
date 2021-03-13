@@ -291,9 +291,10 @@ public class CAMValues extends Thread {
 	
 	public void run() {
 		try {
+			System.out.println("Thread " + Thread.currentThread().getId()+ " is now started");
 			System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		this.classArray = getClasses(unit);
 		

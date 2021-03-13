@@ -90,7 +90,7 @@ public class Method {
 				// The only statement within the method should be a ReturnStatement
 				if(getStatements().get(0).getNode() instanceof ReturnStatement) {
 					// At this point we have confirmed it is a getter method
-					System.out.println("Accessor: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine());	
+					//System.out.println("Accessor: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine());	
 					setAccessor();
 			}
 		}	
@@ -102,7 +102,7 @@ public class Method {
 		if(getIdentifier().startsWith("set") && isVoid) {
 			// Then we determine the number of variables it sets by the number of parameters
 			setMutator(this.parameters.size());
-			System.out.println("Mutator: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine() + " Value: " + this.mutator);	
+			//System.out.println("Mutator: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine() + " Value: " + this.mutator);	
 		}
 	}
 	public boolean getAccessor() {
@@ -488,7 +488,7 @@ public class Method {
 			}
 			//The complexity of the Method is the sum of the current 
 			//complexity plus the Statment's complexity
-			System.out.println("statement: " + s.getComplexity());
+			//System.out.println("statement: " + s.getComplexity());
 			strictComplexity += s.getStrictComplexity();
 			modifiedComplexity += s.getModifiedComplexity();
 			cyclomaticComplexity += s.getCyclomaticComplexity();
