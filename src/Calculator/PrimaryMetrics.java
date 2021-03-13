@@ -48,6 +48,7 @@ public class PrimaryMetrics {
 	private HashMap<String, Double> measureOfAggregation = new HashMap<String, Double>();
 	private HashMap<String, Double> directClassCoupling = new HashMap<String, Double>();
 	private ArrayList<String> classesInProject = new ArrayList<String>();
+	private HashMap<String, Double> averageNumberOfAncestors = new HashMap<String, Double>();
 
 
 	
@@ -107,7 +108,28 @@ public class PrimaryMetrics {
 	//Abstraction Metrics
 	//###########################################################################################################################################################
 
-	public void averageNumberOfAncestor(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void averageNumberOfAncestor(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		int averageNumberOfChildren=0;
+		Map<String, ArrayList<String>> imidiateChildren = mpv.getImidiateChildren();
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
+		Set<String> inheritanceClasses = new HashSet<String>();
+		for (String className: classNames) {
+			if (imidiateChildren.containsKey(className)) {
+				averageNumberOfChildren+=imidiateChildren.get(className).size();
+				inheritanceClasses.add(className);
+				for (String childClassName : imidiateChildren.get(className)) {
+					inheritanceClasses.add(childClassName);
+				}
+				averageNumberOfAncestors.put(className, (averageNumberOfChildren/inheritanceClasses.size()*1.0));
+			} else {
+				averageNumberOfAncestors.put(className, 0.0);
+			}
+			
+		}
+		
+
+		
+	}
 	
 	public void failSafeDefaults (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: sm.getReadabilityOfClassifiedAttributes().keySet()) {
@@ -287,9 +309,9 @@ public class PrimaryMetrics {
 		mpv.getClassesCoupledToBaseClass();
 	}
 	
-	//CCP //:(
+	//CCP //!
 	public void couplingCorruptionPropagation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		couplingCorruptionPropagation=mpv.getDepthOfInheritanceTreeAtCurrentSuperClass();
+		couplingCorruptionPropagation=mpv.getNumberOfMethodsInheritedByAClass();
 	}
 	
 	public void depthOfInheritanceTree (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -299,7 +321,10 @@ public class PrimaryMetrics {
 	}
 	
 	public void directClassCoupling (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		directClassCoupling=mpv.getClassesCoupledToBaseClass();
+		for (String key: mpv.getClassCouplingRelationship().keySet()) {
+			directClassCoupling.put(key, (double) mpv.getClassCouplingRelationship().get(key).size());
+		}
+
 	}
 	
 	public void fanIn(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -510,7 +535,7 @@ public class PrimaryMetrics {
 		return strictCyclomaticComplexity;
 	}
 
-	// :(
+
 	public HashMap<String, Double> getAverageNumberOfAncestors() {
 	
 		return strictCyclomaticComplexity;

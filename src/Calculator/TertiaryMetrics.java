@@ -2,6 +2,7 @@ package Calculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class TertiaryMetrics {
@@ -64,6 +65,7 @@ public class TertiaryMetrics {
 		criticalSuperclassesProportion(pv,mpv);
 		criticalSuperclassesInheritance(pv,mpv);
 		reflectionPackageBoolean(pv,mpv);
+		ClassifiedMethodsInheritance(pv,mpv);
 		
 		
 		
@@ -200,31 +202,63 @@ public class TertiaryMetrics {
 	/**this was incorrect in the 100% diagram, it used TWO pulled values, not one. number of clasifed attributed that can be inherited in a hiarchy
 	total # ot classifgied attributes in a programs inheritance hyarchy*/
 
-	public void ClassifiedMethodsInheritance() {}		
+	//Project Level Ratio
+	public void ClassifiedMethodsInheritance(PulledValues pv, MurgePulledValues mpv)  {
+		Set<String> baseClassesInProject = mpv.getBaseClassNames();
+		HashMap<String, Double> numberOfProtectedMethodsInClass = mpv.getNumberOfProtectedMethodsInClass();
+		HashMap<String, Double> numberOfPrivateMethodsInClass = mpv.getNumberOfPrivateMethodsInClass();
+		
+		for (String className: numberOfProtectedMethodsInClass.keySet()) {			
+			classifiedMethodsInheritance.put(className, (baseClassesInProject.contains(className) ? (numberOfProtectedMethodsInClass.get(className)/ (numberOfPrivateMethodsInClass.get(className) + numberOfProtectedMethodsInClass.get(className)))   : 0.0 ));	
+		}
+		
+		
+	}		
 	
-	//total # CC
+	//total # CC , this is a Double.
 	private void criticalClassesTotal(PulledValues pv, MurgePulledValues mpv) {
 		criticalClassesTotal = mpv.getNumberOfCriticalClassesInProgram();
 	}
 	
-	//CCE //:(
+	//CCE project ratio thus Double.
 	private void criticalClassesExtensibility(PulledValues pv, MurgePulledValues mpv) {
-		criticalClassesExtensibility=(mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
+		criticalClassesExtensibility=(double) (mpv.getNonFinalizedCriticalClasses().size() / mpv.getNumberOfCriticalClassesInProgram());
 	}
 	
-	//CCC //:(
+	//CCC // this is a Double.
 	private void criticalClassesCoupling(PulledValues pv, MurgePulledValues mpv) {
-		criticalClassesCoupling=(Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
+		Set<String> criticalClassNames = mpv.getCriticalClasses();
+		
+		HashMap<String, Double> numberOfcriticalClassAttributes = getClassifiedClassDataAccessibility();
+		HashMap<String, Double> numberOfcriticalInstanceAttributes = getClassifiedInstanceDataAccessibility();
+		double sumOfPrivateAndProtectedMethodsInClass=0,sumOfCriticalCriticalCouplingAttributes=0;
+		HashMap<String, HashSet<String>> numberOfCoupledClasses = mpv.getClassesCoupledToBaseClass();
+		
+		for (String className: numberOfcriticalInstanceAttributes.keySet()) {
+			sumOfPrivateAndProtectedMethodsInClass += (numberOfcriticalClassAttributes.get(className) + numberOfcriticalInstanceAttributes.get(className));
+			for (String criticalClassName: criticalClassNames) {
+				if (numberOfCoupledClasses.get(className).contains(criticalClassName)) sumOfCriticalCriticalCouplingAttributes+=1;
+			}
+		}
+		criticalClassesCoupling=(sumOfCriticalCriticalCouplingAttributes/sumOfPrivateAndProtectedMethodsInClass);
 	}
 	
-	//CPCC //:(
+	//CPCC // this is a Double.
 	private void compositePartCriticalClasses(PulledValues pv, MurgePulledValues mpv) {
-		compositePartCriticalClasses=(Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
+		Set<String> criticalClassNames = mpv.getCriticalBaseClasses();
+		HashMap<String, HashSet<String>> compositePartClasses = mpv.getClassesCoupledToBaseClass();
+		
+		for (String criticalClass:criticalClassNames) {
+			if (compositePartClasses.containsKey(criticalClass)) {
+				if (compositePartClasses.get(compositePartClasses).size()>1) compositePartCriticalClasses+=1;
+			}
+		}
+		compositePartCriticalClasses=compositePartCriticalClasses/criticalClassNames.size();
 	}
 	
-	//UCAC //:(
+	//UCAC //!
 	private void unusedCriticalAccessorClass(PulledValues pv, MurgePulledValues mpv) {
-		unusedCriticalAccessorClass=(Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
+		unusedCriticalAccessorClass=(double) (mpv.getUnusedClassifiedMethods().size() / mpv.getNumberOfCriticalClassesInProgram());
 	}
 	
 	//CDP
@@ -242,9 +276,9 @@ public class TertiaryMetrics {
 		criticalSuperclassesProportion = (Double) (mpv.getCriticalBaseClasses().size()*INT_TO_DOUBLE) / (Double) (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*INT_TO_DOUBLE);
 	}
 	
-	//CSI //:(
+	//CSI 
 	private void criticalSuperclassesInheritance(PulledValues pv, MurgePulledValues mpv) {
-		criticalSuperclassesInheritance =  (Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);		
+		criticalSuperclassesInheritance =  (Double) (mpv.getSumOfNumberOfClassesInheritingFromCriticalBaseClasses()/mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*1.0);		
 	}
 	
 	//RPB - this is actually a boolean not an int sum. fix it in murge pulled values.
