@@ -62,16 +62,16 @@ public class DesignPrincipals {
 			encapsulation.put(key, (double) pm.getCriticalElementRatio().get(key) +
 					pm.getDataAccessMetric().get(key) +
 					pm.getGrantLeastPrivelage().get(key) +
-					pm.getIsolation().get(key) + 
-					pm.getLeastCommonMechanism().get(key) +
+					pm.getIsolation()/(pm.getCriticalElementRatio().size()) + 
+					pm.getLeastCommonMechanism()/(pm.getCriticalElementRatio().size()) +
 					pm.getNumberOfHierarchies());
 		}
 		
 	}
 
 	private void designSize(PrimaryMetrics pm) {
-		for (String key: pm.getDesignSizeInClasses().keySet()) {
-			designSize.put(key, (double) pm.getDesignSizeInClasses().get(key));
+		for (String key: pm.getClassesInProject()) {
+			designSize.put(key, (double) (1.0));
 		}
 		
 	}

@@ -735,7 +735,10 @@ public class generateCSV {
 			csvWriter.append(",,Design Size In Classes (DSC),,,,");
 			// For each class in the project
 			for(String key: classNames) {
-				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDesignSizeInClasses().get(key)) + ",");
+				//this should just be total # classes in project but for now i'm just replacing it with 1 for each class
+				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getDesignSizeInClasses().get(key)) + ",");
+				csvWriter.append(String.valueOf(1) + ",");
+				
 			}
 			csvWriter.append("\n");
 
@@ -863,7 +866,9 @@ public class generateCSV {
 			csvWriter.append(",,Isolation (ISO),,,,");
 			// For each class in the project
 			for(String key: classNames) {
-				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getIsolation().get(key)) + ",");
+				//csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getIsolation().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getIsolation()/ calc.getPrimaryMetrics().getNumberofClasses()) + ",");
+				
 			}
 			csvWriter.append("\n");
 
@@ -885,7 +890,7 @@ public class generateCSV {
 			csvWriter.append(",,Least Commom Mechanism (LCM),,,,");
 			// For each class in the project
 			for(String key: classNames) {
-				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getLeastCommonMechanism().get(key)) + ",");
+				csvWriter.append(String.valueOf(calc.getPrimaryMetrics().getLeastCommonMechanism()) + ",");
 			}
 			csvWriter.append("\n");
 

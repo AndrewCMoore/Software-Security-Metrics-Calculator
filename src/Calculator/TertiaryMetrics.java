@@ -1,6 +1,8 @@
 package Calculator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class TertiaryMetrics {
 	private HashMap<String, Double> classifiedInstanceDataAccessibility  = new HashMap<String, Double>();
@@ -19,17 +21,22 @@ public class TertiaryMetrics {
 	private int classifiedAttributesTotal = 0;
 	private int classifiedMethodsTotal = 0;
 	private int criticalClassesTotal = 0;
+	private static final double INT_TO_DOUBLE = 1.0;
+
+
+	
 	
 	//all of these are project level ratio that can't be reduced to the class level :(
-	private float criticalClassesExtensibility = 0;
-	private float criticalClassesCoupling = 0;
-	private float compositePartCriticalClasses = 0;
-	private float unusedCriticalAccessorClass=0;
-	private float criticalDesignProportion=0;
-	private float criticalSerializedClassesProportion=0;
-	private float criticalSuperclassesProportion=0;
-	private float criticalSuperclassesInheritance=0;
-	private float reflectionPackageBoolean=0;
+	private Double criticalClassesExtensibility;
+	private Double criticalClassesCoupling;
+	private Double compositePartCriticalClasses;
+	private Double unusedCriticalAccessorClass;
+	private Double criticalDesignProportion;
+	private Double criticalSerializedClassesProportion;
+	private Double criticalSuperclassesProportion;
+	private Double criticalSuperclassesInheritance;
+	private Double reflectionPackageBoolean;
+	//private HashMap<String,Double> reflectionPackageBoolean= new HashMap<String,Double>();
 	//private float unusedCriticalAccessorClass = 0;
 
 	
@@ -47,6 +54,19 @@ public class TertiaryMetrics {
 		classifiedMethodsWeight(pv,mpv);
 		classifiedWritingMethodsProportion(pv,mpv);
 		uncalledClassifiedAccessorMethod(pv,mpv);
+		criticalClassesExtensibility(pv,mpv);
+		criticalClassesTotal(pv,mpv);
+		criticalClassesCoupling(pv,mpv);
+		compositePartCriticalClasses(pv,mpv);
+		unusedCriticalAccessorClass(pv,mpv);
+		criticalDesignProportion(pv,mpv);
+		criticalSerializedClassesProportion(pv,mpv);
+		criticalSuperclassesProportion(pv,mpv);
+		criticalSuperclassesInheritance(pv,mpv);
+		reflectionPackageBoolean(pv,mpv);
+		
+		
+		
 		//unaccessedAssignedClassifiedAttribute(pv,mpv);
 	}
 	
@@ -187,44 +207,56 @@ public class TertiaryMetrics {
 		criticalClassesTotal = mpv.getNumberOfCriticalClassesInProgram();
 	}
 	
-	//CCE
+	//CCE //:(
 	private void criticalClassesExtensibility(PulledValues pv, MurgePulledValues mpv) {
-		criticalClassesExtensibility=0;
+		criticalClassesExtensibility=(mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
 	}
 	
-	//CCC
+	//CCC //:(
 	private void criticalClassesCoupling(PulledValues pv, MurgePulledValues mpv) {
-		criticalClassesCoupling=1;
+		criticalClassesCoupling=(Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
 	}
 	
-	//CPCC
+	//CPCC //:(
 	private void compositePartCriticalClasses(PulledValues pv, MurgePulledValues mpv) {
-		compositePartCriticalClasses=1;
+		compositePartCriticalClasses=(Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
 	}
-	//UCAC
-	private void unusedCriticalAccessorClass() {
-		unusedCriticalAccessorClass=0;
+	
+	//UCAC //:(
+	private void unusedCriticalAccessorClass(PulledValues pv, MurgePulledValues mpv) {
+		unusedCriticalAccessorClass=(Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
 	}
 	
 	//CDP
-	private void criticalDesignProportion() {
-		criticalDesignProportion=0;
+	private void criticalDesignProportion(PulledValues pv, MurgePulledValues mpv) {
+		criticalDesignProportion= (Double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE) / (Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
 	}
 	
 	//CSCP
-	private void criticalSerializedClassesProportion() {
-		criticalSerializedClassesProportion=0;
+	private void criticalSerializedClassesProportion(PulledValues pv, MurgePulledValues mpv) {
+		criticalSerializedClassesProportion = (Double) (mpv.getNumberOfSerializableClassesInProject().size()*INT_TO_DOUBLE) / (Double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE);
 	}
 	
 	//CSP
-	private void criticalSuperclassesProportion() {}
+	private void criticalSuperclassesProportion(PulledValues pv, MurgePulledValues mpv) {
+		criticalSuperclassesProportion = (Double) (mpv.getCriticalBaseClasses().size()*INT_TO_DOUBLE) / (Double) (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*INT_TO_DOUBLE);
+	}
 	
-	//CSI
-	private void criticalSuperclassesInheritance() {}
+	//CSI //:(
+	private void criticalSuperclassesInheritance(PulledValues pv, MurgePulledValues mpv) {
+		criticalSuperclassesInheritance =  (Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);		
+	}
 	
 	//RPB - this is actually a boolean not an int sum. fix it in murge pulled values.
-	private void reflectionPackageBoolean() {
-		reflectionPackageBoolean=0;
+	private void reflectionPackageBoolean(PulledValues pv, MurgePulledValues mpv) {
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
+		ArrayList<String> criticalSerializedClasses = mpv.getNumberOfSerializableClassesInProject();
+		/*for (String className: classNames) {
+			reflectionPackageBoolean.put(className, (criticalSerializedClasses.contains(className)) ? (Double) (1.0) : (Double) (0.0)  );
+		}*/
+		
+		reflectionPackageBoolean = (criticalSerializedClasses.size()>0*INT_TO_DOUBLE) ? (Double) (1.0) : (Double) (0.0);
+		
 	}
 	
 	//getters
@@ -282,39 +314,39 @@ public class TertiaryMetrics {
 		return criticalClassesTotal;
 	}
 
-	public float getCriticalClassesExtensibility() {
+	public Double getCriticalClassesExtensibility() {
 		return criticalClassesExtensibility;
 	}
 
-	public float getCriticalClassesCoupling() {
+	public Double getCriticalClassesCoupling() {
 		return criticalClassesCoupling;
 	}
 
-	public float getCompositePartCriticalClasses() {
+	public Double getCompositePartCriticalClasses() {
 		return compositePartCriticalClasses;
 	}
 
-	public float getUnusedCriticalAccessorClass() {
+	public Double getUnusedCriticalAccessorClass() {
 		return unusedCriticalAccessorClass;
 	}
 
-	public float getCriticalDesignProportion() {
+	public Double getCriticalDesignProportion() {
 		return criticalDesignProportion;
 	}
 
-	public float getCriticalSerializedClassesProportion() {
+	public Double getCriticalSerializedClassesProportion() {
 		return criticalSerializedClassesProportion;
 	}
 
-	public float getCriticalSuperclassesProportion() {
+	public Double getCriticalSuperclassesProportion() {
 		return criticalSuperclassesProportion;
 	}
 
-	public float getCriticalSuperclassesInheritance() {
+	public Double getCriticalSuperclassesInheritance() {
 		return criticalSuperclassesInheritance;
 	}
 	
-	public float getReflectionPackageBoolean() {
+	public Double getReflectionPackageBoolean() {
 		return reflectionPackageBoolean;
 	}
 
