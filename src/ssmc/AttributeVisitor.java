@@ -2,12 +2,14 @@ package ssmc;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
@@ -142,6 +144,8 @@ public class AttributeVisitor extends ASTVisitor{
 		SimpleName name = node.getName();											// Get the String ID of the node (variable)
 		Attribute a = new Attribute(name.getIdentifier(), this.compliationUnit); 	// Create a new Attribute object
 
+		
+		
 		a.setModifier(ASTUtility.getModifers(node)); 	 												// Set the Attribute's variables
 		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
 		
@@ -153,4 +157,24 @@ public class AttributeVisitor extends ASTVisitor{
 		
 		return true;
 	}	
+	
+	public boolean visit(FieldDeclaration node) {
+        try { 
+                VariableDeclarationFragment frag = (VariableDeclarationFragment) node.fragments().get(0);
+              if (this.names.contains(frag.getName())) {
+                  for(int i = 0; i < this.attributes.size(); i++) {
+                      Attribute attribute = this.attributes.get(i);
+                      attribute.setType(node.getType().toString());
+                  }
+              }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return true;
+    } 
+	
+	
+	
+	
 }
