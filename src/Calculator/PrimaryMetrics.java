@@ -239,7 +239,7 @@ public class PrimaryMetrics {
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
 		//for each class in project, ? operator, is the class name part of a inheritance hearchy ? yes-> put classname,#children : no-> put classname,0 children.
 		for (String key: classNames) {
-			numberOfChildren.put(key, (immidiateChildrenInClass.get(key)!=null) ?  (double) mpv.getImidiateChildren().get(key).size() :  (double) 0.0);
+			numberOfChildren.put(key, (immidiateChildrenInClass.containsKey(key)) ?  (double) mpv.getImidiateChildren().get(key).size() :  (double) 0.0);
 		}
 	}
 	
