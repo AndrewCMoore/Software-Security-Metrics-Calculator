@@ -232,12 +232,14 @@ public class TertiaryMetrics {
 		HashMap<String, Double> numberOfcriticalClassAttributes = getClassifiedClassDataAccessibility();
 		HashMap<String, Double> numberOfcriticalInstanceAttributes = getClassifiedInstanceDataAccessibility();
 		double sumOfPrivateAndProtectedMethodsInClass=0,sumOfCriticalCriticalCouplingAttributes=0;
+		
+		
 		HashMap<String, HashSet<String>> numberOfCoupledClasses = mpv.getClassesCoupledToBaseClass();
 		
 		for (String className: numberOfcriticalInstanceAttributes.keySet()) {
 			sumOfPrivateAndProtectedMethodsInClass += (numberOfcriticalClassAttributes.get(className) + numberOfcriticalInstanceAttributes.get(className));
 			for (String criticalClassName: criticalClassNames) {
-				if (numberOfCoupledClasses.get(className).contains(criticalClassName)) sumOfCriticalCriticalCouplingAttributes+=1;
+				if (numberOfCoupledClasses.containsKey(criticalClassName)) sumOfCriticalCriticalCouplingAttributes+=1;
 			}
 		}
 		criticalClassesCoupling=(sumOfCriticalCriticalCouplingAttributes/sumOfPrivateAndProtectedMethodsInClass);
@@ -246,14 +248,17 @@ public class TertiaryMetrics {
 	//CPCC // this is a Double.
 	private void compositePartCriticalClasses(PulledValues pv, MurgePulledValues mpv) {
 		Set<String> criticalClassNames = mpv.getCriticalBaseClasses();
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
 		HashMap<String, HashSet<String>> compositePartClasses = mpv.getClassesCoupledToBaseClass();
+		double compositePartClassesCounter=0;
 		
-		for (String criticalClass:criticalClassNames) {
-			if (compositePartClasses.containsKey(criticalClass)) {
-				if (compositePartClasses.get(compositePartClasses).size()>1) compositePartCriticalClasses+=1;
+		for (String className:classNames) {
+			
+			if (compositePartClasses.containsKey(className)) {
+				if (compositePartClasses.get(className).size()>1) compositePartClassesCounter+=1;
 			}
 		}
-		compositePartCriticalClasses=compositePartCriticalClasses/criticalClassNames.size();
+		compositePartCriticalClasses= (double) (compositePartClassesCounter/criticalClassNames.size());
 	}
 	
 	//UCAC //!
@@ -263,22 +268,22 @@ public class TertiaryMetrics {
 	
 	//CDP
 	private void criticalDesignProportion(PulledValues pv, MurgePulledValues mpv) {
-		criticalDesignProportion= (Double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE) / (Double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
+		criticalDesignProportion= (double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
 	}
 	
 	//CSCP
 	private void criticalSerializedClassesProportion(PulledValues pv, MurgePulledValues mpv) {
-		criticalSerializedClassesProportion = (Double) (mpv.getNumberOfSerializableClassesInProject().size()*INT_TO_DOUBLE) / (Double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE);
+		criticalSerializedClassesProportion = (double) (mpv.getNumberOfSerializableClassesInProject().size()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE);
 	}
 	
 	//CSP
 	private void criticalSuperclassesProportion(PulledValues pv, MurgePulledValues mpv) {
-		criticalSuperclassesProportion = (Double) (mpv.getCriticalBaseClasses().size()*INT_TO_DOUBLE) / (Double) (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*INT_TO_DOUBLE);
+		criticalSuperclassesProportion = (double) (mpv.getCriticalBaseClasses().size()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*INT_TO_DOUBLE);
 	}
 	
 	//CSI 
 	private void criticalSuperclassesInheritance(PulledValues pv, MurgePulledValues mpv) {
-		criticalSuperclassesInheritance =  (Double) (mpv.getSumOfNumberOfClassesInheritingFromCriticalBaseClasses()/mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*1.0);		
+		criticalSuperclassesInheritance =  (double) (mpv.getSumOfNumberOfClassesInheritingFromCriticalBaseClasses()/mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*1.0);		
 	}
 	
 	//RPB - this is actually a boolean not an int sum. fix it in murge pulled values.
