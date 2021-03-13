@@ -63,6 +63,7 @@ class PerformanceTest {
 			
 			// For each project in the workspace
 			for(IProject project : projects) {
+				System.out.println("PROJECT: " + project.getName());
 				try { 
 					// Get the number of lines of code in the project 
 					int linesOfCode = getNumberOfLinesInProject(project);
@@ -82,7 +83,7 @@ class PerformanceTest {
 						//Build a tree out of the project
 						JDTree myTree = new JDTree(javaProject, null);
 						// Stop timer -> parser timing 
-						parserStopTime = System.nanoTime();;
+						parserStopTime = System.nanoTime();
 						// Calculator timer 
 						//pass the tree to the calculator
 						Calculator calc = new Calculator(myTree);
@@ -112,7 +113,9 @@ class PerformanceTest {
 						float average = (float) ((float) linesOfCode / (float) time * 60000000000.00);
 						//System.out.println("The project: " + project.getName() + "had a runtime of " + time + "\n With " + linesOfCode + " lines of code for an average of: " + "\n " + average + " lines of code per minute");
 					}
-				}	catch (Exception e) {}
+				}	catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -145,7 +145,7 @@ public class AttributeVisitor extends ASTVisitor{
 		a.setModifier(ASTUtility.getModifers(node)); 	 												// Set the Attribute's variables
 		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
 		
-		System.out.println("AAB " + node.getType().toString());
+		//System.out.println("AAB " + node.getType().toString());
 		a.setType(node.getType().toString());
 		this.names.add(name.getIdentifier());										// Add the node name to the set of names
 		this.attributes.add(a);	

@@ -86,18 +86,18 @@ public class MurgePulledValues {
 		this.extractInheritanceInformation(classes); //main extraction method. Extracts almost all of the data.
 		this.aquireTopLevelSuperClasses(classes);
 		this.setUpImidiateSuperChildRelationship();
-		System.out.println("\n\n\n");
+		//System.out.println("\n\n\n");
 		this.getTotalNumberOfCriticalSubClasses();
 		this.buildInheritanceDependencies(classes);
-		System.out.println(mapImidiateChildren);
-		System.out.println(sumaztionOfuniqueParametersInEachMethodForAClass);
+		//System.out.println(mapImidiateChildren);
+		//System.out.println(sumaztionOfuniqueParametersInEachMethodForAClass);
 		//System.out.println(mapUniqueParamatersInClassEachMethod);
-		System.out.println("AXX78");
+		//System.out.println("AXX78");
 		//System.out.println(getAllHierarchySize());
 
-		System.out.println(nonFinalizedCriticalClass);
+		//System.out.println(nonFinalizedCriticalClass);
 
-		System.out.println(depthOfInheritanceTreeAtCurrentSuperClass);
+		//System.out.println(depthOfInheritanceTreeAtCurrentSuperClass);
 
 		
 	}
@@ -151,7 +151,7 @@ public class MurgePulledValues {
 	public void buildInheritanceDependencies(JDTree[] classes) {
 		
 		int numberOfCoupledClasses=0;
-		System.out.println("\n\n\n\n");
+		//System.out.println("\n\n\n\n");
 		for(int i = 0; i < classes.length; i++) {
 			Object o = classes[i].getNode(); 			
 			if(o instanceof Class) {
@@ -173,7 +173,7 @@ public class MurgePulledValues {
 					for(Attribute attribute : attributeList) { 
 						//for each class in the project check if className CONTAINS attribute type. Note that Queue<Workstations> is still coupled to workstations. thus check if contains.
 						for (String className: classNames) {
-							System.out.println(classNode.getIdentifier()+"::"+attribute.getType()+"::"+attribute.getType());
+							//System.out.println(classNode.getIdentifier()+"::"+attribute.getType()+"::"+attribute.getType());
 							if (attribute.getType().contains(className)) numberOfCoupledClasses++;
 						}
 					}}catch (Exception e) {}
@@ -635,8 +635,8 @@ public class MurgePulledValues {
 				classNode.getInterfaces();
 				
 			}	
-			System.out.println("validMethodNamesThatCanBeInherited");
-			System.out.println(validMethodNamesThatCanBeInherited);
+			//System.out.println("validMethodNamesThatCanBeInherited");
+			//System.out.println(validMethodNamesThatCanBeInherited);
 		}
 	}
 	

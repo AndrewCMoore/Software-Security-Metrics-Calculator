@@ -2,6 +2,7 @@ package ssmc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.AST;
@@ -20,6 +21,10 @@ public class CAMValues extends Thread {
 	
 	Class[] classArray;
 	ICompilationUnit unit;
+	
+	// For Threading 
+	final int MAX_NO_OF_THREADS = 5;
+	final Semaphore semaphore = new Semaphore(MAX_NO_OF_THREADS);
 	
 	public CAMValues(ICompilationUnit unit) {
 		this.unit = unit;
@@ -291,14 +296,18 @@ public class CAMValues extends Thread {
 	
 	public void run() {
 		try {
-			System.out.println("Thread " + Thread.currentThread().getId()+ " is now started");
-			System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
+			System.out.println("Thread " + Thread.currentThread().getId()+ " has now started");
+			//System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
+			semaphore.acquire();
+			this.classArray = getClasses(unit);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			semaphore.release();
 		}
-		this.classArray = getClasses(unit);
 		
-		System.out.println("Thread " + Thread.currentThread().getId()+ " is now closed");
+		
+		//System.out.println("Thread " + Thread.currentThread().getId()+ " is now closed");
 	}
 
 	public Class[] getClassArray() {

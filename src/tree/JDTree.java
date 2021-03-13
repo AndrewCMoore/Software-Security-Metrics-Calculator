@@ -1,6 +1,7 @@
 package tree;
 
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -23,6 +24,11 @@ public class JDTree extends Thread{
 	private Object node;
 	
 	private boolean Threading = true;
+	
+	final int MAX_NO_OF_THREADS = 5;
+	final Semaphore semaphore = new Semaphore(MAX_NO_OF_THREADS);
+	
+	
 	
 	/**
 	 * Constructor for JDTree
@@ -77,7 +83,15 @@ public class JDTree extends Thread{
 				for(int j = 0; j < units.length; j++) {
 					type = NodeType.COMPILATIONUNIT;
 					CAMValues cv = new CAMValues(units[j]);
-					cv.start();
+					try {
+						//semaphore.acquire();
+						
+						cv.start();
+					} catch (Exception e) {
+						
+					} finally {
+						semaphore.release();
+					}
 					Class[] classes = cv.getClassArray();
 					//Class[] classes = new CAMValues().run(comp);
 					//Class[] classes = CAMValues.getClasses(comp);
