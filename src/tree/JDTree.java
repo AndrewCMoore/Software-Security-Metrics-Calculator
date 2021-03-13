@@ -22,7 +22,7 @@ public class JDTree extends Thread{
 	// Actual node that we are organizing
 	private Object node;
 	
-	private boolean Threading = false;
+	private boolean Threading = true;
 	
 	/**
 	 * Constructor for JDTree

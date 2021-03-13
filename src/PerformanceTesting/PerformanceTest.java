@@ -29,6 +29,7 @@ class PerformanceTest {
 
 	HashMap<String, Long> timeValues;
 	HashMap<String, Integer> lengthValues;
+	HashMap<String, Long> startValues;
 	HashMap<String, Long> parserValues;
 	HashMap<String, Long> calcValues;
 	HashMap<String, Long> memoryValues;
@@ -40,6 +41,7 @@ class PerformanceTest {
 	public PerformanceTest() {
 		// Initialize HashMap values
 		timeValues = new HashMap<String, Long>();
+		startValues = new HashMap<String, Long>();
 		lengthValues = new HashMap<String, Integer>();
 		parserValues = new HashMap<String, Long>();
 		calcValues = new HashMap<String, Long>();
@@ -61,49 +63,56 @@ class PerformanceTest {
 			
 			// For each project in the workspace
 			for(IProject project : projects) {
+				try { 
+					// Get the number of lines of code in the project 
+					int linesOfCode = getNumberOfLinesInProject(project);
+					// Start the timer for performace
+					long startUpTime = 0;
+					long projectStartTime = 0;
+					long parserStopTime = 0;
+					long calculatorStopTime = 0;
+					long memory = 0;
+					// Run the SSMC for the project
 				
-				// Get the number of lines of code in the project 
-				int linesOfCode = getNumberOfLinesInProject(project);
-				// Start the timer for performace
-				long projectStartTime = System.currentTimeMillis();
-				long parserStopTime = 0;
-				long calculatorStopTime = 0;
-				long memory = 0;
-				// Run the SSMC for the project
-				if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
-					IJavaProject javaProject = JavaCore.create(project);
-					String kind = project.getClass().getName();
-					//Build a tree out of the project
-					JDTree myTree = new JDTree(javaProject, null);
-					// Stop timer -> parser timing 
-					parserStopTime = System.currentTimeMillis();
-					// Calculator timer 
-					//pass the tree to the calculator
-					Calculator calc = new Calculator(myTree);
-					//start calculating metrics
-					calc.calculate();
-					calculatorStopTime = System.currentTimeMillis();
-					// Check memory for Calculator module 
-					memory = memoryUsage();
-				}
-				// End the timer for performace
-				long projectEndTime = System.currentTimeMillis();
-				// Calculate performace time
-				long time = projectEndTime - projectStartTime;
-		
-				// Put values into Hashmap data structures
-				timeValues.put(project.getName(), time);
-				lengthValues.put(project.getName(), linesOfCode);
-				parserValues.put(project.getName(), parserStopTime - projectStartTime);
-				calcValues.put(project.getName(), calculatorStopTime - projectStartTime);
-				memoryValues.put(project.getName(), memory);
-				
-				
-				// Just incase a program is empty
-				if(time > 0) {
-					float average = (float) linesOfCode / (float) time * 60000;
-					//System.out.println("The project: " + project.getName() + "had a runtime of " + time + "\n With " + linesOfCode + " lines of code for an average of: " + "\n " + average + " lines of code per minute");
-				}
+					if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+						projectStartTime = System.nanoTime();
+						IJavaProject javaProject = JavaCore.create(project);
+						String kind = project.getClass().getName();
+						
+						//Build a tree out of the project
+						JDTree myTree = new JDTree(javaProject, null);
+						// Stop timer -> parser timing 
+						parserStopTime = System.nanoTime();;
+						// Calculator timer 
+						//pass the tree to the calculator
+						Calculator calc = new Calculator(myTree);
+						//start calculating metrics
+						calc.calculate();
+						calculatorStopTime = System.nanoTime();
+						// Check memory for Calculator module 
+						memory = 1;
+						startUpTime = System.nanoTime() - calculatorStopTime;
+					}
+					// End the timer for performace
+					long projectEndTime = System.nanoTime();
+					// Calculate performace time
+					long time = projectEndTime - projectStartTime;
+			
+					// Put values into Hashmap data structures
+					timeValues.put(project.getName(), time);
+					lengthValues.put(project.getName(), linesOfCode);
+					startValues.put(project.getName(), startUpTime);
+					parserValues.put(project.getName(), parserStopTime - projectStartTime);
+					calcValues.put(project.getName(), calculatorStopTime - parserStopTime);
+					memoryValues.put(project.getName(), memory);
+					
+					
+					// Just incase a program is empty
+					if(time > 0) {
+						float average = (float) ((float) linesOfCode / (float) time * 60000000000.00);
+						//System.out.println("The project: " + project.getName() + "had a runtime of " + time + "\n With " + linesOfCode + " lines of code for an average of: " + "\n " + average + " lines of code per minute");
+					}
+				}	catch (Exception e) {}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,6 +177,8 @@ class PerformanceTest {
 		csvWriter.append(",");
 		csvWriter.append("Compile Time");
 		csvWriter.append(",");
+		csvWriter.append("Compile Time: StartUp");
+		csvWriter.append(",");
 		csvWriter.append("Compile Time: Parser");
 		csvWriter.append(",");
 		csvWriter.append("Compile Time: Calculator");
@@ -188,6 +199,9 @@ class PerformanceTest {
 			// Compile Time
 			csvWriter.append(timeValues.get(key).toString());
 			csvWriter.append(",");
+			// Startup Compile Time
+			csvWriter.append(startValues.get(key).toString());
+			csvWriter.append(",");
 			// Parser Compile Time
 			csvWriter.append(parserValues.get(key).toString());
 			csvWriter.append(",");
@@ -198,7 +212,7 @@ class PerformanceTest {
 			csvWriter.append(lengthValues.get(key).toString());
 			csvWriter.append(",");
 			// Lines of Code per Minute
-			float average = lengthValues.get(key) / timeValues.get(key).floatValue() * 60000;
+			float average = (float) (lengthValues.get(key) / timeValues.get(key).floatValue() * 60000000000.00);
 			csvWriter.append("" + average);
 			csvWriter.append(",");
 			// Memory Usage 
@@ -213,7 +227,7 @@ class PerformanceTest {
 			
 		}
 		
-		float average =  linesTotal / compileTotal.floatValue()  * 60000;
+		float average =  (float) (linesTotal / compileTotal.floatValue()  * 60000000000.00);
 
 		//System.out.print(average + " " + compileTotal + " " + linesTotal);
 		// Data Consolidation

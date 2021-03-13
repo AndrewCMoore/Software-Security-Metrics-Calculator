@@ -94,11 +94,11 @@ public class MurgePulledValues {
 		//System.out.println(mapUniqueParamatersInClassEachMethod);
 		System.out.println("AXX78");
 		//System.out.println(getAllHierarchySize());
-<<<<<<< HEAD
+
 		System.out.println(nonFinalizedCriticalClass);
-=======
+
 		System.out.println(depthOfInheritanceTreeAtCurrentSuperClass);
->>>>>>> master
+
 		
 	}
 	
