@@ -27,6 +27,20 @@ public class DesignPrincipals {
 		messaging(pm);
 		polymorphism(pm);
 		hierarchies(pm);
+		
+		System.out.println("HELP ME");
+		System.out.println("abstraction: "+abstraction);
+		System.out.println("cohesion" +cohesion);
+		System.out.println("complexity"+complexity);
+		System.out.println("composition"+composition);
+		System.out.println("coupling"+coupling);
+		System.out.println("designSize"+designSize);
+		System.out.println("encapsulation"+encapsulation);
+		System.out.println("inheritance"+inheritance);
+		System.out.println("messaging"+messaging);
+		System.out.println("polymorphism"+polymorphism);
+		System.out.println("abstraction"+abstraction);
+		System.out.println("hierarchies"+hierarchies);	
 	}
 	
 	//none of these are correct, just placeholders
@@ -58,36 +72,37 @@ public class DesignPrincipals {
 	}
 
 	private void encapsulation(PrimaryMetrics pm) {
-		for (String key: pm.getCriticalElementRatio().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			encapsulation.put(key, (double) pm.getCriticalElementRatio().get(key) +
-					pm.getDataAccessMetric().get(key) +
-					pm.getGrantLeastPrivelage().get(key) +
-					pm.getIsolation()/(pm.getCriticalElementRatio().size()) + 
-					pm.getLeastCommonMechanism()/(pm.getCriticalElementRatio().size()) +
-					pm.getNumberOfHierarchies());
+				//	pm.getDataAccessMetric().get(key) +
+				//	pm.getGrantLeastPrivelage().get(key) +
+				//	pm.getIsolation()/(pm.getClassesInProject().size()) + 
+				//	pm.getLeastCommonMechanism()/(pm.getClassesInProject().size()) +
+					pm.getNumberOfHierarchies()
+					);
 		}
 		
 	}
-
+	//!
 	private void designSize(PrimaryMetrics pm) {
 		for (String key: pm.getClassesInProject()) {
-			designSize.put(key, (double) (1.0));
+			designSize.put(key, pm.getDesignSizeInClasses()/pm.getClassesInProject().size()*pm.getClassesInProject().size());
 		}
 		
 	}
 
 	private void coupling(PrimaryMetrics pm) {
-		for (String key: pm.getCouplingBetweenObjects().keySet()) {
-			coupling.put(key, (double) pm.getCountOfBaseClasses() +
-					pm.getCouplingBetweenObjects().get(key) +
-					pm.getCouplingCorruptionPropagation().get(key) +
-					pm.getDepthOfInheritanceTree().get(key) +
-					pm.getDirectClassCoupling().get(key) +
-					pm.getFanIn().get(key) +
-					pm.getFanOut().get(key) +
-					pm.getHenryKafura().get(key) +
-					pm.getNumberOfChildren().get(key) +
-					pm.getResponseSetForAClass().get(key));
+		for (String key: pm.getClassesInProject()) {
+			coupling.put(key, (double) (pm.getCountOfBaseClasses()) / ((double)pm.getCouplingBetweenObjects().size()) +
+					(pm.getCouplingBetweenObjects().get(key) )+
+					//(pm.getCouplingCorruptionPropagation().get(key) )+
+					(pm.getDepthOfInheritanceTree().get(key) )+
+					(pm.getDirectClassCoupling().get(key) )+
+					(pm.getFanIn().get(key) )+
+					(pm.getFanOut().get(key) )+
+					(pm.getHenryKafura().get(key) )+
+					(pm.getNumberOfChildren().get(key) )+
+					(pm.getResponseSetForAClass().get(key)));
 		}
 		
 	}
@@ -101,21 +116,26 @@ public class DesignPrincipals {
 	
 	//not sure how to deal with nesting complexity being a hashmap inside a hashmap
 	private void complexity(PrimaryMetrics pm) {
-		for (String key: pm.getCountPath().keySet()) {
+		for (String key: pm.getClassesInProject()) {
+			
 			complexity.put(key, (double) pm.getCommentRatio().get(key) + 
 					pm.getCountOfBaseClasses() +
 					pm.getCyclomaticComplexity().get(key) + 
 					pm.getDepthOfInheritanceTree().get(key) + 
-					pm.getCountPath().get(key) +
+					pm.getCountPath().get(key)+
 					pm.getEconomyOfMechanism() +
 					pm.getMcCabesCyclomaticComplexity().get(key) +
 					pm.getModifiedCyclomaticComplexity().get(key) +
-					//pm.getNestingComplexity().get(key).get(key) +
+					
+					//pm.getNestingComplexity().get(key) + !
+					
 					pm.getNumberOfChildren().get(key) +
-					pm.getStrictCyclomaticComplexity().get(key) +
-					pm.getSecureWeakestLink() +
-					pm.getSourceLinesOfCode() +
-					pm.getWeightedMethodsPerClass().get(key));
+					pm.getStrictCyclomaticComplexity().get(key) 
+					//(double)pm.getSecureWeakestLink() / (double)pm.getClassesInProject().size() + !
+					//(double)pm.getSourceLinesOfCode()  / (double)pm.getClassesInProject().size()//+ !
+				//	pm.getWeightedMethodsPerClass().get(key)
+					);
+			
 		}
 	}
 

@@ -44,6 +44,7 @@ public class PulledValues {
 	public PulledValues(JDTree[] classes) {
 		calculate(classes);
 		printResults();
+		//System.out.println("AXXCV: "+mapTotalAttributes);
 	}
 
 	private void calculate(JDTree[] classes) {
