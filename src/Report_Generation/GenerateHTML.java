@@ -28,6 +28,9 @@ public class GenerateHTML {
 	
 	public GenerateHTML(Calculator c) {
 		// TODO access list of metrics
+		
+		System.out.println("============================================");
+		System.out.println("============================================");
 		this.calc = c;
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		 flex = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getFlexibility()));
@@ -63,7 +66,7 @@ public class GenerateHTML {
 			writer.append(makeTableSection());
 			writer.append(makeDesignQualitiesBreakdown());
 			writer.append(makeJavaScriptSection());
-
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -152,7 +155,7 @@ public class GenerateHTML {
 	public String generateFunctionality() {
 		String section = makeCircle("Functionality", function, "c100 big skyblue functionality besides p"+function, "functionality1");
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
-		String[][] reusability = new String[5][6];
+		String[][] reusability = new String[6][6];
 		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
 				"Count" };
 		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getCohesion(), "Cohesion");
@@ -167,7 +170,7 @@ public class GenerateHTML {
 	public String generateExtendability() {
 		String section = makeCircle("Extendability", extend, "c100 big blue extendability besides p"+extend, "extendability1");
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
-		String[][] reusability = new String[5][6];
+		String[][] reusability = new String[6][6];
 		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
 				"Count" };
 		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getAbstraction(), "Abstraction");
@@ -442,42 +445,43 @@ public class GenerateHTML {
 	public String[] generateRowString(Set<String> classNames, HashMap<String, Double> results, String metric) {
 		String[] row = new String[6];
 		row[0] = metric;
-		int average = generateAverage(classNames, results);
-		int standardDeviation = generateStanderdDeviation(classNames, results, average);
-		int highest = getHigestValue(classNames, results);
-		int lowest = getLowestValue(classNames, results);
-		int count = getCount(classNames, results);
-		row[1] = Integer.toString(average);
-		row[2] = Integer.toString(standardDeviation);
-		row[3] = Integer.toString(highest);
-		row[4] = Integer.toString(lowest);
-		row[5] = Integer.toString(count);
+		double average = generateAverage(classNames, results);
+		double standardDeviation = generateStanderdDeviation(classNames, results, average);
+		double highest = getHigestValue(classNames, results);
+		double lowest = getLowestValue(classNames, results);
+		double count = getCount(classNames, results);
+		row[1] = Double.toString(average);
+		row[2] = Double.toString(standardDeviation);
+		row[3] = Double.toString(highest);
+		row[4] = Double.toString(lowest);
+		row[5] = Double.toString(count);
 		return row;
 	}
 
 	public String[] generateRow(Set<String> classNames, HashMap<String, Double> results, String metric) {
 		String[] row = new String[6];
 		row[0] = metric;
-		int average = generateAverage(classNames, results);
-		int standardDeviation = generateStanderdDeviation(classNames, results, average);
-		int highest = getHigestValue(classNames, results);
-		int lowest = getLowestValue(classNames, results);
-		int count = getCount(classNames, results);
-		row[1] = Integer.toString(average);
-		row[2] = Integer.toString(standardDeviation);
-		row[3] = Integer.toString(highest);
-		row[4] = Integer.toString(lowest);
-		row[5] = Integer.toString(count);
+		double average = generateAverage(classNames, results);
+		double standardDeviation = generateStanderdDeviation(classNames, results, average);
+		double highest = getHigestValue(classNames, results);
+		double lowest = getLowestValue(classNames, results);
+		double count = getCount(classNames, results);
+		row[1] = Double.toString(average);
+		row[2] = Double.toString(standardDeviation);
+		row[3] = Double.toString(highest);
+		row[4] = Double.toString(lowest);
+		row[5] = Double.toString(count);
 		return row;
 	}
 
-	public int getHigestValue(Set<String> classNames, HashMap<String, Double> results) {
-		int highest = Integer.MIN_VALUE;
+	public double getHigestValue(Set<String> classNames, HashMap<String, Double> results) {
+		double highest = Integer.MIN_VALUE;
 		for (String key : classNames) {
 			String value = String.valueOf(results.get(key));
-			if (Integer.getInteger(value) != null) {
-				if (highest < Integer.getInteger(value)) {
-					highest = Integer.getInteger(value);
+			Double d = Double.parseDouble(value);
+			if (d != null) {
+				if (highest < d) {
+					highest = d;
 				}
 			}
 		}
@@ -485,13 +489,14 @@ public class GenerateHTML {
 		return highest;
 	}
 
-	public int getLowestValue(Set<String> classNames, HashMap<String, Double> results) {
-		int lowest = Integer.MAX_VALUE;
+	public double getLowestValue(Set<String> classNames, HashMap<String, Double> results) {
+		double lowest = Integer.MAX_VALUE;
 		for (String key : classNames) {
 			String value = String.valueOf(results.get(key));
-			if (Integer.getInteger(value) != null) {
-				if (lowest > Integer.getInteger(value)) {
-					lowest = Integer.getInteger(value);
+			Double d = Double.parseDouble(value);
+			if (d != null) {
+				if (lowest > d) {
+					lowest = d;
 				}
 			}
 		}
@@ -503,7 +508,8 @@ public class GenerateHTML {
 		int size = 0;
 		for (String key : classNames) {
 			String value = String.valueOf(results.get(key));
-			if (Integer.getInteger(value) != null) {
+			Double d = Double.parseDouble(value);
+			if (d != null) {
 				size++;
 			}
 		}
@@ -511,32 +517,43 @@ public class GenerateHTML {
 		return size;
 	}
 
-	public int generateAverage(Set<String> classNames, HashMap<String, Double> results) {
-		int average = 0;
+	public double generateAverage(Set<String> classNames, HashMap<String, Double> results) {
+		double average = 0;
 		int size = 0;
 		for (String key : classNames) {
 			String value = String.valueOf(results.get(key));
-			if (Integer.getInteger(value) != null) {
+			System.out.println("the value is "+Double.parseDouble(value));
+			Double d = Double.parseDouble(value);
+			if (d != null) {
+				System.out.println("We got here");
 				size++;
-				average += Integer.getInteger(value);
+				average += d;
 			}
 		}
-		average /= size;
-		return average;
+		if(size!=0) {
+			average /= size;
+			return average;
+		}
+		return 0;
+
 	}
 
-	public int generateStanderdDeviation(Set<String> classNames, HashMap<String, Double> results, int average) {
-		int standardDeviation = 0;
+	public double generateStanderdDeviation(Set<String> classNames, HashMap<String, Double> results, double average) {
+		double standardDeviation = 0;
 		int size = 0;
 		for (String key : classNames) {
 			String value = String.valueOf(results.get(key));
-			if (Integer.getInteger(value) != null) {
+			Double d = Double.parseDouble(value);
+			if (d != null) {
 				size++;
-				standardDeviation += Math.pow((Integer.getInteger(value) - average), 2);
+				standardDeviation += Math.pow((d - average), 2);
 			}
 		}
-		standardDeviation /= size;
-		return standardDeviation;
+		if(size!=0) {
+			standardDeviation /= size;
+			return standardDeviation;
+		}
+		return 0;
 	}
 	// DESIGN QUALITY METRICS
 	
@@ -585,6 +602,8 @@ public class GenerateHTML {
 		return section;
 	}
 	public String DesignSize() {
+		Set<String> classes = new HashSet<String>();
+		classes.add("project");
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] coupling = new String[3][6];
@@ -593,14 +612,22 @@ public class GenerateHTML {
 		HashMap<String,Double> stallRatio = new HashMap<String,Double>();
 		stallRatio.put("project",calc.getPrimaryMetrics().getStallRatio());
 		
-		coupling[1] = generateRow(classNames,stallRatio,"Stall Ration");
-		coupling[2] = generateRow(classNames,calc.getPrimaryMetrics().getDesignSizeInClasses(),"Design Size in Classes");
+		HashMap<String,Double> designSize = new HashMap<String,Double>();
+		designSize.put("project",calc.getPrimaryMetrics().getDesignSizeInClasses());
+		
+		
+		
+		coupling[1] = generateRow(classes,stallRatio,"Stall Ration");
+		coupling[2] = generateRow(classes,designSize,"Design Size in Classes");
 		
 		section += makeTable(coupling);
 		return section;
 	}
 	public String encapsulation() {
 		String section = "";
+		Set<String> classes = new HashSet<String>();
+		classes.add("project");
+		
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] coupling = new String[7][6];
 		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
@@ -609,11 +636,17 @@ public class GenerateHTML {
 		HashMap<String,Double> heirarchies = new HashMap<String,Double>();
 		heirarchies.put("project",calc.getPrimaryMetrics().getNumberOfHierarchies());
 		
+		HashMap<String,Double> isolation = new HashMap<String,Double>();
+		isolation.put("project",calc.getPrimaryMetrics().getIsolation());
+		
+		HashMap<String,Double> mechanism = new HashMap<String,Double>();
+		mechanism.put("project",calc.getPrimaryMetrics().getLeastCommonMechanism());
+		
 		coupling[1] = generateRow(classNames,calc.getPrimaryMetrics().getCriticalElementRatio(),"Critical Element Ratio");
 		coupling[2] = generateRow(classNames,calc.getPrimaryMetrics().getDataAccessMetric(),"Data Access Metric");
 		coupling[3] = generateRow(classNames,calc.getPrimaryMetrics().getGrantLeastPrivelage(),"Grant Least Privilege");
-		coupling[4] = generateRow(classNames,calc.getPrimaryMetrics().getIsolation(),"Isolation");		
-		coupling[5] = generateRow(classNames,calc.getPrimaryMetrics().getLeastCommonMechanism(),"Least Common Mechanism");
+		coupling[4] = generateRow(classes,isolation,"Isolation");		
+		coupling[5] = generateRow(classes,mechanism,"Least Common Mechanism");
 		coupling[6] = generateRow(classNames,heirarchies,"Number of Hierarchies");
 		
 		section += makeTable(coupling);
@@ -713,7 +746,7 @@ public class GenerateHTML {
 	public String generateAllMetricsBreakdown() {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
-		String[][] metrics = new String[30][6];
+		String[][] metrics = new String[72][6];
 		metrics[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
 		"Count" };
 		
@@ -784,6 +817,15 @@ public class GenerateHTML {
 		HashMap<String,Double> criticalSuperClassProportion = new HashMap<String,Double>();
 		criticalSuperClassProportion.put("project",(double)calc.getTertiaryMetrics().getCriticalSuperclassesProportion());
 		
+		HashMap<String,Double> isolation = new HashMap<String,Double>();
+		isolation.put("project",(double)calc.getPrimaryMetrics().getIsolation());
+		
+		HashMap<String,Double> designSize = new HashMap<String,Double>();
+		designSize.put("project",(double)calc.getPrimaryMetrics().getDesignSizeInClasses());
+		
+		HashMap<String,Double> mechanism = new HashMap<String,Double>();
+		mechanism.put("project",(double)calc.getPrimaryMetrics().getLeastCommonMechanism());
+		
 		//Primary Metrics
 		metrics[1] = generateRow(classNames,calc.getPrimaryMetrics().getAverageNumberOfAncestors(),"Average Number of Ancestors");
 		metrics[2] = generateRow(classNames,calc.getPrimaryMetrics().getFailSafeDefaults(),"Fail Safe Defaults");
@@ -816,13 +858,13 @@ public class GenerateHTML {
 		metrics[28]= generateRow(classNames,calc.getPrimaryMetrics().getHenryKafura(),"Henry Kafura");
 		metrics[29]= generateRow(classNames,calc.getPrimaryMetrics().getNumberOfChildren(),"Number of Children");
 		metrics[30]= generateRow(classNames,calc.getPrimaryMetrics().getResponseSetForAClass(),"Response Set for a Class");
-		metrics[31]= generateRow(classNames,calc.getPrimaryMetrics().getDesignSizeInClasses(),"Design Size in Classes");
+		metrics[31]= generateRow(classes,designSize,"Design Size in Classes");
 		metrics[32]= generateRow(classes,stallRatio,"Stall Ratio");
 		metrics[33]= generateRow(classNames,calc.getPrimaryMetrics().getCriticalElementRatio(),"Critical Element Ratio");
 		metrics[34]= generateRow(classNames,calc.getPrimaryMetrics().getDataAccessMetric(),"Data Access Metric");
 		metrics[35]= generateRow(classNames,calc.getPrimaryMetrics().getGrantLeastPrivelage(),"Grant Least Privilage");
-		metrics[36]= generateRow(classNames,calc.getPrimaryMetrics().getIsolation(),"Isolation");
-		metrics[37]= generateRow(classNames,calc.getPrimaryMetrics().getLeastCommonMechanism(),"least Common Mechanism");
+		metrics[36]= generateRow(classes,isolation,"Isolation");
+		metrics[37]= generateRow(classNames,mechanism,"least Common Mechanism");
 		metrics[38]= generateRow(classes,heirarchies,"Number of Hierarchies");
 		metrics[39]= generateRow(classNames,calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction(),"Measure of Functional Abstraction");
 		metrics[40]= generateRow(classNames,calc.getPrimaryMetrics().getClassInterfaceSize(),"Class Interface Size");
