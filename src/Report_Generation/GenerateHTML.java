@@ -28,7 +28,7 @@ public class GenerateHTML {
 	
 	public GenerateHTML(Calculator c) {
 		// TODO access list of metrics
-		
+		System.out.println(System.getProperty("user.dir"));
 		System.out.println("============================================");
 		System.out.println("============================================");
 		this.calc = c;

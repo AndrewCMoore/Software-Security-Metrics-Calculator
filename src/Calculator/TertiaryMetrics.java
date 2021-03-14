@@ -223,7 +223,11 @@ public class TertiaryMetrics {
 	//CCE project ratio thus Double.
 	private void criticalClassesExtensibility(PulledValues pv, MurgePulledValues mpv) {
 		System.out.println("it is divividing it by"+ mpv.getNumberOfCriticalClassesInProgram());
-		criticalClassesExtensibility=(double) (mpv.getNonFinalizedCriticalClasses().size() / mpv.getNumberOfCriticalClassesInProgram());
+		if (mpv.getNumberOfCriticalClassesInProgram()!=0) {
+			criticalClassesExtensibility=(double) (mpv.getNonFinalizedCriticalClasses().size() / mpv.getNumberOfCriticalClassesInProgram());
+		else {
+			criticalClassesExtensibility=0;
+		}
 	}
 	
 	//CCC // this is a Double.
