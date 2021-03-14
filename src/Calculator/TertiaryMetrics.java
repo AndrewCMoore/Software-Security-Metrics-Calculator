@@ -225,8 +225,8 @@ public class TertiaryMetrics {
 		System.out.println("it is divividing it by"+ mpv.getNumberOfCriticalClassesInProgram());
 		if (mpv.getNumberOfCriticalClassesInProgram()!=0) {
 			criticalClassesExtensibility=(double) (mpv.getNonFinalizedCriticalClasses().size() / mpv.getNumberOfCriticalClassesInProgram());
-		else {
-			criticalClassesExtensibility=0;
+		} else {
+			criticalClassesExtensibility = (double) 0;
 		}
 	}
 	
@@ -247,7 +247,12 @@ public class TertiaryMetrics {
 				if (numberOfCoupledClasses.containsKey(criticalClassName)) sumOfCriticalCriticalCouplingAttributes+=1;
 			}
 		}
-		criticalClassesCoupling=(sumOfCriticalCriticalCouplingAttributes/sumOfPrivateAndProtectedMethodsInClass);
+		if (sumOfPrivateAndProtectedMethodsInClass!=0) {
+			criticalClassesCoupling=(sumOfCriticalCriticalCouplingAttributes/sumOfPrivateAndProtectedMethodsInClass);
+
+		} else {
+			criticalClassesCoupling=(double) 0;
+		}
 	}
 	
 	//CPCC // this is a Double.
@@ -264,31 +269,37 @@ public class TertiaryMetrics {
 			}
 		}
 		compositePartCriticalClasses= (double) (compositePartClassesCounter/criticalClassNames.size());
+		if (criticalClassNames.size()==0) compositePartCriticalClasses= (double) 0;
 	}
 	
 	//UCAC //!
 	private void unusedCriticalAccessorClass(PulledValues pv, MurgePulledValues mpv) {
 		unusedCriticalAccessorClass=(double) (mpv.getUnusedClassifiedMethods().size() / mpv.getNumberOfCriticalClassesInProgram());
+		if (mpv.getNumberOfCriticalClassesInProgram()==0) unusedCriticalAccessorClass=(double) 0;
 	}
 	
 	//CDP
 	private void criticalDesignProportion(PulledValues pv, MurgePulledValues mpv) {
 		criticalDesignProportion= (double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfClassesInProject().size()*INT_TO_DOUBLE);
+		if ((mpv.getNumberOfClassesInProject().size()==0)) criticalDesignProportion= (double) 0;
 	}
 	
 	//CSCP
 	private void criticalSerializedClassesProportion(PulledValues pv, MurgePulledValues mpv) {
 		criticalSerializedClassesProportion = (double) (mpv.getNumberOfSerializableClassesInProject().size()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE);
+		if (mpv.getNumberOfCriticalClassesInProgram()==0) criticalSerializedClassesProportion = (double)0;
 	}
 	
 	//CSP
 	private void criticalSuperclassesProportion(PulledValues pv, MurgePulledValues mpv) {
 		criticalSuperclassesProportion = (double) (mpv.getCriticalBaseClasses().size()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*INT_TO_DOUBLE);
+		if (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()==0) criticalSuperclassesProportion = (double) 0;
 	}
 	
 	//CSI 
 	private void criticalSuperclassesInheritance(PulledValues pv, MurgePulledValues mpv) {
 		criticalSuperclassesInheritance =  (double) (mpv.getSumOfNumberOfClassesInheritingFromCriticalBaseClasses()/mpv.getNumberOfCriticalClassesInProgramHeirchy().size()*1.0);		
+		if (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()==0) criticalSuperclassesInheritance =  (double)0;
 	}
 	
 	//RPB - this is actually a boolean not an int sum. fix it in murge pulled values.
@@ -299,7 +310,7 @@ public class TertiaryMetrics {
 			reflectionPackageBoolean.put(className, (criticalSerializedClasses.contains(className)) ? (Double) (1.0) : (Double) (0.0)  );
 		}*/
 		
-		reflectionPackageBoolean = (criticalSerializedClasses.size()>0*INT_TO_DOUBLE) ? (Double) (1.0) : (Double) (0.0);
+		reflectionPackageBoolean = (criticalSerializedClasses.size()>0*INT_TO_DOUBLE) ? (double) (1.0) : (double) (0.0);
 		
 	}
 	
