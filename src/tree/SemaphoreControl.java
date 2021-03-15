@@ -6,7 +6,7 @@ public class SemaphoreControl {
 
 	public Semaphore semaphore = new Semaphore(5);
 
-	public Semaphore getSemaphore() {
+	public synchronized Semaphore getSemaphore() {
 		return semaphore;
 	}
 

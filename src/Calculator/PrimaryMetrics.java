@@ -386,7 +386,9 @@ public class PrimaryMetrics {
 		HashMap<String,Integer> totalNumberOfMethodsAccessible =  mpv.getClassMethodsInheritedBySubClassm(); //temp
 		
 		for (String key: numberOfMethodsInherited.keySet()) {
+			try {
 			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/totalNumberOfMethodsAccessible.get(key)));
+			} catch (Exception e) {}
 		}
 	}
 	

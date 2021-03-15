@@ -50,7 +50,8 @@ class PerformanceTest {
 		// Intialize variables
 		float systemAverage = 0;
 		int projectsRun = 0;
-		IProject[] projects = null;
+		//IProject[] projects = null;
+		IProject[] projects = new IProject[1];
 		IPath path = null;
 		
 		
@@ -59,11 +60,15 @@ class PerformanceTest {
 			//Gets the root directory of the workspace
 			IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
 			// Get the array of projects within the workspace
-			projects = fileRoot.getProjects();
+			//projects = fileRoot.getProjects();
+			projects[0] = fileRoot.getProject("ReactiveX");
+			//projects[1] = fileRoot.getProject("facebook-android-sdk");
+			//projects[2] = fileRoot.getProject("twitter-kit-android");
 			
 			// For each project in the workspace
 			for(IProject project : projects) {
 				System.out.println("PROJECT: " + project.getName());
+				
 				try { 
 					// Get the number of lines of code in the project 
 					int linesOfCode = getNumberOfLinesInProject(project);
@@ -116,7 +121,8 @@ class PerformanceTest {
 				}	catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
+			} 
+			Runtime.getRuntime().gc();
 		} catch (Exception e) {
 			e.printStackTrace();
 			assert(false);

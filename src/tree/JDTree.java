@@ -3,17 +3,20 @@ package tree;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import ssmc.*;
 import ssmc.Class;
 
-public class JDTree extends Thread{
+public class JDTree {
 	//the parent node for the tree, if it is null it is the root node
 	private JDTree parent;
 	//List of Children, if it is null there are no children and it is the leaf nodes
@@ -25,15 +28,14 @@ public class JDTree extends Thread{
 	
 	private boolean Threading = true;
 	
-	final int MAX_NO_OF_THREADS = 5;
-	final Semaphore semaphore = new Semaphore(MAX_NO_OF_THREADS);
+	public SemaphoreControl sc;
+
 	
 	
 	
 	/**
-	 * Constructor for JDTree
-	 * Finds out node type, and sets children and node type for the node
-	 * 
+	 * Constructor for JDTree.
+	 * Finds out node type, and sets children and node type for the node.
 	 * 
 	 * @param parent The parent node of the tree, null if it is the root node
 	 * @param Object node The node it represents ie: JavaProject,IPackageFragment ect.
@@ -42,6 +44,16 @@ public class JDTree extends Thread{
 	public JDTree(Object node, JDTree parent) throws JavaModelException {
 		
 		if (Threading) {
+			if(parent == null) {
+				sc = new SemaphoreControl(); 
+			} else {
+				sc = parent.sc;
+			}
+			
+			//Semaphore semaphore = sc.getSemaphore();
+			//System.out.println(System.identityHashCode(semaphore.availablePermits()));
+		
+			
 			this.node = node;
 			this.parent = parent;
 			//we get a string of the kind of node that we are dealing with
@@ -53,6 +65,8 @@ public class JDTree extends Thread{
 				//set the type
 				type = NodeType.PROJECT;
 				//get the packages in the project
+				System.out.println("This is the project");
+				checkFolders(project);
 				IPackageFragment[] packages = project.getPackageFragments();
 				//Create a list of children
 				ArrayList<JDTree> aChildren = new ArrayList<JDTree>();
@@ -80,18 +94,26 @@ public class JDTree extends Thread{
 				//get the list of compilation units
 				ICompilationUnit[] units = pack.getCompilationUnits();
 				
+				Semaphore semaphore = new Semaphore(1);
+				
+				System.out.println("Semaphore queue length" + semaphore.availablePermits());
+				try {
+					semaphore.acquire();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("Semaphore queue length" + semaphore.availablePermits());
+				
 				for(int j = 0; j < units.length; j++) {
 					type = NodeType.COMPILATIONUNIT;
 					CAMValues cv = new CAMValues(units[j]);
 					try {
-						//semaphore.acquire();
 						
 						cv.start();
 					} catch (Exception e) {
 						
-					} finally {
-						semaphore.release();
-					}
+					} 
 					Class[] classes = cv.getClassArray();
 					//Class[] classes = new CAMValues().run(comp);
 					//Class[] classes = CAMValues.getClasses(comp);
@@ -104,6 +126,9 @@ public class JDTree extends Thread{
 							
 						}
 					}
+					
+					semaphore.release();
+					
 				}
 				children = new JDTree[units.length];
 				//add children to the array
@@ -139,6 +164,11 @@ public class JDTree extends Thread{
 			if (kind.equals("ssmc.Class")) {
 				type = NodeType.CLASS;
 			}
+			
+			if(kind.equals("org.eclipse.jdt.internal.core.PackageFragmentRoot")) {
+				System.out.println(node.toString());
+			}
+			
 		}
 		else {
 			this.node = node;
@@ -149,6 +179,8 @@ public class JDTree extends Thread{
 			if (kind.equals("org.eclipse.jdt.internal.core.JavaProject")) {
 				//if it is a project
 				IJavaProject project = (IJavaProject) node;
+				// Check the folders 
+				checkFolders(project);
 				//set the type
 				type = NodeType.PROJECT;
 				//get the packages in the project
@@ -176,6 +208,7 @@ public class JDTree extends Thread{
 			if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
 				type = NodeType.PACKAGE;
 				IPackageFragment pack = (IPackageFragment) node;
+				System.out.println(pack.toString());
 				//get the list of compilation units
 				ICompilationUnit[] units = pack.getCompilationUnits();
 				children = new JDTree[units.length];
@@ -264,6 +297,33 @@ public class JDTree extends Thread{
 	 */
 	public NodeType getType() {
 		return type;
+	}
+	
+	public void checkFolders(IJavaProject project) {
+		try {
+			Object[] array1 = project.getNonJavaResources();
+			IPackageFragmentRoot[] array= project.getAllPackageFragmentRoots();
+			for(IPackageFragmentRoot a : array) {
+				for(Object o : a.getChildren()) {
+					System.out.println(o.toString());
+				}
+				
+				System.out.println(a.toString());
+			}
+			
+			for(Object a : array1) {
+				System.out.println("Method 1: " + a.toString());
+				if(a instanceof IFolder) {
+					System.out.println("The folder is: " + (IFolder) a);
+					IFolder folder = (IFolder) a;
+				}
+				
+			}
+			
+		} catch (JavaModelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
