@@ -477,13 +477,14 @@ public class GenerateHTML {
 	public double getHigestValue(Set<String> classNames, HashMap<String, Double> results) {
 		double highest = Integer.MIN_VALUE;
 		for (String key : classNames) {
+			try {
 			String value = String.valueOf(results.get(key));
 			Double d = Double.parseDouble(value);
 			if (d != null) {
 				if (highest < d) {
 					highest = d;
 				}
-			}
+			}}catch (Exception e){}
 		}
 
 		return highest;
@@ -492,13 +493,14 @@ public class GenerateHTML {
 	public double getLowestValue(Set<String> classNames, HashMap<String, Double> results) {
 		double lowest = Integer.MAX_VALUE;
 		for (String key : classNames) {
+			try {
 			String value = String.valueOf(results.get(key));
 			Double d = Double.parseDouble(value);
 			if (d != null) {
 				if (lowest > d) {
 					lowest = d;
 				}
-			}
+			}}catch (Exception e){}
 		}
 
 		return lowest;
@@ -507,11 +509,12 @@ public class GenerateHTML {
 	public int getCount(Set<String> classNames, HashMap<String, Double> results) {
 		int size = 0;
 		for (String key : classNames) {
+			try {
 			String value = String.valueOf(results.get(key));
 			Double d = Double.parseDouble(value);
 			if (d != null) {
 				size++;
-			}
+			}}catch (Exception e){}
 		}
 
 		return size;
@@ -521,14 +524,18 @@ public class GenerateHTML {
 		double average = 0;
 		int size = 0;
 		for (String key : classNames) {
+			try {
+			
 			String value = String.valueOf(results.get(key));
+			if (value==null) value = "0.0";
 			System.out.println("the value is "+Double.parseDouble(value));
 			Double d = Double.parseDouble(value);
 			if (d != null) {
 				System.out.println("We got here");
 				size++;
+				if (results.get(key).isNaN()) d=0.0;
 				average += d;
-			}
+			}}catch (Exception e){}
 		}
 		if(size!=0) {
 			average /= size;
@@ -542,12 +549,14 @@ public class GenerateHTML {
 		double standardDeviation = 0;
 		int size = 0;
 		for (String key : classNames) {
+			try {
 			String value = String.valueOf(results.get(key));
 			Double d = Double.parseDouble(value);
 			if (d != null) {
 				size++;
+				if (results.get(key).isNaN()) d=0.0;
 				standardDeviation += Math.pow((d - average), 2);
-			}
+			}}catch (Exception e){}
 		}
 		if(size!=0) {
 			standardDeviation /= size;

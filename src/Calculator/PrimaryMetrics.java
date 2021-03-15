@@ -102,6 +102,8 @@ public class PrimaryMetrics {
 		classInterfaceSize(pv, sm, mpv);
 		numberOfPolymorphicMethods(pv, sm, mpv);
 		//classesInProject=  mpv.getNumberOfClassesInProject();
+		System.out.println("OverHere");
+		printTrash();
 	}
 	
 	
@@ -692,5 +694,227 @@ public class PrimaryMetrics {
 	public Set<String> getClassesInProject() {
 		return classesInProject;
 	}
-	  
+	
+	public void printTrash() {
+	
+
+		
+		double commentRatioSum=0,nestingComplexitySum=0,numberOfChildrenSum=0,numberOfMethodsSum=0,
+				lackOfCohesionOfMethodsSum=0,cohesionAmongMethodsInClassSum=0,measureOfFunctionalAbtractionSum=0,
+				lengthOfMethodSum=0,couplingCorruptionPropagationSum=0,couplingBetweenObjectsSum=0,
+				failSafeDefaultsSum=0,reduceAttackSurfaceSum=0,strictCyclomaticComplexitySum=0,cyclomaticComplexitySum=0,
+				modifiedCyclomaticComplexitySum=0,mcCabesCyclomaticComplexitySum=0,countPathSum=0,
+				fanInSum=0,fanOutSum=0,henryKafuraSum=0,criticalElementRatioSum=0,dataAccessMetricSum=0,grantLeastPrivelageSum=0,
+				responceSetForaClassSum=0
+				,numberOfPolymorphicMethodsSum=0,classInterfaceSizeSum=0,depthOfInheritaceSum=0,
+				weightedMethodsPerClassSum=0,measureOfAggregationSum=0,directClassCouplingSum=0,averageNumberOfAncestorsSum=0;
+		
+		//for (String key:classesInProject) {
+			
+			
+				
+
+			for (String key :nestingComplexity.keySet()) {
+				nestingComplexitySum += nestingComplexity.get(key);
+			}
+			
+
+			for (String key :numberOfChildren.keySet()) {
+				numberOfChildrenSum += numberOfChildren.get(key);
+			}
+
+			for (String key :numberOfMethods.keySet()) {
+				numberOfMethodsSum += numberOfMethods.get(key);
+			}
+
+			for (String key :lackOfCohesionOfMethods.keySet()) {
+				lackOfCohesionOfMethodsSum += lackOfCohesionOfMethods.get(key);
+			}
+
+			for (String key :cohesionAmongMethodsInClass.keySet()) {
+				cohesionAmongMethodsInClassSum += cohesionAmongMethodsInClass.get(key);
+			}
+
+			for (String key :measureOfFunctionalAbtraction.keySet()) {
+				measureOfFunctionalAbtractionSum += measureOfFunctionalAbtraction.get(key);
+			}
+
+			
+				lengthOfMethodSum += 0;
+			
+			for (String key :couplingCorruptionPropagation.keySet()) {
+				couplingCorruptionPropagationSum += couplingCorruptionPropagation.get(key);
+			}
+
+			for (String key :couplingBetweenObjects.keySet()) {
+				couplingBetweenObjectsSum += couplingBetweenObjects.get(key);
+			}
+
+			for (String key :failSafeDefaults.keySet()) {
+				failSafeDefaultsSum += failSafeDefaults.get(key);
+			}
+
+			for (String key :reduceAttackSurface.keySet()) {
+				reduceAttackSurfaceSum += reduceAttackSurface.get(key);
+			}
+
+			for (String key :strictCyclomaticComplexity.keySet()) {
+				strictCyclomaticComplexitySum += strictCyclomaticComplexity.get(key);
+			}
+
+			for (String key :cyclomaticComplexity.keySet()) {
+				cyclomaticComplexitySum += cyclomaticComplexity.get(key);
+			}
+
+			for (String key :modifiedCyclomaticComplexity.keySet()) {
+				modifiedCyclomaticComplexitySum += modifiedCyclomaticComplexity.get(key);
+			}
+
+			for (String key :mcCabesCyclomaticComplexity.keySet()) {
+				mcCabesCyclomaticComplexitySum += mcCabesCyclomaticComplexity.get(key);
+			}
+
+			for (String key :countPath.keySet()) {
+				countPathSum += countPath.get(key);
+			}
+
+			for (String key :fanIn.keySet()) {
+				fanInSum += fanIn.get(key);
+			}
+
+			for (String key :fanOut.keySet()) {
+				fanOutSum += fanOut.get(key);
+			}
+
+			for (String key :henryKafura.keySet()) {
+				henryKafuraSum += henryKafura.get(key);
+			}
+
+			for (String key :criticalElementRatio.keySet()) {
+				criticalElementRatioSum += criticalElementRatio.get(key);
+			}
+			
+			
+
+			for (String key :dataAccessMetric.keySet()) {
+				dataAccessMetricSum += dataAccessMetric.get(key);
+			}
+
+			for (String key :grantLeastPrivelage.keySet()) {
+				grantLeastPrivelageSum += grantLeastPrivelage.get(key);
+			}
+
+			for (String key :responceSetForaClass.keySet()) {
+				responceSetForaClassSum += responceSetForaClass.get(key);
+			} 
+
+			for (String key :numberOfPolymorphicMethods.keySet()) {
+				numberOfPolymorphicMethodsSum += numberOfPolymorphicMethods.get(key);
+			}
+
+			for (String key :classInterfaceSize.keySet()) {
+				classInterfaceSizeSum += classInterfaceSize.get(key);
+			}
+
+			for (String key :depthOfInheritace.keySet()) {
+				depthOfInheritaceSum += depthOfInheritace.get(key);
+			}
+			
+
+			for (String key :weightedMethodsPerClass.keySet()) {
+				weightedMethodsPerClassSum += weightedMethodsPerClass.get(key);
+			}
+
+			for (String key :measureOfAggregation.keySet()) {
+				measureOfAggregationSum += measureOfAggregation.get(key);
+			}
+
+			for (String key :directClassCoupling.keySet()) {
+				directClassCouplingSum += directClassCoupling.get(key);
+			}
+
+			for (String key :averageNumberOfAncestors.keySet()) {
+				averageNumberOfAncestorsSum += averageNumberOfAncestors.get(key);
+			}
+		
+			
+		
+		System.out.println("sourceLinesOfCode");
+		System.out.println(sourceLinesOfCode);
+		System.out.println("leastCommomMechanism");
+		System.out.println(leastCommomMechanism);		
+		System.out.println("isolation");
+		System.out.println(isolation);
+		System.out.println("secureWeakestLink");
+		System.out.println(secureWeakestLink);
+		System.out.println("economyOfMechanism");
+		System.out.println(economyOfMechanism);
+		System.out.println("numberofClasses");
+		System.out.println(numberofClasses);
+		System.out.println("countOfBaseClasses");
+		System.out.println(countOfBaseClasses);
+		System.out.println("numberOfHierarchies");
+		System.out.println(numberOfHierarchies);	
+		
+		System.out.println("nestingComplexitySum");
+		System.out.println(nestingComplexitySum);
+		System.out.println("numberOfChildrenSum");
+		System.out.println(numberOfChildrenSum);
+		System.out.println("numberOfMethodsSum");
+		System.out.println(numberOfMethodsSum);		
+		System.out.println("lackOfCohesionOfMethodsSum");
+		System.out.println(lackOfCohesionOfMethodsSum);		
+		System.out.println("cohesionAmongMethodsInClassSum");		
+		System.out.println(cohesionAmongMethodsInClassSum);		
+		System.out.println("measureOfFunctionalAbtractionSum");
+		System.out.println(measureOfFunctionalAbtractionSum);
+		System.out.println("lengthOfMethodSum");
+		System.out.println(lengthOfMethodSum);
+		System.out.println("couplingCorruptionPropagationSum");
+		System.out.println(couplingCorruptionPropagationSum);		
+		System.out.println("couplingBetweenObjectsSum");
+		System.out.println(couplingBetweenObjectsSum);
+		System.out.println("failSafeDefaultsSum");
+		System.out.println(failSafeDefaultsSum);
+		System.out.println("reduceAttackSurfaceSum");
+		System.out.println(reduceAttackSurfaceSum);		
+		System.out.println("strictCyclomaticComplexitySum");
+		System.out.println(strictCyclomaticComplexitySum);
+		System.out.println("cyclomaticComplexitySum");
+		System.out.println(cyclomaticComplexitySum);		
+		System.out.println("modifiedCyclomaticComplexitySum");
+		System.out.println(modifiedCyclomaticComplexitySum);
+		System.out.println("mcCabesCyclomaticComplexitySum");
+		System.out.println(mcCabesCyclomaticComplexitySum);
+		System.out.println("countPathSum");
+		System.out.println(countPathSum);
+		System.out.println("fanInSum");
+		System.out.println(fanInSum);
+		System.out.println("fanOutSum");
+		System.out.println(fanOutSum);		
+		System.out.println("henryKafuraSum");
+		System.out.println(henryKafuraSum);
+		System.out.println("criticalElementRatioSum");
+		System.out.println(criticalElementRatioSum);
+		System.out.println("dataAccessMetricSum");
+		System.out.println(dataAccessMetricSum);
+		System.out.println("grantLeastPrivelageSum");
+		System.out.println(grantLeastPrivelageSum);
+		System.out.println("responceSetForaClassSum");
+		System.out.println(responceSetForaClassSum);
+		System.out.println("numberOfPolymorphicMethodsSum");
+		System.out.println(numberOfPolymorphicMethodsSum);
+		System.out.println("classInterfaceSizeSum");
+		System.out.println(classInterfaceSizeSum);
+		System.out.println("depthOfInheritaceSum");
+		System.out.println(depthOfInheritaceSum);
+		System.out.println("weightedMethodsPerClassSum");
+		System.out.println(weightedMethodsPerClassSum);
+		System.out.println("measureOfAggregationSum");
+		System.out.println(measureOfAggregationSum);
+		System.out.println("averageNumberOfAncestorsSum");
+		System.out.println(averageNumberOfAncestorsSum);
+		System.out.println("directClassCouplingSum");
+		System.out.println(directClassCouplingSum);
+	}	  
 }

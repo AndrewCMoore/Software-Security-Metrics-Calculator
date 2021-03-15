@@ -22,6 +22,8 @@ public class SecondaryMetrics {
 		this.writabilityofClassifiedClasses(tm);
 		this.writabilityOfClassifiedMethods(tm);
 		this.writabilityOfCriticalClasses(tm);
+		System.out.println("OverHere");
+		printSM();
 	}
 	
 	//###########################################################################################################################################################	
@@ -115,5 +117,50 @@ public class SecondaryMetrics {
 	public Double getSecurityAbsoluteMeasurements() {
 		return securityAbsoluteMeasurements;
 	}
+	
+	public void printSM() {
+		double ReadabilityOfClassifiedAttributes = 0;
+		double ReadabilityOfClassifiedMethods = 0;
+		double WritabilityOfClassifiedAttributes = 0;
+		double WritabilityOfClassifiedMethods = 0;
+		double WritabilityOfClassifiedClasses = 0;
+		for(String key : this.readabilityOfClassifiedAttributes.keySet()) {
+			if (readabilityOfClassifiedAttributes.get(key).isNaN() || readabilityOfClassifiedAttributes.get(key).isInfinite()|| (readabilityOfClassifiedAttributes.get(key)==null) ) {
+				ReadabilityOfClassifiedAttributes += 0;
+			}else {try {
+				ReadabilityOfClassifiedAttributes += readabilityOfClassifiedAttributes.get(key);
+			}catch (Exception e) {}}
+			if (readabilityOfClassifiedMethods.get(key).isNaN() || readabilityOfClassifiedMethods.get(key).isInfinite()|| (readabilityOfClassifiedMethods.get(key)==null) ) {
+				ReadabilityOfClassifiedMethods += 0;
+			}else {try {
+				ReadabilityOfClassifiedMethods += readabilityOfClassifiedMethods.get(key);
+			}catch (Exception e) {}}
+			if (writabilityOfClassifiedAttributes.get(key).isNaN() || writabilityOfClassifiedAttributes.get(key).isInfinite()|| (writabilityOfClassifiedAttributes.get(key)==null) ) {
+				WritabilityOfClassifiedAttributes += 0;
+			}else {try {
+				WritabilityOfClassifiedAttributes += writabilityOfClassifiedAttributes.get(key);
+			}catch (Exception e) {}}
+			if (writabilityOfClassifiedMethods.get(key).isNaN() || writabilityOfClassifiedMethods.get(key).isInfinite() || (writabilityOfClassifiedMethods.get(key)==null) ) {
+				WritabilityOfClassifiedMethods += 0;
+			}else {try {
+				WritabilityOfClassifiedMethods += writabilityOfClassifiedMethods.get(key);
+			}catch (Exception e) {}}
+			if (writabilityOfClassifiedClasses.get(key).isNaN() || writabilityOfClassifiedClasses.get(key).isInfinite() || (writabilityOfClassifiedClasses.get(key)==null) ) {
+				WritabilityOfClassifiedClasses += 0;
+			}else { try {
+				WritabilityOfClassifiedClasses += writabilityOfClassifiedClasses.get(key);
+			}catch (Exception e) {}}
+		}
+		System.out.println("ReadabilityOfClassifiedAttributes: " + ReadabilityOfClassifiedAttributes);
+		System.out.println("ReadabilityOfClassifiedMethods: " + ReadabilityOfClassifiedMethods);
+		System.out.println("WritabilityOfClassifiedAttributes: " + WritabilityOfClassifiedAttributes);
+		System.out.println("WritabilityOfClassifiedMethods: " + WritabilityOfClassifiedMethods);
+		System.out.println("WritabilityOfClassifiedClasses: " + WritabilityOfClassifiedClasses);
+		System.out.println("readabilityOfCriticalClasses: " + readabilityOfCriticalClasses);
+		System.out.println("writabilityOfCriticalClasses: " + writabilityOfCriticalClasses);
+		System.out.println("securityAbsoluteMeasurements: " + securityAbsoluteMeasurements);
+	}
+	
+	
 		
 }
