@@ -151,57 +151,62 @@ public class DesignPrincipals {
 			abstraction.put(key, (double) pm.getFailSafeDefaults().get(key) + 
 					pm.getReduceAttackSurface().get(key) + 
 					pm.getAverageNumberOfAncestors().get(key));
+			double d = (double) pm.getFailSafeDefaults().get(key) + 
+					pm.getReduceAttackSurface().get(key) + 
+					pm.getAverageNumberOfAncestors().get(key);
+			System.out.println(d);
+					
 		}
 	}
 
 	public HashMap<String, Double> getAbstraction() {
 		//return abstraction;
-		return hierarchies;
+		return abstraction;
 	}
 
 	public HashMap<String, Double> getCohesion() {
 		//return cohesion;
-		return hierarchies;
+		return cohesion;
 	}
 	
 	public HashMap<String, Double> getComplexity() {
 		//return complexity;
-		return hierarchies;
+		return complexity;
 	}
 
 	public HashMap<String, Double> getComposition() {
 		//return composition;
-		return hierarchies;
+		return composition;
 	}
 
 	public HashMap<String, Double> getCoupling() {
 		//return coupling;
-		return hierarchies;
+		return coupling;
 	}
 
 	public HashMap<String, Double> getDesignSize() {
 		//return designSize;
-		return hierarchies;
+		return designSize;
 	}
 
 	public HashMap<String, Double> getEncapsulation() {
 		//return encapsulation;
-		return hierarchies;
+		return encapsulation;
 	}
 
 	public HashMap<String, Double> getInheritance() {
 		//return inheritance;
-		return hierarchies;
+		return inheritance;
 	}
 
 	public HashMap<String, Double> getMessaging() {
 		//return messaging;
-		return hierarchies;
+		return messaging;
 	}
 
 	public HashMap<String, Double> getPolymorphism() {
 		//return polymorphism;
-		return hierarchies;
+		return polymorphism;
 	}
 
 	public HashMap<String, Double> getHierarchies() {
