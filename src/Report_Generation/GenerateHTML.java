@@ -17,12 +17,12 @@ public class GenerateHTML {
 	private String fileName;
 	private Calculator calc;
 	private String flex;
-	String read;
-	String reuse;
-	String effect;
-	String extend;
-	String function;
-	String overall;
+	private String read;
+	private String reuse;
+	private String effect;
+	private String extend;
+	private String function;
+	private String overall;
 	
 	// MAIN METHOD
 	
@@ -33,18 +33,18 @@ public class GenerateHTML {
 		System.out.println("============================================");
 		this.calc = c;
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
-		 flex = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getFlexibility()));
-		 read = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getUnderstandability()));
-		 reuse = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getReusability()));
-		 effect = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getEffectiveness()));
-		 extend = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getExtendability()));
-		 function = String.valueOf(generateAverage(classNames, calc.getQualityAttributes().getFunctionality()));
-		 overall = String.valueOf((generateAverage(classNames, calc.getQualityAttributes().getFlexibility())
+		 flex = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getFlexibility())));
+		 read = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getUnderstandability())));
+		 reuse = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getReusability())));
+		 effect = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getEffectiveness())));
+		 extend = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getExtendability())));
+		 function = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getFunctionality())));
+		 overall = String.valueOf((Math.round(generateAverage(classNames, calc.getQualityAttributes().getFlexibility())
 				+ generateAverage(classNames, calc.getQualityAttributes().getUnderstandability())
 				+ generateAverage(classNames, calc.getQualityAttributes().getReusability())
 				+ generateAverage(classNames, calc.getQualityAttributes().getEffectiveness())
 				+ generateAverage(classNames, calc.getQualityAttributes().getExtendability())
-				+ generateAverage(classNames, calc.getQualityAttributes().getFunctionality())) / 6);
+				+ generateAverage(classNames, calc.getQualityAttributes().getFunctionality())) / 6));
 		try {
 
 			htmlFile = new File(FILENAME + type);
@@ -210,12 +210,12 @@ public class GenerateHTML {
 
 
 		splash += makeCircle("Flexability", flex, "c100 big flexability p" + flex, "flexability");
-		splash += makeCircle("Reusability", read, "c100 big pink readability p" + read, "readability");
+		splash += makeCircle("Reusability", read, "c100 big pink reusability p" + read, "readability");
 		splash += makeCircle("Readability", reuse, "c100 big pink readability p" + reuse, "reusability");
 		splash += makeCircle("Effectiveness", effect, "c100 big maroon effectiveness p" + effect, "effectiveness");
-		splash += makeCircle("Extendability", extend, "c100 big maroon effectiveness p" + extend, "extendability");
-		splash += makeCircle("Functionality", function, "c100 big maroon effectiveness p" + function, "functionality");
-		splash += makeCircle("Overall Score", overall, "c100 big maroon effectiveness p" + overall, "overall");
+		splash += makeCircle("Extendability", extend, "c100 big maroon extendability p" + extend, "extendability");
+		splash += makeCircle("Functionality", function, "c100 big maroon functionality p" + function, "functionality");
+		splash += makeCircle("Overall Score", overall, "c100 big maroon overall p" + overall, "overall");
 		splash +="</div>\r\n"
 				+ "		</div>";
 		return splash;
