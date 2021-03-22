@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -38,31 +40,35 @@ public class JDTree {
 		this.parent = parent;
 		//we get a string of the kind of node that we are dealing with
 		String kind = node.getClass().getName();
-		//Check the kind of node
+		
 		if (kind.equals("org.eclipse.jdt.internal.core.JavaProject")) {
 			//if it is a project
 			IJavaProject project = (IJavaProject) node;
 			//set the type
 			type = NodeType.PROJECT;
 			//get the packages in the project
-			IPackageFragment[] packages = project.getPackageFragments();
-			//Create a list of children
+			IPackageFragmentRoot[] projectFolders = project.getPackageFragmentRoots();
 			ArrayList<JDTree> aChildren = new ArrayList<JDTree>();
-			//loop through the packages and create a new node for each one
-			for (int i = 0; i < packages.length; i++) {
-				String childKind = packages[i].getClass().getName();
-				// we have to do it this way because we want to exclude all of the Jar files
-				//only do this if it is actually a PackageFragment 
-				if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
-					//add it to an array list first because we don't know how many there are goin to be
-					 aChildren.add(new JDTree(packages[i], this));
-				}
-			}
-			//Then add it to an array later when we know the size
-			//TODO make children an arraylist so we don't have to do this twice
-			children = new JDTree[aChildren.size()];
-			for(int j=0; j<aChildren.size(); j++) {
-				children[j] = aChildren.get(j);
+			
+			System.out.println("File Size: " + projectFolders.length);
+			for(IPackageFragmentRoot folder : projectFolders) {
+				// If one of the file paths contains the word src
+				if(folder.getHandleIdentifier().contains("src")) {
+					// If the folder contains packages
+					if(folder.hasChildren()) {
+						// For each package
+						for(IJavaElement element : folder.getChildren()) {
+							System.out.println("\t\t Child: " + element.getElementName() + " Type: " + element.getClass());
+							String childKind = element.getClass().getName();
+							// 
+							if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+								IPackageFragment fragment = (IPackageFragment) element;
+								aChildren.add(new JDTree(fragment, this));
+							}
+							
+						}
+					}
+				}				
 			}
 		}
 		//repeat of the packages

@@ -87,14 +87,17 @@ public class Method {
 	public void isAccessor() {
 		// If the method name starts with the word 'get' 
 		if(getIdentifier().startsWith("get")) {
+			try {
 				// The only statement within the method should be a ReturnStatement
 				if(getStatements().get(0).getNode() instanceof ReturnStatement) {
 					// At this point we have confirmed it is a getter method
 					//System.out.println("Accessor: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine());	
 					setAccessor();
-			}
-		}	
-	}
+				} 
+			} catch (Exception e) {}
+		}
+	}	
+	
 	
 	
 	public void isMutator() {
