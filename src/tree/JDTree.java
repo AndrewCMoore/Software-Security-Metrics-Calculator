@@ -53,7 +53,7 @@ public class JDTree {
 				type = NodeType.PROJECT;
 				//get the packages in the project
 				System.out.println("This is the project");
-				checkFolders(project);
+				//checkFolders(project);
 				
 				// Get the package fragments roots
 				IPackageFragmentRoot[] folders = project.getPackageFragmentRoots();
