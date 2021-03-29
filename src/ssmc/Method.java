@@ -89,15 +89,14 @@ public class Method {
 		if(getIdentifier().startsWith("get")) {
 			// The only statement within the method should be a ReturnStatement
 			try {
+
 				if(getStatements().get(0).getNode() instanceof ReturnStatement) {
 					// At this point we have confirmed it is a getter method
 					//System.out.println("Accessor: Method |||| Line " + this.identifier + " ||||| " + this.getStartLine());	
 					setAccessor();
-				}
-			} catch (Exception e) {
-				
-			}
-		}	
+				} 
+			} catch (Exception e) {}
+		}
 	}
 	
 	

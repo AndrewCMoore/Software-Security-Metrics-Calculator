@@ -21,37 +21,49 @@ public class QualityAttributes {
 
 	private void reusability(DesignPrincipals dp) {
 		for(String key : dp.getAbstraction().keySet()) {
+			try {
 			reusability.put(key, (-0.25 * dp.getCoupling().get(key)) + (0.25 * dp.getCohesion().get(key)) + (0.5 * dp.getMessaging().get(key)) + (0.5 * dp.getDesignSize().get(key)));
+			}catch (Exception e) {}
 		}
 	}
 
 	private void extendability(DesignPrincipals dp) {
 		for(String key : dp.getAbstraction().keySet()) {
+			try {
 			extendability.put(key, (0.5 * dp.getAbstraction().get(key)) - (0.5 * dp.getCoupling().get(key)) + (0.5 * dp.getInheritance().get(key)) + (0.5 * dp.getPolymorphism().get(key)));
+			}catch (Exception e) {}
 		}
 	}
 
 	private void functionality(DesignPrincipals dp) {
 		for(String key : dp.getAbstraction().keySet()) {
+			try {		
 			functionality.put(key, (0.12 * dp.getCohesion().get(key)) + (0.22 * dp.getPolymorphism().get(key)) + (0.22 * dp.getMessaging().get(key)) + (0.22 * dp.getDesignSize().get(key)) + (0.22 * dp.getHierarchies().get(key)));
+			}catch (Exception e) {}
 		}
 	}
 
 	private void understandability(DesignPrincipals dp) {
 		for(String key : dp.getAbstraction().keySet()) {
+			try {		
 			understandability.put(key, (-0.33 * dp.getAbstraction().get(key)) + (0.33 * dp.getEncapsulation().get(key)) - (0.33 * dp.getCoupling().get(key)) + (0.33 * dp.getCohesion().get(key)) - (0.33 * dp.getPolymorphism().get(key)) - (0.33 * dp.getComplexity().get(key)) - (0.33 * dp.getDesignSize().get(key)));
+			}catch (Exception e) {}
 		}
 	}
 
 	private void flexibility(DesignPrincipals dp) {
 		for(String key : dp.getAbstraction().keySet()) {
+			try {
 			flexibility.put(key, (0.25 * dp.getEncapsulation().get(key)) - (0.25 * dp.getCoupling().get(key)) + (0.5 * dp.getComposition().get(key)) + (0.5 * dp.getPolymorphism().get(key)));
+			}catch (Exception e) {}
 		}
 	}
 
 	private void effectiveness(DesignPrincipals dp) {
 		for(String key : dp.getAbstraction().keySet()) {
+			try {
 			effectiveness.put(key, (0.2 * dp.getAbstraction().get(key)) + (0.2 * dp.getEncapsulation().get(key)) + (0.2 * dp.getComposition().get(key)) + (0.2 * dp.getInheritance().get(key)) + (0.2 * dp.getPolymorphism().get(key)));
+			}catch (Exception e) {}
 		}
 	}
 

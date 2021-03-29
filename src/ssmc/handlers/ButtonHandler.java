@@ -22,6 +22,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import Calculator.Calculator;
+import Report_Generation.GenerateHTML;
+import Report_Generation.GenerateStyles;
 import Report_Generation.generateCSV;
 import tree.JDTree;
 
@@ -117,9 +119,10 @@ public class ButtonHandler extends AbstractHandler {
 			Calculator calc = new Calculator(myTree);
 			//start calculating metrics
 			calc.calculate();
-			
-			try {
+			try {			
 				generateCSV CSV = new generateCSV(project, calc);
+				GenerateHTML generator = new GenerateHTML(calc);
+				GenerateStyles css = new GenerateStyles();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

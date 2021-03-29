@@ -10,7 +10,7 @@ public class PrimaryMetrics {
 
 	private Double sourceLinesOfCode=(double) 0; //Project Level Metric
 	private HashMap<String, Double> commentRatio = new HashMap<String, Double>(); //class level metric
-	private HashMap<String, HashMap<String, Integer>> nestingComplexity = new HashMap<String, HashMap<String, Integer>>(); //method level metric (max loop complexity of each method)
+	private HashMap<String,  Double> nestingComplexity = new HashMap<String, Double>(); //method level metric (max loop complexity of each method)
 	private HashMap<String, Double> numberOfChildren = new HashMap<String, Double>(); //class level metric
 	private HashMap<String, Double> numberOfMethods = new HashMap<String, Double>(); //classlevelmetric
 	private double numberOfHierarchies=0;  //project level
@@ -47,7 +47,8 @@ public class PrimaryMetrics {
 	private HashMap<String, Double> weightedMethodsPerClass = new HashMap<String, Double>();
 	private HashMap<String, Double> measureOfAggregation = new HashMap<String, Double>();
 	private HashMap<String, Double> directClassCoupling = new HashMap<String, Double>();
-	private ArrayList<String> classesInProject = new ArrayList<String>();
+	private Set<String> classesInProject = new HashSet<String>();
+	private HashMap<String, Double> averageNumberOfAncestors = new HashMap<String, Double>();
 
 
 	
@@ -58,6 +59,7 @@ public class PrimaryMetrics {
 
 	
 	public PrimaryMetrics(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		classesInProject=  mpv.getNumberOfClassesInProject();
 		averageNumberOfAncestor(pv, sm, mpv);
 		failSafeDefaults(pv, sm, mpv);
 		reduceAttackSurface(pv, sm, mpv);
@@ -99,7 +101,9 @@ public class PrimaryMetrics {
 		measureOfFunctionalAbtraction(pv, sm, mpv);
 		classInterfaceSize(pv, sm, mpv);
 		numberOfPolymorphicMethods(pv, sm, mpv);
-		//classesInProject= (ArrayList<String>) mpv.getNumberOfClassesInProject();
+		//classesInProject=  mpv.getNumberOfClassesInProject();
+		System.out.println("OverHere");
+		printTrash();
 	}
 	
 	
@@ -107,7 +111,28 @@ public class PrimaryMetrics {
 	//Abstraction Metrics
 	//###########################################################################################################################################################
 
-	public void averageNumberOfAncestor(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {}
+	public void averageNumberOfAncestor(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
+		int averageNumberOfChildren=0;
+		Map<String, ArrayList<String>> imidiateChildren = mpv.getImidiateChildren();
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
+		Set<String> inheritanceClasses = new HashSet<String>();
+		for (String className: classNames) {
+			if (imidiateChildren.containsKey(className)) {
+				averageNumberOfChildren+=imidiateChildren.get(className).size();
+				inheritanceClasses.add(className);
+				for (String childClassName : imidiateChildren.get(className)) {
+					inheritanceClasses.add(childClassName);
+				}
+				averageNumberOfAncestors.put(className, ((double)averageNumberOfChildren/(double)inheritanceClasses.size()));
+			} else {
+				averageNumberOfAncestors.put(className, 0.0);
+			}
+			
+		}
+		
+
+		
+	}
 	
 	public void failSafeDefaults (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: sm.getReadabilityOfClassifiedAttributes().keySet()) {
@@ -133,7 +158,7 @@ public class PrimaryMetrics {
 		HashMap<String,Integer> MC = mpv.getSumOfAllInstanceMethodsInClass();
 		
 		for (String key: VC.keySet()) {
-			lackOfCohesionOfMethods.put(key, (double) (1-(VC.get(key) /(VC.get(key)*MC.get(key))))*100);
+			lackOfCohesionOfMethods.put(key, (double) (1-(VC.get(key) /(double)(VC.get(key)*(double)MC.get(key))))*100);
 		}
 		
 	}
@@ -157,7 +182,7 @@ public class PrimaryMetrics {
 		
 		//CAMC = a / kl
 		for (String key :newL.keySet()) {
-			cohesionAmongMethodsInClass.put(key, (double) ((a.get(key))/((k.get(key)*newL.get(key)))));
+			cohesionAmongMethodsInClass.put(key, (double) ((double)(a.get(key))/((k.get(key)*(double)newL.get(key)))));
 		}		
 	}
 	
@@ -171,7 +196,7 @@ public class PrimaryMetrics {
 			HashMap<String,Integer> totalCommentsInCode = mpv.getTotalNumberOfCommentedLinesInEachClass();
 			
 			for (String key: totalCommentsInCode.keySet()) {
-				commentRatio.put(key, (double) totalCommentsInCode.get(key)/(totalLinesOfCode.get(key)-totalCommentsInCode.get(key)));
+				commentRatio.put(key, (double) totalCommentsInCode.get(key)/((double)totalLinesOfCode.get(key)-(double)totalCommentsInCode.get(key)));
 			}
 	}
 	
@@ -185,8 +210,14 @@ public class PrimaryMetrics {
 	
 	
 	public void countPath (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		for (String key: pv.getMapCountPath().keySet()) {
+		
+		/*for (String key: pv.getMapCountPath().keySet()) {
 			countPath.put(key, (double) pv.getMapCountPath().get(key));
+		}*/		
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
+		HashMap<String, Integer> classCountPath  = pv.getMapCountPath();
+		for (String key: classNames) {
+			countPath.put(key, (classCountPath.containsKey(key)) ?  (double) classCountPath.get(key) :  (double) 0.0);
 		}
 	}
 	
@@ -209,7 +240,16 @@ public class PrimaryMetrics {
 	
 	//#proposal info lacking, refer to original paper.
 	public void nestingComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		nestingComplexity = mpv.getComplexityDepthInClassMethods();
+		double complexityAverage;
+		HashMap<String, HashMap<String, Integer>> nestingComplexityInEachClass = mpv.getComplexityDepthInClassMethods();
+		for (String className: nestingComplexityInEachClass.keySet() ){
+			complexityAverage=0;
+			for (String methodName: nestingComplexityInEachClass.get(className).keySet()) {
+				complexityAverage+=nestingComplexityInEachClass.get(className).get(methodName);
+			}			
+			complexityAverage=complexityAverage/nestingComplexityInEachClass.get(className).size();
+		nestingComplexity.put(className,complexityAverage);
+		}	
 	}
 	
 	public void numberOfChildren (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -217,7 +257,7 @@ public class PrimaryMetrics {
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
 		//for each class in project, ? operator, is the class name part of a inheritance hearchy ? yes-> put classname,#children : no-> put classname,0 children.
 		for (String key: classNames) {
-			numberOfChildren.put(key, (immidiateChildrenInClass.get(key)!=null) ?  (double) mpv.getImidiateChildren().get(key).size() :  (double) 0.0);
+			numberOfChildren.put(key, (immidiateChildrenInClass.containsKey(key)) ?  (double) mpv.getImidiateChildren().get(key).size() :  (double) 0.0);
 		}
 	}
 	
@@ -226,7 +266,11 @@ public class PrimaryMetrics {
 	}
 	
 	public void strictCyclomaticComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		strictCyclomaticComplexity  = pv.getMapStrictComplexity();
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
+		HashMap<String,Double> strictCC  = pv.getMapStrictComplexity();
+		for (String key: classNames) {
+			strictCyclomaticComplexity.put(key, (strictCC.containsKey(key)) ?  (double) strictCC.get(key) :  (double) 0.0);
+		}
 	}
 	
 	public void secureWeakestLink (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -247,7 +291,7 @@ public class PrimaryMetrics {
 				classMethodComplexityTotal+=complexityDepthInClassMethods.get(key).get(methodName);
 				classMethodAverageMultiplier+=1;
 			}
-			weightedMethodsPerClass.put(key, (classMethodComplexityTotal / (classMethodAverageMultiplier*classMethodAverageMultiplier)));
+			weightedMethodsPerClass.put(key, (double)(classMethodComplexityTotal / (double)(classMethodAverageMultiplier*classMethodAverageMultiplier)));
 		}
 		
 		
@@ -258,7 +302,7 @@ public class PrimaryMetrics {
 	public void SourceLinesOfCode (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		HashMap<String, Integer> projectTotalLinesOfCode = mpv.getTotalNumberOfLinesInEachClass();
         for (String key: projectTotalLinesOfCode.keySet()) {
-        	sourceLinesOfCode+=projectTotalLinesOfCode.get(key);
+        	sourceLinesOfCode+=(double)projectTotalLinesOfCode.get(key);
         }		
 	}
 	
@@ -269,7 +313,7 @@ public class PrimaryMetrics {
 	//Attributes that are classes vs # attribuutes/ this was missed, temp soln for now. :(
 	public void measureOfAggregation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for(String key : pv.getMapTotalMethods().keySet()) {
-			measureOfAggregation.put(key, (double) pv.getMapTotalMethods().get(key) + pv.getMapMethodInvocations().get(key));
+			measureOfAggregation.put(key, (double) pv.getMapTotalMethods().get(key) + (double)pv.getMapMethodInvocations().get(key));
 		}
 	}
 	
@@ -279,27 +323,38 @@ public class PrimaryMetrics {
 	
 	//CBC
 	public void countOfBaseClasses (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		countOfBaseClasses=mpv.getNumberOfBaseClasses();
+		countOfBaseClasses=(double)mpv.getNumberOfBaseClasses();
 	}
 	
 	//CBO
 	public void couplingBetweenObjects (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		mpv.getClassesCoupledToBaseClass();
+		
+		HashMap<String, HashSet<String>> classCoupling = mpv.getClassCouplingRelationship();
+		for (String className: getClassesInProject()) {
+			couplingBetweenObjects.put(className, (classCoupling.containsKey(className) ? (double) classCoupling.get(className).size() : (double) 0.0 ));
+		}
+		
 	}
 	
-	//CCP //:(
+	//CCP //!
 	public void couplingCorruptionPropagation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		couplingCorruptionPropagation=mpv.getDepthOfInheritanceTreeAtCurrentSuperClass();
+		HashMap<String, Double> methodsInherited=mpv.getNumberOfMethodsInheritedByAClass();
+		for (String className: getClassesInProject()) {
+			couplingBetweenObjects.put(className, (methodsInherited.containsKey(className) ? (double) methodsInherited.get(className) : (double) 0.0 ));
+		}
 	}
 	
 	public void depthOfInheritanceTree (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String className: mpv.getNumberOfClassesInProject()) {
-			depthOfInheritace.put(className,(mpv.getDepthOfInheritanceTreeAtCurrentSuperClass().containsKey(className)==true) ? mpv.getDepthOfInheritanceTreeAtCurrentSuperClass().get(className) : (Double) 0.0) ;
+			depthOfInheritace.put(className,(mpv.getDepthOfInheritanceTreeAtCurrentSuperClass().containsKey(className)==true) ? mpv.getDepthOfInheritanceTreeAtCurrentSuperClass().get(className) : (double) 0.0) ;
 		}
 	}
 	
 	public void directClassCoupling (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		directClassCoupling=mpv.getClassesCoupledToBaseClass();
+		for (String key: mpv.getClassCouplingRelationship().keySet()) {
+			directClassCoupling.put(key, (double) mpv.getClassCouplingRelationship().get(key).size());
+		}
+
 	}
 	
 	public void fanIn(PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -323,7 +378,7 @@ public class PrimaryMetrics {
 	//doublecheckthis
 	public void responceSetForaClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for(String key : pv.getMapTotalMethods().keySet()) {
-			responceSetForaClass.put(key, (double) pv.getMapTotalMethods().get(key) + pv.getMapMethodInvocations().get(key));
+			responceSetForaClass.put(key, (double) pv.getMapTotalMethods().get(key) + (double)pv.getMapMethodInvocations().get(key));
 		}
 	}
 	
@@ -334,7 +389,7 @@ public class PrimaryMetrics {
 	//###########################################################################################################################################################
 
 	public void designSizeInClasses (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		numberofClasses = mpv.getNumberOfClassesInProject().size();
+		numberofClasses =(double) mpv.getNumberOfClassesInProject().size();
 	}
 	
 	public void stallRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -347,20 +402,35 @@ public class PrimaryMetrics {
 
 	public void criticalElementRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapCriticalElements().keySet()) {
-        	criticalElementRatio.put(key, (double) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
+        	criticalElementRatio.put(key, (double) pv.getMapCriticalElements().get(key) /(double) pv.getMapTotalAttributes().get(key));
         }
 	}
 	
 	public void dataAccessMetric (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		for (String key: pv.getMapCriticalElements().keySet()) {
-        	dataAccessMetric.put(key, (double) pv.getMapCriticalElements().get(key) / pv.getMapTotalAttributes().get(key));
-        }
+		/*for (String key: pv.getMapCriticalElements().keySet()) {
+        	dataAccessMetric.put(key, (double) pv.getMapCriticalElements().get(key) / (double)pv.getMapTotalAttributes().get(key));
+        }*/
+		
+		HashMap<String, Integer> criticalMapElements = pv.getMapCriticalElements();
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
+		for (String key: classNames) {
+			dataAccessMetric.put(key, (criticalMapElements.containsKey(key)) ? (double) pv.getMapCriticalElements().get(key) / (double)pv.getMapTotalAttributes().get(key) :  (double) 0.0);
+		}
+		
 	}
 	
+	// sm.getWritabilityOfCriticalClasses()  is wrong. need to devide
 	public void grantLeastPrivilege (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		for (String key: sm.getWritabilityOfClassifiedAttributes().keySet()) {
+		/*for (String key: sm.getWritabilityOfClassifiedAttributes().keySet()) {
         	grantLeastPrivelage.put(key, sm.getReadabilityOfClassifiedAttributes().get(key) + sm.getWritabilityOfClassifiedMethods().get(key) + sm.getWritabilityOfCriticalClasses());
-        }
+        }*/
+		
+		
+		Set<String> classNames = mpv.getNumberOfClassesInProject();
+		HashMap<String,Double> writabilityOfClasses=sm.getWritabilityOfClassifiedAttributes();
+		for (String key: classNames) {
+			grantLeastPrivelage.put(key, (writabilityOfClasses.containsKey(key)) ?  sm.getReadabilityOfClassifiedAttributes().get(key) + sm.getWritabilityOfClassifiedMethods().get(key) + sm.getWritabilityOfCriticalClasses() :  (double) 0.0);
+		}
 	}
 		
 	public void isolation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
@@ -386,9 +456,7 @@ public class PrimaryMetrics {
 		HashMap<String,Integer> totalNumberOfMethodsAccessible =  mpv.getClassMethodsInheritedBySubClassm(); //temp
 		
 		for (String key: numberOfMethodsInherited.keySet()) {
-			try {
-			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/totalNumberOfMethodsAccessible.get(key)));
-			} catch (Exception e) {}
+			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/(double)totalNumberOfMethodsAccessible.get(key)));
 		}
 	}
 	
@@ -399,7 +467,7 @@ public class PrimaryMetrics {
 	public void classInterfaceSize (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		HashMap<String,Integer> mapPublicInstance = pv.getMapPublicInstance();
 		for (String key: mapPublicInstance.keySet()) {
-			classInterfaceSize.put(key, (Double) (mapPublicInstance.get(key)+pv.getMapPublicClass().get(key)*INT_TO_DOUBLE));
+			classInterfaceSize.put(key, (double) (mapPublicInstance.get(key)+ (double)pv.getMapPublicClass().get(key)));
 		}
 	}
 
@@ -426,7 +494,7 @@ public class PrimaryMetrics {
 	}
 
 
-	public HashMap<String, HashMap<String, Integer>> getNestingComplexity() {
+	public HashMap<String, Double> getNestingComplexity() {
 		return nestingComplexity;
 	}
 
@@ -512,7 +580,7 @@ public class PrimaryMetrics {
 		return strictCyclomaticComplexity;
 	}
 
-	// :(
+
 	public HashMap<String, Double> getAverageNumberOfAncestors() {
 	
 		return strictCyclomaticComplexity;
@@ -623,8 +691,230 @@ public class PrimaryMetrics {
 		return numberOfPolymorphicMethods;
 	}
 	
-	public ArrayList<String> getClassesInProject() {
+	public Set<String> getClassesInProject() {
 		return classesInProject;
 	}
-	  
+	
+	public void printTrash() {
+	
+
+		
+		double commentRatioSum=0,nestingComplexitySum=0,numberOfChildrenSum=0,numberOfMethodsSum=0,
+				lackOfCohesionOfMethodsSum=0,cohesionAmongMethodsInClassSum=0,measureOfFunctionalAbtractionSum=0,
+				lengthOfMethodSum=0,couplingCorruptionPropagationSum=0,couplingBetweenObjectsSum=0,
+				failSafeDefaultsSum=0,reduceAttackSurfaceSum=0,strictCyclomaticComplexitySum=0,cyclomaticComplexitySum=0,
+				modifiedCyclomaticComplexitySum=0,mcCabesCyclomaticComplexitySum=0,countPathSum=0,
+				fanInSum=0,fanOutSum=0,henryKafuraSum=0,criticalElementRatioSum=0,dataAccessMetricSum=0,grantLeastPrivelageSum=0,
+				responceSetForaClassSum=0
+				,numberOfPolymorphicMethodsSum=0,classInterfaceSizeSum=0,depthOfInheritaceSum=0,
+				weightedMethodsPerClassSum=0,measureOfAggregationSum=0,directClassCouplingSum=0,averageNumberOfAncestorsSum=0;
+		
+		//for (String key:classesInProject) {
+			
+			
+				
+
+			for (String key :nestingComplexity.keySet()) {
+				nestingComplexitySum += nestingComplexity.get(key);
+			}
+			
+
+			for (String key :numberOfChildren.keySet()) {
+				numberOfChildrenSum += numberOfChildren.get(key);
+			}
+
+			for (String key :numberOfMethods.keySet()) {
+				numberOfMethodsSum += numberOfMethods.get(key);
+			}
+
+			for (String key :lackOfCohesionOfMethods.keySet()) {
+				lackOfCohesionOfMethodsSum += lackOfCohesionOfMethods.get(key);
+			}
+
+			for (String key :cohesionAmongMethodsInClass.keySet()) {
+				cohesionAmongMethodsInClassSum += cohesionAmongMethodsInClass.get(key);
+			}
+
+			for (String key :measureOfFunctionalAbtraction.keySet()) {
+				measureOfFunctionalAbtractionSum += measureOfFunctionalAbtraction.get(key);
+			}
+
+			
+				lengthOfMethodSum += 0;
+			
+			for (String key :couplingCorruptionPropagation.keySet()) {
+				couplingCorruptionPropagationSum += couplingCorruptionPropagation.get(key);
+			}
+
+			for (String key :couplingBetweenObjects.keySet()) {
+				couplingBetweenObjectsSum += couplingBetweenObjects.get(key);
+			}
+
+			for (String key :failSafeDefaults.keySet()) {
+				failSafeDefaultsSum += failSafeDefaults.get(key);
+			}
+
+			for (String key :reduceAttackSurface.keySet()) {
+				reduceAttackSurfaceSum += reduceAttackSurface.get(key);
+			}
+
+			for (String key :strictCyclomaticComplexity.keySet()) {
+				strictCyclomaticComplexitySum += strictCyclomaticComplexity.get(key);
+			}
+
+			for (String key :cyclomaticComplexity.keySet()) {
+				cyclomaticComplexitySum += cyclomaticComplexity.get(key);
+			}
+
+			for (String key :modifiedCyclomaticComplexity.keySet()) {
+				modifiedCyclomaticComplexitySum += modifiedCyclomaticComplexity.get(key);
+			}
+
+			for (String key :mcCabesCyclomaticComplexity.keySet()) {
+				mcCabesCyclomaticComplexitySum += mcCabesCyclomaticComplexity.get(key);
+			}
+
+			for (String key :countPath.keySet()) {
+				countPathSum += countPath.get(key);
+			}
+
+			for (String key :fanIn.keySet()) {
+				fanInSum += fanIn.get(key);
+			}
+
+			for (String key :fanOut.keySet()) {
+				fanOutSum += fanOut.get(key);
+			}
+
+			for (String key :henryKafura.keySet()) {
+				henryKafuraSum += henryKafura.get(key);
+			}
+
+			for (String key :criticalElementRatio.keySet()) {
+				criticalElementRatioSum += criticalElementRatio.get(key);
+			}
+			
+			
+
+			for (String key :dataAccessMetric.keySet()) {
+				dataAccessMetricSum += dataAccessMetric.get(key);
+			}
+
+			for (String key :grantLeastPrivelage.keySet()) {
+				grantLeastPrivelageSum += grantLeastPrivelage.get(key);
+			}
+
+			for (String key :responceSetForaClass.keySet()) {
+				responceSetForaClassSum += responceSetForaClass.get(key);
+			} 
+
+			for (String key :numberOfPolymorphicMethods.keySet()) {
+				numberOfPolymorphicMethodsSum += numberOfPolymorphicMethods.get(key);
+			}
+
+			for (String key :classInterfaceSize.keySet()) {
+				classInterfaceSizeSum += classInterfaceSize.get(key);
+			}
+
+			for (String key :depthOfInheritace.keySet()) {
+				depthOfInheritaceSum += depthOfInheritace.get(key);
+			}
+			
+
+			for (String key :weightedMethodsPerClass.keySet()) {
+				weightedMethodsPerClassSum += weightedMethodsPerClass.get(key);
+			}
+
+			for (String key :measureOfAggregation.keySet()) {
+				measureOfAggregationSum += measureOfAggregation.get(key);
+			}
+
+			for (String key :directClassCoupling.keySet()) {
+				directClassCouplingSum += directClassCoupling.get(key);
+			}
+
+			for (String key :averageNumberOfAncestors.keySet()) {
+				averageNumberOfAncestorsSum += averageNumberOfAncestors.get(key);
+			}
+		
+			
+		
+		System.out.println("sourceLinesOfCode");
+		System.out.println(sourceLinesOfCode);
+		System.out.println("leastCommomMechanism");
+		System.out.println(leastCommomMechanism);		
+		System.out.println("isolation");
+		System.out.println(isolation);
+		System.out.println("secureWeakestLink");
+		System.out.println(secureWeakestLink);
+		System.out.println("economyOfMechanism");
+		System.out.println(economyOfMechanism);
+		System.out.println("numberofClasses");
+		System.out.println(numberofClasses);
+		System.out.println("countOfBaseClasses");
+		System.out.println(countOfBaseClasses);
+		System.out.println("numberOfHierarchies");
+		System.out.println(numberOfHierarchies);	
+		
+		System.out.println("nestingComplexitySum");
+		System.out.println(nestingComplexitySum);
+		System.out.println("numberOfChildrenSum");
+		System.out.println(numberOfChildrenSum);
+		System.out.println("numberOfMethodsSum");
+		System.out.println(numberOfMethodsSum);		
+		System.out.println("lackOfCohesionOfMethodsSum");
+		System.out.println(lackOfCohesionOfMethodsSum);		
+		System.out.println("cohesionAmongMethodsInClassSum");		
+		System.out.println(cohesionAmongMethodsInClassSum);		
+		System.out.println("measureOfFunctionalAbtractionSum");
+		System.out.println(measureOfFunctionalAbtractionSum);
+		System.out.println("lengthOfMethodSum");
+		System.out.println(lengthOfMethodSum);
+		System.out.println("couplingCorruptionPropagationSum");
+		System.out.println(couplingCorruptionPropagationSum);		
+		System.out.println("couplingBetweenObjectsSum");
+		System.out.println(couplingBetweenObjectsSum);
+		System.out.println("failSafeDefaultsSum");
+		System.out.println(failSafeDefaultsSum);
+		System.out.println("reduceAttackSurfaceSum");
+		System.out.println(reduceAttackSurfaceSum);		
+		System.out.println("strictCyclomaticComplexitySum");
+		System.out.println(strictCyclomaticComplexitySum);
+		System.out.println("cyclomaticComplexitySum");
+		System.out.println(cyclomaticComplexitySum);		
+		System.out.println("modifiedCyclomaticComplexitySum");
+		System.out.println(modifiedCyclomaticComplexitySum);
+		System.out.println("mcCabesCyclomaticComplexitySum");
+		System.out.println(mcCabesCyclomaticComplexitySum);
+		System.out.println("countPathSum");
+		System.out.println(countPathSum);
+		System.out.println("fanInSum");
+		System.out.println(fanInSum);
+		System.out.println("fanOutSum");
+		System.out.println(fanOutSum);		
+		System.out.println("henryKafuraSum");
+		System.out.println(henryKafuraSum);
+		System.out.println("criticalElementRatioSum");
+		System.out.println(criticalElementRatioSum);
+		System.out.println("dataAccessMetricSum");
+		System.out.println(dataAccessMetricSum);
+		System.out.println("grantLeastPrivelageSum");
+		System.out.println(grantLeastPrivelageSum);
+		System.out.println("responceSetForaClassSum");
+		System.out.println(responceSetForaClassSum);
+		System.out.println("numberOfPolymorphicMethodsSum");
+		System.out.println(numberOfPolymorphicMethodsSum);
+		System.out.println("classInterfaceSizeSum");
+		System.out.println(classInterfaceSizeSum);
+		System.out.println("depthOfInheritaceSum");
+		System.out.println(depthOfInheritaceSum);
+		System.out.println("weightedMethodsPerClassSum");
+		System.out.println(weightedMethodsPerClassSum);
+		System.out.println("measureOfAggregationSum");
+		System.out.println(measureOfAggregationSum);
+		System.out.println("averageNumberOfAncestorsSum");
+		System.out.println(averageNumberOfAncestorsSum);
+		System.out.println("directClassCouplingSum");
+		System.out.println(directClassCouplingSum);
+	}	  
 }

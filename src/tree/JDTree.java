@@ -39,6 +39,7 @@ public class JDTree {
 	**/
 	public JDTree(Object node, JDTree parent) throws JavaModelException {
 		
+
 		if (Threading) {
 			
 			this.node = node;
@@ -116,6 +117,7 @@ public class JDTree {
 					children[i] = new JDTree(units[i], this);
 				}
 				// generateAST();
+
 			}
 			
 			//if it is a class there arne't any more steps
