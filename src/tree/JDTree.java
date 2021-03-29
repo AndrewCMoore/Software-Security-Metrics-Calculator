@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -27,12 +28,7 @@ public class JDTree {
 	private Object node;
 	
 	private boolean Threading = true;
-	
-	public SemaphoreControl sc;
 
-	
-	
-	
 	/**
 	 * Constructor for JDTree.
 	 * Finds out node type, and sets children and node type for the node.
@@ -44,15 +40,6 @@ public class JDTree {
 	public JDTree(Object node, JDTree parent) throws JavaModelException {
 		
 		if (Threading) {
-			if(parent == null) {
-				sc = new SemaphoreControl(); 
-			} else {
-				sc = parent.sc;
-			}
-			
-			//Semaphore semaphore = sc.getSemaphore();
-			//System.out.println(System.identityHashCode(semaphore.availablePermits()));
-		
 			
 			this.node = node;
 			this.parent = parent;
@@ -67,17 +54,25 @@ public class JDTree {
 				//get the packages in the project
 				System.out.println("This is the project");
 				checkFolders(project);
-				IPackageFragment[] packages = project.getPackageFragments();
+				
+				// Get the package fragments roots
+				IPackageFragmentRoot[] folders = project.getPackageFragmentRoots();
+				
 				//Create a list of children
 				ArrayList<JDTree> aChildren = new ArrayList<JDTree>();
+				
 				//loop through the packages and create a new node for each one
-				for (int i = 0; i < packages.length; i++) {
-					String childKind = packages[i].getClass().getName();
-					// we have to do it this way because we want to exclude all of the Jar files
-					//only do this if it is actually a PackageFragment 
-					if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
-						//add it to an array list first because we don't know how many there are goin to be
-						 aChildren.add(new JDTree(packages[i], this));
+				for (int i = 0; i < folders.length; i++) {
+					// Get the type of folder
+					String childKind = folders[i].getClass().getName();
+					
+					// Remove JAR folders by only getting PackageFragementRoots
+					if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragmentRoot")) {
+						// Get all of the package within the root 
+						IJavaElement[] packages = folders[i].getChildren();
+						for(IJavaElement aPackage : packages) {
+							aChildren.add(new JDTree(aPackage, this));
+						}
 					}
 				}
 				//Then add it to an array later when we know the size
@@ -87,6 +82,7 @@ public class JDTree {
 					children[j] = aChildren.get(j);
 				}
 			}
+			
 			//repeat of the packages
 			if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
 				type = NodeType.PACKAGE;
@@ -94,29 +90,16 @@ public class JDTree {
 				//get the list of compilation units
 				ICompilationUnit[] units = pack.getCompilationUnits();
 				
-				Semaphore semaphore = new Semaphore(1);
-				
-				System.out.println("Semaphore queue length" + semaphore.availablePermits());
-				try {
-					semaphore.acquire();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				System.out.println("Semaphore queue length" + semaphore.availablePermits());
-				
 				for(int j = 0; j < units.length; j++) {
 					type = NodeType.COMPILATIONUNIT;
 					CAMValues cv = new CAMValues(units[j]);
 					try {
-						
 						cv.start();
 					} catch (Exception e) {
 						
 					} 
 					Class[] classes = cv.getClassArray();
-					//Class[] classes = new CAMValues().run(comp);
-					//Class[] classes = CAMValues.getClasses(comp);
+					
 					//if the there are classes in here then we add them to the list of children
 					if (classes != null) {
 						children = new JDTree[classes.length];
@@ -125,10 +108,7 @@ public class JDTree {
 							//System.out.println("the Class is "+classes[i].getIdentifier());
 							
 						}
-					}
-					
-					semaphore.release();
-					
+					}					
 				}
 				children = new JDTree[units.length];
 				//add children to the array
@@ -137,39 +117,13 @@ public class JDTree {
 				}
 				// generateAST();
 			}
-			/*
-			//If it is a Compilation unit
-			if (kind.equals("org.eclipse.jdt.internal.core.CompilationUnit")) {
-				//set type
-				type = NodeType.COMPILATIONUNIT;
 			
-				ICompilationUnit comp = (ICompilationUnit) node;
-				CAMValues cv = new CAMValues(comp);
-				cv.run();
-				Class[] classes = cv.getClassArray();
-				//Class[] classes = new CAMValues().run(comp);
-				//Class[] classes = CAMValues.getClasses(comp);
-				//if the there are classes in here then we add them to the list of children
-				if (classes != null) {
-					children = new JDTree[classes.length];
-					for (int i = 0; i < classes.length; i++) {
-						children[i] = new JDTree(classes[i], this);
-						System.out.println("the Class is "+classes[i].getIdentifier());
-						
-					}
-				}
-			}
-			*/
 			//if it is a class there arne't any more steps
 			if (kind.equals("ssmc.Class")) {
 				type = NodeType.CLASS;
 			}
-			
-			if(kind.equals("org.eclipse.jdt.internal.core.PackageFragmentRoot")) {
-				System.out.println(node.toString());
-			}
-			
 		}
+		
 		else {
 			this.node = node;
 			this.parent = parent;
