@@ -109,6 +109,7 @@ ul li
 	width: 40%;
 	position: relative;
 	margin: 0 auto;
+	clear: both;
 	border: 1px solid #000;
 }
 .textcenter
@@ -173,6 +174,7 @@ thead tr td
 {
 	position: relative;
 	top: 0;
+	left: 45%;
 }
 #flexability1
 {
@@ -183,28 +185,29 @@ thead tr td
 {
 	position: relative;
 	top: 0;
-	left: 200px;
+	left: 45%;	
 }
 #functionality1
 {
 	position: relative;
 	top: 0;
-	left: 200px;
+	left: 45%;
 }
 #extendability1
 {
 	position: relative;
 	top: 0;
+	left: 45%;
 }
 #effectiveness1
 {
 	position: relative;
 	top: 0;
-	left: 200px;
+	left: 45%;
 }
 #reusability1
 {
 	position: relative;
 	top: 0;
-	left: 200px;
+	left: 45%;
 }

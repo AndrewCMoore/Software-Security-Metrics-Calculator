@@ -1,497 +1,1544 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Prototype</title>
-        <link rel="stylesheet" href="circle.css">
-		<link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-		<nav class="menu">
-			<ul>
-				<li><a class="link" href="#flexabilityData">Flexability</a></li>
-				<li><a class="link" href="#readabilityData">Readability</a></li>
-				<li><a class="link" href="#functionalityData">Functionality</a></li>
-				<li><a class="link" href="#extendabilityData">Extendability</a></li>
-				<li><a class="link" href="#effectivenessData">Effectiveness</a></li>
-				<li><a class="link" href="#reusabilityData">Reusability</a></li>
-				<li><a class="link" href="#overallscoreData">Overall Score</a></li>
-			</ul>
-		</nav>
-		<div class="container">
-			<div class="row">
-				<div class="c100 big flexability" id="flexability">
-					<div class="tooltiptext tooltiptext-category">Flexibility is the adaptability of the program. Flexible program allows the architecture to evolve organically, shows good software development, and results in a complex architecture.</div>
-					<span class="title flex">Flexability</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-				<div class="c100 big pink readability" id="readability">
-					<div class="tooltiptext tooltiptext-category">Readability is the ease of which the software is read and understood. Simplicity in the code structure leads to a higher score.</div>
-					<span class="title read">Readability</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-				<div class="c100 big green reusability" id="reusability">
-					<div class="tooltiptext tooltiptext-category">Reusability is how often the code can be reapplied to a new problem. The adaptability or the conformance the code gives the program the ability to be transferred into another environment.</div>
-					<span class="title reuse">Reusability</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-				<div class="c100 big maroon effectiveness" id="effectiveness">
-					<div class="tooltiptext tooltiptext-category">Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes the understanding of the software a challenge.</div>
-					<span class="title effect">Effectiveness</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-				<div class="c100 big blue extendability" id="extendability">
-					<div class="tooltiptext tooltiptext-category" style="top: 40px;">Extendability is the effort needed to make modifications to the project. This includes its stability, testability, and analyzability.</div>
-					<span class="title extend">Extendability</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-				<div class="c100 big skyblue functionality" id="functionality">
-					<div class="tooltiptext tooltiptext-category">Functionality is about the behaviour between the inputs and outputs in the program. It also considers the performance during program execution in relation to the fault tolerance and recoverability.</div>
-					<span class="title funct">Functionality</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-				<div class="c100 bigger orange overall" id="overall">
-					<div class="tooltiptext tooltiptext-overall" style="width: 100px;">Overall Score</div>
-					<span class="title overallscore">Overall Score</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>				
-			</div>
-		</div>
-		<div class="tables">
-			<div id="overallscoreData">
-				<button class="accordion">Overall Score</button>
-				<div class="panel">
-					<div style="padding: 20px;">
-						<div class="c100 bigger orange overall besidesOverall" id="overall1">
-							<div class="tooltiptext tooltiptext-overall">Overall Score</div>
-							<span class="title overall_title">Overall Score</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>				
-						<table class="table" cellpadding="10" cellspacing="10">
-							<thead>
-								<tr>
-									<td>Category</td>
-									<td class="textcenter">Score</td>
-									<td class="textcenter">Median</td>
-									<td class="textcenter">Standard Daviation</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Flexability</td>
-									<td class="textcenter" id="overallFlex0"></td>
-									<td class="textcenter" id="overallFlex1"></td>
-									<td class="textcenter" id="overallFlex2"></td>
-								</tr>
-								<tr>
-									<td>Readability</td>
-									<td class="textcenter" id="overallRead0"></td>
-									<td class="textcenter" id="overallRead1"></td>
-									<td class="textcenter" id="overallRead2"></td>
-								</tr>
-								<tr>
-									<td>Functionality</td>
-									<td class="textcenter" id="overallFunc0"></td>
-									<td class="textcenter" id="overallFunc1"></td>
-									<td class="textcenter" id="overallFunc2"></td>
-								</tr>
-								<tr>
-									<td>Extendability</td>
-									<td class="textcenter" id="overallExtend0"></td>
-									<td class="textcenter" id="overallExtend1"></td>
-									<td class="textcenter" id="overallExtend2"></td>
-								</tr>						
-								<tr>
-									<td>Effectiveness</td>
-									<td class="textcenter" id="overallEffect0"></td>
-									<td class="textcenter" id="overallEffect1"></td>
-									<td class="textcenter" id="overallEffect2"></td>
-								</tr>
-								<tr>
-									<td>Reusability</td>
-									<td class="textcenter" id="overallReuse0"></td>
-									<td class="textcenter" id="overallReuse1"></td>
-									<td class="textcenter" id="overallReuse2"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prototype</title>
+<link rel="stylesheet" href="circle.css">
+<link rel="stylesheet" href="style.css">
+</head><nav class="navbar"><button class="navButton" onclick="expand()">Open Menu</button><ul id="navBar" class="line collapse"><li class="lineItem"><a>Flexability</a></li><li class="lineItem"><a>Readability</a></li><li class="lineItem"><a>Reusability</a></li><li class="lineItem"><a>Effectiveness</a></li><li class="lineItem"><a>Extendability</a></li><li class="lineItem"><a>Functionality<a /></li><li class="lineItem"><a>Overall Score</a></li></ul></nav><div class="container">
+			<div class="row"><div class="c100 big flexability p4"id="flexability"><div class="tooltiptext tooltiptext-category">Flexibility is the adaptability of the program. Flexible program allows the architecture to evolve organically, shows good software development, and results in a complex architecture.</div><span class="title flex"><span>Flexibility</span> <br><span class="number">4</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><div class="c100 big pink reusability p7"id="reusability"><div class="tooltiptext tooltiptext-category">Reusability is how often the code can be reapplied to a new problem. The adaptability or the conformance the code gives the program the ability to be transferred into another environment.</div><span class="title flex"><span>Reusability</span> <br><span class="number">7</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><div class="c100 big pink readability p-41"id="readability"><div class="tooltiptext tooltiptext-category">Readability is the ease of which the software is read and understood. Simplicity in the code structure leads to a higher score.</div><span class="title flex"><span>Readability</span> <br><span class="number">-41</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><div class="c100 big maroon effectiveness p6"id="effectiveness"><div class="tooltiptext tooltiptext-category">Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes the understanding of the software a challenge.</div><span class="title flex"><span>Effectiveness</span> <br><span class="number">6</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><div class="c100 big maroon extendability p-7"id="extendability"><div class="tooltiptext tooltiptext-category">Extendability is the effort needed to make modifications to the project. This includes its stability, testability, and analyzability.</div><span class="title flex"><span>Extendability</span> <br><span class="number">-7</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><div class="c100 big maroon functionality p7"id="functionality"><div class="tooltiptext tooltiptext-category">Functionality is about the behaviour between the inputs and outputs in the program. It also considers the performance during program execution in relation to the fault tolerance and recoverability.</div><span class="title flex"><span>Functionality</span> <br><span class="number">7</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><div class="c100 big maroon overall p-4"id="overall"><div class="tooltiptext tooltiptext-category">Overall Score</div><span class="title flex"><span>Overall Score</span> <br><span class="number">-4</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div></div>
+		</div><div class="tables">
+<h2>Metrics BreakDown</h2><div id="overallscoreData"><button class="accordion">Overall Score</button><div class="panel"><div style="padding: 20px;"><div class="c100 bigger orange overall besidesOverall p-4"id="overall1"><div class="tooltiptext tooltiptext-category">Overall Score</div><span class="title flex"><span>Overall Score</span> <br><span class="number">-4</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Effectiveness</th>
+<td>6.387857142857143</td>
+<td>35.45437499999999</td>
+<td>18.212857142857143</td>
+<td>2.0128571428571433</td>
+<td>8.0</td>
+</tr>
+<tr>
+<thead>
+<th>Flexability</th>
+<td>3.9824999999999995</td>
+<td>30.40600625</td>
+<td>16.175</td>
+<td>-1.3249999999999993</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Functionality</th>
+<td>6.580000000000001</td>
+<td>3.1169200000000004</td>
+<td>11.06</td>
+<td>5.08</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Extendability</th>
+<td>-7.18035714285714</td>
+<td>108.40234375</td>
+<td>0.8821428571428576</td>
+<td>-30.61785714285714</td>
+<td>8.0</td>
+</tr>
+<tr>
+<thead>
+<th>null</th>
+<td>null</td>
+<td>null</td>
+<td>null</td>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<thead>
+<th>Readability</th>
+<td>-41.401218281043185</td>
+<td>351.24880783669164</td>
+<td>-33.12021428571428</td>
+<td>-77.76411672473867</td>
+<td>20.0</td>
+</tr>
+</table>
+</div>
+</div>
+</div>	</div>
+	</div>
+	</div></div>
 			
-			<div id="flexabilityData">
-				<button class="accordion">Flexability</button>
-				<div class="panel">
-					<div style="padding: 20px;">
-						<div class="c100 big flexability besides" id="flexability1">
-							<div class="tooltiptext tooltiptext-category">Flexability</div>
-							<span class="title flex_title">Flexability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<table class="table" cellpadding="10" cellspacing="10">
-							<thead>
-								<tr>
-									<td>Metric</td>
-									<td class="textcenter">Score</td>
-									<td class="textcenter">Median</td>
-									<td class="textcenter">Standard Daviation</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Encapsulation</td>
-									<td class="textcenter" id="flexEncap0"></td>
-									<td class="textcenter" id="flexEncap1"></td>
-									<td class="textcenter" id="flexEncap2"></td>
-								</tr>
-								<tr>
-									<td>Coupling</td>
-									<td class="textcenter" id="flexCouple0"></td>
-									<td class="textcenter" id="flexCouple1"></td>
-									<td class="textcenter" id="flexCouple2"></td>
-								</tr>
-								<tr>
-									<td>Composition</td>
-									<td class="textcenter" id="flexCompo0"></td>
-									<td class="textcenter" id="flexCompo1"></td>
-									<td class="textcenter" id="flexCompo2"></td>
-								</tr>
-								<tr>
-									<td>Polymorphism</td>
-									<td class="textcenter" id="flexPoly0"></td>
-									<td class="textcenter" id="flexPoly1"></td>
-									<td class="textcenter" id="flexPoly2"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+			<div id="flexabilityData"><button class="accordion">Flexability</button><div class="panel"><div style="padding: 20px;"><div class="c100 big flexability besides p4"id="readability1"><div class="tooltiptext tooltiptext-category">Flexibility is the adaptability of the program. Flexible program allows the architecture to evolve organically, shows good software development, and results in a complex architecture.</div><span class="title flex"><span>Flexability</span> <br><span class="number">4</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Encapsulation</th>
+<td>2.7</td>
+<td>0.8099999999999999</td>
+<td>3.0</td>
+<td>3.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Coupling</th>
+<td>21.800000000000008</td>
+<td>614.0499999999997</td>
+<td>90.3</td>
+<td>0.3</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Composition</th>
+<td>14.2</td>
+<td>361.86</td>
+<td>59.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Polymorphism</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
 			
-			<div id="readabilityData">
-				<button class="accordion">Readability</button>
-				<div class="panel">
-					<div style="padding: 20px;">
-						<div class="c100 big pink readability besides" id="readability1">
-							<div class="tooltiptext tooltiptext-category">Readability</div>
-							<span class="title read_title">Readability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<table class="table" cellpadding="10" cellspacing="10">
-							<thead>
-								<tr>
-									<td>Metric</td>
-									<td class="textcenter">Score</td>
-									<td class="textcenter">Median</td>
-									<td class="textcenter">Standard Daviation</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Abstraction</td>
-									<td class="textcenter" id="readAbstr0"></td>
-									<td class="textcenter" id="readAbstr1"></td>
-									<td class="textcenter" id="readAbstr2"></td>
-								</tr>
-								<tr>
-									<td>Encapsulation</td>
-									<td class="textcenter" id="readEncap0"></td>
-									<td class="textcenter" id="readEncap1"></td>
-									<td class="textcenter" id="readEncap2"></td>
-								</tr>
-								<tr>
-									<td>Coupling</td>
-									<td class="textcenter" id="readCouple0"></td>
-									<td class="textcenter" id="readCouple1"></td>
-									<td class="textcenter" id="readCouple2"></td>
-								</tr>
-								<tr>
-									<td>Cohesion</td>
-									<td class="textcenter" id="readCohen0"></td>
-									<td class="textcenter" id="readCohen1"></td>
-									<td class="textcenter" id="readCohen2"></td>
-								</tr>
-								<tr>
-									<td>Polymorphism</td>
-									<td class="textcenter" id="readPoly0"></td>
-									<td class="textcenter" id="readPoly1"></td>
-									<td class="textcenter" id="readPoly2"></td>
-								</tr>
-								<tr>
-									<td>Complexity</td>
-									<td class="textcenter" id="readComp0"></td>
-									<td class="textcenter" id="readComp1"></td>
-									<td class="textcenter" id="readComp2"></td>
-								</tr>
-								<tr>
-									<td>Design Size</td>
-									<td class="textcenter" id="readDesign0"></td>
-									<td class="textcenter" id="readDesign1"></td>
-									<td class="textcenter" id="readDesign2"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+			<div id="readabilityData"><button class="accordion">Functionality</button><div class="panel"><div style="padding: 20px;"><div class="c100 big skyblue functionality besides p7"id="functionality1"><div class="tooltiptext tooltiptext-category">Functionality is about the behaviour between the inputs and outputs in the program. It also considers the performance during program execution in relation to the fault tolerance and recoverability.</div><span class="title flex"><span>Functionality</span> <br><span class="number">7</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Cohesion</th>
+<td>7.9</td>
+<td>66.59</td>
+<td>28.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Polymorphism</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Messaging</th>
+<td>0.65</td>
+<td>1.7274999999999998</td>
+<td>4.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Design Size</th>
+<td>20.0</td>
+<td>0.0</td>
+<td>20.0</td>
+<td>20.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Hierarchies</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
 			
-			<div id="functionalityData">
-				<button class="accordion">Functionality</button>
-				<div class="panel">
-					<div style="padding: 20px;">
-						<div class="c100 big skyblue functionality besides" id="functionality1">
-							<div class="tooltiptext tooltiptext-category">Functionality</div>
-							<span class="title funct_title">Functionality</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<table class="table" cellpadding="10" cellspacing="10">
-							<thead>
-								<tr>
-									<td>Metric</td>
-									<td class="textcenter">Score</td>
-									<td class="textcenter">Median</td>
-									<td class="textcenter">Standard Daviation</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Cohesion</td>
-									<td class="textcenter" id="funcCohen0"></td>
-									<td class="textcenter" id="funcCohen1"></td>
-									<td class="textcenter" id="funcCohen2"></td>
-								</tr>
-								<tr>
-									<td>Polymorphism</td>
-									<td class="textcenter" id="funcPoly0"></td>
-									<td class="textcenter" id="funcPoly1"></td>
-									<td class="textcenter" id="funcPoly2"></td>
-								</tr>
-								<tr>
-									<td>Messaging</td>
-									<td class="textcenter" id="funcMsg0"></td>
-									<td class="textcenter" id="funcMsg1"></td>
-									<td class="textcenter" id="funcMsg2"></td>
-								</tr>
-								<tr>
-									<td>Design Size</td>
-									<td class="textcenter" id="funcDesign0"></td>
-									<td class="textcenter" id="funcDesign1"></td>
-									<td class="textcenter" id="funcDesign2"></td>
-								</tr>
-								<tr>
-									<td>Hierarchies</td>
-									<td class="textcenter" id="funcHier0"></td>
-									<td class="textcenter" id="funcHier1"></td>
-									<td class="textcenter" id="funcHier2"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+			<div id="functionalityData"><button class="accordion">Extendability</button><div class="panel"><div style="padding: 20px;"><div class="c100 big blue extendability besides p-7"id="extendability1"><div class="tooltiptext tooltiptext-category">Extendability is the effort needed to make modifications to the project. This includes its stability, testability, and analyzability.</div><span class="title flex"><span>Extendability</span> <br><span class="number">-7</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Abstraction</th>
+<td>9.064285714285717</td>
+<td>26.8</td>
+<td>20.064285714285717</td>
+<td>4.064285714285715</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Coupling</th>
+<td>21.800000000000008</td>
+<td>614.0499999999997</td>
+<td>90.3</td>
+<td>0.3</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Messaging</th>
+<td>0.65</td>
+<td>1.7274999999999998</td>
+<td>4.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Design Size</th>
+<td>20.0</td>
+<td>0.0</td>
+<td>20.0</td>
+<td>20.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Hierarchies</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
 			
-			<div id="extendabilityData">
-				<button class="accordion">Extendability</button>
-				<div class="panel">
-					<div style="padding: 20px;">
-						<div class="c100 big blue extendability besides" id="extendability1">
-							<div class="tooltiptext tooltiptext-category">Extendability</div>
-							<span class="title extend_title">Extendability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<table class="table" cellpadding="10" cellspacing="10">
-							<thead>
-								<tr>
-									<td>Metric</td>
-									<td class="textcenter">Score</td>
-									<td class="textcenter">Median</td>
-									<td class="textcenter">Standard Daviation</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Cohesion</td>
-									<td class="textcenter" id="extendCohen0"></td>
-									<td class="textcenter" id="extendCohen1"></td>
-									<td class="textcenter" id="extendCohen2"></td>
-								</tr>
-								<tr>
-									<td>Polymorphism</td>
-									<td class="textcenter" id="extendPoly0"></td>
-									<td class="textcenter" id="extendPoly1"></td>
-									<td class="textcenter" id="extendPoly2"></td>
-								</tr>
-								<tr>
-									<td>Messaging</td>
-									<td class="textcenter" id="extendMsg0"></td>
-									<td class="textcenter" id="extendMsg1"></td>
-									<td class="textcenter" id="extendMsg2"></td>
-								</tr>
-								<tr>
-									<td>Design Size</td>
-									<td class="textcenter" id="extendDesign0"></td>
-									<td class="textcenter" id="extendDesign1"></td>
-									<td class="textcenter" id="extendDesign2"></td>
-								</tr>
-								<tr>
-									<td>Hierarchies</td>
-									<td class="textcenter" id="extendHier0"></td>
-									<td class="textcenter" id="extendHier1"></td>
-									<td class="textcenter" id="extendHier2"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+			<div id="extendabilityData"><button class="accordion">Effectiveness</button><div class="panel"><div style="padding: 20px;"><div class="c100 big maroon effectiveness besides p6"id="effectiveness1"><div class="tooltiptext tooltiptext-category">Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes the understanding of the software a challenge.</div><span class="title flex"><span>Effectiveness</span> <br><span class="number">6</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Abstraction</th>
+<td>9.064285714285717</td>
+<td>26.8</td>
+<td>20.064285714285717</td>
+<td>4.064285714285715</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Encapsulation</th>
+<td>2.7</td>
+<td>0.8099999999999999</td>
+<td>3.0</td>
+<td>3.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Composition</th>
+<td>14.2</td>
+<td>361.86</td>
+<td>59.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Inheritance</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>8.0</td>
+</tr>
+<tr>
+<thead>
+<th>Polymorphism</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
 			
-			<div id="effectivenessData">
-				<button class="accordion">Effectiveness</button>
-				<div class="panel">
-					<div style="padding: 20px;">
-						<div class="c100 big maroon effectiveness besides" id="effectiveness1">
-							<div class="tooltiptext tooltiptext-category">Effectiveness</div>
-							<span class="title effect_title">Effectiveness</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<table class="table" cellpadding="10" cellspacing="10">
-							<thead>
-								<tr>
-									<td>Metric</td>
-									<td class="textcenter">Score</td>
-									<td class="textcenter">Median</td>
-									<td class="textcenter">Standard Daviation</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Abstraction</td>
-									<td class="textcenter" id="effectAbstr0"></td>
-									<td class="textcenter" id="effectAbstr1"></td>
-									<td class="textcenter" id="effectAbstr2"></td>
-								</tr>
-								<tr>
-									<td>Encapsulation</td>
-									<td class="textcenter" id="effectEncap0"></td>
-									<td class="textcenter" id="effectEncap1"></td>
-									<td class="textcenter" id="effectEncap2"></td>
-								</tr>
-								<tr>
-									<td>Composition</td>
-									<td class="textcenter" id="effectCompo0"></td>
-									<td class="textcenter" id="effectCompo1"></td>
-									<td class="textcenter" id="effectCompo2"></td>
-								</tr>
-								<tr>
-									<td>Inheritance</td>
-									<td class="textcenter" id="effectInherit0"></td>
-									<td class="textcenter" id="effectInherit1"></td>
-									<td class="textcenter" id="effectInherit2"></td>
-								</tr>
-								<tr>
-									<td>Polymorphism</td>
-									<td class="textcenter" id="effectPoly0"></td>
-									<td class="textcenter" id="effectPoly1"></td>
-									<td class="textcenter" id="effectPoly2"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+			<div id="reusabilityData"><button class="accordion">Reusability</button><div class="panel"><div style="padding: 20px;"><div class="c100 big green reusability besides p7"id="reusability1"><div class="tooltiptext tooltiptext-category">Reusability is how often the code can be reapplied to a new problem. The adaptability or the conformance the code gives the program the ability to be transferred into another environment.</div><span class="title flex"><span>Reusability</span> <br><span class="number">7</span></span><div class="slice"><div class="bar"></div><div class="fill"></div></div></div><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Coupling</th>
+<td>21.800000000000008</td>
+<td>614.0499999999997</td>
+<td>90.3</td>
+<td>0.3</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Cohesion</th>
+<td>7.9</td>
+<td>66.59</td>
+<td>28.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Messaging</th>
+<td>0.65</td>
+<td>1.7274999999999998</td>
+<td>4.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Design Size</th>
+<td>20.0</td>
+<td>0.0</td>
+<td>20.0</td>
+<td>20.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div><div class="tables">
+<h2>Design Qualities BreakDown</h2><div id="apstractionData"><button class="accordion">Abstraction</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Average Number of Ancestors</th>
+<td>3.6</td>
+<td>20.04</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Fail-Safe Defaults</th>
+<td>0.7</td>
+<td>0.6849999999999997</td>
+<td>3.5</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Reduce Attack Surface</th>
+<td>4.764285714285716</td>
+<td>0.6850000000000004</td>
+<td>7.564285714285715</td>
+<td>4.064285714285715</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
 			
-			<div id="reusabilityData">
-				<button class="accordion">Reusability</button>
-				<div class="panel">
-					<div style="padding: 20px;">
-						<div class="c100 big green reusability besides" id="reusability1">
-							<div class="tooltiptext tooltiptext-category">Reusability</div>
-							<span class="title reuse_title">Reusability</span>
-							<div class="slice">
-								<div class="bar"></div>
-								<div class="fill"></div>
-							</div>
-						</div>
-						<table class="table" cellpadding="10" cellspacing="10">
-							<thead>
-								<tr>
-									<td>Metric</td>
-									<td class="textcenter">Score</td>
-									<td class="textcenter">Median</td>
-									<td class="textcenter">Standard Daviation</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Coupling</td>
-									<td class="textcenter" id="reuseCouple0"></td>
-									<td class="textcenter" id="reuseCouple1"></td>
-									<td class="textcenter" id="reuseCouple2"></td>
-								</tr>
-								<tr>
-									<td>Cohesion</td>
-									<td class="textcenter" id="reuseCohen0"></td>
-									<td class="textcenter" id="reuseCohen1"></td>
-									<td class="textcenter" id="reuseCohen2"></td>
-								</tr>
-								<tr>
-									<td>Messaging</td>
-									<td class="textcenter" id="reuseMsg0"></td>
-									<td class="textcenter" id="reuseMsg1"></td>
-									<td class="textcenter" id="reuseMsg2"></td>
-								</tr>
-								<tr>
-									<td>Design Size</td>
-									<td class="textcenter" id="reuseDesign0"></td>
-									<td class="textcenter" id="reuseDesign1"></td>
-									<td class="textcenter" id="reuseDesign2"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<script src="scripts.js"></script>
-    </body>
-</html>
+			<div id="cohesionData"><button class="accordion">Cohesion</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Cohesion Among Methods in a Class</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Lack of Cohesion of Methods</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="complexityData"><button class="accordion">Complexity</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Comment Ratio</th>
+<td>0.13095478506890224</td>
+<td>0.01565388159132344</td>
+<td>0.4098360655737705</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Count of Base Classes</th>
+<td>6.0</td>
+<td>0.0</td>
+<td>6.0</td>
+<td>6.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<thead>
+<th>Cyclomatic Complexity</th>
+<td>3.3</td>
+<td>16.309999999999995</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Depth of Inheritance</th>
+<td>0.6</td>
+<td>1.0399999999999996</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Count Path</th>
+<td>3.25</td>
+<td>15.6875</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Economy of Mechanism</th>
+<td>73.0</td>
+<td>0.0</td>
+<td>73.0</td>
+<td>73.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<thead>
+<th>Mcabes Cyclomatic Complexity</th>
+<td>0.1</td>
+<td>0.09000000000000001</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Modified Cyclomatic Complexity</th>
+<td>3.3</td>
+<td>16.309999999999995</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Number of Children</th>
+<td>0.4</td>
+<td>0.4400000000000001</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Number of Methods</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Strict Cyclomatic Complexity</th>
+<td>3.6</td>
+<td>20.04</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Secure Weakest Link</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>1.0</td>
+</tr>
+<tr>
+<thead>
+<th>Lines of Code</th>
+<td>1040.0</td>
+<td>0.0</td>
+<td>1040.0</td>
+<td>1040.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<thead>
+<th>Weighted Methods per Class</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="compositionData"><button class="accordion">Composition</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Measure of Functional Abstraction</th>
+<td>14.2</td>
+<td>361.86</td>
+<td>59.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="couplingData"><button class="accordion">Coupling</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Count of Base Classes</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Coupling Between Objects</th>
+<td>4.05</td>
+<td>53.447500000000005</td>
+<td>23.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Coupling Corruption Propagation</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Depth of Inheritance Tree</th>
+<td>0.6</td>
+<td>1.0399999999999996</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Direct Class Coupling</th>
+<td>2.25</td>
+<td>4.1875</td>
+<td>7.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Fan In</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Fan Out</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Henry Kafura</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Responses set for a Class</th>
+<td>0.4</td>
+<td>0.4400000000000001</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="designSizeData"><button class="accordion">Design Size</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Stall Ration</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<thead>
+<th>Design Size in Classes</th>
+<td>20.0</td>
+<td>0.0</td>
+<td>20.0</td>
+<td>20.0</td>
+<td>1.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="encapsulationData"><button class="accordion">Encapsulation</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Critical Element Ratio</th>
+<td>0.9</td>
+<td>0.09</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Data Access Metric</th>
+<td>0.9</td>
+<td>0.09</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Grant Least Privilege</th>
+<td>Infinity</td>
+<td>NaN</td>
+<td>Infinity</td>
+<td>18.964285714285715</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Isolation</th>
+<td>9.714285714285714</td>
+<td>0.0</td>
+<td>9.714285714285714</td>
+<td>9.714285714285714</td>
+<td>1.0</td>
+</tr>
+<tr>
+<thead>
+<th>Least Common Mechanism</th>
+<td>13.778571428571428</td>
+<td>0.0</td>
+<td>13.778571428571428</td>
+<td>13.778571428571428</td>
+<td>1.0</td>
+</tr>
+<tr>
+<thead>
+<th>Number of Hierarchies</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="inheritanceData"><button class="accordion">Inheritance</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Measure of Functional Abstraction</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>8.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="messagingData"><button class="accordion">Messaging</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Measure of Functional Abstraction</th>
+<td>0.65</td>
+<td>1.7274999999999998</td>
+<td>4.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+			
+			<div id="polymorphismData"><button class="accordion">Polymorphism</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Measure of Functional Abstraction</th>
+<td>0.65</td>
+<td>1.7274999999999998</td>
+<td>4.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+</div>
+<div class="tables">
+<h2>Metrics Breakdown</h2><div id="allMetricsSection"><button class="accordion">All Metrics</button><div class="panel"><div style="padding: 20px;"><table class="table" cellpadding="10" cellspacing="10">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Average</th>
+<th>Standerd Deviation</th>
+<th>Higeset Value</th>
+<th>Lowest Value</th>
+<th>Count</th>
+</tr>
+<tr>
+<thead>
+<th>Average Number of Ancestors</th>
+<td>3.6</td>
+<td>20.04</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Fail Safe Defaults</th>
+<td>0.7</td>
+<td>0.6849999999999997</td>
+<td>3.5</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Reduce Attack Surface</th>
+<td>4.764285714285716</td>
+<td>0.6850000000000004</td>
+<td>7.564285714285715</td>
+<td>4.064285714285715</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Lack of Cohesion Methods</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Cohesion Among Methods in Class</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Comment Ratio</th>
+<td>0.13095478506890224</td>
+<td>0.01565388159132344</td>
+<td>0.4098360655737705</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Count of Base Classes</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Cyclomatic Complexity</th>
+<td>3.3</td>
+<td>16.309999999999995</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Depth of Inheritance</th>
+<td>0.6</td>
+<td>1.0399999999999996</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Count Path</th>
+<td>3.25</td>
+<td>15.6875</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Economy of Mechanism</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>McCabes Cyclomatic Complexity</th>
+<td>0.1</td>
+<td>0.09000000000000001</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Modified Cyclomatic Complexity</th>
+<td>3.3</td>
+<td>16.309999999999995</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Number of Children</th>
+<td>0.4</td>
+<td>0.4400000000000001</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>number of Methods</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Strict Cyclomatic Complexity</th>
+<td>3.6</td>
+<td>20.04</td>
+<td>13.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Secure Weakest Link</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Lines of Code</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Weighted Methods per Class</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Measure of Aggregation</th>
+<td>14.2</td>
+<td>361.86</td>
+<td>59.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Count of Base Classes</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Coupling Between Objects</th>
+<td>4.05</td>
+<td>53.447500000000005</td>
+<td>23.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Coupling Corruption Propagation</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Depth of Inheritance Tree</th>
+<td>0.6</td>
+<td>1.0399999999999996</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Direct Class Coupling</th>
+<td>2.25</td>
+<td>4.1875</td>
+<td>7.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Fan in</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Fan out</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Henry Kafura</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Number of Children</th>
+<td>0.4</td>
+<td>0.4400000000000001</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Response Set for a Class</th>
+<td>14.2</td>
+<td>361.86</td>
+<td>59.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Design Size in Classes</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Stall Ratio</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Element Ratio</th>
+<td>0.9</td>
+<td>0.09</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Data Access Metric</th>
+<td>0.9</td>
+<td>0.09</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Grant Least Privilage</th>
+<td>Infinity</td>
+<td>NaN</td>
+<td>Infinity</td>
+<td>18.964285714285715</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Isolation</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>least Common Mechanism</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Number of Hierarchies</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Measure of Functional Abstraction</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>8.0</td>
+</tr>
+<tr>
+<thead>
+<th>Class Interface Size</th>
+<td>0.65</td>
+<td>1.7274999999999998</td>
+<td>4.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>number of PolyMorphic Methods</th>
+<td>3.95</td>
+<td>16.6475</td>
+<td>14.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>readability of Classified attributes</th>
+<td>0.35</td>
+<td>0.05249999999999998</td>
+<td>0.5</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Readability of Classified Methods</th>
+<td>0.35</td>
+<td>0.5275000000000003</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Security Absolute Measurements</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>writability of Classified Attributes</th>
+<td>0.04791666666666666</td>
+<td>0.01654079861111111</td>
+<td>0.5</td>
+<td>0.125</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Writability of Classified Methods</th>
+<td>Infinity</td>
+<td>NaN</td>
+<td>Infinity</td>
+<td>8.75</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Writablility of Classified Classes</th>
+<td>Infinity</td>
+<td>NaN</td>
+<td>Infinity</td>
+<td>8.75</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Instance Data Accessibility</th>
+<td>0.35</td>
+<td>0.05249999999999998</td>
+<td>0.5</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Class Data Accessibility</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Attributes Inheritance</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Operation Accessibility</th>
+<td>0.05</td>
+<td>0.04749999999999995</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Methods Extensibility</th>
+<td>0.25</td>
+<td>0.1875</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Methods Inheritance</th>
+<td>0.05</td>
+<td>0.04749999999999995</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Attributes Total</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Classes Total</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Unaccessed Assigned Classified Attribute</th>
+<td>0.1125</td>
+<td>0.04586998456790122</td>
+<td>0.75</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Accessor Attribute Interactions</th>
+<td>0.03090277777777778</td>
+<td>0.005644651813271605</td>
+<td>0.25</td>
+<td>0.05555555555555555</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Mutator Attribute Interactions</th>
+<td>0.03402777777777778</td>
+<td>0.0056370563271604945</td>
+<td>0.25</td>
+<td>0.05555555555555555</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Attributes Interaction Weight</th>
+<td>Infinity</td>
+<td>NaN</td>
+<td>Infinity</td>
+<td>4.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Methods Weight</th>
+<td>0.1125</td>
+<td>0.04586998456790122</td>
+<td>0.75</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Classified Writing Methods Proportion</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Uncalled Classified Accessor Methods</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>20.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Class Coupling</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Class Serialization</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Superclasses Inheritance</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Unused Critical AccessorClass</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Reflection Package Boolean</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Composite Part Critical Classes</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Classes Extensibility</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Design Proportion</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+<tr>
+<thead>
+<th>Critical Superclasses Proportion</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-2.147483648E9</td>
+<td>2.147483647E9</td>
+<td>0.0</td>
+</tr>
+</table>
+	</div>
+	</div>
+	</div></div>
+</div>
+<script>
+						var acc = document.getElementsByClassName("accordion");
+			var i;
+
+			for (i = 0; i < acc.length; i++) {
+			  acc[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var panel = this.nextElementSibling;
+				if (panel.style.maxHeight) {
+				  panel.style.maxHeight = null;
+				} else {
+				  panel.style.maxHeight = panel.scrollHeight + "px";
+				} 
+			  });
+			}
+		</script>
