@@ -151,7 +151,7 @@ public class AttributeVisitor extends ASTVisitor{
 		a.setLineNum(this.compliationUnit.getLineNumber(node.getStartPosition()));  // Sets the line number for the variable
 		
 		// Get the type of the variable
-		System.out.println(node.getParent().getClass());
+		//System.out.println(node.getParent().getClass());
 		if(node.getParent() instanceof FieldDeclaration) {
 			FieldDeclaration typeCast = (FieldDeclaration) node.getParent();
 			a.setType(typeCast.getType().toString());

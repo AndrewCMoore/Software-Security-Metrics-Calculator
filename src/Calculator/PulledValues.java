@@ -48,6 +48,7 @@ public class PulledValues {
 	}
 
 	private void calculate(JDTree[] classes) {
+		System.out.println("makes it here 2");
 		for(int i = 0; i < classes.length; i++) { 
 			int nonFinalPrivateProtected = 0;
 			int classifiedMethods = 0;
@@ -78,10 +79,13 @@ public class PulledValues {
 			int henryKafura = 0;
 			
 			Object o = classes[i].getNode();	
-			if(o instanceof Class) {			
+			System.out.println(o instanceof Class);
+			System.out.println(o.getClass());
+			if(o instanceof Class) {	
 				Class classNode = (Class) o;	
 				ArrayList<Method> methodList = classNode.getMethods(); 
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
+				System.out.println(classNode.getIdentifier());
 				for(Method method : methodList) {	
 					if(!method.getIdentifier().equals(classNode.getIdentifier())) { 
 						nonFinalPrivateProtected += isNonFinalPrivateProtected(method);
@@ -104,7 +108,10 @@ public class PulledValues {
 					}
 				} 
 				for(Attribute attribute : attributeList) { 
+					System.out.println("makes it here 3");
 					if(!classNode.isAttributeInMethod(attribute)) {
+						System.out.println("makes it here 4");
+						System.out.println(attribute.getIdentifier());
 						//call methods to increment counters
 						publicInstance += isPublicInstance(attribute);
 						publicClass += isPublicClass(attribute);
@@ -151,6 +158,7 @@ public class PulledValues {
 				
 			}
 		}
+		System.out.println(" {}{}{}{}{} Public Class Attributes: " + mapPublicClass);
 	}
 
 	private int henryKafura(Method method) {
@@ -435,6 +443,8 @@ public class PulledValues {
 	}
 
 	private void printResults() {
+		System.out.println("PRINTING RESULTS HERE:");
+		System.out.println("Public Class: " + this.getMapPublicClass());
 	}
 	
 	private void printMap(HashMap<String, Integer> map) {

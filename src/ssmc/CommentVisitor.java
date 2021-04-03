@@ -40,7 +40,7 @@ public class CommentVisitor extends ASTVisitor {
 	 * For a single line comment (//)
 	 */
 	public boolean visit(LineComment node) {
-		System.out.println("We are in the single line comment node");
+		//System.out.println("We are in the single line comment node");
 		// Add 1
 		this.lineCount += 1;
 		return true;

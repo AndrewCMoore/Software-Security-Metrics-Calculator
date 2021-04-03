@@ -52,6 +52,7 @@ public class Calculator {
 		//ClassMetrics cm = new ClasseMetrics(classes);
 		//InheritanceMetrics im = new InheritanceMetrics(classes);
 		mpv = new MurgePulledValues(classes);
+		System.out.println("makes it here");
 		pv = new PulledValues(classes);
 		tm = new TertiaryMetrics(pv, mpv);
 		sm = new SecondaryMetrics(tm);
