@@ -78,7 +78,9 @@ public class PulledValues {
 			int henryKafura = 0;
 			
 			Object o = classes[i].getNode();	
-			if(o instanceof Class) {			
+			System.out.println(o.getClass());
+			if(o instanceof Class) {	
+				System.out.println("This is true");
 				Class classNode = (Class) o;	
 				ArrayList<Method> methodList = classNode.getMethods(); 
 				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
