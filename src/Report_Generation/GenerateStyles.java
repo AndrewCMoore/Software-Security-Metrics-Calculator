@@ -228,7 +228,7 @@ public class GenerateStyles {
 				+ "	left: 200px;\r\n"
 				+ "}";
 		styles.write(s);
-		styles.close();
+		
 		String c = ".rect-auto,\r\n"
 				+ ".c100.p51 .slice,\r\n"
 				+ ".c100.p52 .slice,\r\n"
@@ -1391,6 +1391,7 @@ public class GenerateStyles {
 				+ "}";
 		circles.write(c);
 		circles.close();
+		styles.close();
 	}
 
 }
