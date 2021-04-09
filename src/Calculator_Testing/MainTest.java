@@ -43,7 +43,7 @@ class MainTest {
 
 		if (window != null) {
 			// Insert Project Name here
-			project = fileRoot.getProject("Parser-Testing");
+			project = fileRoot.getProject("Software-Security-Metrics-Calculator-Test-Project");
 
 		}
 		path = project.getFullPath();

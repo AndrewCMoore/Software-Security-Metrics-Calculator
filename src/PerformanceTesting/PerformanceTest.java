@@ -29,6 +29,7 @@ class PerformanceTest {
 
 	HashMap<String, Long> timeValues;
 	HashMap<String, Integer> lengthValues;
+	HashMap<String, Long> startValues;
 	HashMap<String, Long> parserValues;
 	HashMap<String, Long> calcValues;
 	HashMap<String, Long> memoryValues;
@@ -40,6 +41,7 @@ class PerformanceTest {
 	public PerformanceTest() {
 		// Initialize HashMap values
 		timeValues = new HashMap<String, Long>();
+		startValues = new HashMap<String, Long>();
 		lengthValues = new HashMap<String, Integer>();
 		parserValues = new HashMap<String, Long>();
 		calcValues = new HashMap<String, Long>();
@@ -48,7 +50,8 @@ class PerformanceTest {
 		// Intialize variables
 		float systemAverage = 0;
 		int projectsRun = 0;
-		IProject[] projects = null;
+		//IProject[] projects = null;
+		IProject[] projects = new IProject[1];
 		IPath path = null;
 		
 		
@@ -57,62 +60,72 @@ class PerformanceTest {
 			//Gets the root directory of the workspace
 			IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
 			// Get the array of projects within the workspace
-			projects = fileRoot.getProjects();
+			//projects = fileRoot.getProjects();
+			projects[0] = fileRoot.getProject("ReactiveX");
+			//projects[1] = fileRoot.getProject("facebook-android-sdk");
+			//projects[2] = fileRoot.getProject("twitter-kit-android");
 			
 			// For each project in the workspace
 			for(IProject project : projects) {
+				System.out.println("PROJECT: " + project.getName());
 				
-				// Get the number of lines of code in the project 
-				int linesOfCode = getNumberOfLinesInProject(project);
-				// Start the timer for performace
-				long projectStartTime = System.currentTimeMillis();
-				long parserStopTime = 0;
-				long calculatorStopTime = 0;
-				// Run the SSMC for the project
-				if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
-					IJavaProject javaProject = JavaCore.create(project);
-					String kind = project.getClass().getName();
-					// Check memory for Plugin module 
-					System.out.print("The plugin gave us: ");
-					memoryUsage();
-					//Build a tree out of the project
-					JDTree myTree = new JDTree(javaProject, null);
-					// Stop timer -> parser timing 
-					parserStopTime = System.currentTimeMillis();
-					// Check memory for Parser module 
-					System.out.print("The parser gave us: ");
-					memoryUsage();
-					// Calculator timer 
-					//pass the tree to the calculator
-					Calculator calc = new Calculator(myTree);
-					//start calculating metrics
-					//calc.calculate();
-					calculatorStopTime = System.currentTimeMillis();
-					// Check memory for Calculator module 
-					long memory = memoryUsage();
+				try { 
+					// Get the number of lines of code in the project 
+					int linesOfCode = getNumberOfLinesInProject(project);
+					// Start the timer for performace
+					long startUpTime = 0;
+					long projectStartTime = 0;
+					long parserStopTime = 0;
+					long calculatorStopTime = 0;
+					long memory = 0;
+					// Run the SSMC for the project
+				
+					if(project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+						projectStartTime = System.nanoTime();
+						IJavaProject javaProject = JavaCore.create(project);
+						String kind = project.getClass().getName();
+						
+						//Build a tree out of the project
+						JDTree myTree = new JDTree(javaProject, null);
+						// Stop timer -> parser timing 
+						parserStopTime = System.nanoTime();
+						// Calculator timer 
+						//pass the tree to the calculator
+						Calculator calc = new Calculator(myTree);
+						//start calculating metrics
+						calc.calculate();
+						calculatorStopTime = System.nanoTime();
+						// Check memory for Calculator module 
+						memory = 1;
+						startUpTime = System.nanoTime() - calculatorStopTime;
+					}
+					// End the timer for performace
+					long projectEndTime = System.nanoTime();
+					// Calculate performace time
+					long time = projectEndTime - projectStartTime;
+			
+					// Put values into Hashmap data structures
+					timeValues.put(project.getName(), time);
+					lengthValues.put(project.getName(), linesOfCode);
+					startValues.put(project.getName(), startUpTime);
+					parserValues.put(project.getName(), parserStopTime - projectStartTime);
+					calcValues.put(project.getName(), calculatorStopTime - parserStopTime);
+					memoryValues.put(project.getName(), memory);
+					
+					
+					// Just incase a program is empty
+					if(time > 0) {
+						float average = (float) ((float) linesOfCode / (float) time * 60000000000.00);
+						//System.out.println("The project: " + project.getName() + "had a runtime of " + time + "\n With " + linesOfCode + " lines of code for an average of: " + "\n " + average + " lines of code per minute");
+					}
+				}	catch (Exception e) {
+					e.printStackTrace();
 				}
-				// End the timer for performace
-				long projectEndTime = System.currentTimeMillis();
-				// Calculate performace time
-				long time = projectEndTime - projectStartTime;
-		
-				// Put values into Hashmap data structures
-				timeValues.put(project.getName(), time);
-				lengthValues.put(project.getName(), linesOfCode);
-				parserValues.put(project.getName(), parserStopTime - projectStartTime);
-				calcValues.put(project.getName(), projectEndTime - parserStopTime);
-				memoryValues.put(project.getName(), memoryUsage());
-				
-				
-				// Just incase a program is empty
-				if(time > 0) {
-					float average = (float) linesOfCode / (float) time * 60000;
-					//System.out.println("The project: " + project.getName() + "had a runtime of " + time + "\n With " + linesOfCode + " lines of code for an average of: " + "\n " + average + " lines of code per minute");
-				}
-			}
+			} 
+			Runtime.getRuntime().gc();
 		} catch (Exception e) {
 			e.printStackTrace();
-			assert(false	);
+			assert(false);
 		}
 		
    		try {
@@ -173,6 +186,8 @@ class PerformanceTest {
 		csvWriter.append(",");
 		csvWriter.append("Compile Time");
 		csvWriter.append(",");
+		csvWriter.append("Compile Time: StartUp");
+		csvWriter.append(",");
 		csvWriter.append("Compile Time: Parser");
 		csvWriter.append(",");
 		csvWriter.append("Compile Time: Calculator");
@@ -193,6 +208,9 @@ class PerformanceTest {
 			// Compile Time
 			csvWriter.append(timeValues.get(key).toString());
 			csvWriter.append(",");
+			// Startup Compile Time
+			csvWriter.append(startValues.get(key).toString());
+			csvWriter.append(",");
 			// Parser Compile Time
 			csvWriter.append(parserValues.get(key).toString());
 			csvWriter.append(",");
@@ -203,7 +221,7 @@ class PerformanceTest {
 			csvWriter.append(lengthValues.get(key).toString());
 			csvWriter.append(",");
 			// Lines of Code per Minute
-			float average = lengthValues.get(key) / timeValues.get(key).floatValue() * 60000;
+			float average = (float) (lengthValues.get(key) / timeValues.get(key).floatValue() * 60000000000.00);
 			csvWriter.append("" + average);
 			csvWriter.append(",");
 			// Memory Usage 
@@ -218,7 +236,7 @@ class PerformanceTest {
 			
 		}
 		
-		float average =  linesTotal / compileTotal.floatValue()  * 60000;
+		float average =  (float) (linesTotal / compileTotal.floatValue()  * 60000000000.00);
 
 		//System.out.print(average + " " + compileTotal + " " + linesTotal);
 		// Data Consolidation
@@ -227,7 +245,7 @@ class PerformanceTest {
 		csvWriter.append(compileTotal.toString());
 		csvWriter.append(",");
 		csvWriter.append(linesTotal.toString());
-		csvWriter.append(",");
+		csvWriter.append(",,,");
 		csvWriter.append("Average Lines/Minute: " + average);
 		csvWriter.append("\n");
 		
@@ -243,8 +261,8 @@ class PerformanceTest {
 		// Run Garbage Collector
 		runtime.gc();
 		// Calculate used memory
-		long memory = runtime.totalMemory() - runtime.freeMemory();
-		System.out.println("bytes: " + memory);
+		long memory = (runtime.totalMemory() - runtime.freeMemory()) / MEGABYTE;
+		System.out.println("bytes: " + memory/MEGABYTE);
 		
 		return memory;
 	}

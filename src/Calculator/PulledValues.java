@@ -86,6 +86,7 @@ public class PulledValues {
 				ArrayList<Attribute> attributeList = classNode.getAttributes();
 				System.out.println(classNode.getIdentifier());
 				System.out.println(attributeList);
+
 				for(Method method : methodList) {	
 					if(!method.getIdentifier().equals(classNode.getIdentifier())) { 
 						nonFinalPrivateProtected += isNonFinalPrivateProtected(method);
