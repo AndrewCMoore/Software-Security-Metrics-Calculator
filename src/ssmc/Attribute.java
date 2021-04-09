@@ -40,6 +40,8 @@ public class Attribute {
 		this.lineNum = 0;
 		this.critical = false;
 		
+		System.out.println("Attribute: " + identifier);
+		
 		// Intialize ArrayList
 		this.modifier = new ArrayList<String>();
 	}

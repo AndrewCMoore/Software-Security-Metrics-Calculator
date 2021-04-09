@@ -114,6 +114,7 @@ public class MurgePulledValues {
 		//System.out.println(mapUniqueParamatersInClassEachMethod);
 		//System.out.println("AXX78");
 		//System.out.println(getAllHierarchySize());
+
 		System.out.println(classesCoupledToBaseClass);
 		
 	}
@@ -166,10 +167,12 @@ public class MurgePulledValues {
 	//used to set #nonfinalizedCriticalClasses.
 	public void buildInheritanceDependencies(JDTree[] classes) {
 		
+
 		HashSet<String> numberOfCoupledBaseClasses;
 		HashSet<String> numberOfCoupledClasses;
 		
 		HashSet<String> classDeclarationLine;
+
 		//System.out.println("\n\n\n\n");
 		for(int i = 0; i < classes.length; i++) {
 			Object o = classes[i].getNode(); 			
@@ -197,8 +200,10 @@ public class MurgePulledValues {
 						//for each class in the project check if className CONTAINS attribute type. Note that Queue<Workstations> is still coupled to workstations. thus check if contains.
 						for (String className: classNames) {
 							//System.out.println(classNode.getIdentifier()+"::"+attribute.getType()+"::"+attribute.getType());
+
 							if ((classNode.getCompilationUnit().toString().contains(className)) && !(className.equals(classNode.getIdentifier()))) numberOfCoupledBaseClasses.add(className);
 					//}
+
 					}}catch (Exception e) {}
 					classesCoupledToBaseClass.put(classNode.getIdentifier(), numberOfCoupledBaseClasses);
 				}

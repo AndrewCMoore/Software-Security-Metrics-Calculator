@@ -2,6 +2,7 @@ package ssmc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.AST;
@@ -16,7 +17,20 @@ import org.eclipse.jdt.core.dom.LineComment;
 /**
  * This class generates values for the Class, Attribute, Method, and Statement objects
  */
-public class CAMValues {
+public class CAMValues extends Thread {
+	
+	Class[] classArray;
+	ICompilationUnit unit;
+	boolean running = true;
+	
+	// For Threading 
+	final int MAX_NO_OF_THREADS = 5;
+	final Semaphore semaphore = new Semaphore(MAX_NO_OF_THREADS);
+	
+	public CAMValues(ICompilationUnit unit) {
+		this.unit = unit;
+	}
+	
 	
 	/**
 	 * Uses unit to create a CompilationUnit to use in AttributeVisitor. 
@@ -82,7 +96,7 @@ public class CAMValues {
 	 */
 	public static ArrayList<Statement> generateStatementAST(ICompilationUnit unit) {
 		final CompilationUnit cu = (CompilationUnit) parse(unit);
-		System.out.println("WABABA " + cu.getLineNumber(cu.getLength()-1));
+		//System.out.println("WABABA " + cu.getLineNumber(cu.getLength()-1));
 		StatementVisitor sv = new StatementVisitor(cu);
 		cu.accept(sv);
 		//System.out.println("\n\n\n " + sv.ids + "\n\n\n");
@@ -279,5 +293,27 @@ public class CAMValues {
 		parser.setSource(unit);
 		parser.setResolveBindings(true);
 		return (CompilationUnit) parser.createAST(null); //parse		
+	}
+	
+	public void run() {
+		while(running) {
+			try {
+				
+				//System.out.println("Thread " + Thread.currentThread().getId()+ " has now started");
+				//System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
+				this.classArray = getClasses(unit);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				// Stop the thread for system resource management
+				running = false;
+				//System.out.println("Thread " + Thread.currentThread().getId()+ " is now closed");
+				return; 
+			}
+		}	
+	}
+
+	public Class[] getClassArray() {
+		return classArray;
 	}
 }
