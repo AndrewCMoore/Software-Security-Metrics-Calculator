@@ -81,9 +81,11 @@ public class PulledValues {
 			System.out.println(o.getClass());
 			if(o instanceof Class) {	
 				System.out.println("This is true");
-				Class classNode = (Class) o;	
+				Class classNode = (Class) o;
 				ArrayList<Method> methodList = classNode.getMethods(); 
-				ArrayList<Attribute> attributeList = classNode.getAttributes(); 
+				ArrayList<Attribute> attributeList = classNode.getAttributes();
+				System.out.println(classNode.getIdentifier());
+				System.out.println(attributeList);
 				for(Method method : methodList) {	
 					if(!method.getIdentifier().equals(classNode.getIdentifier())) { 
 						nonFinalPrivateProtected += isNonFinalPrivateProtected(method);
@@ -133,7 +135,7 @@ public class PulledValues {
 				mapPublicClass.put(classNode.getIdentifier(), publicClass);
 				mapPrivateProtectedInstance.put(classNode.getIdentifier(), privateProtectedInstance);
 				mapPrivateProtectedClass.put(classNode.getIdentifier(), privateProtectedClass);
-				mapPrivateProtectedTotal.put(classNode.getIdentifier(), privateProtectedInstance + privateProtectedInstance);
+				mapPrivateProtectedTotal.put(classNode.getIdentifier(), privateProtectedInstance + privateProtectedClass);
 				mapTotalAttributes.put(classNode.getIdentifier(), publicInstance + publicClass + privateProtectedInstance + privateProtectedClass);
 				mapCriticalElements.put(classNode.getIdentifier(), criticalElements);
 				mapCriticalNotUsed.put(classNode.getIdentifier(), criticalNotUsed);
@@ -437,6 +439,36 @@ public class PulledValues {
 	}
 
 	private void printResults() {
+		//System.out.println("mapNonFinalPrivateProtectedMethods :" + this.getMapNonFinalPrivateProtectedMethods());
+		//System.out.println("mapClassifiedMethods :" + this.getMapClassifiedMethods());
+		//System.out.println("mapPublicMethods :" + this.getMapPublicMethods());
+		//System.out.println("mapTotalMethods :" + this.getMapTotalMethods());
+		//System.out.println("mapMutatorInteractions :" + this.getMapMutatorInteractions());
+		//System.out.println("mapAccessorInteractions :" + this.getMapAccessorInteractions());
+		//System.out.println("mapMethodInvocations :" + this.getMapMethodInvocations());
+		//System.out.println("mapWritesClassifiedAttributes :" + this.getMapWritesClassifiedAttributes());
+		//System.out.println("mapAccessClassifiedNeverCalled :" + this.getMapAccessClassifiedNeverCalled());
+		//System.out.println("mapPublicInstance :" + this.getMapPublicInstance());
+		//System.out.println("mapPublicClass :" + this.getMapPublicClass());
+		//System.out.println("mapPrivateProtectedInstance :" + this.getMapPrivateProtectedInstance());
+		//System.out.println("mapPrivateProtectedClass :" + this.getMapPrivateProtectedClass());
+		System.out.println("mapPrivateProtectedTotal :" + this.getMapPrivateProtectedTotal());
+		System.out.println("mapTotalAttributes :" + this.getMapTotalAttributes());
+		System.out.println("mapCriticalElements :" + this.getMapCriticalElements());
+		System.out.println("mapCriticalNotUsed :" + this.getMapCriticalNotUsed());
+		System.out.println("mapAttributeInteractions :" + this.getMapAttributeInteractions());
+		System.out.println("mapClassifiedAttributeInteractions :" + this.getMapClassifiedAttributeInteractions());
+		System.out.println("mapClassifiedInstanceAttributeNotPrivate :" + this.getMapClassifiedInstanceAttributeNotPrivate());
+		System.out.println("mapClassifiedClassAttributeNotPrivate :" + this.getMapClassifiedClassAttributeNotPrivate());
+		System.out.println("mapClassifiedMethodsNotPrivate :" + this.getMapClassifiedMethodsNotPrivate());
+		System.out.println("mapStrictComplexity :" + this.getMapStrictComplexity());
+		System.out.println("mapCyclomaticComplexity :" + this.getMapCyclomaticComplexity());
+		System.out.println("mapModifiedComplexity :" + this.getMapModifiedComplexity());
+		System.out.println("mapMcCabesComplexity :" + this.getMapMcCabesComplexity());
+		System.out.println("mapCountPath :" + this.getMapCountPath());
+		System.out.println("mapMethodInputs :" + this.getMapMethodInputs());
+		System.out.println("mapMethodOutputs :" + this.getMapMethodOutputs());
+		System.out.println("mapHenryKafura :" + this.getMapHenryKafura());
 	}
 	
 	private void printMap(HashMap<String, Integer> map) {
