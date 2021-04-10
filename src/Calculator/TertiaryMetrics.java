@@ -73,12 +73,34 @@ public class TertiaryMetrics {
 		
 		
 		System.out.println("HELP ME PLEASE");
-		System.out.println("getClassifiedInstanceDataAccessibility: " +classifiedInstanceDataAccessibility);
-		System.out.println(getClassifiedClassDataAccessibility());
-		System.out.println(getClassifiedOperationAccessibility());
-		System.out.println(getClassifiedMethodsExtensibility());
-		System.out.println(getClassifiedAttributesTotal());
-		System.out.println(getClassifiedMethodsTotal());
+		System.out.println("classifiedInstanceDataAccessibility: " + this.getClassifiedInstanceDataAccessibility());
+		System.out.println("classifiedClassDataAccessibility: " + this.getClassifiedClassDataAccessibility());
+		System.out.println("classifiedOperationAccessibility: " + this.getClassifiedOperationAccessibility());
+		System.out.println("classifiedMethodsExtensibility: " + this.getClassifiedMethodsExtensibility());
+		System.out.println("classifiedAttributesTotal: " + this.getClassifiedAttributesTotal());
+		System.out.println("classifiedMethodsTotal: " + this.getClassifiedMethodsTotal());
+		System.out.println("classifiedAccessorAttributeInteractions: " + this.getClassifiedAccessorAttributeInteractions());
+		System.out.println("classifiedMutatorAttributeInteractions: " + this.getClassifiedMutatorAttributeInteractions());
+		System.out.println("classifiedAttributesInteractionWeight: " + this.getClassifiedAttributesInteractionWeight());
+		System.out.println("classifiedMethodsWeight: " + this.getClassifiedMethodsWeight());
+		System.out.println("classifiedWritingMethodsProportion: " + this.getClassifiedWritingMethodsProportion());
+		System.out.println("uncalledClassifiedAccessorMethod: " + this.getUncalledClassifiedAccessorMethod());
+		System.out.println("criticalClassesExtensibility: " + this.getCriticalClassesExtensibility());
+		System.out.println("criticalClassesTotal: " + this.getCriticalClassesTotal());
+		System.out.println("criticalClassesCoupling: " + this.getCriticalClassesCoupling());
+		System.out.println("compositePartCriticalClasses: " + this.getCompositePartCriticalClasses());
+		System.out.println("unusedCriticalAccessorClass: " + this.getUnusedCriticalAccessorClass());
+		System.out.println("criticalDesignProportion: " + this.getCriticalDesignProportion());
+		System.out.println("criticalSerializedClassesProportion: " + this.getCriticalSerializedClassesProportion());
+		System.out.println("criticalSuperclassesProportion: " + this.getCriticalSuperclassesProportion());
+		System.out.println("criticalSuperclassesInheritance: " + this.getCriticalSuperclassesInheritance());
+		System.out.println("reflectionPackageBoolean: " + this.getReflectionPackageBoolean());
+		System.out.println("ClassifiedMethodsInheritance: " + this.getClassifiedMethodsInheritance());
+		//System.out.println(getClassifiedClassDataAccessibility());
+		//System.out.println(getClassifiedOperationAccessibility());
+		//System.out.println(getClassifiedMethodsExtensibility());
+		//System.out.println(getClassifiedAttributesTotal());
+		//System.out.println(getClassifiedMethodsTotal());
 		//System.out.println(getClassifiedAccessorAttributeInteractions());
 		//System.out.println(getClassifiedMutatorAttributeInteractions());
 		/*System.out.println(a);
@@ -108,7 +130,11 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
-			uncalledClassifiedAccessorMethod.put(key, (double) classifiedNeverUsed.get(key)/(double)classifiedMethods.get(key));
+			if(classifiedMethods.get(key) != 0) {
+				uncalledClassifiedAccessorMethod.put(key, (double) classifiedNeverUsed.get(key)/(double)classifiedMethods.get(key));
+			} else {
+				uncalledClassifiedAccessorMethod.put(key, 0.0);
+			}
 		}
 	}
 
@@ -117,7 +143,11 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
-			classifiedWritingMethodsProportion.put(key, (double) methodsWriteClassifiedAttributes.get(key)/(double)classifiedMethods.get(key));
+			if(classifiedMethods.get(key) != 0) {
+				classifiedWritingMethodsProportion.put(key, (double) methodsWriteClassifiedAttributes.get(key)/(double)classifiedMethods.get(key));
+			} else {
+				classifiedWritingMethodsProportion.put(key, 0.0);
+			}
 		}
 	}
 
@@ -126,7 +156,11 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> totalMethods = pv.getMapTotalMethods();
 		
 		for(String key : totalMethods.keySet()) {
-			classifiedMethodsWeight.put(key, (double) classifiedMethods.get(key)/(double)totalMethods.get(key));
+			if((double)totalMethods.get(key) != 0) {
+				classifiedMethodsWeight.put(key, (double) classifiedMethods.get(key)/(double)totalMethods.get(key));
+			} else {
+				classifiedMethodsWeight.put(key, 0.0);
+			}
 		}
 	}
 
@@ -135,7 +169,11 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> attributeInteractions = pv.getMapAccessorInteractions();
 		
 		for(String key : attributeInteractions.keySet()) {
-			classifiedAttributesInteractionWeight.put(key, (double) classifiedAttributeInteractions.get(key)/(double)attributeInteractions.get(key));
+			if(attributeInteractions.get(key) != 0) {
+				classifiedAttributesInteractionWeight.put(key, (double) classifiedAttributeInteractions.get(key)/(double)attributeInteractions.get(key));
+			} else {
+				classifiedAttributesInteractionWeight.put(key, 0.0);
+			}
 		}
 	}
 
@@ -144,7 +182,11 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : mutatorInteractions.keySet()) {
-			classifiedMutatorAttributeInteractions.put(key, (double) mutatorInteractions.get(key) / (double)(mutatorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			if((double)(mutatorInteractions.get(key) * classifiedAttributes.get(key)) != 0.0) {
+				classifiedMutatorAttributeInteractions.put(key, (double) mutatorInteractions.get(key) / (double)(mutatorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			} else {
+				classifiedMutatorAttributeInteractions.put(key, 0.0);
+			}
 		}
 	}
 
@@ -153,7 +195,11 @@ public class TertiaryMetrics {
 		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : accessorInteractions.keySet()) {
-			classifiedAccessorAttributeInteractions.put(key, (double) accessorInteractions.get(key) / (double)(accessorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			if((double)(accessorInteractions.get(key) * classifiedAttributes.get(key)) != 0.0) {
+				classifiedAccessorAttributeInteractions.put(key, (double) accessorInteractions.get(key) / (double)(accessorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			} else {
+				classifiedAccessorAttributeInteractions.put(key, 0.0);
+			}
 		}
 	}
 

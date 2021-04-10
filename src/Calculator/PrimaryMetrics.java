@@ -246,9 +246,13 @@ public class PrimaryMetrics {
 			complexityAverage=0;
 			for (String methodName: nestingComplexityInEachClass.get(className).keySet()) {
 				complexityAverage+=nestingComplexityInEachClass.get(className).get(methodName);
-			}			
-			complexityAverage=complexityAverage/nestingComplexityInEachClass.get(className).size();
-		nestingComplexity.put(className,complexityAverage);
+			}
+			if(nestingComplexityInEachClass.get(className).size() != 0) {
+				complexityAverage=complexityAverage/nestingComplexityInEachClass.get(className).size();
+			} else {
+				complexityAverage = 0;
+			}
+			nestingComplexity.put(className,complexityAverage);
 		}	
 	}
 	
@@ -291,7 +295,11 @@ public class PrimaryMetrics {
 				classMethodComplexityTotal+=complexityDepthInClassMethods.get(key).get(methodName);
 				classMethodAverageMultiplier+=1;
 			}
-			weightedMethodsPerClass.put(key, (double)(classMethodComplexityTotal / (double)(classMethodAverageMultiplier*classMethodAverageMultiplier)));
+			if(classMethodAverageMultiplier*classMethodAverageMultiplier != 0) {
+				weightedMethodsPerClass.put(key, (double)(classMethodComplexityTotal / (double)(classMethodAverageMultiplier*classMethodAverageMultiplier)));
+			} else {
+				weightedMethodsPerClass.put(key, 0.0);
+			}
 		}
 		
 		
@@ -402,7 +410,11 @@ public class PrimaryMetrics {
 
 	public void criticalElementRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: pv.getMapCriticalElements().keySet()) {
-        	criticalElementRatio.put(key, (double) pv.getMapCriticalElements().get(key) /(double) pv.getMapTotalAttributes().get(key));
+			if(pv.getMapTotalAttributes().get(key) != 0) {
+				criticalElementRatio.put(key, (double) pv.getMapCriticalElements().get(key) /(double) pv.getMapTotalAttributes().get(key));
+			} else {
+				criticalElementRatio.put(key, 0.0);
+			}
         }
 	}
 	
@@ -414,7 +426,11 @@ public class PrimaryMetrics {
 		HashMap<String, Integer> criticalMapElements = pv.getMapCriticalElements();
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
 		for (String key: classNames) {
-			dataAccessMetric.put(key, (criticalMapElements.containsKey(key)) ? (double) pv.getMapCriticalElements().get(key) / (double)pv.getMapTotalAttributes().get(key) :  (double) 0.0);
+			if(pv.getMapTotalAttributes().get(key) != 0) {
+				dataAccessMetric.put(key, (criticalMapElements.containsKey(key)) ? (double) pv.getMapCriticalElements().get(key) / (double)pv.getMapTotalAttributes().get(key) :  (double) 0.0);
+			} else {
+				dataAccessMetric.put(key, 0.0);
+			}
 		}
 		
 	}
@@ -696,10 +712,53 @@ public class PrimaryMetrics {
 	}
 	
 	public void printTrash() {
+		System.out.println("Primary Metrics");
+		System.out.println("sourceLinesOfCode: " + this.getSourceLinesOfCode());
+		System.out.println("commentRatio : " + this.getCommentRatio());
+		System.out.println("nestingComplexity : " + this.getNestingComplexity());
+		System.out.println("numberOfChildren : " + this.getNumberOfChildren());
+		System.out.println("numberOfMethods : " + this.getNumberOfMethods());
+		System.out.println("numberOfHierarchies: " + this.getNumberOfHierarchies());
+		System.out.println("countOfBaseClasses: " + this.getCountOfBaseClasses());
+		System.out.println("numberofClasses: " + this.getNumberofClasses());
+		System.out.println("lackOfCohesionOfMethods : " + this.getLackOfCohesionOfMethods());
+		System.out.println("cohesionAmongMethodsInClass : " + this.getCohesionAmongMethodsInClass());
+		System.out.println("measureOfFunctionalAbtraction : " + this.getMeasureOfFunctionalAbtraction());
+		System.out.println("lengthOfMethod : " + this.lengthOfMethod);
+		System.out.println("stallRatio: " + this.getStallRatio());
+		System.out.println("couplingCorruptionPropagation : " + this.getCouplingCorruptionPropagation());
+		System.out.println("couplingBetweenObjects : " + this.getCouplingBetweenObjects());
+		System.out.println("failSafeDefaults : " + this.getFailSafeDefaults());
+		System.out.println("reduceAttackSurface : " + this.getReduceAttackSurface());
+		System.out.println("economyOfMechanism : " + this.getEconomyOfMechanism());
+		System.out.println("strictCyclomaticComplexity : " + this.getStrictCyclomaticComplexity());
+		System.out.println("cyclomaticComplexity : " + this.getCyclomaticComplexity());
+		System.out.println("modifiedCyclomaticComplexity : " + this.getModifiedCyclomaticComplexity());
+		System.out.println("mcCabesCyclomaticComplexity : " + this.getMcCabesCyclomaticComplexity());
+		System.out.println("countPath : " + this.getCountPath());
+		System.out.println("secureWeakestLink: " + this.getSecureWeakestLink());
+		System.out.println("isolation: " + this.getIsolation());
+		System.out.println("leastCommomMechanism: " + this.getLeastCommonMechanism());
+		System.out.println("fanIn : " + this.getFanIn());
+		System.out.println("fanOut : " + this.getFanOut());
+		System.out.println("henryKafura : " + this.getHenryKafura());
+		System.out.println("criticalElementRatio : " + this.getCriticalElementRatio());
+		System.out.println("dataAccessMetric : " + this.getDataAccessMetric());
+		System.out.println("grantLeastPrivelage : " + this.getGrantLeastPrivelage());
+		System.out.println("responceSetForaClass : " + this.getResponseSetForAClass());
+		System.out.println("numberOfPolymorphicMethods : " + this.getNumberOfPolymorphicMethods());
+		System.out.println("classInterfaceSize : " + this.getClassInterfaceSize());
+		System.out.println("depthOfInheritace : " + this.getDepthOfInheritanceTree());
+		System.out.println("weightedMethodsPerClass : " + this.getWeightedMethodsPerClass());
+		System.out.println("measureOfAggregation : " + this.getMeasureOfAggregation());
+		System.out.println("directClassCoupling : " + this.getDirectClassCoupling());
+		System.out.println("classesInProject : " + this.getClassesInProject());
+		System.out.println("averageNumberOfAncestors : " + this.getAverageNumberOfAncestors());
+		
 	
 
 		
-		double commentRatioSum=0,nestingComplexitySum=0,numberOfChildrenSum=0,numberOfMethodsSum=0,
+		/*double commentRatioSum=0,nestingComplexitySum=0,numberOfChildrenSum=0,numberOfMethodsSum=0,
 				lackOfCohesionOfMethodsSum=0,cohesionAmongMethodsInClassSum=0,measureOfFunctionalAbtractionSum=0,
 				lengthOfMethodSum=0,couplingCorruptionPropagationSum=0,couplingBetweenObjectsSum=0,
 				failSafeDefaultsSum=0,reduceAttackSurfaceSum=0,strictCyclomaticComplexitySum=0,cyclomaticComplexitySum=0,
@@ -915,6 +974,6 @@ public class PrimaryMetrics {
 		System.out.println("averageNumberOfAncestorsSum");
 		System.out.println(averageNumberOfAncestorsSum);
 		System.out.println("directClassCouplingSum");
-		System.out.println(directClassCouplingSum);
+		System.out.println(directClassCouplingSum); */
 	}	  
 }
