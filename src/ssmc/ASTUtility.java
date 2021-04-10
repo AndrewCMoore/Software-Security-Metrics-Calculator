@@ -38,8 +38,10 @@ public class ASTUtility {
 		} 
 		if(node instanceof VariableDeclaration){
 			VariableDeclaration vdNode = (VariableDeclaration) node;
+			try {
 			IVariableBinding type = vdNode.resolveBinding();
 			return getModifier(type.getModifiers());
+			} catch (Exception e) {} 
 		}
 		
 		

@@ -531,7 +531,7 @@ public class GenerateHTML {
 			System.out.println("the value is "+Double.parseDouble(value));
 			Double d = Double.parseDouble(value);
 			if (d != null) {
-				System.out.println("We got here");
+				//System.out.println("We got here");
 				size++;
 				if (results.get(key).isNaN()) d=0.0;
 				average += d;

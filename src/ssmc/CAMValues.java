@@ -13,6 +13,8 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.LineComment;
 
+import tree.JDTree;
+
 
 /**
  * This class generates values for the Class, Attribute, Method, and Statement objects
@@ -296,24 +298,13 @@ public class CAMValues extends Thread {
 	}
 	
 	public void run() {
-		while(running) {
-			try {
-				
-				//System.out.println("Thread " + Thread.currentThread().getId()+ " has now started");
-				//System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
-				this.classArray = getClasses(unit);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				// Stop the thread for system resource management
-				running = false;
-				//System.out.println("Thread " + Thread.currentThread().getId()+ " is now closed");
-				return; 
-			}
-		}	
+		System.out.println("Thread: " + Thread.currentThread().getName() + " has now started.");
+		this.classArray = getClasses(unit);
+		this.currentThread().interrupt();
+		return;
 	}
 
 	public Class[] getClassArray() {
-		return classArray;
+		return this.classArray;
 	}
 }

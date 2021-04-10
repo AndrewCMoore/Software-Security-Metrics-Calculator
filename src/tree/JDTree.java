@@ -28,7 +28,8 @@ public class JDTree {
 	private Object node;
 	
 	private boolean Threading = true;
-
+	public static int startThreadNumber = Thread.activeCount();
+	private static int MAX_NO_THREADS = 5;
 	/**
 	 * Constructor for JDTree.
 	 * Finds out node type, and sets children and node type for the node.
@@ -84,48 +85,60 @@ public class JDTree {
 				}
 			}
 			
+		
 			//repeat of the packages
 			if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
 				type = NodeType.PACKAGE;
 				IPackageFragment pack = (IPackageFragment) node;
+				System.out.println(pack.toString());
 				//get the list of compilation units
 				ICompilationUnit[] units = pack.getCompilationUnits();
-				
-				for(int j = 0; j < units.length; j++) {
-					type = NodeType.COMPILATIONUNIT;
-					CAMValues cv = new CAMValues(units[j]);
-					try {
-						cv.start();
-					} catch (Exception e) {
-						
-					} 
-					Class[] classes = cv.getClassArray();
-					
-					//if the there are classes in here then we add them to the list of children
-					if (classes != null) {
-						children = new JDTree[classes.length];
-						for (int i = 0; i < classes.length; i++) {
-							children[i] = new JDTree(classes[i], this);
-							//System.out.println("the Class is "+classes[i].getIdentifier());
-							
-						}
-					}					
-				}
 				children = new JDTree[units.length];
 				//add children to the array
 				for (int i = 0; i < units.length; i++) {
 					children[i] = new JDTree(units[i], this);
 				}
 				// generateAST();
-
 			}
+			//If it is a Compilation unit
+			if (kind.equals("org.eclipse.jdt.internal.core.CompilationUnit")) {
+				
+				while( Thread.activeCount() - startThreadNumber >= MAX_NO_THREADS) {}
+				
+				//set type
+				type = NodeType.COMPILATIONUNIT;
 			
+				ICompilationUnit comp = (ICompilationUnit) node;
+				// Threading Implementation
+				Class[] classes = null;
+				
+				try {		
+					CAMValues cv = new CAMValues(comp);
+					cv.start();
+					System.out.println("Threads Start Count: " + (startThreadNumber));
+					System.out.println("Threads Active: " + Thread.activeCount());
+					System.out.println("Threads Active: " + (Thread.activeCount() - startThreadNumber));
+					while(!cv.isInterrupted()) {}
+					classes = cv.getClassArray();			
+				} catch (Exception e) {}
+			
+				//if the there are classes in here then we add them to the list of children
+				if (classes != null) {
+					children = new JDTree[classes.length];
+					for (int i = 0; i < classes.length; i++) {
+						children[i] = new JDTree(classes[i], this);
+						//System.out.println("the Class is "+classes[i].getIdentifier());
+						
+					}
+				}
+			}
 			//if it is a class there arne't any more steps
 			if (kind.equals("ssmc.Class")) {
 				type = NodeType.CLASS;
 			}
 		}
-		
+			
+
 		else {
 			this.node = node;
 			this.parent = parent;
