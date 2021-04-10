@@ -38,6 +38,7 @@ public class Calculator {
 	public Calculator(JDTree tree) {
 		this.tree = tree;
 		this.classes = tree.getLeefs();
+		System.out.println("LLLLLLLLLLLLLLLL" + tree + " : " + classes[0].getNode().toString() + classes[0].getClass());
 	}
 
 	/**
