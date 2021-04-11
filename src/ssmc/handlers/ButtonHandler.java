@@ -70,6 +70,7 @@ public class ButtonHandler extends AbstractHandler {
 			e.printStackTrace();
 		}
 
+		System.out.println("Project Analysis Complete");
 		return null;
 	}
 	
