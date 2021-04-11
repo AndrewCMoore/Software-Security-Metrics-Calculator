@@ -40,6 +40,8 @@ public class JDTree {
 	**/
 	public JDTree(Object node, JDTree parent) throws JavaModelException {
 		
+		System.out.println("Starting Thread Count: " + startThreads);
+		
 		if (Threading) {
 			
 			this.node = node;
@@ -95,7 +97,7 @@ public class JDTree {
 					type = NodeType.COMPILATIONUNIT;
 					
 					while(Thread.activeCount() - startThreads > MAX_NO_THREADS) {
-						System.out.println("Too many threads active");
+						//System.out.println("Too many threads active");
 					}
 					
 					System.out.println("Threads active");
@@ -103,10 +105,12 @@ public class JDTree {
 					CAMValues cv = new CAMValues(units[j]);
 					try {
 						cv.start();
+						while(cv.running) {}
 						Class[] classes = cv.getClassArray();
 						System.out.println(classes);
 						
 						if (classes != null) {
+							System.out.println("We got here");
 							children = new JDTree[classes.length];
 							for (int i = 0; i < classes.length; i++) {
 								children[i] = new JDTree(classes[i], this);

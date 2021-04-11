@@ -21,7 +21,7 @@ public class CAMValues extends Thread {
 	
 	Class[] classArray;
 	ICompilationUnit unit;
-	boolean running = true;
+	public boolean running = true;
 	
 	// For Threading 
 	final int MAX_NO_OF_THREADS = 5;
