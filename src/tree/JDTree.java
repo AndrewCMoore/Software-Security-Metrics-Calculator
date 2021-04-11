@@ -27,7 +27,10 @@ public class JDTree {
 	// Actual node that we are organizing
 	private Object node;
 	
-	private boolean Threading = false;
+
+	private boolean Threading = true;
+	private static int MAX_NO_THREADS = 5;
+	private static int startThreads = Thread.activeCount();
 
 	/**
 	 * Constructor for JDTree.
@@ -40,6 +43,8 @@ public class JDTree {
 	public JDTree(Object node, JDTree parent) throws JavaModelException {
 		
 
+		System.out.println("Starting Thread Count: " + startThreads);
+		
 		if (Threading) {
 			
 			this.node = node;
@@ -93,23 +98,36 @@ public class JDTree {
 				
 				for(int j = 0; j < units.length; j++) {
 					type = NodeType.COMPILATIONUNIT;
+					
+					while(Thread.activeCount() - startThreads > MAX_NO_THREADS) {
+						//System.out.println("Too many threads active");
+					}
+					
+					System.out.println("Threads active");
+					
 					CAMValues cv = new CAMValues(units[j]);
 					try {
 						cv.start();
+						while(cv.running) {}
+						Class[] classes = cv.getClassArray();
+						System.out.println(classes);
+						
+						if (classes != null) {
+							System.out.println("We got here");
+							children = new JDTree[classes.length];
+							for (int i = 0; i < classes.length; i++) {
+								children[i] = new JDTree(classes[i], this);
+								//System.out.println("the Class is "+classes[i].getIdentifier());
+								
+							}
+						}
 					} catch (Exception e) {
 						
 					} 
-					Class[] classes = cv.getClassArray();
+					
 					
 					//if the there are classes in here then we add them to the list of children
-					if (classes != null) {
-						children = new JDTree[classes.length];
-						for (int i = 0; i < classes.length; i++) {
-							children[i] = new JDTree(classes[i], this);
-							//System.out.println("the Class is "+classes[i].getIdentifier());
-							
-						}
-					}					
+										
 				}
 				children = new JDTree[units.length];
 				//add children to the array

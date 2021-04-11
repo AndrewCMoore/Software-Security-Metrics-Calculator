@@ -21,7 +21,7 @@ public class CAMValues extends Thread {
 	
 	Class[] classArray;
 	ICompilationUnit unit;
-	boolean running = true;
+	public boolean running = true;
 	
 	// For Threading 
 	final int MAX_NO_OF_THREADS = 5;
@@ -299,21 +299,24 @@ public class CAMValues extends Thread {
 		while(running) {
 			try {
 				
-				//System.out.println("Thread " + Thread.currentThread().getId()+ " has now started");
-				//System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
+				System.out.println("Thread " + Thread.currentThread().getId()+ " has now started");
+				System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
 				this.classArray = getClasses(unit);
+				System.out.println("Class array" + this.classArray);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				// Stop the thread for system resource management
 				running = false;
-				//System.out.println("Thread " + Thread.currentThread().getId()+ " is now closed");
+				System.out.println("Thread " + Thread.currentThread().getId()+ " is now closed");
+				System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
 				return; 
 			}
 		}	
 	}
 
 	public Class[] getClassArray() {
+		System.out.println("Class array" + this.classArray);
 		return classArray;
 	}
 }
