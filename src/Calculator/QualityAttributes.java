@@ -17,6 +17,14 @@ public class QualityAttributes {
 		functionality(dp);
 		extendability(dp);
 		effectiveness(dp);
+		
+		System.out.println("quality attributes");
+		System.out.println("reusability: " + this.getReusability());
+		System.out.println("flexibility: " + this.getFlexibility());
+		System.out.println("understandability: " + this.getUnderstandability());
+		System.out.println("functionality: " + this.getFunctionality());
+		System.out.println("extendability: " + this.getExtendability());
+		System.out.println("effectiveness: " + this.getEffectiveness());
 	}
 
 	private void reusability(DesignPrincipals dp) {
@@ -62,7 +70,7 @@ public class QualityAttributes {
 	private void effectiveness(DesignPrincipals dp) {
 		for(String key : dp.getAbstraction().keySet()) {
 			try {
-			effectiveness.put(key, (0.2 * dp.getAbstraction().get(key)) + (0.2 * dp.getEncapsulation().get(key)) + (0.2 * dp.getComposition().get(key)) + (0.2 * dp.getInheritance().get(key)) + (0.2 * dp.getPolymorphism().get(key)));
+				effectiveness.put(key, (0.2 * dp.getAbstraction().get(key)) + (0.2 * dp.getEncapsulation().get(key)) + (0.2 * dp.getComposition().get(key)) + (0.2 * dp.getInheritance().get(key)) + (0.2 * dp.getPolymorphism().get(key)));
 			}catch (Exception e) {}
 		}
 	}

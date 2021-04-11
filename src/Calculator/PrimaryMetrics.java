@@ -348,7 +348,11 @@ public class PrimaryMetrics {
 	public void couplingCorruptionPropagation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		HashMap<String, Double> methodsInherited=mpv.getNumberOfMethodsInheritedByAClass();
 		for (String className: getClassesInProject()) {
-			couplingBetweenObjects.put(className, (methodsInherited.containsKey(className) ? (double) methodsInherited.get(className) : (double) 0.0 ));
+			if(methodsInherited.get(className) != null) {
+			couplingCorruptionPropagation.put(className, (methodsInherited.containsKey(className) ? (double) methodsInherited.get(className) : (double) 0.0 ));
+			} else {
+				couplingCorruptionPropagation.put(className, 0.0);
+			}
 		}
 	}
 	
@@ -471,8 +475,12 @@ public class PrimaryMetrics {
 		HashMap<String,Integer> numberOfMethodsInherited = mpv.getClassMethodsInheritedBySubClassm();
 		HashMap<String,Integer> totalNumberOfMethodsAccessible =  mpv.getClassMethodsInheritedBySubClassm(); //temp
 		
-		for (String key: numberOfMethodsInherited.keySet()) {
+		for (String key: mpv.getNumberOfClassesInProject()) {
+			if(totalNumberOfMethodsAccessible.get(key) != null) {
 			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/(double)totalNumberOfMethodsAccessible.get(key)));
+			} else {
+				measureOfFunctionalAbtraction.put(key, 0.0);
+			}
 		}
 	}
 	

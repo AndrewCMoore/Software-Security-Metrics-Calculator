@@ -74,10 +74,10 @@ public class DesignPrincipals {
 	private void encapsulation(PrimaryMetrics pm) {
 		for (String key: pm.getClassesInProject()) {
 			encapsulation.put(key, (double) pm.getCriticalElementRatio().get(key) +
-				//	pm.getDataAccessMetric().get(key) +
-				//	pm.getGrantLeastPrivelage().get(key) +
-				//	pm.getIsolation()/(pm.getClassesInProject().size()) + 
-				//	pm.getLeastCommonMechanism()/(pm.getClassesInProject().size()) +
+					pm.getDataAccessMetric().get(key) +
+					pm.getGrantLeastPrivelage().get(key) +
+					pm.getIsolation()/(pm.getClassesInProject().size()) + 
+					pm.getLeastCommonMechanism()/(pm.getClassesInProject().size()) +
 					pm.getNumberOfHierarchies()
 					);
 		}
@@ -95,7 +95,7 @@ public class DesignPrincipals {
 		for (String key: pm.getClassesInProject()) {
 			coupling.put(key, (double) (pm.getCountOfBaseClasses()) / ((double)pm.getCouplingBetweenObjects().size()) +
 					(pm.getCouplingBetweenObjects().get(key) )+
-					//(pm.getCouplingCorruptionPropagation().get(key) )+
+					(pm.getCouplingCorruptionPropagation().get(key) )+
 					(pm.getDepthOfInheritanceTree().get(key) )+
 					(pm.getDirectClassCoupling().get(key) )+
 					(pm.getFanIn().get(key) )+
@@ -127,13 +127,13 @@ public class DesignPrincipals {
 					pm.getMcCabesCyclomaticComplexity().get(key) +
 					pm.getModifiedCyclomaticComplexity().get(key) +
 					
-					//pm.getNestingComplexity().get(key) + !
+					pm.getNestingComplexity().get(key) + 
 					
 					pm.getNumberOfChildren().get(key) +
-					pm.getStrictCyclomaticComplexity().get(key) 
-					//(double)pm.getSecureWeakestLink() / (double)pm.getClassesInProject().size() + !
-					//(double)pm.getSourceLinesOfCode()  / (double)pm.getClassesInProject().size()//+ !
-				//	pm.getWeightedMethodsPerClass().get(key)
+					pm.getStrictCyclomaticComplexity().get(key) +
+					(double)pm.getSecureWeakestLink() / (double)pm.getClassesInProject().size() + 
+					(double)pm.getSourceLinesOfCode()  / (double)pm.getClassesInProject().size() + 
+					pm.getWeightedMethodsPerClass().get(key)
 					);
 			
 		}
@@ -150,12 +150,10 @@ public class DesignPrincipals {
 		for (String key: pm.getFailSafeDefaults().keySet()) {
 			abstraction.put(key, (double) pm.getFailSafeDefaults().get(key) + 
 					pm.getReduceAttackSurface().get(key) + 
+					pm.getAverageNumberOfAncestors().get(key) +
+					pm.getFailSafeDefaults().get(key) +
+					pm.getReduceAttackSurface().get(key) +
 					pm.getAverageNumberOfAncestors().get(key));
-			double d = (double) pm.getFailSafeDefaults().get(key) + 
-					pm.getReduceAttackSurface().get(key) + 
-					pm.getAverageNumberOfAncestors().get(key);
-			System.out.println(d);
-					
 		}
 	}
 
