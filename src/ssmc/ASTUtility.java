@@ -39,7 +39,9 @@ public class ASTUtility {
 		if(node instanceof VariableDeclaration){
 			VariableDeclaration vdNode = (VariableDeclaration) node;
 			IVariableBinding type = vdNode.resolveBinding();
-			return getModifier(type.getModifiers());
+			if(type != null) {
+				return getModifier(type.getModifiers());
+			}
 		}
 		
 		

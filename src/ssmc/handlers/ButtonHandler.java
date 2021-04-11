@@ -83,8 +83,9 @@ public class ButtonHandler extends AbstractHandler {
 	 * 
 	 * @throws JavaModelException
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void addToTree() throws JavaModelException, CoreException {
+	public void addToTree() throws JavaModelException, CoreException, IOException {
 		IProject project = null;
 		IPath path = null;
 		//Gets the root directory of the workspace
@@ -120,8 +121,9 @@ public class ButtonHandler extends AbstractHandler {
 			Calculator calc = new Calculator(myTree);
 			//start calculating metrics
 			calc.calculate();
+			generateCSV CSV = new generateCSV(project, calc);
 			try {			
-				generateCSV CSV = new generateCSV(project, calc);
+				
 				GenerateHTML generator = new GenerateHTML(calc);
 				GenerateStyles css = new GenerateStyles();
 			} catch (IOException e) {
