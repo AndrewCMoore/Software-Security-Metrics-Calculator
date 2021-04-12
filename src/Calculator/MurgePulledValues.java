@@ -170,6 +170,7 @@ public class MurgePulledValues {
 		System.out.println( "getNumberOfBaseClasses()" + " :" + getNumberOfBaseClasses() );
 		System.out.println( "getNumberOfBaseClassMethodsInheritedBySubClass()" + " :" + getNumberOfBaseClassMethodsInheritedBySubClass() );
 		System.out.println( "getNumberOfClassesInProject()" + " :" + getNumberOfClassesInProject() );
+		//loopSizeInClassMethods
 		System.out.println( "getnumberOfClassesThatInheritFromEachCriticalSuperClass()" + " :" + getnumberOfClassesThatInheritFromEachCriticalSuperClass() );
 		//System.out.println( "getNumberOfCriticalBaseClasses()" + " :" + getNumberOfCriticalBaseClasses() ); useless?
 		System.out.println( "getNumberOfCriticalClassesInProgram()" + " :" + getNumberOfCriticalClassesInProgram() );
@@ -944,7 +945,7 @@ public class MurgePulledValues {
 	
 	//#ComplexityDepth of each method in a class PV
 	public HashMap<String, HashMap<String,Double>> getLoopSizeInClassMethods() {
-		return this.complexityDepthInClassMethods;
+		return this.loopSizeInClassMethods;
 	}
 	
 	//#protected methods that can be inherited from a BaseClass PV

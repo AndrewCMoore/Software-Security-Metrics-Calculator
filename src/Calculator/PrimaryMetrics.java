@@ -285,21 +285,20 @@ public class PrimaryMetrics {
 	}
 	
 	public void weightedMethodsPerClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		HashMap<String, HashMap<String,Double>> complexityDepthInClassMethods = mpv.getComplexityDepthInClassMethods();
-		HashMap<String, Double> complexityDepthInClassMethodsInClass = new HashMap<String, Double>();
+		HashMap<String, HashSet<String>> methodNamesInClass = mpv.getMethodNamesInClass();
+		HashMap<String, HashMap<String, Double>> loopSizeInClassMethods = mpv.getLoopSizeInClassMethods();
 		double classMethodComplexityTotal;
-		double classMethodAverageMultiplier; 
-		for (String key:mpv.getMethodsInClass().keySet()) {
-			classMethodComplexityTotal=0.0;
-			classMethodAverageMultiplier=0.0;
-			for (String methodName: complexityDepthInClassMethodsInClass.keySet()){
-				classMethodComplexityTotal+=complexityDepthInClassMethods.get(key).get(methodName);
-				classMethodAverageMultiplier+=1;
+
+		for (String className :methodNamesInClass.keySet()) {
+			classMethodComplexityTotal=0;
+			for (String methodName: methodNamesInClass.get(className)){
+				classMethodComplexityTotal+=loopSizeInClassMethods.get(className).get(methodName)*methodNamesInClass.get(className).size();
+
 			}
-			if(classMethodAverageMultiplier*classMethodAverageMultiplier != 0) {
-				weightedMethodsPerClass.put(key, (double)(classMethodComplexityTotal / (double)(classMethodAverageMultiplier*classMethodAverageMultiplier)));
-			} else {
-				weightedMethodsPerClass.put(key, 0.0);
+			if(classMethodComplexityTotal != 0) {
+				weightedMethodsPerClass.put(className, (double)(classMethodComplexityTotal));
+				} else {
+				weightedMethodsPerClass.put(className, 0.0);
 			}
 		}
 		
