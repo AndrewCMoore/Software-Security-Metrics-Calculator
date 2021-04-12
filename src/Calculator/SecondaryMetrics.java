@@ -119,7 +119,18 @@ public class SecondaryMetrics {
 	}
 	
 	public void printSM() {
-		double ReadabilityOfClassifiedAttributes = 0;
+		System.out.println("Secondary Metrics");
+		System.out.println("getReadabilityOfClassifiedAttributes: " + this.getReadabilityOfClassifiedAttributes());
+		System.out.println("getReadabilityOfClassifiedMethods: " + this.getReadabilityOfClassifiedMethods());
+		System.out.println("getWritabilityOfClassifiedAttributes: " + this.getWritabilityOfClassifiedAttributes());
+		System.out.println("getWritabilityOfClassifiedMethods: " + this.getWritabilityOfClassifiedMethods());
+		System.out.println("getWritabilityOfClassifiedClasses: " + this.getWritabilityOfClassifiedClasses());
+		System.out.println("getReadabilityOfCriticalClasses: " + this.getReadabilityOfCriticalClasses());
+		System.out.println("writabilityOfCriticalClasses: " + this.getWritabilityOfCriticalClasses());
+		System.out.println("securityAbsoluteMeasurements: " + this.getSecurityAbsoluteMeasurements());
+		
+		
+		/*double ReadabilityOfClassifiedAttributes = 0;
 		double ReadabilityOfClassifiedMethods = 0;
 		double WritabilityOfClassifiedAttributes = 0;
 		double WritabilityOfClassifiedMethods = 0;
@@ -158,7 +169,7 @@ public class SecondaryMetrics {
 		System.out.println("WritabilityOfClassifiedClasses: " + WritabilityOfClassifiedClasses);
 		System.out.println("readabilityOfCriticalClasses: " + readabilityOfCriticalClasses);
 		System.out.println("writabilityOfCriticalClasses: " + writabilityOfCriticalClasses);
-		System.out.println("securityAbsoluteMeasurements: " + securityAbsoluteMeasurements);
+		System.out.println("securityAbsoluteMeasurements: " + securityAbsoluteMeasurements);*/
 	}
 	
 	

@@ -91,8 +91,11 @@ public class MethodVisitor extends ASTVisitor{
     		// Cast to primitive and check if the primitive is void
     		if(((PrimitiveType) node.getReturnType2()).getPrimitiveTypeCode() == PrimitiveType.VOID) {
     			// Set the method to void type
+    			m.setNumberOfOutputs(0);
     			m.setVoid(true);
     		}
+    	} else { 
+    		m.setNumberOfOutputs(1);
     	}
 
         m.setStartLine(ASTUtility.getStartLine(node));
@@ -136,7 +139,8 @@ public class MethodVisitor extends ASTVisitor{
     	    	// Set the parameter for the Method
     	    	m.setParameters(name, type);
     	    	m.setOnlyparameterTypes(type);//anthony
-    	    	//System.out.println("Method " + m.toString() + " has parameter" + m.getParameters().toString());
+    	    	m.setNumberOfInputs(m.getNumberOfInputs() + 1);
+    	    	System.out.println("Method " + m.toString() + " has parameter" + m.getParameters().toString() + " total number: " + m.getNumberOfInputs());
     		}
     	}
     	return false;

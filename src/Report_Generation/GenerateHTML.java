@@ -83,9 +83,9 @@ public class GenerateHTML {
 	public String generateOverAllScore() {
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] overallTable = new String[7][6];
-		String overTip	  = "Overall Score";
+		String overTip = "Overall Score";
 		String section = makeCircle("Overall Score", overall, "c100 bigger orange overall besidesOverall p" + overall,
-				"overall1",overTip);
+				"overall1", overTip);
 		overallTable[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
 				"Count" };
 		overallTable[1] = generateRow(classNames, calc.getQualityAttributes().getEffectiveness(), "Effectiveness");
@@ -100,9 +100,9 @@ public class GenerateHTML {
 	}
 
 	public String generateEffectiveness() {
-		String effectTip  = "Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes the understanding of the software a challenge.";
+		String effectTip = "Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes the understanding of the software a challenge.";
 		String section = makeCircle("Effectiveness", effect, "c100 big maroon effectiveness besides p" + effect,
-				"effectiveness1",effectTip);
+				"effectiveness1", effectTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] effectiveness = new String[6][6];
 		effectiveness[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
@@ -117,9 +117,9 @@ public class GenerateHTML {
 	}
 
 	public String generateReusability() {
-		String reuseTip   = "Reusability is how often the code can be reapplied to a new problem. The adaptability or the conformance the code gives the program the ability to be transferred into another environment.";
+		String reuseTip = "Reusability is how often the code can be reapplied to a new problem. The adaptability or the conformance the code gives the program the ability to be transferred into another environment.";
 		String section = makeCircle("Reusability", reuse, "c100 big green reusability besides p" + reuse,
-				"reusability1",reuseTip);
+				"reusability1", reuseTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[5][6];
 		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
@@ -133,8 +133,9 @@ public class GenerateHTML {
 	}
 
 	public String generateUnderstandability() {
-		String readTip    = "Readability is the ease of which the software is read and understood. Simplicity in the code structure leads to a higher score.";
-		String section = makeCircle("Readability", read, "c100 big pink readability besides p" + read, "readability1",readTip);
+		String readTip = "Readability is the ease of which the software is read and understood. Simplicity in the code structure leads to a higher score.";
+		String section = makeCircle("Readability", read, "c100 big pink readability besides p" + read, "readability1",
+				readTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[8][6];
 		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
@@ -154,7 +155,8 @@ public class GenerateHTML {
 		String flexTip = "Flexibility is the adaptability of the program. Flexible program allows"
 				+ " the architecture to evolve organically, shows good software development, and results"
 				+ " in a complex architecture.";
-		String section = makeCircle("Flexability", flex, "c100 big flexability besides p" + flex, "readability1",flexTip);
+		String section = makeCircle("Flexability", flex, "c100 big flexability besides p" + flex, "readability1",
+				flexTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[5][6];
 		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
@@ -168,9 +170,9 @@ public class GenerateHTML {
 	}
 
 	public String generateFunctionality() {
-		String functTip   = "Functionality is about the behaviour between the inputs and outputs in the program. It also considers the performance during program execution in relation to the fault tolerance and recoverability.";
+		String functTip = "Functionality is about the behaviour between the inputs and outputs in the program. It also considers the performance during program execution in relation to the fault tolerance and recoverability.";
 		String section = makeCircle("Functionality", function, "c100 big skyblue functionality besides p" + function,
-				"functionality1",functTip);
+				"functionality1", functTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[6][6];
 		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
@@ -185,10 +187,10 @@ public class GenerateHTML {
 	}
 
 	public String generateExtendability() {
-		String extendTip  = "Extendability is the effort needed to make modifications to the project. This includes its stability, testability, and analyzability.";
-		
+		String extendTip = "Extendability is the effort needed to make modifications to the project. This includes its stability, testability, and analyzability.";
+
 		String section = makeCircle("Extendability", extend, "c100 big blue extendability besides p" + extend,
-				"extendability1",extendTip);
+				"extendability1", extendTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[6][6];
 		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
@@ -228,21 +230,23 @@ public class GenerateHTML {
 		String flexTip = "Flexibility is the adaptability of the program. Flexible program allows"
 				+ " the architecture to evolve organically, shows good software development, and results"
 				+ " in a complex architecture.";
-		String readTip    = "Readability is the ease of which the software is read and understood. Simplicity in the code structure leads to a higher score.";
-		String reuseTip   = "Reusability is how often the code can be reapplied to a new problem. The adaptability or the conformance the code gives the program the ability to be transferred into another environment.";
-		String effectTip  = "Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes the understanding of the software a challenge.";
-		String extendTip  = "Extendability is the effort needed to make modifications to the project. This includes its stability, testability, and analyzability.";
-		String functTip   = "Functionality is about the behaviour between the inputs and outputs in the program. It also considers the performance during program execution in relation to the fault tolerance and recoverability.";
-		String overTip	  = "Overall Score";
-		
-		
-		splash += makeCircle("Flexibility", flex, "c100 big flexability p" + flex, "flexability",flexTip);
-		splash += makeCircle("Reusability", reuse, "c100 big pink reusability p" + reuse, "reusability",reuseTip);
-		splash += makeCircle("Readability", read, "c100 big pink readability p" + read, "readability",readTip);
-		splash += makeCircle("Effectiveness", effect, "c100 big maroon effectiveness p" + effect, "effectiveness",effectTip);
-		splash += makeCircle("Extendability", extend, "c100 big maroon extendability p" + extend, "extendability",extendTip);
-		splash += makeCircle("Functionality", function, "c100 big maroon functionality p" + function, "functionality",functTip);
-		splash += makeCircle("Overall Score", overall, "c100 big maroon overall p" + overall, "overall",overTip);
+		String readTip = "Readability is the ease of which the software is read and understood. Simplicity in the code structure leads to a higher score.";
+		String reuseTip = "Reusability is how often the code can be reapplied to a new problem. The adaptability or the conformance the code gives the program the ability to be transferred into another environment.";
+		String effectTip = "Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes the understanding of the software a challenge.";
+		String extendTip = "Extendability is the effort needed to make modifications to the project. This includes its stability, testability, and analyzability.";
+		String functTip = "Functionality is about the behaviour between the inputs and outputs in the program. It also considers the performance during program execution in relation to the fault tolerance and recoverability.";
+		String overTip = "Overall Score";
+
+		splash += makeCircle("Flexibility", flex, "c100 big flexability p" + flex, "flexability", flexTip);
+		splash += makeCircle("Reusability", reuse, "c100 big pink reusability p" + reuse, "reusability", reuseTip);
+		splash += makeCircle("Readability", read, "c100 big pink readability p" + read, "readability", readTip);
+		splash += makeCircle("Effectiveness", effect, "c100 big maroon effectiveness p" + effect, "effectiveness",
+				effectTip);
+		splash += makeCircle("Extendability", extend, "c100 big maroon extendability p" + extend, "extendability",
+				extendTip);
+		splash += makeCircle("Functionality", function, "c100 big maroon functionality p" + function, "functionality",
+				functTip);
+		splash += makeCircle("Overall Score", overall, "c100 big maroon overall p" + overall, "overall", overTip);
 		splash += "</div>\r\n" + "		</div>";
 		return splash;
 	}
@@ -365,11 +369,11 @@ public class GenerateHTML {
 		double highest = getHigestValue(classNames, results);
 		double lowest = getLowestValue(classNames, results);
 		double count = getCount(classNames, results);
-		row[1] = "%.2f"+Double.toString(average);
-		row[2] = "%.2f"+Double.toString(standardDeviation);
-		row[3] = "%.2f"+Double.toString(highest);
-		row[4] = "%.2f"+Double.toString(lowest);
-		row[5] = "%.2f"+Double.toString(count);
+		row[1] = "%.2f" + Double.toString(average);
+		row[2] = "%.2f" + Double.toString(standardDeviation);
+		row[3] = "%.2f" + Double.toString(highest);
+		row[4] = "%.2f" + Double.toString(lowest);
+		row[5] = "%.2f" + Double.toString(count);
 		return row;
 	}
 
@@ -454,6 +458,7 @@ public class GenerateHTML {
 				Double d = Double.parseDouble(value);
 				if (d != null) {
 					System.out.println("We got here");
+
 					size++;
 					if (results.get(key).isNaN())
 						d = 0.0;
@@ -655,7 +660,7 @@ public class GenerateHTML {
 		countofBase.put("project", calc.getPrimaryMetrics().getCountOfBaseClasses());
 		HashMap<String, Double> economyOfMechanism = new HashMap<String, Double>();
 		economyOfMechanism.put("project", calc.getPrimaryMetrics().getEconomyOfMechanism());
-		
+
 		HashMap<String, Double> weakestLink = new HashMap<String, Double>();
 		weakestLink.put("project", calc.getPrimaryMetrics().getSecureWeakestLink());
 
@@ -712,6 +717,7 @@ public class GenerateHTML {
 				"Count" };
 
 		Set<String> classes = new HashSet<String>();
+		classes.add("project");
 		HashMap<String, Double> countofBaseClasses = new HashMap<String, Double>();
 		countofBaseClasses.put("project", calc.getPrimaryMetrics().getCountOfBaseClasses());
 
@@ -821,61 +827,61 @@ public class GenerateHTML {
 				"Weighted Methods per Class");
 		metrics[20] = generateRow(classNames, calc.getPrimaryMetrics().getMeasureOfAggregation(),
 				"Measure of Aggregation");
-		metrics[21] = generateRow(classNames, baseClass, "Count of Base Classes");
-		metrics[22] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingBetweenObjects(),
+		//metrics[21] = generateRow(classNames, baseClass, "Count of Base Classes");
+		metrics[21] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingBetweenObjects(),
 				"Coupling Between Objects");
-		metrics[23] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingCorruptionPropagation(),
+		metrics[22] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingCorruptionPropagation(),
 				"Coupling Corruption Propagation");
-		metrics[24] = generateRow(classNames, calc.getPrimaryMetrics().getDepthOfInheritanceTree(),
+		metrics[23] = generateRow(classNames, calc.getPrimaryMetrics().getDepthOfInheritanceTree(),
 				"Depth of Inheritance Tree");
-		metrics[25] = generateRow(classNames, calc.getPrimaryMetrics().getDirectClassCoupling(),
+		metrics[24] = generateRow(classNames, calc.getPrimaryMetrics().getDirectClassCoupling(),
 				"Direct Class Coupling");
-		metrics[26] = generateRow(classNames, calc.getPrimaryMetrics().getFanIn(), "Fan in");
-		metrics[27] = generateRow(classNames, calc.getPrimaryMetrics().getFanOut(), "Fan out");
-		metrics[28] = generateRow(classNames, calc.getPrimaryMetrics().getHenryKafura(), "Henry Kafura");
-		metrics[29] = generateRow(classNames, calc.getPrimaryMetrics().getNumberOfChildren(), "Number of Children");
-		metrics[30] = generateRow(classNames, calc.getPrimaryMetrics().getResponseSetForAClass(),
+		metrics[25] = generateRow(classNames, calc.getPrimaryMetrics().getFanIn(), "Fan in");
+		metrics[26] = generateRow(classNames, calc.getPrimaryMetrics().getFanOut(), "Fan out");
+		metrics[27] = generateRow(classNames, calc.getPrimaryMetrics().getHenryKafura(), "Henry Kafura");
+		metrics[28] = generateRow(classNames, calc.getPrimaryMetrics().getNumberOfChildren(), "Number of Children");
+		metrics[29] = generateRow(classNames, calc.getPrimaryMetrics().getResponseSetForAClass(),
 				"Response Set for a Class");
-		metrics[31] = generateRow(classes, designSize, "Design Size in Classes");
-		metrics[32] = generateRow(classes, stallRatio, "Stall Ratio");
-		metrics[33] = generateRow(classNames, calc.getPrimaryMetrics().getCriticalElementRatio(),
+		metrics[30] = generateRow(classes, designSize, "Design Size in Classes");
+		metrics[31] = generateRow(classes, stallRatio, "Stall Ratio");
+		metrics[32] = generateRow(classNames, calc.getPrimaryMetrics().getCriticalElementRatio(),
 				"Critical Element Ratio");
-		metrics[34] = generateRow(classNames, calc.getPrimaryMetrics().getDataAccessMetric(), "Data Access Metric");
-		metrics[35] = generateRow(classNames, calc.getPrimaryMetrics().getGrantLeastPrivelage(),
+		metrics[33] = generateRow(classNames, calc.getPrimaryMetrics().getDataAccessMetric(), "Data Access Metric");
+		metrics[34] = generateRow(classNames, calc.getPrimaryMetrics().getGrantLeastPrivelage(),
 				"Grant Least Privilage");
-		metrics[36] = generateRow(classes, isolation, "Isolation");
-		metrics[37] = generateRow(classNames, mechanism, "least Common Mechanism");
-		metrics[38] = generateRow(classes, heirarchies, "Number of Hierarchies");
-		metrics[39] = generateRow(classNames, calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction(),
+		metrics[35] = generateRow(classes, isolation, "Isolation");
+		metrics[36] = generateRow(classNames, mechanism, "least Common Mechanism");
+		metrics[37] = generateRow(classes, heirarchies, "Number of Hierarchies");
+		metrics[38] = generateRow(classNames, calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction(),
 				"Measure of Functional Abstraction");
-		metrics[40] = generateRow(classNames, calc.getPrimaryMetrics().getClassInterfaceSize(), "Class Interface Size");
-		metrics[41] = generateRow(classNames, calc.getPrimaryMetrics().getNumberOfPolymorphicMethods(),
+		metrics[39] = generateRow(classNames, calc.getPrimaryMetrics().getClassInterfaceSize(), "Class Interface Size");
+		metrics[40] = generateRow(classNames, calc.getPrimaryMetrics().getNumberOfPolymorphicMethods(),
 				"number of PolyMorphic Methods");
-		metrics[42] = generateRow(classNames, calc.getSecondaryMetrics().getReadabilityOfClassifiedAttributes(),
+		metrics[41] = generateRow(classNames, calc.getSecondaryMetrics().getReadabilityOfClassifiedAttributes(),
 				"readability of Classified attributes");
-		metrics[43] = generateRow(classNames, calc.getSecondaryMetrics().getReadabilityOfClassifiedMethods(),
+		metrics[42] = generateRow(classNames, calc.getSecondaryMetrics().getReadabilityOfClassifiedMethods(),
 				"Readability of Classified Methods");
-		metrics[44] = generateRow(classes, sercurityAbsoulte, "Security Absolute Measurements");
-		metrics[45] = generateRow(classNames, calc.getSecondaryMetrics().getWritabilityOfClassifiedAttributes(),
+		metrics[43] = generateRow(classes, sercurityAbsoulte, "Security Absolute Measurements");
+		metrics[44] = generateRow(classNames, calc.getSecondaryMetrics().getWritabilityOfClassifiedAttributes(),
 				"writability of Classified Attributes");
-		metrics[46] = generateRow(classNames, calc.getSecondaryMetrics().getWritabilityOfClassifiedMethods(),
+		metrics[45] = generateRow(classNames, calc.getSecondaryMetrics().getWritabilityOfClassifiedMethods(),
 				"Writability of Classified Methods");
-		metrics[47] = generateRow(classNames, calc.getSecondaryMetrics().getWritabilityOfClassifiedClasses(),
+		metrics[46] = generateRow(classNames, calc.getSecondaryMetrics().getWritabilityOfClassifiedClasses(),
 				"Writablility of Classified Classes");
-		metrics[48] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedInstanceDataAccessibility(),
+		metrics[47] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedInstanceDataAccessibility(),
 				"Classified Instance Data Accessibility");
-		metrics[49] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedClassDataAccessibility(),
+		metrics[48] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedClassDataAccessibility(),
 				"Classified Class Data Accessibility");
-		metrics[50] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedAttributesInheritance(),
+		metrics[49] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedAttributesInheritance(),
 				"Classified Attributes Inheritance");
-		metrics[51] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedOperationAccessibility(),
+		metrics[50] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedOperationAccessibility(),
 				"Classified Operation Accessibility");
-		metrics[52] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedMethodsExtensibility(),
+		metrics[51] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedMethodsExtensibility(),
 				"Classified Methods Extensibility");
-		metrics[53] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedMethodsInheritance(),
+		metrics[52] = generateRow(classNames, calc.getTertiaryMetrics().getClassifiedMethodsInheritance(),
 				"Classified Methods Inheritance");
-		metrics[54] = generateRow(classes, classifiedAttricbute, "Classified Attributes Total");
-		metrics[55] = generateRow(classes, classifiedMethods, "Classified Methods Total");
+		metrics[53] = generateRow(classes, classifiedAttricbute, "Classified Attributes Total");
+		metrics[54] = generateRow(classes, classifiedMethods, "Classified Methods Total");
 		metrics[55] = generateRow(classes, classifiedClasses, "Critical Classes Total");
 		metrics[56] = generateRow(classNames, calc.getTertiaryMetrics().getUnaccessedAssignedClassifiedAttribute(),
 				"Unaccessed Assigned Classified Attribute");

@@ -73,12 +73,34 @@ public class TertiaryMetrics {
 		
 		
 		System.out.println("HELP ME PLEASE");
-		System.out.println("getClassifiedInstanceDataAccessibility: " +classifiedInstanceDataAccessibility);
-		System.out.println(getClassifiedClassDataAccessibility());
-		System.out.println(getClassifiedOperationAccessibility());
-		System.out.println(getClassifiedMethodsExtensibility());
-		System.out.println(getClassifiedAttributesTotal());
-		System.out.println(getClassifiedMethodsTotal());
+		System.out.println("classifiedInstanceDataAccessibility: " + this.getClassifiedInstanceDataAccessibility());
+		System.out.println("classifiedClassDataAccessibility: " + this.getClassifiedClassDataAccessibility());
+		System.out.println("classifiedOperationAccessibility: " + this.getClassifiedOperationAccessibility());
+		System.out.println("classifiedMethodsExtensibility: " + this.getClassifiedMethodsExtensibility());
+		System.out.println("classifiedAttributesTotal: " + this.getClassifiedAttributesTotal());
+		System.out.println("classifiedMethodsTotal: " + this.getClassifiedMethodsTotal());
+		System.out.println("classifiedAccessorAttributeInteractions: " + this.getClassifiedAccessorAttributeInteractions());
+		System.out.println("classifiedMutatorAttributeInteractions: " + this.getClassifiedMutatorAttributeInteractions());
+		System.out.println("classifiedAttributesInteractionWeight: " + this.getClassifiedAttributesInteractionWeight());
+		System.out.println("classifiedMethodsWeight: " + this.getClassifiedMethodsWeight());
+		System.out.println("classifiedWritingMethodsProportion: " + this.getClassifiedWritingMethodsProportion());
+		System.out.println("uncalledClassifiedAccessorMethod: " + this.getUncalledClassifiedAccessorMethod());
+		System.out.println("criticalClassesExtensibility: " + this.getCriticalClassesExtensibility());
+		System.out.println("criticalClassesTotal: " + this.getCriticalClassesTotal());
+		System.out.println("criticalClassesCoupling: " + this.getCriticalClassesCoupling());
+		System.out.println("compositePartCriticalClasses: " + this.getCompositePartCriticalClasses());
+		System.out.println("unusedCriticalAccessorClass: " + this.getUnusedCriticalAccessorClass());
+		System.out.println("criticalDesignProportion: " + this.getCriticalDesignProportion());
+		System.out.println("criticalSerializedClassesProportion: " + this.getCriticalSerializedClassesProportion());
+		System.out.println("criticalSuperclassesProportion: " + this.getCriticalSuperclassesProportion());
+		System.out.println("criticalSuperclassesInheritance: " + this.getCriticalSuperclassesInheritance());
+		System.out.println("reflectionPackageBoolean: " + this.getReflectionPackageBoolean());
+		System.out.println("ClassifiedMethodsInheritance: " + this.getClassifiedMethodsInheritance());
+		//System.out.println(getClassifiedClassDataAccessibility());
+		//System.out.println(getClassifiedOperationAccessibility());
+		//System.out.println(getClassifiedMethodsExtensibility());
+		//System.out.println(getClassifiedAttributesTotal());
+		//System.out.println(getClassifiedMethodsTotal());
 		//System.out.println(getClassifiedAccessorAttributeInteractions());
 		//System.out.println(getClassifiedMutatorAttributeInteractions());
 		/*System.out.println(a);
@@ -104,61 +126,85 @@ public class TertiaryMetrics {
 	}
 	
 	private void uncalledClassifiedAccessorMethod(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedNeverUsed = pv.getMapAccessClassifiedNeverCalled();
-		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
+		HashMap<String, Double> classifiedNeverUsed = pv.getMapAccessClassifiedNeverCalled();
+		HashMap<String, Double> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
-			uncalledClassifiedAccessorMethod.put(key, (double) classifiedNeverUsed.get(key)/(double)classifiedMethods.get(key));
+			if(classifiedMethods.get(key) != 0) {
+				uncalledClassifiedAccessorMethod.put(key, (double) classifiedNeverUsed.get(key)/(double)classifiedMethods.get(key));
+			} else {
+				uncalledClassifiedAccessorMethod.put(key, 0.0);
+			}
 		}
 	}
 
 	private void classifiedWritingMethodsProportion(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> methodsWriteClassifiedAttributes = pv.getMapWritesClassifiedAttributes();
-		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
+		HashMap<String, Double> methodsWriteClassifiedAttributes = pv.getMapWritesClassifiedAttributes();
+		HashMap<String, Double> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
-			classifiedWritingMethodsProportion.put(key, (double) methodsWriteClassifiedAttributes.get(key)/(double)classifiedMethods.get(key));
+			if(classifiedMethods.get(key) != 0) {
+				classifiedWritingMethodsProportion.put(key, (double) methodsWriteClassifiedAttributes.get(key)/(double)classifiedMethods.get(key));
+			} else {
+				classifiedWritingMethodsProportion.put(key, 0.0);
+			}
 		}
 	}
 
 	private void classifiedMethodsWeight(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
-		HashMap<String, Integer> totalMethods = pv.getMapTotalMethods();
+		HashMap<String, Double> classifiedMethods = pv.getMapClassifiedMethods();
+		HashMap<String, Double> totalMethods = pv.getMapTotalMethods();
 		
 		for(String key : totalMethods.keySet()) {
-			classifiedMethodsWeight.put(key, (double) classifiedMethods.get(key)/(double)totalMethods.get(key));
+			if((double)totalMethods.get(key) != 0) {
+				classifiedMethodsWeight.put(key, (double) classifiedMethods.get(key)/(double)totalMethods.get(key));
+			} else {
+				classifiedMethodsWeight.put(key, 0.0);
+			}
 		}
 	}
 
 	private void classifiedAttributesInteractionWeight(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedAttributeInteractions = pv.getMapClassifiedAttributeInteractions();
-		HashMap<String, Integer> attributeInteractions = pv.getMapAccessorInteractions();
+		HashMap<String, Double> classifiedAttributeInteractions = pv.getMapClassifiedAttributeInteractions();
+		HashMap<String, Double> attributeInteractions = pv.getMapAccessorInteractions();
 		
 		for(String key : attributeInteractions.keySet()) {
-			classifiedAttributesInteractionWeight.put(key, (double) classifiedAttributeInteractions.get(key)/(double)attributeInteractions.get(key));
+			if(attributeInteractions.get(key) != 0) {
+				classifiedAttributesInteractionWeight.put(key, (double) classifiedAttributeInteractions.get(key)/(double)attributeInteractions.get(key));
+			} else {
+				classifiedAttributesInteractionWeight.put(key, 0.0);
+			}
 		}
 	}
 
 	private void classifiedMutatorAttributeInteractions(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> mutatorInteractions = pv.getMapMutatorInteractions();
-		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
+		HashMap<String, Double> mutatorInteractions = pv.getMapMutatorInteractions();
+		HashMap<String, Double> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : mutatorInteractions.keySet()) {
-			classifiedMutatorAttributeInteractions.put(key, (double) mutatorInteractions.get(key) / (double)(mutatorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			if((double)(mutatorInteractions.get(key) * classifiedAttributes.get(key)) != 0.0) {
+				classifiedMutatorAttributeInteractions.put(key, (double) mutatorInteractions.get(key) / (double)(mutatorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			} else {
+				classifiedMutatorAttributeInteractions.put(key, 0.0);
+			}
 		}
 	}
 
 	private void classifiedAccessorAttributeInteractions(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> accessorInteractions = pv.getMapAccessorInteractions();
-		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
+		HashMap<String, Double> accessorInteractions = pv.getMapAccessorInteractions();
+		HashMap<String, Double> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : accessorInteractions.keySet()) {
-			classifiedAccessorAttributeInteractions.put(key, (double) accessorInteractions.get(key) / (double)(accessorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			if((double)(accessorInteractions.get(key) * classifiedAttributes.get(key)) != 0.0) {
+				classifiedAccessorAttributeInteractions.put(key, (double) accessorInteractions.get(key) / (double)(accessorInteractions.get(key) * (double)classifiedAttributes.get(key)));
+			} else {
+				classifiedAccessorAttributeInteractions.put(key, 0.0);
+			}
 		}
 	}
 
 	private void classifiedMethodsTotal(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
+		HashMap<String, Double> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
 			classifiedMethodsTotal +=(double) pv.getMapClassifiedMethods().get(key);
@@ -166,7 +212,7 @@ public class TertiaryMetrics {
 	}
 
 	private void classifiedAttributesTotal(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedAttributes = pv.getMapPrivateProtectedTotal();
+		HashMap<String, Double> classifiedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : classifiedAttributes.keySet()) {
 			classifiedAttributesTotal += (double) pv.getMapTotalAttributes().get(key);
@@ -174,8 +220,8 @@ public class TertiaryMetrics {
 	}
 
 	private void classifiedMethodsExtensibility(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> nonFinalClassifiedMethods = pv.getMapNonFinalPrivateProtectedMethods();
-		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
+		HashMap<String, Double> nonFinalClassifiedMethods = pv.getMapNonFinalPrivateProtectedMethods();
+		HashMap<String, Double> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
 			if(classifiedMethods.get(key) != 0) {
@@ -188,8 +234,8 @@ public class TertiaryMetrics {
 	}
 
 	private void classifiedOperationAccessibility(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedMethodsNotPrivate = pv.getMapClassifiedMethodsNotPrivate();
-		HashMap<String, Integer> classifiedMethods = pv.getMapClassifiedMethods();
+		HashMap<String, Double> classifiedMethodsNotPrivate = pv.getMapClassifiedMethodsNotPrivate();
+		HashMap<String, Double> classifiedMethods = pv.getMapClassifiedMethods();
 		
 		for(String key : classifiedMethods.keySet()) {
 			if(classifiedMethods.get(key) != 0) {
@@ -202,8 +248,8 @@ public class TertiaryMetrics {
 	}
 
 	private void classifiedClassDataAccessibility(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedClassNotPrivate = pv.getMapClassifiedClassAttributeNotPrivate();
-		HashMap<String, Integer> privateProtectedAttributes = pv.getMapPrivateProtectedTotal();
+		HashMap<String, Double> classifiedClassNotPrivate = pv.getMapClassifiedClassAttributeNotPrivate();
+		HashMap<String, Double> privateProtectedAttributes = pv.getMapPrivateProtectedTotal();
 		
 		for(String key : privateProtectedAttributes.keySet()) {
 			if(privateProtectedAttributes.get(key) != 0) {
@@ -216,8 +262,8 @@ public class TertiaryMetrics {
 	}
 
 	private void classifiedInstanceDataAccessibility(PulledValues pv, MurgePulledValues mpv) {
-		HashMap<String, Integer> classifiedInstanceNotPrivate = pv.getMapClassifiedInstanceAttributeNotPrivate();
-		HashMap<String, Integer> privateProtectedAttributes = pv.getMapPrivateProtectedTotal();
+		HashMap<String, Double> classifiedInstanceNotPrivate = pv.getMapClassifiedInstanceAttributeNotPrivate();
+		HashMap<String, Double> privateProtectedAttributes = pv.getMapPrivateProtectedTotal();
 	
 		for(String key : privateProtectedAttributes.keySet()) {
 			if(privateProtectedAttributes.get(key) != (double)0.0) {
@@ -270,7 +316,7 @@ public class TertiaryMetrics {
 		double sumOfPrivateAndProtectedMethodsInClass=0,sumOfCriticalCriticalCouplingAttributes=0;
 		
 		
-		HashMap<String, HashSet<String>> numberOfCoupledClasses = mpv.getClassesCoupledToBaseClass();
+		HashMap<String, Double> numberOfCoupledClasses = mpv.getClassesCoupledToBaseClass();
 		
 		for (String className: numberOfcriticalInstanceAttributes.keySet()) {
 			sumOfPrivateAndProtectedMethodsInClass += (numberOfcriticalClassAttributes.get(className) + numberOfcriticalInstanceAttributes.get(className));
@@ -290,13 +336,13 @@ public class TertiaryMetrics {
 	private void compositePartCriticalClasses(PulledValues pv, MurgePulledValues mpv) {
 		Set<String> criticalClassNames = mpv.getCriticalBaseClasses();
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
-		HashMap<String, HashSet<String>> compositePartClasses = mpv.getClassesCoupledToBaseClass();
+		HashMap<String, Double> compositePartClasses = mpv.getClassesCoupledToBaseClass();
 		double compositePartClassesCounter=0;
 		
 		for (String className:classNames) {
 			
 			if (compositePartClasses.containsKey(className)) {
-				if (compositePartClasses.get(className).size()>1) compositePartClassesCounter+=1;
+				if (compositePartClasses.get(className)>1) compositePartClassesCounter+=1;
 			}
 		}
 		compositePartCriticalClasses= (double) (compositePartClassesCounter/criticalClassNames.size());
@@ -311,19 +357,19 @@ public class TertiaryMetrics {
 	
 	//CDP
 	private void criticalDesignProportion(PulledValues pv, MurgePulledValues mpv) {
-		criticalDesignProportion= (double) (mpv.getNumberOfCriticalClassesInProgram()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfClassesInProject().size());
+		criticalDesignProportion= (double) (mpv.getNumberOfCriticalClassesInProgram()) / (double) (mpv.getNumberOfClassesInProject().size());
 		if ((mpv.getNumberOfClassesInProject().size()==0)) criticalDesignProportion= (double) 0;
 	}
 	
 	//CSCP
 	private void criticalSerializedClassesProportion(PulledValues pv, MurgePulledValues mpv) {
-		criticalSerializedClassesProportion = (double) (mpv.getNumberOfSerializableClassesInProject().size()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfCriticalClassesInProgram());
+		criticalSerializedClassesProportion = (double) (mpv.getNumberOfSerializableClassesInProject()) / (double) (mpv.getNumberOfCriticalClassesInProgram());
 		if (mpv.getNumberOfCriticalClassesInProgram()==0) criticalSerializedClassesProportion = (double)0;
 	}
 	
 	//CSP
 	private void criticalSuperclassesProportion(PulledValues pv, MurgePulledValues mpv) {
-		criticalSuperclassesProportion = (double) (mpv.getCriticalBaseClasses().size()*INT_TO_DOUBLE) / (double) (mpv.getNumberOfCriticalClassesInProgramHeirchy().size());
+		criticalSuperclassesProportion = (double) (mpv.getCriticalBaseClasses().size()) / (double) (mpv.getNumberOfCriticalClassesInProgramHeirchy().size());
 		if (mpv.getNumberOfCriticalClassesInProgramHeirchy().size()==0) criticalSuperclassesProportion = (double) 0;
 	}
 	
@@ -336,12 +382,12 @@ public class TertiaryMetrics {
 	//RPB - this is actually a boolean not an int sum. fix it in murge pulled values.
 	private void reflectionPackageBoolean(PulledValues pv, MurgePulledValues mpv) {
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
-		ArrayList<String> criticalSerializedClasses = mpv.getNumberOfSerializableClassesInProject();
+		int criticalSerializedClasses = mpv.getNumberOfSerializableClassesInProject();
 		/*for (String className: classNames) {
 			reflectionPackageBoolean.put(className, (criticalSerializedClasses.contains(className)) ? (Double) (1.0) : (Double) (0.0)  );
 		}*/
 		
-		reflectionPackageBoolean = (criticalSerializedClasses.size()>0*INT_TO_DOUBLE) ? (double) (1.0) : (double) (0.0);
+		reflectionPackageBoolean = (criticalSerializedClasses>0) ? (double) (1.0) : (double) (0.0);
 		
 	}
 	

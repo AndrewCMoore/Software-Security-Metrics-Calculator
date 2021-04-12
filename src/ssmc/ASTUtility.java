@@ -28,7 +28,7 @@ public class ASTUtility {
 	public static final ArrayList<String> getModifers(ASTNode node) {
 		if(node instanceof SingleVariableDeclaration){
 			SingleVariableDeclaration sVDNode = (SingleVariableDeclaration) node;
-			System.out.println(sVDNode.getModifiers());
+			//System.out.println(sVDNode.getModifiers());
 			
 			return getModifier(sVDNode.getModifiers());
 		}

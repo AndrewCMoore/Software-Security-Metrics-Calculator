@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SSMC
-Bundle-SymbolicName: SSMC2;singleton:=true
+Bundle-SymbolicName: SSMC56;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ssmc.Activator
 Require-Bundle: org.eclipse.ui,

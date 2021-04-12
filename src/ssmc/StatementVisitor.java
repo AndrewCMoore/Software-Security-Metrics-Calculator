@@ -518,7 +518,7 @@ public class StatementVisitor extends ASTVisitor {
 		Statement statement = new Statement(node, this.compilationUnit);
 		statement.addComplexity(1);
 		statement.checkExpressionForOperators();
-		System.out.println("+" + statement.getComplexity() +" complexity in: " + statement.getClass() + "from " + statement.toString());
+		//System.out.println("+" + statement.getComplexity() +" complexity in: " + statement.getClass() + "from " + statement.toString());
 		statementList.add(statement);
 		
 		
