@@ -19,7 +19,7 @@ public class PrimaryMetrics {
 	private HashMap<String,Double> lackOfCohesionOfMethods = new HashMap<String,Double>();
 	private HashMap<String,Double> cohesionAmongMethodsInClass = new HashMap<String,Double>();
 	private HashMap<String,Double> measureOfFunctionalAbtraction = new HashMap<String,Double>();
-	private HashMap<String, HashMap<String, Integer>> lengthOfMethod = new HashMap<String, HashMap<String, Integer>>();
+	private HashMap<String, HashMap<String,Double>> lengthOfMethod = new HashMap<String, HashMap<String,Double>>();
 	private double stallRatio;
 	private HashMap<String,Double> couplingCorruptionPropagation = new HashMap<String,Double>();
 	private HashMap<String,Double> couplingBetweenObjects = new HashMap<String,Double>();
@@ -153,12 +153,13 @@ public class PrimaryMetrics {
 	//LCOM(C) = (1- |E(C) / V(C)| * |M(C)|) * 100%
 	public void lackOfCohesionOfMethods (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		
-		HashMap<String,Integer> EC = mpv.EC();
-		HashMap<String,Integer> VC = mpv.getSumOfAllInstanceVaribles();
-		HashMap<String,Integer> MC = mpv.getSumOfAllInstanceMethodsInClass();
+		HashMap<String,Double> EC = mpv.getmapNumberOfUniqueAttributesInMethodsInClass();		
+		HashMap<String,Double> VC = new HashMap<String,Double>();
+		HashMap<String,Double> MC = mpv.getSumOfAllInstanceMethodsInClass();
 		
-		for (String key: VC.keySet()) {
-			lackOfCohesionOfMethods.put(key, (double) (1-(VC.get(key) /(double)(VC.get(key)*(double)MC.get(key))))*100);
+		for (String key: pv.getMapPublicInstance().keySet()) {
+			VC.put(key, (pv.getMapPrivateProtectedInstance().get(key)+pv.getMapPrivateProtectedInstance().get(key)));
+			lackOfCohesionOfMethods.put(key, (double) (1-(EC.get(key) /(double)(VC.get(key)*(double)MC.get(key))))*100);
 		}
 		
 	}
@@ -166,10 +167,10 @@ public class PrimaryMetrics {
 	//need requirment method names from each classes.
 	public void cohesionAmongMethodsInClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		HashMap<String,Double> k = mpv.getMethodsInClass();
-		HashMap<String, HashMap<String, Integer>> l = mpv.getUniqueParamatersInEachMethodInEachClass();
-		HashMap<String,Integer> a = mpv.getNumberOfUniqueParametersInClassForAllMethods();
-		//HashMap<String, Integer> methodClassL = mpv.getMethodNamesInClass();
-		HashMap<String,Integer> newL = new HashMap<String,Integer>();
+		HashMap<String, HashMap<String,Double>> l = mpv.getUniqueParamatersInEachMethodInEachClass();
+		HashMap<String,Double> a = mpv.getNumberOfUniqueParametersInClassForAllMethods();
+		//HashMap<String,Double> methodClassL = mpv.getMethodNamesInClass();
+		HashMap<String,Double> newL = new HashMap<String,Double>();
 		
 		//sum all L values per class
 		for (String key: l.keySet()) {
@@ -177,7 +178,7 @@ public class PrimaryMetrics {
 			for (String innerKey: l.get(key).keySet()) {
 				counter+=l.get(key).get(innerKey);
 			}
-			newL.put(key, counter);
+			newL.put(key, (double) counter);
 		}
 		
 		//CAMC = a / kl
@@ -192,8 +193,8 @@ public class PrimaryMetrics {
 	
 	public void commentRatio (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 			
-			HashMap<String,Integer> totalLinesOfCode = mpv.getTotalNumberOfLinesInEachClass();
-			HashMap<String,Integer> totalCommentsInCode = mpv.getTotalNumberOfCommentedLinesInEachClass();
+			HashMap<String,Double> totalLinesOfCode = mpv.getTotalNumberOfLinesInEachClass();
+			HashMap<String,Double> totalCommentsInCode = mpv.getTotalNumberOfCommentedLinesInEachClass();
 			
 			for (String key: totalCommentsInCode.keySet()) {
 				commentRatio.put(key, (double) totalCommentsInCode.get(key)/((double)totalLinesOfCode.get(key)-(double)totalCommentsInCode.get(key)));
@@ -215,7 +216,7 @@ public class PrimaryMetrics {
 			countPath.put(key, (double) pv.getMapCountPath().get(key));
 		}*/		
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
-		HashMap<String, Integer> classCountPath  = pv.getMapCountPath();
+		HashMap<String, Double> classCountPath  = pv.getMapCountPath();
 		for (String key: classNames) {
 			countPath.put(key, (classCountPath.containsKey(key)) ?  (double) classCountPath.get(key) :  (double) 0.0);
 		}
@@ -241,7 +242,7 @@ public class PrimaryMetrics {
 	//#proposal info lacking, refer to original paper.
 	public void nestingComplexity (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		double complexityAverage;
-		HashMap<String, HashMap<String, Integer>> nestingComplexityInEachClass = mpv.getComplexityDepthInClassMethods();
+		HashMap<String, HashMap<String,Double>> nestingComplexityInEachClass = mpv.getComplexityDepthInClassMethods();
 		for (String className: nestingComplexityInEachClass.keySet() ){
 			complexityAverage=0;
 			for (String methodName: nestingComplexityInEachClass.get(className).keySet()) {
@@ -284,7 +285,7 @@ public class PrimaryMetrics {
 	}
 	
 	public void weightedMethodsPerClass (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		HashMap<String, HashMap<String,Integer>> complexityDepthInClassMethods = mpv.getComplexityDepthInClassMethods();
+		HashMap<String, HashMap<String,Double>> complexityDepthInClassMethods = mpv.getComplexityDepthInClassMethods();
 		HashMap<String, Double> complexityDepthInClassMethodsInClass = new HashMap<String, Double>();
 		double classMethodComplexityTotal;
 		double classMethodAverageMultiplier; 
@@ -308,7 +309,7 @@ public class PrimaryMetrics {
 	
 	
 	public void SourceLinesOfCode (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		HashMap<String, Integer> projectTotalLinesOfCode = mpv.getTotalNumberOfLinesInEachClass();
+		HashMap<String,Double> projectTotalLinesOfCode = mpv.getTotalNumberOfLinesInEachClass();
         for (String key: projectTotalLinesOfCode.keySet()) {
         	sourceLinesOfCode+=(double)projectTotalLinesOfCode.get(key);
         }		
@@ -337,9 +338,9 @@ public class PrimaryMetrics {
 	//CBO
 	public void couplingBetweenObjects (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		
-		HashMap<String, HashSet<String>> classCoupling = mpv.getClassCouplingRelationship();
+		HashMap<String, Double> classCoupling = mpv.getClassCouplingRelationship();
 		for (String className: getClassesInProject()) {
-			couplingBetweenObjects.put(className, (classCoupling.containsKey(className) ? (double) classCoupling.get(className).size() : (double) 0.0 ));
+			couplingBetweenObjects.put(className, (classCoupling.containsKey(className) ? (double) classCoupling.get(className): (double) 0.0 ));
 		}
 		
 	}
@@ -360,7 +361,7 @@ public class PrimaryMetrics {
 	
 	public void directClassCoupling (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		for (String key: mpv.getClassCouplingRelationship().keySet()) {
-			directClassCoupling.put(key, (double) mpv.getClassCouplingRelationship().get(key).size());
+			directClassCoupling.put(key, (double) mpv.getClassCouplingRelationship().get(key));
 		}
 
 	}
@@ -423,7 +424,7 @@ public class PrimaryMetrics {
         	dataAccessMetric.put(key, (double) pv.getMapCriticalElements().get(key) / (double)pv.getMapTotalAttributes().get(key));
         }*/
 		
-		HashMap<String, Integer> criticalMapElements = pv.getMapCriticalElements();
+		HashMap<String, Double> criticalMapElements = pv.getMapCriticalElements();
 		Set<String> classNames = mpv.getNumberOfClassesInProject();
 		for (String key: classNames) {
 			if(pv.getMapTotalAttributes().get(key) != 0) {
@@ -468,8 +469,8 @@ public class PrimaryMetrics {
 	
 	//MFA(C) =# of Methods Inherited by a Class / # of Total Methods Accessible
 	public void measureOfFunctionalAbtraction (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		HashMap<String,Integer> numberOfMethodsInherited = mpv.getClassMethodsInheritedBySubClassm();
-		HashMap<String,Integer> totalNumberOfMethodsAccessible =  mpv.getClassMethodsInheritedBySubClassm(); //temp
+		HashMap<String,Double> numberOfMethodsInherited = mpv.getClassMethodsInheritedBySubClassm();
+		HashMap<String,Double> totalNumberOfMethodsAccessible =  mpv.getClassMethodsInheritedBySubClassm(); //temp
 		
 		for (String key: numberOfMethodsInherited.keySet()) {
 			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/(double)totalNumberOfMethodsAccessible.get(key)));
@@ -481,7 +482,7 @@ public class PrimaryMetrics {
 	//###########################################################################################################################################################
 	
 	public void classInterfaceSize (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
-		HashMap<String,Integer> mapPublicInstance = pv.getMapPublicInstance();
+		HashMap<String, Double> mapPublicInstance = pv.getMapPublicInstance();
 		for (String key: mapPublicInstance.keySet()) {
 			classInterfaceSize.put(key, (double) (mapPublicInstance.get(key)+ (double)pv.getMapPublicClass().get(key)));
 		}
@@ -557,7 +558,7 @@ public class PrimaryMetrics {
 	}
 
 
-	public HashMap<String, HashMap<String, Integer>> getLengthOfMethod() {
+	public HashMap<String, HashMap<String,Double>> getLengthOfMethod() {
 		return lengthOfMethod;
 	}
 
