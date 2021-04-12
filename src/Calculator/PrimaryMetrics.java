@@ -348,7 +348,7 @@ public class PrimaryMetrics {
 	public void couplingCorruptionPropagation (PulledValues pv, SecondaryMetrics sm, MurgePulledValues mpv) {
 		HashMap<String, Double> methodsInherited=mpv.getNumberOfMethodsInheritedByAClass();
 		for (String className: getClassesInProject()) {
-			couplingBetweenObjects.put(className, (methodsInherited.containsKey(className) ? (double) methodsInherited.get(className) : (double) 0.0 ));
+			couplingCorruptionPropagation.put(className, (methodsInherited.containsKey(className) ? (double) methodsInherited.get(className) : (double) 0.0 ));
 		}
 	}
 	
