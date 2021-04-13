@@ -177,30 +177,38 @@ public class PulledValues {
 	}
 
 	private int isClassifiedMethodNotPrivate(Method method) {
+		try {
 		if(!method.getModifiers().contains("public") && !method.getModifiers().contains("private")) {
 			return 1;
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 
 	private int isCriticalInstanceNotPrivate(Attribute attribute) {
+		try {
 		if(attribute.isCritical() && !attribute.getModifier().contains("private") && !attribute.getModifier().contains("static")) {
 			return 1;
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 	
 	private int isCriticalClassNotPrivate(Attribute attribute) {
+		try {
 		if(attribute.isCritical() && !attribute.getModifier().contains("private") && attribute.getModifier().contains("static")) {
 			return 1;
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 
 	private int countClassifiedInteractions(Attribute attribute) {
+		try {
 		if(!attribute.getModifier().contains("public")) {
 			return attribute.getUsage();
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 
@@ -209,23 +217,29 @@ public class PulledValues {
 	}
 
 	private int isNonFinalPrivateProtected(Method method) {
+		try {
 		if((method.getModifiers().contains("private") || method.getModifiers().contains("protected")) && !method.getFinalized()) {
 			return 1;
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 	
 	private int isClassified(Method method) {
+		try {
 		if(!method.getModifiers().contains("public")) {
 			return 1; 
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 	
 	private int isPublic(Method method) {
+		try {
 		if(method.getModifiers().contains("public")) {
 			return 1; 
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 	
@@ -259,30 +273,39 @@ public class PulledValues {
 	}
 	
 	private int isPublicInstance(Attribute attribute) {
+		try {
 		if(attribute.getModifier().contains("public") && !attribute.getModifier().contains("static")) {
 			return 1; 								
 		}
+		}  catch (Exception e) {}	
 		return 0;
+		
 	}
 	
 	private int isPublicClass(Attribute attribute) {
+		try {
 		if(attribute.getModifier().contains("static") && attribute.getModifier().contains("public")) {
 			return 1;								
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 	
 	private int isPrivateProtectedInstance(Attribute attribute) {
+		try {
 		if(!attribute.getModifier().contains("public") && !attribute.getModifier().contains("static")) { 
 			return 1;											
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 	
 	private int isPrivateProtectedClass(Attribute attribute) {
+		try {
 		if(!attribute.getModifier().contains("public") && attribute.getModifier().contains("static")) {
 			return 1;			
 		}
+		}  catch (Exception e) {}	
 		return 0;
 	}
 	
