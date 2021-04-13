@@ -502,7 +502,7 @@ public class GenerateHTML {
 		}
 		if (size != 0) {
 			standardDeviation /= size;
-			return standardDeviation;
+			return Math.sqrt(standardDeviation);
 		}
 		return 0;
 	}
