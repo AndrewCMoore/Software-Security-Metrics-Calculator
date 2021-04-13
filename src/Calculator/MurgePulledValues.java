@@ -275,7 +275,9 @@ public class MurgePulledValues {
 				//set nonfinalizedCriticalClasses
 				
 				if (mapCriticalClasses.contains(classNode.getIdentifier())) {
-					if (!(classNode.getModifier().contains("final"))) nonFinalizedCriticalClasses.put(classNode.getIdentifier(), (double)1);
+					try {
+						if (!(classNode.getModifier().contains("final"))) nonFinalizedCriticalClasses.put(classNode.getIdentifier(), (double)1);
+					}catch (Exception e) {}
 				}
 				
 				
@@ -421,9 +423,10 @@ public class MurgePulledValues {
 	
 	public void isNonFinalizedCriticalClass (Class classNode) {
 		if (classNode.isCritical()) {
-			if (!(classNode.getModifier().contains("final"))) 
-				nonFinalizedCriticalClass.add(classNode.getIdentifier());			
-		}		
+			try {
+			if (!(classNode.getModifier().contains("final"))) nonFinalizedCriticalClass.add(classNode.getIdentifier());			
+		}  catch (Exception e) {}	
+		}
 	}
 	
 	public void isReflectionPackageClass(Class classNode) {
@@ -438,6 +441,7 @@ public class MurgePulledValues {
 		HashMap<Integer,Integer> startEndPoints = new HashMap <Integer,Integer>();
 		HashMap <String,HashMap<Integer,Integer>> methodStartEndPoints = new HashMap <String,HashMap<Integer,Integer>>();
 		for(Method method : methodList) {	
+			try {
 			///if the method is not a constructor, main, run, or abstract, then count it.
 			if (!(method.getIdentifier().equals(classNode.getIdentifier()) ||(method.getIdentifier().equals("main")) || (method.getIdentifier().equals("run") || method.getModifiers().contains("abstract")))) {	
 				//int counter = (method.getEndLine()-method.getStartLine()) >1 ? ((method.getEndLine()-method.getStartLine())-1):1; //lengthofmethod ;
@@ -450,7 +454,8 @@ public class MurgePulledValues {
 				startEndPoints.put(method.getStartLine(),method.getEndLine());
 
 							
-			}		
+			}	
+			}  catch (Exception e) {}	
 		}
 		System.out.println("AXER");
 		System.out.println(classNode.getCompilationUnit().toString());
@@ -597,7 +602,7 @@ public class MurgePulledValues {
 		
 		
 		for (String topBaseClass :topLevelSuperClassesInHierarchy) { //for each topSuperClass
-			
+			try {
 			childrenClasses=mapImidiateChildren.get(topBaseClass); //aquire current children of topBaseClass
 			topToBottomClassHiarchy.add(topBaseClass);
 			depthOfInheritanceTreeAtCurrentSuperClass.put(topBaseClass, (double) DepthOfInheriitanceCounter);
@@ -607,7 +612,7 @@ public class MurgePulledValues {
 			//	System.out.println("Current Children Classes: " +childrenClasses); //should be level1+workstations.
 				for (int i=0;i<childrenClasses.size();i++) {
 					//System.out.println("I want to add: " +mapImidiateChildren.get(childrenClasses.get(i)));
-					try {
+					
 					topToBottomClassHiarchy.addAll(childrenClasses);
 					nextChildrenClasses.addAll(mapImidiateChildren.get(childrenClasses.get(i)));
 					DepthOfInheriitanceCounter+=1;
@@ -621,7 +626,7 @@ public class MurgePulledValues {
 					
 					
 					
-					} catch (Exception e) {}
+					
 					
 					
 					//System.out.println("next children classes Inner: "+nextChildrenClasses);
@@ -632,6 +637,7 @@ public class MurgePulledValues {
 				
 			
 			}
+			} catch (Exception e) {}
 			
 			
 		
@@ -855,6 +861,7 @@ public class MurgePulledValues {
 				
 				for(Method method : methodList) {
 					methodNames.add(method.getIdentifier());
+					try {
 					if (! ((method.getModifiers().contains("abstract")) || (method.getModifiers().contains("static")) || (method.getModifiers().contains("final")))) numberOfInstanceMethods++; //will be moved soon.
 					
 					//#methods inherited PV
@@ -879,8 +886,8 @@ public class MurgePulledValues {
 					totalNumberOfMethodsPerClass+=1;
 					ArrayList<Statement> statmentList = method.getStatements();
 					//totalNumberOfPrivateandPritectedmethods+= (method.getModifiers().contains("protected")) ? 1:0; //protected methods that CAN be inherited.
+					}  catch (Exception e) {}	
 				}
-				
 				sumaztionOfuniqueParametersInEachMethodForAClass.put(classNode.getIdentifier(),(double)uniqueParametersInEachMethodCounter);
 				
 				//dependend on that attribute, type thing.
