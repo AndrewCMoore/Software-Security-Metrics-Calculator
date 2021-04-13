@@ -206,7 +206,7 @@ public class Attribute {
 	 */
 	@Override
 	public String toString() {
-		return "Attribute [Identifier=" + Identifier + ", modifier=" + modifier.toString() + ", usage=" + usage + ", finalized="
+		return "Attribute [Identifier=" + Identifier + ", modifier="  + ", usage=" + usage + ", finalized="
 				+ finalized + ", compilationUnit=" + ", links=" + links + ", lineNum=" + lineNum
 				+ "]";
 	}

@@ -1,7 +1,13 @@
 package tree;
 
+import java.lang.management.ManagementFactory;
+
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Flow.Processor;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -14,6 +20,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+
 import ssmc.*;
 import ssmc.Class;
 
@@ -25,10 +32,16 @@ public class JDTree {
 	//Type of node that it is
 	private NodeType type;
 	// Actual node that we are organizing
+	
 	private Object node;
 	
-	private boolean Threading = false;
 
+	private boolean Threading = false;
+	private static int MAX_NO_THREADS = 50;
+	public static int startThreads;
+	public static Semaphore semaphore = new Semaphore(5);
+
+	
 	/**
 	 * Constructor for JDTree.
 	 * Finds out node type, and sets children and node type for the node.
@@ -39,7 +52,9 @@ public class JDTree {
 	**/
 	public JDTree(Object node, JDTree parent) throws JavaModelException {
 		
-
+		System.out.println("Node: " + node.getClass());
+		System.out.println("Starting Thread Count: " + startThreads);
+		
 		if (Threading) {
 			
 			this.node = node;
@@ -84,46 +99,157 @@ public class JDTree {
 				}
 			}
 			
+			
+				
+		
+			//repeat of the packages
+			if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+				int startThreadCount = Thread.activeCount();
+				System.out.println("|||||||| " + startThreadCount + " |||||||||");
+				type = NodeType.PACKAGE;
+				type = NodeType.COMPILATIONUNIT;
+				IPackageFragment pack = (IPackageFragment) node;
+				System.out.println("PACKAGE: " + pack.toString());
+				//get the list of compilation units
+				ICompilationUnit[] units = pack.getCompilationUnits();
+				
+				// # of Children = number of compilation units within the package 
+				children = new JDTree[units.length];
+				ArrayList<JDTree> tempChildren = new ArrayList<JDTree>();
+				ArrayList<CAMValues> listCAMV = new ArrayList<CAMValues>();
+				//add children to the array
+				for (int i = 0; i < units.length; i++) {
+					while(Thread.activeCount() - startThreadCount > MAX_NO_THREADS) {
+						
+					}
+					CAMValues cv = new CAMValues(units[i]);
+					
+					//if(Thread.activeCount() - startThreads < MAX_NO_THREADS) {
+					cv.start();
+					listCAMV.add(cv);
+					//} else {
+						//cv.run();
+					//}
+				}
+				while(Thread.activeCount() > startThreadCount) {
+					System.out.println(MAX_NO_THREADS + " MAX THREADS");
+					System.out.println("Threads:" + Thread.activeCount() + "\t Goal: " + startThreadCount);
+				}
+				for(int i = 0; i < listCAMV.size(); i++) {
+					Class[] classes = listCAMV.get(i).getClassArray();
+					System.out.println(classes);
+					//if the there are classes in here then we add them to the list of children
+					if (classes != null) {
+						for (int j = 0; j < classes.length; j++) {
+							//children[j] = new JDTree(classes[j], this);
+							tempChildren.add(new JDTree(classes[j], this));
+							System.out.println("the Class is "+classes[j].getIdentifier());
+						}
+					}
+				}
+				
+				children = new JDTree[tempChildren.size()];
+				
+				for(int k = 0; k < tempChildren.size(); k++) {
+					System.out.println("Size:" + tempChildren.size() + "\t index:" + k);
+					children[k] = tempChildren.get(k);
+				}
+				// generateAST();
+			}
+
+			if (kind.equals("org.eclipse.jdt.internal.core.CompilationUnit")) {}
+			/*
+			//If it is a Compilation unit
+			if (kind.equals("org.eclipse.jdt.internal.core.CompilationUnit")) {
+				//set type
+				type = NodeType.COMPILATIONUNIT;
+			
+				ICompilationUnit comp = (ICompilationUnit) node;
+				//Class[] classes = CAMValues.getClasses(comp);
+				CAMValues cv = new CAMValues(comp);
+				
+				try {
+					cv.start();
+					TimeUnit.MICROSECONDS.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Class[] classes = cv.getClassArray();
+				//if the there are classes in here then we add them to the list of children
+				if (classes != null) {
+					children = new JDTree[classes.length];
+					for (int i = 0; i < classes.length; i++) {
+						children[i] = new JDTree(classes[i], this);
+						//System.out.println("the Class is "+classes[i].getIdentifier());
+						
+					}
+				}
+			}
+			/*
 			//repeat of the packages
 			if (kind.equals("org.eclipse.jdt.internal.core.PackageFragment")) {
 				type = NodeType.PACKAGE;
 				IPackageFragment pack = (IPackageFragment) node;
 				//get the list of compilation units
 				ICompilationUnit[] units = pack.getCompilationUnits();
+				type = NodeType.COMPILATIONUNIT;
+				for(int k = 0; k < units.length; k++) {
+					
+				}
 				
 				for(int j = 0; j < units.length; j++) {
-					type = NodeType.COMPILATIONUNIT;
+					
+					
+					System.out.println("Active: " + Thread.activeCount() + "\n Start Threads: " + startThreads + "\n Max Threads: " + MAX_NO_THREADS);
+					while(Thread.activeCount() - startThreads > MAX_NO_THREADS) {
+						//System.out.println("Too many threads active");
+					}
+					
+					System.out.println("Threads active");
+					
 					CAMValues cv = new CAMValues(units[j]);
 					try {
 						cv.start();
+						while(cv.running) {}
+						Class[] classes = cv.getClassArray();
+						System.out.println(classes);
+						
+						if (classes != null) {
+							System.out.println("We got here");
+							children = new JDTree[classes.length];
+							for (int i = 0; i < classes.length; i++) {
+								children[i] = new JDTree(classes[i], this);
+								System.out.println("the Class is "+classes[i].getIdentifier());
+								
+							}
+						}
 					} catch (Exception e) {
 						
 					} 
-					Class[] classes = cv.getClassArray();
+					
 					
 					//if the there are classes in here then we add them to the list of children
-					if (classes != null) {
-						children = new JDTree[classes.length];
-						for (int i = 0; i < classes.length; i++) {
-							children[i] = new JDTree(classes[i], this);
-							//System.out.println("the Class is "+classes[i].getIdentifier());
-							
-						}
-					}					
+										
 				}
+				/*
 				children = new JDTree[units.length];
 				//add children to the array
 				for (int i = 0; i < units.length; i++) {
 					children[i] = new JDTree(units[i], this);
 				}
+				
 				// generateAST();
 
-			}
+			}*/
 			
 			//if it is a class there arne't any more steps
 			if (kind.equals("ssmc.Class")) {
+
+				
 				type = NodeType.CLASS;
 			}
+			
 		}
 		
 		else {
@@ -190,11 +316,11 @@ public class JDTree {
 						
 					}
 				}
+				
 			}
 			//if it is a class there arne't any more steps
 			if (kind.equals("ssmc.Class")) {
 				type = NodeType.CLASS;
-				
 			}
 		}
 		
@@ -208,13 +334,19 @@ public class JDTree {
 	**/
 	
 	public JDTree[] getLeefs() {
+		
+		System.out.println(this.node.getClass());
 		if (type == NodeType.COMPILATIONUNIT) {
 			return children;
-		} else {
+		} 
+		else {
 			ArrayList<JDTree> leefs = new ArrayList<JDTree>();
+			
 			for (JDTree child : children) {
+				System.out.println("Child: " + child.node.getClass());
 				JDTree[] childLeefs = child.getLeefs();
 				for (JDTree leef : childLeefs) {
+					//System.out.println("+++" + leef.node.getClass());
 					leefs.add(leef);
 				}
 			}

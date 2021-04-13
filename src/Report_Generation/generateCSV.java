@@ -23,7 +23,7 @@ public class generateCSV {
 		createCSV(project);
 		
 		// Add headers
-		csvWriter.append("Quality Attribute, Design Principle,Primary Metric,Secondary Metric, Teriary Metric, Project Level Value");
+		csvWriter.append("Quality Attribute, Design Principle,Primary Metric,Secondary Metric, Teriary Metric, Project Level Value,");
 		for(String s : 	classNames) {
 			// Add class names next to headers
 			csvWriter.append(s + ",");

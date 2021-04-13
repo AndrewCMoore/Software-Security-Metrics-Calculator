@@ -137,8 +137,14 @@ public class MurgePulledValues {
 		
 		//correctHashMap(mapProtectedMethodsInClass);
 		
+
 		correctHashMap(mapHierarchySize);
 		correctHashMap(mapHierarchySize);
+
+		correctHashMap(classesCoupledToBaseClass);
+		
+		correctHashMap(depthOfInheritanceTreeAtCurrentSuperClass);
+
 		correctHashMap(mapHierarchySize);
 		correctHashMap(mapHierarchySize);
 		correctHashMap(mapHierarchySize);
@@ -589,10 +595,12 @@ public class MurgePulledValues {
 		ArrayList<String> nextChildrenClasses = new ArrayList<String>();				
 		int DepthOfInheriitanceCounter=0;
 		
+		
 		for (String topBaseClass :topLevelSuperClassesInHierarchy) { //for each topSuperClass
 			
 			childrenClasses=mapImidiateChildren.get(topBaseClass); //aquire current children of topBaseClass
 			topToBottomClassHiarchy.add(topBaseClass);
+			depthOfInheritanceTreeAtCurrentSuperClass.put(topBaseClass, (double) DepthOfInheriitanceCounter);
 
 			while (!(childrenClasses.isEmpty())) {//while atleast one key-value pair exists
 				
@@ -644,7 +652,7 @@ public class MurgePulledValues {
 		 int DepthOfInheriitanceCounter=0;
 			
 			for (String topLevelCriticalSuperClass :topLevelCriticalSuperClassesInHierarchy) { //for each topSuperClass
-				
+				depthOfInheritanceTreeAtCurrentSuperClass.put(topLevelCriticalSuperClass, (double) DepthOfInheriitanceCounter);
 				childrenClasses=mapImidiateChildren.get(topLevelCriticalSuperClass);
 				mapTotalCriticalClassInheritance.addAll(mapImidiateChildren.get(topLevelCriticalSuperClass)); //add direct  childclasses.
 				mapCriticalClassHierarchy.put(topLevelCriticalSuperClass, (double)mapImidiateChildren.get(topLevelCriticalSuperClass).size());				
@@ -835,8 +843,11 @@ public class MurgePulledValues {
 				
 				classAttrubuteTypes = new HashSet<String>();
 				for(Attribute a : attributeList) {
+					try {
 					classAttrubuteTypes.add(a.getType());
-					if (a.getModifier().contains("public")) validAttributesNamesThatCanBeInherited.add(a.getIdentifier());
+						if (a.getModifier().contains("public")) validAttributesNamesThatCanBeInherited.add(a.getIdentifier());
+					}catch(Exception e) {}
+					
 				}
 				validAttributeNamesInClassThatCanBeInherited.put(classNode.getIdentifier(),validAttributesNamesThatCanBeInherited);
 				mapNumberOfUniqueAttributesTypesInClass.put(classNode.getIdentifier(), (double)classAttrubuteTypes.size()-1);
