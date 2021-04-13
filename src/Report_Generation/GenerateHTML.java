@@ -84,7 +84,7 @@ public class GenerateHTML {
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] overallTable = new String[7][6];
 		String overTip = "Overall Score";
-		String section = makeCircle("Overall Score", overall, "c100 bigger orange overall besidesOverall p" + overall,
+		String section = makeCircle("Overall Score", overall, "c100 big orange overall besidesOverall p" + overall,
 				"overall1", overTip);
 		overallTable[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
 				"Count" };
@@ -92,7 +92,7 @@ public class GenerateHTML {
 		overallTable[2] = generateRow(classNames, calc.getQualityAttributes().getFlexibility(), "Flexability");
 		overallTable[3] = generateRow(classNames, calc.getQualityAttributes().getFunctionality(), "Functionality");
 		overallTable[4] = generateRow(classNames, calc.getQualityAttributes().getExtendability(), "Extendability");
-		overallTable[6] = generateRow(classNames, calc.getQualityAttributes().getReusability(), "Reusability");
+		overallTable[5] = generateRow(classNames, calc.getQualityAttributes().getReusability(), "Reusability");
 		overallTable[6] = generateRow(classNames, calc.getQualityAttributes().getUnderstandability(), "Readability");
 		section += makeTable(overallTable);
 		section += "</div>\r\n" + "</div>\r\n" + "</div>";
@@ -214,13 +214,15 @@ public class GenerateHTML {
 	}
 
 	public String makeNavBar() {
-		String navBar = "<nav class=\"navbar\">" + "<button class=\"navButton\" onclick=\"expand()\">Open Menu</button>"
-				+ "<ul id=\"navBar\" class=\"line collapse\">" + "<li class=\"lineItem\"><a>Flexability</a></li>"
-				+ "<li class=\"lineItem\"><a>Readability</a></li>" + "<li class=\"lineItem\"><a>Reusability</a></li>"
-				+ "<li class=\"lineItem\"><a>Effectiveness</a></li>"
-				+ "<li class=\"lineItem\"><a>Extendability</a></li>"
-				+ "<li class=\"lineItem\"><a>Functionality<a /></li>"
-				+ "<li class=\"lineItem\"><a>Overall Score</a></li>" + "</ul>" + "</nav>";
+		String navBar = "<nav class=\"menu\">" + "<button  id=\"menuButton\" class=\"navButton\" onclick=\"expandButton()\">Open Menu</button>"
+				+ "<ul id=\"navBar\" class=\"lineBar\">" 
+				+ "<li class=\"\"><a href =\"#flexabilityData\" class =\"link\">Flexability</a></li>"
+				+ "<li class=\"\"><a href =\"#readabilityData\" class =\"link\">Readability</a></li>" 
+				+ "<li class=\"\"><a href =\"#reusabilityData\" class =\"link\">Reusability</a></li>"
+				+ "<li class=\"\"><a href =\"#effectivenessData\" class =\"link\">Effectiveness</a></li>"
+				+ "<li class=\"\"><a href =\"#extendabilityData\" class =\"link\">Extendability</a></li>"
+				+ "<li class=\"\"><a href =\"#functionalityData\" class =\"link\">Functionality<a /></li>"
+				+ "<li class=\"\"><a href =\"#overallscoreData\" class =\"link\">Overall Score</a></li>" + "</ul>" + "</nav>";
 		return navBar;
 	}
 
@@ -246,7 +248,7 @@ public class GenerateHTML {
 				extendTip);
 		splash += makeCircle("Functionality", function, "c100 big maroon functionality p" + function, "functionality",
 				functTip);
-		splash += makeCircle("Overall Score", overall, "c100 big maroon overall p" + overall, "overall", overTip);
+		splash += makeCircle("Overall Score", overall, "c100 bigger maroon overall p" + overall, "overall", overTip);
 		splash += "</div>\r\n" + "		</div>";
 		return splash;
 	}
@@ -260,7 +262,7 @@ public class GenerateHTML {
 		section += makeCollapseSection("Reabability", generateUnderstandability());
 		section += "</div>\r\n" + "			\r\n" + "			<div id=\"functionalityData\">";
 		section += makeCollapseSection("Functionality", generateFunctionality());
-		section += "</div>\r\n" + "			\r\n" + "			<div id=\"functionalityData\">";
+		section += "</div>\r\n" + "			\r\n" + "			<div id=\"extendabilityData\">";
 		section += makeCollapseSection("Extendability", generateExtendability());
 		section += "</div>\r\n" + "			\r\n" + "			<div id=\"effectivenessData\">";
 		section += makeCollapseSection("Effectiveness", generateEffectiveness());
@@ -357,7 +359,13 @@ public class GenerateHTML {
 				+ "				} else {\r\n"
 				+ "				  panel.style.maxHeight = panel.scrollHeight + \"px\";\r\n" + "				} \r\n"
 				+ "			  });\r\n" + "			}\r\n" + "		</script>";
-
+				script+="<script>function expandButton(){\r\n"
+						+ "	if(document.getElementById(\"navBar\").getAttribute(\"class\")==\"lineBar\"){\r\n"
+						+ "		document.getElementById(\"navBar\").setAttribute(\"class\",\"lineBarOpen\");\r\n"
+						+ "	}else if(document.getElementById(\"navBar\").getAttribute(\"class\")==\"lineBarOpen\"){\r\n"
+						+ "		document.getElementById(\"navBar\").setAttribute(\"class\",\"lineBar\");\r\n"
+						+ "	}		\r\n"
+						+ "}</script>";
 		return script;
 	}
 
@@ -531,12 +539,16 @@ public class GenerateHTML {
 	public String generateCoupling() {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
+		
+		Set<String> classes = new HashSet<String>();
+		classes.add("project");
+		
 		String[][] coupling = new String[10][6];
 		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
 				"Count" };
 		HashMap<String, Double> baseClasses = new HashMap<String, Double>();
 		baseClasses.put("project", calc.getPrimaryMetrics().getCountOfBaseClasses());
-		coupling[1] = generateRow(classNames, baseClasses, "Count of Base Classes");
+		coupling[1] = generateRow(classes, baseClasses, "Count of Base Classes");
 		coupling[2] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingBetweenObjects(),
 				"Coupling Between Objects");
 		coupling[3] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingCorruptionPropagation(),
@@ -602,7 +614,7 @@ public class GenerateHTML {
 				"Grant Least Privilege");
 		coupling[4] = generateRow(classes, isolation, "Isolation");
 		coupling[5] = generateRow(classes, mechanism, "Least Common Mechanism");
-		coupling[6] = generateRow(classNames, heirarchies, "Number of Hierarchies");
+		coupling[6] = generateRow(classes, heirarchies, "Number of Hierarchies");
 
 		section += makeTable(coupling);
 		return section;
@@ -850,7 +862,7 @@ public class GenerateHTML {
 		metrics[34] = generateRow(classNames, calc.getPrimaryMetrics().getGrantLeastPrivelage(),
 				"Grant Least Privilage");
 		metrics[35] = generateRow(classes, isolation, "Isolation");
-		metrics[36] = generateRow(classNames, mechanism, "least Common Mechanism");
+		metrics[36] = generateRow(classes, mechanism, "least Common Mechanism");
 		metrics[37] = generateRow(classes, heirarchies, "Number of Hierarchies");
 		metrics[38] = generateRow(classNames, calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction(),
 				"Measure of Functional Abstraction");
