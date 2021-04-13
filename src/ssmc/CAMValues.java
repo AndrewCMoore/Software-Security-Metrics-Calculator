@@ -298,18 +298,10 @@ public class CAMValues extends Thread {
 	}
 	
 	public void run() {
-		System.out.println(Thread.currentThread().getName()+ " has now started");
-		System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
-		this.classArray = getClasses(unit);
-		System.out.println("Thread " + Thread.currentThread().getName()+ " is now closed");
-		Thread.currentThread().interrupt();
-		/**
-		 * 
-		 * 
 		while(running) {
 			try {
 				
-				
+				System.out.println("Thread: " + Thread.currentThread().getId()+ " has now started");
 				System.out.println("There are " + Thread.currentThread().activeCount() + " threads running");
 				this.classArray = getClasses(unit);
 				System.out.println("Class array " + this.classArray);
@@ -323,7 +315,7 @@ public class CAMValues extends Thread {
 				return; 
 			}
 		}	
-		*/
+		
 	}
 
 	public Class[] getClassArray() {

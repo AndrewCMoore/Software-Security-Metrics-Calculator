@@ -9,10 +9,17 @@ import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.LambdaExpression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 public class ASTUtility {
 
@@ -36,12 +43,33 @@ public class ASTUtility {
 			BodyDeclaration bdNode = (BodyDeclaration) node;
 			return getModifier(bdNode.getModifiers());
 		} 
-		if(node instanceof VariableDeclaration){
-			VariableDeclaration vdNode = (VariableDeclaration) node;
-			IVariableBinding type = vdNode.resolveBinding();
-			if(type != null) {
-				return getModifier(type.getModifiers());
-			}
+		if(node instanceof VariableDeclarationFragment){
+			VariableDeclarationFragment vdNode = (VariableDeclarationFragment) node;
+			System.out.println("|||||||||||||||" + vdNode.getParent().getClass());
+				if(vdNode.getParent() instanceof FieldDeclaration) {
+					FieldDeclaration fd = (FieldDeclaration) vdNode.getParent();
+					System.out.println(" MODIFIER: " + fd.getModifiers());
+					return getModifier(fd.getModifiers());
+				}	
+				if(vdNode.getParent() instanceof VariableDeclarationStatement) {
+					VariableDeclarationStatement vds = (VariableDeclarationStatement) vdNode.getParent();
+					System.out.println(" MODIFIER: " + vds.getModifiers());
+					return getModifier(vds.getModifiers());
+				}
+				if(vdNode.getParent() instanceof VariableDeclarationExpression) {
+					VariableDeclarationExpression vde = (VariableDeclarationExpression) vdNode.getParent();
+					System.out.println(" MODIFIER: " + vde.getModifiers());
+					return getModifier(vde.getModifiers());
+				}
+				if(vdNode.getParent() instanceof LambdaExpression) {
+					LambdaExpression le = (LambdaExpression) vdNode.getParent();
+					ITypeBinding type = le.resolveTypeBinding();
+									
+					if(type!=null) {
+						System.out.println(type.getModifiers());
+						return getModifier(type.getModifiers());
+					}
+				} 
 		}
 		
 		

@@ -670,7 +670,9 @@ public class MurgePulledValues {
 				classAttrubuteTypes = new HashSet<String>();
 				for(Attribute a : attributeList) {
 					classAttrubuteTypes.add(a.getType());
-					if (a.getModifier().contains("public")) validAttributesNamesThatCanBeInherited.add(a.getIdentifier());
+					try { 
+						if (a.getModifier().contains("public")) validAttributesNamesThatCanBeInherited.add(a.getIdentifier());
+					} catch (Exception e) {}
 				}
 				validAttributeNamesInClassThatCanBeInherited.put(classNode.getIdentifier(),validAttributesNamesThatCanBeInherited);
 				mapNumberOfUniqueAttributesTypesInClass.put(classNode.getIdentifier(), classAttrubuteTypes);

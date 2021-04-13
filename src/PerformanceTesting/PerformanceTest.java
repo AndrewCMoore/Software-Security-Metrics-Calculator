@@ -11,8 +11,10 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -25,7 +27,7 @@ import tree.JDTree;
 /**
  * @author AndrewCMoore
  */
-class PerformanceTest {
+public class PerformanceTest {
 
 	HashMap<String, Long> timeValues;
 	HashMap<String, Integer> lengthValues;
@@ -60,9 +62,9 @@ class PerformanceTest {
 			//Gets the root directory of the workspace
 			IWorkspaceRoot fileRoot = ResourcesPlugin.getWorkspace().getRoot();
 			// Get the array of projects within the workspace
-			//projects = fileRoot.getProjects();
-			projects[0] = fileRoot.getProject("ReactiveX");
-			//projects[1] = fileRoot.getProject("facebook-android-sdk");
+			//projects[0] = fileRoot.getProject("SSMC");
+			//projects[0] = fileRoot.getProject("ReactiveX");
+			projects[0] = fileRoot.getProject("facebook-android-sdk");
 			//projects[2] = fileRoot.getProject("twitter-kit-android");
 			
 			// For each project in the workspace
@@ -146,11 +148,47 @@ class PerformanceTest {
 	 * @return int Number of lines of code in the Project
 	 * @throws JavaModelException For when a Project is not Java-based, ignore
 	 */
-	int getNumberOfLinesInProject(IProject project) throws JavaModelException {
+	public static int getNumberOfLinesInProject(IProject project) throws JavaModelException {
 		// Intialize variable to return
 		int linesOfCode = 0;
 		// Get the JavaProject object
 		IJavaProject javaProject = JavaCore.create(project); 
+		
+		IPackageFragmentRoot[] folders = javaProject.getPackageFragmentRoots();
+		
+		for (int i = 0; i < folders.length; i++) {
+			// Get the type of folder
+			String childKind = folders[i].getClass().getName();
+			
+			// Remove JAR folders by only getting PackageFragementRoots
+			if(childKind.equals("org.eclipse.jdt.internal.core.PackageFragmentRoot")) {
+				// Get all of the package within the root 
+				IJavaElement[] packages = folders[i].getChildren();
+				for(IJavaElement aPackage : packages) {
+					if(aPackage.getClass().getName().equals("org.eclipse.jdt.internal.core.PackageFragment")) {
+						IPackageFragment pf = (IPackageFragment) aPackage;
+						for(ICompilationUnit aClass : pf.getCompilationUnits()) {
+							// Parse into a compilationUnit to access values
+							CompilationUnit unit = CAMValues.parse(aClass);
+							// Add to the total number of lines of code by getting the 
+							// line number last line of code 
+							linesOfCode += unit.getLineNumber(unit.getLength() - 1);
+						} 
+					}
+				}
+			}
+		}
+					/*
+					for(ICompilationUnit aClass : aPackage.getCompilationUnits()) {
+						// Parse into a compilationUnit to access values
+						CompilationUnit unit = CAMValues.parse(aClass);
+						// Add to the total number of lines of code by getting the 
+						// line number last line of code 
+						linesOfCode += unit.getLineNumber(unit.getLength() - 1);
+					} 
+					*/
+		
+		/*
 		// Parse by packages
 		IPackageFragment[] packages = javaProject.getPackageFragments(); 
 		// For each package in the Java project
@@ -166,7 +204,7 @@ class PerformanceTest {
 					linesOfCode += unit.getLineNumber(unit.getLength() - 1);
 				}
 			//}
-		}
+		}*/
 		// Return value
 		return linesOfCode;
 	}
@@ -255,14 +293,14 @@ class PerformanceTest {
 		csvWriter.close();
 	}
 	
-	long memoryUsage() {
+	public static long memoryUsage() {
 		final long MEGABYTE = 1024L * 1024L;
 		Runtime runtime = Runtime.getRuntime();
 		// Run Garbage Collector
 		runtime.gc();
 		// Calculate used memory
 		long memory = (runtime.totalMemory() - runtime.freeMemory()) / MEGABYTE;
-		System.out.println("bytes: " + memory/MEGABYTE);
+		//System.out.println("bytes: " + memory/MEGABYTE);
 		
 		return memory;
 	}

@@ -11,8 +11,8 @@ public class GenerateStyles {
 		Writer styles = null;
 		Writer circles = null;
 		try {
-			styles	 = new FileWriter("../../style.css");
-			circles = new FileWriter("../../circle.css");
+			styles	 = new FileWriter("../style.css");
+			circles = new FileWriter("../circle.css");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

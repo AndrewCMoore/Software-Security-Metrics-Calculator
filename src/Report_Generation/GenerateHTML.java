@@ -11,7 +11,7 @@ import Calculator.Calculator;
 
 public class GenerateHTML {
 
-	private final String FILENAME = "../../index";
+	private final String FILENAME = "../index";
 	private final String type = ".html";
 	private File htmlFile;
 	private String fileName;

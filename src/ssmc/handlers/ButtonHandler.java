@@ -26,6 +26,7 @@ import Report_Generation.GenerateHTML;
 import Report_Generation.GenerateStyles;
 import Report_Generation.generateCSV;
 import tree.JDTree;
+import PerformanceTesting.PerformanceTest;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 
@@ -35,7 +36,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  *
  */  
 public class ButtonHandler extends AbstractHandler {
-
+	private int LOC;
+	long parserTime = 0;
+	long calcTime = 0;
+	long reportTime = 0;
+	
 	public static void main(String[] args) throws JavaModelException, CoreException {
 		// Create scanner item for user input into the kernal 
 		Scanner scanner = new Scanner(System.in);
@@ -65,14 +70,33 @@ public class ButtonHandler extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		long startTime = 0;
+		long memBefore = 0;
+		
 		try {
+			memBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+			startTime = System.nanoTime();
 			addToTree();
 		} catch (Exception e) {
 			System.out.println("Select a Project, Package or Class");
 			e.printStackTrace();
 		}
-
+		long memAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+		long endTime = System.nanoTime();
 		System.out.println("Project Analysis Complete");
+		System.out.println(endTime - startTime);
+		System.out.println("LOC: " + LOC);
+		float LOCPM = (float) (((float) LOC) * 60000000000.00 / ((float)(endTime - startTime)));
+		System.out.println("Lines per Minute: " + LOCPM);
+		//long memory = PerformanceTest.memoryUsage();
+		
+		long MEGABYTE = 1024L * 1024L;
+		long memory = (memAfter - memBefore) / MEGABYTE;
+		
+		System.out.println("Memory: " + memory);
+		
+		System.out.println((endTime-startTime) + "\t" + LOCPM + "\t" + memory);
+		System.out.println((long) ((parserTime-startTime)*100/(endTime-startTime)) + "\t" + ((long)(calcTime-parserTime)*100/(endTime-startTime)) + "\t" + ((long) (reportTime-calcTime)*100/(endTime-startTime)));
 		return null;
 	}
 	
@@ -86,6 +110,7 @@ public class ButtonHandler extends AbstractHandler {
 	 * @throws IOException 
 	 */
 	public void addToTree() throws JavaModelException, CoreException, IOException {
+		JDTree.startThreads = Thread.activeCount();
 		IProject project = null;
 		IPath path = null;
 		//Gets the root directory of the workspace
@@ -117,20 +142,26 @@ public class ButtonHandler extends AbstractHandler {
 			String kind = project.getClass().getName();
 			//Build a tree out of the project
 			JDTree myTree = new JDTree(javaProject, null);
+			parserTime = System.nanoTime();
 			//pass the tree to the calculator
 			Calculator calc = new Calculator(myTree);
+			calcTime = System.nanoTime();
 			//start calculating metrics
 			calc.calculate();
-			generateCSV CSV = new generateCSV(project, calc);
+			
 			try {			
-				
+				generateCSV CSV = new generateCSV(project, calc);
 				GenerateHTML generator = new GenerateHTML(calc);
 				GenerateStyles css = new GenerateStyles();
+				reportTime = System.nanoTime();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
+		this.LOC = PerformanceTest.getNumberOfLinesInProject(project);
+		
 		
 		// The JDTree class takes over from here
 
