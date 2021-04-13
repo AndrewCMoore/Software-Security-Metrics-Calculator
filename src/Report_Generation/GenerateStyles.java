@@ -11,8 +11,8 @@ public class GenerateStyles {
 		Writer styles = null;
 		Writer circles = null;
 		try {
-			styles	 = new FileWriter("../style.css");
-			circles = new FileWriter("../circle.css");
+			styles	 = new FileWriter("../../style.css");
+			circles = new FileWriter("../../circle.css");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,6 +42,34 @@ public class GenerateStyles {
 				+ "ul li\r\n"
 				+ "{\r\n"
 				+ "	display: inline;\r\n"
+				+ "}\r\n"
+				+ "\r\n"
+				+ "@media only screen and (min-width: 800px){\r\n"
+				+ "	ul li\r\n"
+				+ "	{\r\n"
+				+ "		display: inline;\r\n"
+				+ "	}	\r\n"
+				+ "	.navButton{\r\n"
+				+ "		display:none;	\r\n"
+				+ "	}	\r\n"
+				+ "}\r\n"
+				+ "@media only screen and (max-width: 800px){\r\n"
+				+ "	.lineBar\r\n"
+				+ "	{\r\n"
+				+ "		display: none!important;\r\n"
+				+ "	}\r\n"
+				+ "	.lineBarOpen{\r\n"
+				+ "		display: block;\r\n"
+				+ "	}		\r\n"
+				+ "	.navButton{\r\n"
+				+ "		display:block;	\r\n"
+				+ "	}	\r\n"
+				+ "	ul li{\r\n"
+				+ "		display:block;\r\n"
+				+ "		text-align: left;\r\n"
+				+ "		padding-top: 5px;\r\n"
+				+ "		padding-bottom: 5px;\r\n"
+				+ "	}	\r\n"
 				+ "}\r\n"
 				+ ".link\r\n"
 				+ "{\r\n"
@@ -228,7 +256,7 @@ public class GenerateStyles {
 				+ "	left: 200px;\r\n"
 				+ "}";
 		styles.write(s);
-		styles.close();
+		
 		String c = ".rect-auto,\r\n"
 				+ ".c100.p51 .slice,\r\n"
 				+ ".c100.p52 .slice,\r\n"
@@ -1391,6 +1419,7 @@ public class GenerateStyles {
 				+ "}";
 		circles.write(c);
 		circles.close();
+		styles.close();
 	}
 
 }
