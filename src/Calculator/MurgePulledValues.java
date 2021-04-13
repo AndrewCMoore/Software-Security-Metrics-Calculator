@@ -597,7 +597,7 @@ public class MurgePulledValues {
 		
 		
 		for (String topBaseClass :topLevelSuperClassesInHierarchy) { //for each topSuperClass
-			
+			try {
 			childrenClasses=mapImidiateChildren.get(topBaseClass); //aquire current children of topBaseClass
 			topToBottomClassHiarchy.add(topBaseClass);
 			depthOfInheritanceTreeAtCurrentSuperClass.put(topBaseClass, (double) DepthOfInheriitanceCounter);
@@ -607,7 +607,7 @@ public class MurgePulledValues {
 			//	System.out.println("Current Children Classes: " +childrenClasses); //should be level1+workstations.
 				for (int i=0;i<childrenClasses.size();i++) {
 					//System.out.println("I want to add: " +mapImidiateChildren.get(childrenClasses.get(i)));
-					try {
+					
 					topToBottomClassHiarchy.addAll(childrenClasses);
 					nextChildrenClasses.addAll(mapImidiateChildren.get(childrenClasses.get(i)));
 					DepthOfInheriitanceCounter+=1;
@@ -621,7 +621,7 @@ public class MurgePulledValues {
 					
 					
 					
-					} catch (Exception e) {}
+					
 					
 					
 					//System.out.println("next children classes Inner: "+nextChildrenClasses);
@@ -632,6 +632,7 @@ public class MurgePulledValues {
 				
 			
 			}
+			} catch (Exception e) {}
 			
 			
 		
