@@ -24,7 +24,8 @@ public class GenerateHTML {
 	private String extend;
 	private String function;
 	private String overall;
-
+	private final int CircleMax = 5000;
+	private final int CircleMin = -5000;
 	// MAIN METHOD
 
 	public GenerateHTML(Calculator c) {
@@ -34,22 +35,24 @@ public class GenerateHTML {
 		System.out.println("============================================");
 		this.calc = c;
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
-		flex = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getFlexibility())));
-		read = String
-				.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getUnderstandability())));
-		reuse = String.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getReusability())));
+		flex = String.valueOf(normalizeCircle(
+				(int) Math.round(generateAverage(classNames, calc.getQualityAttributes().getFlexibility()))));
+		read = String.valueOf(normalizeCircle(
+				(int) Math.round(generateAverage(classNames, calc.getQualityAttributes().getUnderstandability()))));
+		reuse = String.valueOf(normalizeCircle(
+				(int) Math.round(generateAverage(classNames, calc.getQualityAttributes().getReusability()))));
 		effect = String
-				.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getEffectiveness())));
+				.valueOf(normalizeCircle((int)Math.round(generateAverage(classNames, calc.getQualityAttributes().getEffectiveness()))));
 		extend = String
-				.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getExtendability())));
+				.valueOf(normalizeCircle((int)Math.round(generateAverage(classNames, calc.getQualityAttributes().getExtendability()))));
 		function = String
-				.valueOf(Math.round(generateAverage(classNames, calc.getQualityAttributes().getFunctionality())));
-		overall = String.valueOf((Math.round(generateAverage(classNames, calc.getQualityAttributes().getFlexibility())
+				.valueOf(normalizeCircle((int)Math.round(generateAverage(classNames, calc.getQualityAttributes().getFunctionality()))));
+		overall = String.valueOf(normalizeCircle((int)(Math.round(generateAverage(classNames, calc.getQualityAttributes().getFlexibility())
 				+ generateAverage(classNames, calc.getQualityAttributes().getUnderstandability())
 				+ generateAverage(classNames, calc.getQualityAttributes().getReusability())
 				+ generateAverage(classNames, calc.getQualityAttributes().getEffectiveness())
 				+ generateAverage(classNames, calc.getQualityAttributes().getExtendability())
-				+ generateAverage(classNames, calc.getQualityAttributes().getFunctionality())) / 6));
+				+ generateAverage(classNames, calc.getQualityAttributes().getFunctionality())) / 6)));
 		try {
 
 			htmlFile = new File(FILENAME + type);
@@ -215,15 +218,17 @@ public class GenerateHTML {
 	}
 
 	public String makeNavBar() {
-		String navBar = "<nav class=\"menu\">" + "<button  id=\"menuButton\" class=\"navButton\" onclick=\"expandButton()\">Open Menu</button>"
-				+ "<ul id=\"navBar\" class=\"lineBar\">" 
+		String navBar = "<nav class=\"menu\">"
+				+ "<button  id=\"menuButton\" class=\"navButton\" onclick=\"expandButton()\">Open Menu</button>"
+				+ "<ul id=\"navBar\" class=\"lineBar\">"
 				+ "<li class=\"\"><a href =\"#flexabilityData\" class =\"link\">Flexability</a></li>"
-				+ "<li class=\"\"><a href =\"#readabilityData\" class =\"link\">Readability</a></li>" 
+				+ "<li class=\"\"><a href =\"#readabilityData\" class =\"link\">Readability</a></li>"
 				+ "<li class=\"\"><a href =\"#reusabilityData\" class =\"link\">Reusability</a></li>"
 				+ "<li class=\"\"><a href =\"#effectivenessData\" class =\"link\">Effectiveness</a></li>"
 				+ "<li class=\"\"><a href =\"#extendabilityData\" class =\"link\">Extendability</a></li>"
 				+ "<li class=\"\"><a href =\"#functionalityData\" class =\"link\">Functionality<a /></li>"
-				+ "<li class=\"\"><a href =\"#overallscoreData\" class =\"link\">Overall Score</a></li>" + "</ul>" + "</nav>";
+				+ "<li class=\"\"><a href =\"#overallscoreData\" class =\"link\">Overall Score</a></li>" + "</ul>"
+				+ "</nav>";
 		return navBar;
 	}
 
@@ -360,13 +365,12 @@ public class GenerateHTML {
 				+ "				} else {\r\n"
 				+ "				  panel.style.maxHeight = panel.scrollHeight + \"px\";\r\n" + "				} \r\n"
 				+ "			  });\r\n" + "			}\r\n" + "		</script>";
-				script+="<script>function expandButton(){\r\n"
-						+ "	if(document.getElementById(\"navBar\").getAttribute(\"class\")==\"lineBar\"){\r\n"
-						+ "		document.getElementById(\"navBar\").setAttribute(\"class\",\"lineBarOpen\");\r\n"
-						+ "	}else if(document.getElementById(\"navBar\").getAttribute(\"class\")==\"lineBarOpen\"){\r\n"
-						+ "		document.getElementById(\"navBar\").setAttribute(\"class\",\"lineBar\");\r\n"
-						+ "	}		\r\n"
-						+ "}</script>";
+		script += "<script>function expandButton(){\r\n"
+				+ "	if(document.getElementById(\"navBar\").getAttribute(\"class\")==\"lineBar\"){\r\n"
+				+ "		document.getElementById(\"navBar\").setAttribute(\"class\",\"lineBarOpen\");\r\n"
+				+ "	}else if(document.getElementById(\"navBar\").getAttribute(\"class\")==\"lineBarOpen\"){\r\n"
+				+ "		document.getElementById(\"navBar\").setAttribute(\"class\",\"lineBar\");\r\n"
+				+ "	}		\r\n" + "}</script>";
 		return script;
 	}
 
@@ -540,10 +544,10 @@ public class GenerateHTML {
 	public String generateCoupling() {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
-		
+
 		Set<String> classes = new HashSet<String>();
 		classes.add("project");
-		
+
 		String[][] coupling = new String[10][6];
 		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
 				"Count" };
@@ -840,7 +844,7 @@ public class GenerateHTML {
 				"Weighted Methods per Class");
 		metrics[20] = generateRow(classNames, calc.getPrimaryMetrics().getMeasureOfAggregation(),
 				"Measure of Aggregation");
-		//metrics[21] = generateRow(classNames, baseClass, "Count of Base Classes");
+		// metrics[21] = generateRow(classNames, baseClass, "Count of Base Classes");
 		metrics[21] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingBetweenObjects(),
 				"Coupling Between Objects");
 		metrics[22] = generateRow(classNames, calc.getPrimaryMetrics().getCouplingCorruptionPropagation(),
@@ -925,4 +929,16 @@ public class GenerateHTML {
 		return section;
 	}
 
+	private int normalizeCircle(int value) {
+		if (value > CircleMax) {
+			return 100;
+		} else if (value < CircleMin) {
+			return 0;
+		} else {
+			double v1 = (value - CircleMin);
+			double v2 = (v1)/ (CircleMax - CircleMin);
+			double v3 = v2*100;
+			return (int)v3;
+		}
+	}
 }

@@ -40,6 +40,7 @@ public class ButtonHandler extends AbstractHandler {
 	long parserTime = 0;
 	long calcTime = 0;
 	long reportTime = 0;
+	private String projectName;
 	
 	public static void main(String[] args) throws JavaModelException, CoreException {
 		// Create scanner item for user input into the kernal 
@@ -138,6 +139,7 @@ public class ButtonHandler extends AbstractHandler {
 		project = fileRoot.getProject(path.toOSString());
 		if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 			// got the IJavaProject which is the format we need
+			projectName = project.getName();
 			IJavaProject javaProject = JavaCore.create(project);
 			String kind = project.getClass().getName();
 			//Build a tree out of the project
@@ -181,5 +183,8 @@ public class ButtonHandler extends AbstractHandler {
 		 * //getClasses(aClass); } } } }
 		 */
 
+	}
+	public String getProjectName() {
+		return projectName;
 	}
 }
