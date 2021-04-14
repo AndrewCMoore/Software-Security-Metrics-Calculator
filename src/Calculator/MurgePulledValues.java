@@ -142,16 +142,16 @@ public class MurgePulledValues {
 		//correctHashMap(mapProtectedMethodsInClass);
 		
 
-		correctHashMap(mapHierarchySize);
+		correctHashMap(unusedClassifiedAttributes);
 		correctHashMap(mapHierarchySize);
 
 		correctHashMap(classesCoupledToBaseClass);
 		
 		correctHashMap(depthOfInheritanceTreeAtCurrentSuperClass);
 
-		correctHashMap(mapHierarchySize);
-		correctHashMap(mapHierarchySize);
-		correctHashMap(mapHierarchySize);
+		correctHashMap(unusedClassifiedAttributes);
+		correctHashMap(numberOfProtectedAttributesInClass);
+		//correctHashMap(classifiedMethodsInheritance);
 		correctHashMap(mapHierarchySize);
 		correctHashMap(mapHierarchySize);
 		correctHashMap(mapHierarchySize);
@@ -860,7 +860,7 @@ public class MurgePulledValues {
 				
 				
 				uniqueParametersInEachMethodCounter=0;
-				
+				protectedAttributeCount=0;
 				
 				classAttrubuteTypes = new HashSet<String>();
 				for(Attribute a : attributeList) {
@@ -873,7 +873,7 @@ public class MurgePulledValues {
 				}
 				validAttributeNamesInClassThatCanBeInherited.put(classNode.getIdentifier(),validAttributesNamesThatCanBeInherited);
 				mapNumberOfUniqueAttributesTypesInClass.put(classNode.getIdentifier(), (double)classAttrubuteTypes.size()-1);
-				
+				numberOfProtectedAttributesInClass.put(classNode.getIdentifier(),(double) protectedAttributeCount);
 				
 				for(Method method : methodList) {
 					methodNames.add(method.getIdentifier());
@@ -909,7 +909,7 @@ public class MurgePulledValues {
 				//dependend on that attribute, type thing.
 				//numberOfUniqueParametersInAClass.put(classNode.getIdentifier(),uniqueParametersInClass)
 				
-				numberOfProtectedAttributesInClass.put(classNode.getIdentifier(),(double) protectedAttributeCount);
+				
 				numberOfProtectedMethodsInClass.put(classNode.getIdentifier(),protectedMethods.size()*1.0);
 				numberOfPrivateMethodsInClass.put(classNode.getIdentifier(),privateMethods.size()*1.0);
 				validMethodNamesInClassThatCanBeInherited.put(classNode.getIdentifier(),validMethodNamesThatCanBeInherited);

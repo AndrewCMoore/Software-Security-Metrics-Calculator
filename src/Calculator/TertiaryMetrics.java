@@ -22,6 +22,7 @@ public class TertiaryMetrics {
 	private Double classifiedAttributesTotal = 0.0;
 	private Double classifiedMethodsTotal = 0.0;
 	private Double criticalClassesTotal = 0.0;
+	private static final double INT_TO_DOUBLE = 1.0;
 
 
 	
@@ -73,7 +74,59 @@ public class TertiaryMetrics {
 		classifiedAttributesInheritance(pv,mpv);
 		unaccessedAssignedClassifiedAttribute(pv,mpv);
 		
-}
+		
+		System.out.println("HELP ME PLEASE");
+		System.out.println("classifiedInstanceDataAccessibility: " + this.getClassifiedInstanceDataAccessibility());
+		System.out.println("classifiedClassDataAccessibility: " + this.getClassifiedClassDataAccessibility());
+		System.out.println("classifiedOperationAccessibility: " + this.getClassifiedOperationAccessibility());
+		System.out.println("classifiedMethodsExtensibility: " + this.getClassifiedMethodsExtensibility());
+		System.out.println("classifiedAttributesTotal: " + this.getClassifiedAttributesTotal());
+		System.out.println("classifiedMethodsTotal: " + this.getClassifiedMethodsTotal());
+		System.out.println("classifiedAccessorAttributeInteractions: " + this.getClassifiedAccessorAttributeInteractions());
+		System.out.println("classifiedMutatorAttributeInteractions: " + this.getClassifiedMutatorAttributeInteractions());
+		System.out.println("classifiedAttributesInteractionWeight: " + this.getClassifiedAttributesInteractionWeight());
+		System.out.println("classifiedMethodsWeight: " + this.getClassifiedMethodsWeight());
+		System.out.println("classifiedWritingMethodsProportion: " + this.getClassifiedWritingMethodsProportion());
+		System.out.println("uncalledClassifiedAccessorMethod: " + this.getUncalledClassifiedAccessorMethod());
+		System.out.println("criticalClassesExtensibility: " + this.getCriticalClassesExtensibility());
+		System.out.println("criticalClassesTotal: " + this.getCriticalClassesTotal());
+		System.out.println("criticalClassesCoupling: " + this.getCriticalClassesCoupling());
+		System.out.println("compositePartCriticalClasses: " + this.getCompositePartCriticalClasses());
+		System.out.println("unusedCriticalAccessorClass: " + this.getUnusedCriticalAccessorClass());
+		System.out.println("criticalDesignProportion: " + this.getCriticalDesignProportion());
+		System.out.println("criticalSerializedClassesProportion: " + this.getCriticalSerializedClassesProportion());
+		System.out.println("criticalSuperclassesProportion: " + this.getCriticalSuperclassesProportion());
+		System.out.println("criticalSuperclassesInheritance: " + this.getCriticalSuperclassesInheritance());
+		System.out.println("reflectionPackageBoolean: " + this.getReflectionPackageBoolean());
+		System.out.println("ClassifiedMethodsInheritance: " + this.getClassifiedMethodsInheritance());
+		//System.out.println(getClassifiedClassDataAccessibility());
+		//System.out.println(getClassifiedOperationAccessibility());
+		//System.out.println(getClassifiedMethodsExtensibility());
+		//System.out.println(getClassifiedAttributesTotal());
+		//System.out.println(getClassifiedMethodsTotal());
+		//System.out.println(getClassifiedAccessorAttributeInteractions());
+		//System.out.println(getClassifiedMutatorAttributeInteractions());
+		/*System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);
+		System.out.println(a);*/
+		
+		
+		
+		
+		
+		
+		
+		//unaccessedAssignedClassifiedAttribute(pv,mpv);
+	}
 	
 	private void uncalledClassifiedAccessorMethod(PulledValues pv, MurgePulledValues mpv) {
 		HashMap<String, Double> classifiedNeverUsed = pv.getMapAccessClassifiedNeverCalled();
@@ -235,8 +288,9 @@ public class TertiaryMetrics {
 		HashMap<String, Double> numberOfProtectedMethodsInClass = mpv.getNumberOfProtectedMethodsInClass();
 		HashMap<String, Double> numberOfPrivateMethodsInClass = mpv.getNumberOfPrivateMethodsInClass();
 		
-		for (String className: numberOfProtectedMethodsInClass.keySet()) {			
-			classifiedMethodsInheritance.put(className, (baseClassesInProject.contains(className) ? ((double)numberOfProtectedMethodsInClass.get(className)/ ((double)numberOfPrivateMethodsInClass.get(className) + (double)numberOfProtectedMethodsInClass.get(className)))   : (double)0.0 ));	
+		for (String className: mpv.getNumberOfClassesInProject()) {			
+			classifiedMethodsInheritance.put(className, ((double)numberOfProtectedMethodsInClass.get(className)/ ((double)numberOfPrivateMethodsInClass.get(className) + (double)numberOfProtectedMethodsInClass.get(className))));	
+			if (((double)numberOfPrivateMethodsInClass.get(className) + (double)numberOfProtectedMethodsInClass.get(className)==0)) classifiedMethodsInheritance.put(className,(double) 0);
 		}
 		
 		
@@ -299,7 +353,7 @@ public class TertiaryMetrics {
 		if (criticalClassNames.size()==0) compositePartCriticalClasses= (double) 0;
 	}
 	
-	//UCAC 
+	//UCAC //!
 	private void unusedCriticalAccessorClass(PulledValues pv, MurgePulledValues mpv) {
 		unusedCriticalAccessorClass=(double) (mpv.getUnusedClassifiedMethods().size() / (double)mpv.getNumberOfCriticalClassesInProgram());
 		if (mpv.getNumberOfCriticalClassesInProgram()==0) unusedCriticalAccessorClass=(double) 0;
@@ -344,15 +398,20 @@ public class TertiaryMetrics {
 	private void classifiedAttributesInheritance(PulledValues pv, MurgePulledValues mpv) {
 		for (String className: mpv.getNumberOfClassesInProject()) {
 			classifiedAttributesInheritance.put(className, ((double) mpv.getValidAttributeNamesInClassThatCanBeInherited().get(className).size()/mpv.getNumberOfProtectedAttributesInClass().get(className)));
+			if (mpv.getNumberOfProtectedAttributesInClass().get(className)==0) classifiedAttributesInheritance.put(className, (double) 0);
 		}		 
 	}
 	
 	private void unaccessedAssignedClassifiedAttribute(PulledValues pv, MurgePulledValues mpv) {
-			for (String className: mpv.getNumberOfClassesInProject()) {
+			for (String className: mpv.getNumberOfClassesInProject()) { 
+				
 				unaccessedAssignedClassifiedAttribute.put(className, ((double) mpv.getUnusedClassifiedAttributes().get(className)/(pv.getMapPrivateProtectedClass().get(className)+pv.getMapPrivateProtectedInstance().get(className))));
+				if (pv.getMapPrivateProtectedClass().get(className)+pv.getMapPrivateProtectedInstance().get(className)==0) unaccessedAssignedClassifiedAttribute.put(className, (double) 0);
 			}	
 			
 }
+	
+	
 	
 	
 	//getters
