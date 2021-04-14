@@ -63,8 +63,8 @@ public class PrimaryMetrics {
 		averageNumberOfAncestor(pv, sm, mpv);
 		failSafeDefaults(pv, sm, mpv);
 		reduceAttackSurface(pv, sm, mpv);
-		lackOfCohesionOfMethods(pv, sm, mpv);
-		cohesionAmongMethodsInClass(pv, sm, mpv);
+		//lackOfCohesionOfMethods(pv, sm, mpv);
+		//cohesionAmongMethodsInClass(pv, sm, mpv);
 		commentRatio(pv, sm, mpv);
 		countBaseClasses(pv, sm, mpv);
 		cyclomaticComplexity(pv, sm, mpv);
@@ -84,6 +84,7 @@ public class PrimaryMetrics {
 		countOfBaseClasses(pv, sm, mpv);
 		couplingBetweenObjects(pv, sm, mpv);
 		couplingCorruptionPropagation(pv, sm, mpv);
+		//depthOfInheritace(pv, sm, mpv); duplicate of depthOfInheritanceTree
 		directClassCoupling(pv, sm, mpv);
 		fanIn(pv, sm, mpv);
 		fanOut(pv, sm, mpv);
@@ -471,11 +472,7 @@ public class PrimaryMetrics {
 		HashMap<String,Double> totalNumberOfMethodsAccessible =  mpv.getClassMethodsInheritedBySubClassm(); //temp
 		
 		for (String key: numberOfMethodsInherited.keySet()) {
-			if(totalNumberOfMethodsAccessible.get(key) != 0) {
-				measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/(double)totalNumberOfMethodsAccessible.get(key)));
-			} else {
-				measureOfFunctionalAbtraction.put(key, 0.0);
-			}
+			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/(double)totalNumberOfMethodsAccessible.get(key)));
 		}
 	}
 	
