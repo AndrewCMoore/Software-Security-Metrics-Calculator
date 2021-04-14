@@ -9,7 +9,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class MPV {
+class MurgePulledValuesTest {
 
 	private static MainTest mt; 
 	@BeforeAll
