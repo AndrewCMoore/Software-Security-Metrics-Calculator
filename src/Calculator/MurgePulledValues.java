@@ -52,10 +52,13 @@ public class MurgePulledValues {
 	private HashMap<String,Double> mapAccesibleMethods = new HashMap<String,Double>();
 	private HashMap<String, Double> classesCoupledToBaseClass = new HashMap<String, Double>();
 	private HashMap<String, Double> classCouplingRelationship = new HashMap<String, Double>();
+	private HashMap<String,Double> numberOfProtectedAttributesInClass = new HashMap<String, Double>();
 	
 	private HashMap<String,Double> mapbaseClassMethodsInheritedBySubClass = new HashMap<String,Double>();
 	
 	private HashMap<String,Double> unusedClassifiedMethods = new HashMap<String,Double>();
+	private HashMap<String,Double> unusedClassifiedAttributes = new HashMap<String,Double>();
+	
 	private HashSet<String> criticalClassesInProgramsHeirchy = new HashSet<String>();
 	
 	//may replace #methods in class.
@@ -63,6 +66,7 @@ public class MurgePulledValues {
 	
 	private HashMap<String, HashSet<String>> validMethodNamesInClassThatCanBeInherited = new HashMap<String, HashSet<String>>();
 	private HashMap<String, HashSet<String>> validAttributeNamesInClassThatCanBeInherited = new HashMap<String, HashSet<String>>();
+	private double getTotalNumberOfCriticalAttributesInTheInheritanceHierchy;
 	
 	private HashMap<String, ArrayList<String>> totalNumberOfMethodsAccesible = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, ArrayList<String>> totalNumberOfAttributesAccesible = new HashMap<String, ArrayList<String>>();
@@ -138,16 +142,16 @@ public class MurgePulledValues {
 		//correctHashMap(mapProtectedMethodsInClass);
 		
 
-		correctHashMap(mapHierarchySize);
+		correctHashMap(unusedClassifiedAttributes);
 		correctHashMap(mapHierarchySize);
 
 		correctHashMap(classesCoupledToBaseClass);
 		
 		correctHashMap(depthOfInheritanceTreeAtCurrentSuperClass);
 
-		correctHashMap(mapHierarchySize);
-		correctHashMap(mapHierarchySize);
-		correctHashMap(mapHierarchySize);
+		correctHashMap(unusedClassifiedAttributes);
+		correctHashMap(numberOfProtectedAttributesInClass);
+		//correctHashMap(classifiedMethodsInheritance);
 		correctHashMap(mapHierarchySize);
 		correctHashMap(mapHierarchySize);
 		correctHashMap(mapHierarchySize);
@@ -437,6 +441,7 @@ public class MurgePulledValues {
 	public void recordMethodLength (Class classNode) {
 		
 		ArrayList<Method> methodList = classNode.getMethods();
+		ArrayList<Attribute> attributeList = classNode.getAttributes();
 		HashMap<String,Double> methodLength = new HashMap <String,Double>();
 		HashMap<Integer,Integer> startEndPoints = new HashMap <Integer,Integer>();
 		HashMap <String,HashMap<Integer,Integer>> methodStartEndPoints = new HashMap <String,HashMap<Integer,Integer>>();
@@ -459,7 +464,6 @@ public class MurgePulledValues {
 		}
 		System.out.println("AXER");
 		System.out.println(classNode.getCompilationUnit().toString());
-		ArrayList<Attribute> attributeList = classNode.getAttributes();
 		String classCU = classNode.getCompilationUnit().toString();
 		String lines[] = classCU.split("\\n");
 		int classSize = lines.length;
@@ -485,6 +489,25 @@ public class MurgePulledValues {
 			if (numberOfMethodUses.get(key)==1) methodCounter++;
 		}
 		unusedClassifiedMethods.put(classNode.getIdentifier(),(double) methodCounter);
+		
+		
+		int attributeCounter = 0;
+		HashMap <String,Integer> numberOfAttributeUses = new HashMap<String,Integer>();		
+		
+		for (Attribute  attribute :attributeList) {
+			attributeCounter=0;
+			for (String line: lines) {	
+				if (line.contains(attribute.getIdentifier())) attributeCounter++;
+				
+			}	
+			numberOfAttributeUses.put(attribute.getIdentifier(), attributeCounter);
+		}
+		
+		
+		for (String key : numberOfAttributeUses.keySet()) {
+			if (numberOfAttributeUses.get(key)==1) attributeCounter++;
+		}
+		unusedClassifiedAttributes.put(classNode.getIdentifier(),(double) attributeCounter);
 		
 		//EC CALCULATION
 		//For each line in a class
@@ -558,16 +581,7 @@ public class MurgePulledValues {
 		
 	}
 	
-	//AMP 
-	
-	// log the number of methods that can be inherited are protected in superclasses only (Base Classes)
-	/*public void setnumberOfProtectedMethodsThatCanBeInherited(Class classNode) {
-		if (baseClassesNames.contains(classNode.getIdentifier())) {
-			//totalNumberOfPrivateandPritectedmethods+= (method.getModifiers().contains("protected")) ? 1:0; //protected methods that CAN be inherited.
-			mapProtectedMethodsInClass.put(classNode.getIdentifier(), value)
-		}
-		
-	}*/
+
 	
 	/**Due to the unfortunatle fact that JDT tree can only get a .
 	 * superclasses, I'm reversing the direction to get all childs of a BaseClass. 
@@ -796,6 +810,7 @@ public class MurgePulledValues {
 		int numberOfUniqueClassParameters=0;
 		int numberOfInstanceMethods=0;
 		int numberOfAccesibleMethods=0;
+		int protectedAttributeCount=0;
 		HashMap<String,Double> parametersInMethod = new HashMap<String,Double>();
 		HashSet<String> uniqueParametersInMethod = new HashSet<String>();
 		HashMap<String,Double> UniqueparametersPerMethod = new HashMap<String,Double>();
@@ -845,19 +860,20 @@ public class MurgePulledValues {
 				
 				
 				uniqueParametersInEachMethodCounter=0;
-				
+				protectedAttributeCount=0;
 				
 				classAttrubuteTypes = new HashSet<String>();
 				for(Attribute a : attributeList) {
 					try {
 					classAttrubuteTypes.add(a.getType());
 						if (a.getModifier().contains("public")) validAttributesNamesThatCanBeInherited.add(a.getIdentifier());
+						if (a.getModifier().contains("protected")) protectedAttributeCount+=1;
 					}catch(Exception e) {}
 					
 				}
 				validAttributeNamesInClassThatCanBeInherited.put(classNode.getIdentifier(),validAttributesNamesThatCanBeInherited);
 				mapNumberOfUniqueAttributesTypesInClass.put(classNode.getIdentifier(), (double)classAttrubuteTypes.size()-1);
-				
+				numberOfProtectedAttributesInClass.put(classNode.getIdentifier(),(double) protectedAttributeCount);
 				
 				for(Method method : methodList) {
 					methodNames.add(method.getIdentifier());
@@ -892,6 +908,7 @@ public class MurgePulledValues {
 				
 				//dependend on that attribute, type thing.
 				//numberOfUniqueParametersInAClass.put(classNode.getIdentifier(),uniqueParametersInClass)
+				
 				
 				numberOfProtectedMethodsInClass.put(classNode.getIdentifier(),protectedMethods.size()*1.0);
 				numberOfPrivateMethodsInClass.put(classNode.getIdentifier(),privateMethods.size()*1.0);
@@ -1185,7 +1202,19 @@ public class MurgePulledValues {
 		return classCouplingRelationship;
 	}
 	
+	public HashMap<String, HashSet<String>> getValidAttributeNamesInClassThatCanBeInherited() {
+		return validAttributeNamesInClassThatCanBeInherited;
+	}
 
+	public HashMap<String, Double> getNumberOfProtectedAttributesInClass() {
+		return numberOfProtectedAttributesInClass;
+	}
+	
+	public HashMap<String, Double> getUnusedClassifiedAttributes() {
+		return unusedClassifiedAttributes;
+	}
+	
+	
 	
 	//###########################################################################################################################################################	
 	//Correct HashMap
@@ -1197,6 +1226,8 @@ public class MurgePulledValues {
 			if (!(input.containsKey(className)))  input.put(className, 0.0);			
 		}
 	}
+	
+	
 	
 	
 }

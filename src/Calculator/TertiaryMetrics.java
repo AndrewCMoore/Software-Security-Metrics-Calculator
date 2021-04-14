@@ -71,6 +71,9 @@ public class TertiaryMetrics {
 		reflectionPackageBoolean(pv,mpv);
 		ClassifiedMethodsInheritance(pv,mpv);
 		
+		classifiedAttributesInheritance(pv,mpv);
+		unaccessedAssignedClassifiedAttribute(pv,mpv);
+		
 		
 		System.out.println("HELP ME PLEASE");
 		System.out.println("classifiedInstanceDataAccessibility: " + this.getClassifiedInstanceDataAccessibility());
@@ -285,8 +288,9 @@ public class TertiaryMetrics {
 		HashMap<String, Double> numberOfProtectedMethodsInClass = mpv.getNumberOfProtectedMethodsInClass();
 		HashMap<String, Double> numberOfPrivateMethodsInClass = mpv.getNumberOfPrivateMethodsInClass();
 		
-		for (String className: numberOfProtectedMethodsInClass.keySet()) {			
-			classifiedMethodsInheritance.put(className, (baseClassesInProject.contains(className) ? ((double)numberOfProtectedMethodsInClass.get(className)/ ((double)numberOfPrivateMethodsInClass.get(className) + (double)numberOfProtectedMethodsInClass.get(className)))   : (double)0.0 ));	
+		for (String className: mpv.getNumberOfClassesInProject()) {			
+			classifiedMethodsInheritance.put(className, ((double)numberOfProtectedMethodsInClass.get(className)/ ((double)numberOfPrivateMethodsInClass.get(className) + (double)numberOfProtectedMethodsInClass.get(className))));	
+			if (((double)numberOfPrivateMethodsInClass.get(className) + (double)numberOfProtectedMethodsInClass.get(className)==0)) classifiedMethodsInheritance.put(className,(double) 0);
 		}
 		
 		
@@ -391,6 +395,25 @@ public class TertiaryMetrics {
 		
 	}
 	
+	private void classifiedAttributesInheritance(PulledValues pv, MurgePulledValues mpv) {
+		for (String className: mpv.getNumberOfClassesInProject()) {
+			classifiedAttributesInheritance.put(className, ((double) mpv.getValidAttributeNamesInClassThatCanBeInherited().get(className).size()/mpv.getNumberOfProtectedAttributesInClass().get(className)));
+			if (mpv.getNumberOfProtectedAttributesInClass().get(className)==0) classifiedAttributesInheritance.put(className, (double) 0);
+		}		 
+	}
+	
+	private void unaccessedAssignedClassifiedAttribute(PulledValues pv, MurgePulledValues mpv) {
+			for (String className: mpv.getNumberOfClassesInProject()) { 
+				
+				unaccessedAssignedClassifiedAttribute.put(className, ((double) mpv.getUnusedClassifiedAttributes().get(className)/(pv.getMapPrivateProtectedClass().get(className)+pv.getMapPrivateProtectedInstance().get(className))));
+				if (pv.getMapPrivateProtectedClass().get(className)+pv.getMapPrivateProtectedInstance().get(className)==0) unaccessedAssignedClassifiedAttribute.put(className, (double) 0);
+			}	
+			
+}
+	
+	
+	
+	
 	//getters
 	
 
@@ -483,17 +506,14 @@ public class TertiaryMetrics {
 	}
 
 	public HashMap<String, Double> getClassifiedAttributesInheritance() {
-		//return classifiedAttributesInheritance;
-		return classifiedClassDataAccessibility;
+		return classifiedAttributesInheritance ;
 	}
 
 	public HashMap<String, Double> getUnaccessedAssignedClassifiedAttribute() {
-		//return unaccessedAssignedClassifiedAttribute;
-		return classifiedMethodsWeight;
+		return unaccessedAssignedClassifiedAttribute;
 	}
 	public HashMap<String, Double> getClassifiedMethodsInheritance () {
-		//classifiedMethodsInheritance.put("Temperary Placeholder", (float) 1.00);
-		return classifiedOperationAccessibility;
+		return classifiedMethodsInheritance;
 	}
 	
 

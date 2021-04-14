@@ -12,6 +12,10 @@ public class SecondaryMetrics {
 	private Double readabilityOfCriticalClasses=(double) 0;
 	private Double writabilityOfCriticalClasses=(double) 0;
 	private Double securityAbsoluteMeasurements = (double) 0;
+	private static final int CLASSIFIEDATTRIBUTESWEIGHT = 4;
+	private static final int  CLASSIFIEDMETHODSWEIGHT = 3;
+	private static final int  CRITCALCLASSESWEIGHT = 2;
+	private static final int ABSOLUTEMEASURMENTSWEIGHT = 1;
 	
 	public SecondaryMetrics(TertiaryMetrics tm) {
 		this.readabilityOfClassifiedAttributes(tm);
@@ -34,28 +38,28 @@ public class SecondaryMetrics {
 	
 	public void readabilityOfClassifiedAttributes (TertiaryMetrics tm) {
 		for(String key : tm.getClassifiedAttributesInheritance().keySet()) {
-			readabilityOfClassifiedAttributes.put(key, (double) (tm.getClassifiedInstanceDataAccessibility().get(key) + tm.getClassifiedClassDataAccessibility().get(key) + tm.getClassifiedAttributesInheritance().get(key)));
+			readabilityOfClassifiedAttributes.put(key, (double) ((tm.getClassifiedInstanceDataAccessibility().get(key) + tm.getClassifiedClassDataAccessibility().get(key) + tm.getClassifiedAttributesInheritance().get(key)))*CLASSIFIEDATTRIBUTESWEIGHT);
 		}
 	}
 
 	public void readabilityOfClassifiedMethods (TertiaryMetrics tm) {
 		for(String key : tm.getClassifiedOperationAccessibility().keySet()) {
-			readabilityOfClassifiedMethods.put(key, (double) tm.getClassifiedOperationAccessibility().get(key) + tm.getClassifiedMethodsExtensibility().get(key) + tm.getClassifiedMethodsInheritance().get(key));
+			readabilityOfClassifiedMethods.put(key, (double) (tm.getClassifiedOperationAccessibility().get(key) + tm.getClassifiedMethodsExtensibility().get(key) + tm.getClassifiedMethodsInheritance().get(key))*CLASSIFIEDMETHODSWEIGHT);
 		}
 	}
 
 	public void readabilityOfCriticalClasses (TertiaryMetrics tm) {		
 		readabilityOfCriticalClasses = 
-		(double) (tm.getCriticalClassesExtensibility()+tm.getCriticalSuperclassesProportion()
+		(double) ((tm.getCriticalClassesExtensibility()+tm.getCriticalSuperclassesProportion()
 			+tm.getCriticalDesignProportion()+tm.getCompositePartCriticalClasses()
-			+tm.getReflectionPackageBoolean());
+			+tm.getReflectionPackageBoolean())*CRITCALCLASSESWEIGHT);
 	}
 	//###########################################################################################################################################################	
 	//Complexity Metrics
 	//###########################################################################################################################################################
 	
 	public void securityAbsoluteMeasurments (TertiaryMetrics tm) {
-		securityAbsoluteMeasurements  = (double) (tm.getClassifiedAttributesTotal() + tm.getClassifiedMethodsTotal() + tm.getCriticalClassesTotal());
+		securityAbsoluteMeasurements  = (double) ((tm.getClassifiedAttributesTotal() + tm.getClassifiedMethodsTotal() + tm.getCriticalClassesTotal())*ABSOLUTEMEASURMENTSWEIGHT);
 	}
 	
 	//###########################################################################################################################################################	
@@ -64,7 +68,7 @@ public class SecondaryMetrics {
 
 	public void writabilityOfClassifiedAttributes (TertiaryMetrics tm) {
 		for(String key : tm.getClassifiedMutatorAttributeInteractions().keySet()) {
-			writabilityOfClassifiedAttributes.put(key, (double) tm.getClassifiedMutatorAttributeInteractions().get(key) + tm.getClassifiedAccessorAttributeInteractions().get(key) + tm.getUnaccessedAssignedClassifiedAttribute().get(key));
+			writabilityOfClassifiedAttributes.put(key, (double) (tm.getClassifiedMutatorAttributeInteractions().get(key) + tm.getClassifiedAccessorAttributeInteractions().get(key) + tm.getUnaccessedAssignedClassifiedAttribute().get(key))*CLASSIFIEDATTRIBUTESWEIGHT);
 		}
 	}
 
@@ -76,7 +80,7 @@ public class SecondaryMetrics {
 
 	public void writabilityofClassifiedClasses (TertiaryMetrics tm) {
 		for(String key : tm.getClassifiedAttributesInteractionWeight().keySet()) {
-			writabilityOfClassifiedClasses.put(key, (double) tm.getClassifiedAttributesInteractionWeight().get(key) + tm.getClassifiedMethodsWeight().get(key) + tm.getClassifiedWritingMethodsProportion().get(key) + tm.getUncalledClassifiedAccessorMethod().get(key));
+			writabilityOfClassifiedClasses.put(key, (double) (tm.getClassifiedAttributesInteractionWeight().get(key) + tm.getClassifiedMethodsWeight().get(key) + tm.getClassifiedWritingMethodsProportion().get(key) + tm.getUncalledClassifiedAccessorMethod().get(key))*CRITCALCLASSESWEIGHT);
 		}
 	}
 	
