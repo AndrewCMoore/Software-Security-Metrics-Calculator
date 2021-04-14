@@ -95,7 +95,7 @@ public class GenerateHTML {
 		String overTip = "Overall Score";
 		String section = makeCircle("Overall Score", overall, "c100 big orange overall besidesOverall p" + overall,
 				"overall1", overTip);
-		overallTable[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		overallTable[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String effectString = "Effectiveness is about achieving the desired functionality. This includes performance and resource usage and leads to higher productivity, and makes understanding of the software a challenge";
 		overallTable[1] = generateRow(classNames, calc.getQualityAttributes().getEffectiveness(), "Effectiveness",effectString);
@@ -121,7 +121,7 @@ public class GenerateHTML {
 				"effectiveness1", effectTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] effectiveness = new String[6][7];
-		effectiveness[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		effectiveness[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String astractString = "Measures the generalization and specialization within a design. Classes that have one or more descendants utilize abstraction";
 		effectiveness[1] = generateRow(classNames, calc.getDesignPrincipals().getAbstraction(), "Abstraction",astractString);
@@ -143,7 +143,7 @@ public class GenerateHTML {
 				"reusability1", reuseTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[5][7];
-		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String coupleString = "Defines the interdependency of an object on other objects in a design. It is a measure of the number of other objects that would have to be accessed by an object in order for that object to function correctly";
 		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getCoupling(), "Coupling",coupleString);
@@ -163,7 +163,7 @@ public class GenerateHTML {
 				readTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[8][7];
-		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String absractString = "Measures the generalization and specialization within a design. Classes that have one or more descendants utilize abstraction";
 		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getAbstraction(), "Abstraction",absractString);
@@ -191,7 +191,7 @@ public class GenerateHTML {
 				flexTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[5][7];
-		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String encapString = "The enclosing of data and behaviour within a single construct. In object-oriented designs the property specifically refers to designing classes that prevent access to attribute declarations by defining them to be private, protecting the internal representation of the objects";
 		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getEncapsulation(), "Encapsulation",encapString);
@@ -211,7 +211,7 @@ public class GenerateHTML {
 				"functionality1", functTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[6][7];
-		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String cohesionString = "Measures the relatedness of methods and attributes within a class. Large amounts of overlap in method parameters and attribute types is an indication of cohesion.";
 		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getCohesion(), "Cohesion",cohesionString);
@@ -234,7 +234,7 @@ public class GenerateHTML {
 				"extendability1", extendTip);
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] reusability = new String[6][7];
-		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		reusability[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String abstractString = "Measures the generalization and specialization within a design. Classes that have one or more descendants utilize abstraction";
 		reusability[1] = generateRow(classNames, calc.getDesignPrincipals().getAbstraction(), "Abstraction",abstractString);
@@ -561,7 +561,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] abstraction = new String[4][7];
-		abstraction[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		abstraction[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String ancestors ="Determines the average number of ancestors for all classes. This signifies the average number of classes which the class inherits information from.";
 		abstraction[1] = generateRow(classNames, calc.getPrimaryMetrics().getAverageNumberOfAncestors(),
@@ -579,7 +579,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] cohesion = new String[3][7];
-		cohesion[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		cohesion[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String cohesionIC = "Signifies the relatedness among methods of a class based upon the parameter list of the methods";
 		cohesion[1] = generateRow(classNames, calc.getPrimaryMetrics().getCohesionAmongMethodsInClass(),
@@ -599,7 +599,7 @@ public class GenerateHTML {
 		classes.add("project");
 
 		String[][] coupling = new String[11][7];
-		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		coupling[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		HashMap<String, Double> baseClasses = new HashMap<String, Double>();
 		baseClasses.put("project", calc.getPrimaryMetrics().getCountOfBaseClasses());
@@ -637,7 +637,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] coupling = new String[2][7];
-		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		coupling[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		HashMap<String, Double> stallRatio = new HashMap<String, Double>();
 		stallRatio.put("project", calc.getPrimaryMetrics().getStallRatio());
@@ -658,7 +658,7 @@ public class GenerateHTML {
 
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] coupling = new String[7][7];
-		coupling[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		coupling[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 
 		HashMap<String, Double> heirarchies = new HashMap<String, Double>();
@@ -692,7 +692,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] inheritance = new String[2][7];
-		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		inheritance[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String mofa = "Measures the ratio of the number of methods inherited by a class to the total number of methods accessible by member methods of the class";
 		inheritance[1] = generateRow(classNames, calc.getPrimaryMetrics().getMeasureOfFunctionalAbtraction(),
@@ -706,7 +706,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] inheritance = new String[2][7];
-		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		inheritance[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String mofa = "Measures the ratio of the number of methods inherited by a class to the total number of methods accessible by member methods of the class";
 		inheritance[1] = generateRow(classNames, calc.getPrimaryMetrics().getClassInterfaceSize(),
@@ -720,7 +720,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] inheritance = new String[2][7];
-		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		inheritance[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String poly = "Counts the number of methods in a class.";
 		inheritance[1] = generateRow(classNames, calc.getPrimaryMetrics().getNumberOfPolymorphicMethods(),"Number of Polymorphic Methods",poly);
@@ -733,7 +733,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] inheritance = new String[15][7];
-		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		inheritance[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 
 		Set<String> classes = new HashSet<String>();
@@ -794,7 +794,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] inheritance = new String[2][7];
-		inheritance[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value",
+		inheritance[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value",
 				"Count", "Info" };
 		String aggergate = "Count of the number of data declarations that are user defined classes. This measures the extent of the class in a part-whole relationship in respect to their attributes.";
 		inheritance[1] = generateRow(classNames, calc.getPrimaryMetrics().getMeasureOfAggregation(),
@@ -808,7 +808,7 @@ public class GenerateHTML {
 		String section = "";
 		Set<String> classNames = calc.getMurgePulledValues().getNumberOfClassesInProject();
 		String[][] metrics = new String[72][7];
-		metrics[0] = new String[] { "Metric", "Average", "Standerd Deviation", "Higeset Value", "Lowest Value", "Count",
+		metrics[0] = new String[] { "Metric", "Average", "Standard Deviation", "Highest Value", "Lowest Value", "Count",
 				"Info" };
 
 		Set<String> classes = new HashSet<String>();
