@@ -45,27 +45,27 @@ public class DesignPrincipals {
 	
 	//none of these are correct, just placeholders
 	private void hierarchies(PrimaryMetrics pm) {
-		for (String key: pm.getReduceAttackSurface().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			hierarchies.put(key, (double) 1);
 		}
 	}
 
 	private void polymorphism(PrimaryMetrics pm) {
-		for (String key: pm.getNumberOfPolymorphicMethods().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			polymorphism.put(key, (double) pm.getNumberOfPolymorphicMethods().get(key));
 		}
 		
 	}
 
 	private void messaging(PrimaryMetrics pm) {
-		for (String key: pm.getClassInterfaceSize().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			messaging.put(key, (double) pm.getClassInterfaceSize().get(key));
 		}
 		
 	}
 
 	private void inheritance(PrimaryMetrics pm) {
-		for (String key: pm.getMeasureOfFunctionalAbtraction().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			inheritance.put(key, (double) pm.getMeasureOfFunctionalAbtraction().get(key));
 		}
 		
@@ -74,10 +74,10 @@ public class DesignPrincipals {
 	private void encapsulation(PrimaryMetrics pm) {
 		for (String key: pm.getClassesInProject()) {
 			encapsulation.put(key, (double) pm.getCriticalElementRatio().get(key) +
-				//	pm.getDataAccessMetric().get(key) +
-				//	pm.getGrantLeastPrivelage().get(key) +
-				//	pm.getIsolation()/(pm.getClassesInProject().size()) + 
-				//	pm.getLeastCommonMechanism()/(pm.getClassesInProject().size()) +
+					pm.getDataAccessMetric().get(key) +
+					pm.getGrantLeastPrivelage().get(key) +
+					pm.getIsolation()/(pm.getClassesInProject().size()) + 
+					pm.getLeastCommonMechanism()/(pm.getClassesInProject().size()) +
 					pm.getNumberOfHierarchies()
 					);
 		}
@@ -95,7 +95,7 @@ public class DesignPrincipals {
 		for (String key: pm.getClassesInProject()) {
 			coupling.put(key, (double) (pm.getCountOfBaseClasses()) / ((double)pm.getCouplingBetweenObjects().size()) +
 					(pm.getCouplingBetweenObjects().get(key) )+
-					//(pm.getCouplingCorruptionPropagation().get(key) )+
+					(pm.getCouplingCorruptionPropagation().get(key) )+
 					(pm.getDepthOfInheritanceTree().get(key) )+
 					(pm.getDirectClassCoupling().get(key) )+
 					(pm.getFanIn().get(key) )+
@@ -108,7 +108,7 @@ public class DesignPrincipals {
 	}
 
 	private void composition(PrimaryMetrics pm) {
-		for (String key: pm.getMeasureOfAggregation().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			composition.put(key, (double) pm.getMeasureOfAggregation().get(key));
 		}
 		
@@ -130,24 +130,24 @@ public class DesignPrincipals {
 					//pm.getNestingComplexity().get(key) + !
 					
 					pm.getNumberOfChildren().get(key) +
-					pm.getStrictCyclomaticComplexity().get(key) 
-					//(double)pm.getSecureWeakestLink() / (double)pm.getClassesInProject().size() + !
-					//(double)pm.getSourceLinesOfCode()  / (double)pm.getClassesInProject().size()//+ !
-				//	pm.getWeightedMethodsPerClass().get(key)
+					pm.getStrictCyclomaticComplexity().get(key) +
+					(double)pm.getSecureWeakestLink() / (double)pm.getClassesInProject().size() + 
+					(double)pm.getSourceLinesOfCode()  / (double)pm.getClassesInProject().size() + 
+					pm.getWeightedMethodsPerClass().get(key)
 					);
 			
 		}
 	}
 
 	private void cohesion(PrimaryMetrics pm) {
-		for (String key: pm.getReduceAttackSurface().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			cohesion.put(key, (double) pm.getLackOfCohesionOfMethods().get(key) + 
 					pm.getCohesionAmongMethodsInClass().get(key));
 		}
 	}
 
 	private void abstraction(PrimaryMetrics pm) {
-		for (String key: pm.getFailSafeDefaults().keySet()) {
+		for (String key: pm.getClassesInProject()) {
 			abstraction.put(key, (double) pm.getFailSafeDefaults().get(key) + 
 					pm.getReduceAttackSurface().get(key) + 
 					pm.getAverageNumberOfAncestors().get(key));
