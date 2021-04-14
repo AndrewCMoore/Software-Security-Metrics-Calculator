@@ -473,6 +473,7 @@ public class PrimaryMetrics {
 		
 		for (String key: numberOfMethodsInherited.keySet()) {
 			measureOfFunctionalAbtraction.put(key, (double) (numberOfMethodsInherited.get(key)/(double)totalNumberOfMethodsAccessible.get(key)));
+			if (totalNumberOfMethodsAccessible.get(key)==0) measureOfFunctionalAbtraction.put(key, (double)0);
 		}
 	}
 	
